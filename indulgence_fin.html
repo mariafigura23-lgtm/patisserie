@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Индульгенция на отдых · Триатлон удовольствий</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{--ink:#2A201A;--ink-soft:#6A5946;--oxblood:#5E0F1B;--oxblood-2:#7A1722;--gold:#9C7B2E;--gold-bright:#BD9846;--gold-pale:#E7D4A4;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Cormorant Garamond',Georgia,serif;color:var(--ink);line-height:1.5;
+    background:radial-gradient(120% 80% at 50% -20%, rgba(189,152,70,.16), transparent 60%),radial-gradient(circle at 85% 90%, rgba(94,15,27,.18), transparent 55%),linear-gradient(#1A120C,#0F0A07);
+    min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 56px;}
+  .stage{width:100%;max-width:640px;}
+  .langbar{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
+  .langbtn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--gold-pale);background:transparent;border:1px solid rgba(189,152,70,.45);padding:7px 17px;border-radius:1px;cursor:pointer;transition:.16s;}
+  .langbtn:hover{border-color:var(--gold-bright);color:#fff;}.langbtn.active{background:var(--gold-bright);color:#16100A;border-color:var(--gold-bright);}
+
+  .parchment{position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 12%, rgba(255,252,245,.72), transparent 62%),radial-gradient(ellipse at 82% 92%, rgba(150,110,60,.16), transparent 55%),linear-gradient(165deg,#F7F0E2,#EBDEC4);
+    border:1px solid #d3bd92;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 44px 90px -34px rgba(0,0,0,.82);padding:52px 44px 44px;}
+  .edge-1,.edge-2{position:absolute;pointer-events:none;}
+  .edge-1{top:14px;right:14px;bottom:14px;left:14px;border:1px solid var(--gold);opacity:.65;}
+  .edge-2{top:18px;right:18px;bottom:18px;left:18px;border:.5px solid var(--oxblood);opacity:.45;}
+  .corner{position:absolute;width:26px;height:26px;color:var(--gold);z-index:3;}
+  .corner.tl{top:9px;left:9px;}.corner.tr{top:9px;right:9px;transform:scaleX(-1);}.corner.bl{bottom:9px;left:9px;transform:scaleY(-1);}.corner.br{bottom:9px;right:9px;transform:scale(-1,-1);}
+  .watermark{position:absolute;top:56%;left:50%;transform:translate(-50%,-50%);width:64%;max-width:340px;color:var(--oxblood);opacity:.05;z-index:0;pointer-events:none;}
+  .content{position:relative;z-index:2;}
+
+  .eyebrow{text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--oxblood);margin-bottom:14px;}
+  .latin-head{text-align:center;font-family:'Cinzel',serif;font-weight:600;font-size:clamp(15px,4vw,19px);letter-spacing:.3em;text-transform:uppercase;color:var(--oxblood);margin-bottom:4px;}
+  .title{font-family:'Playfair Display',Georgia,serif;font-weight:800;text-align:center;font-size:clamp(33px,8.6vw,56px);letter-spacing:-.01em;line-height:1.02;color:var(--ink);margin:2px 0 6px;}
+  .title.two small{display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:.62em;color:var(--ink);letter-spacing:-.01em;}
+  .sublatin{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--ink-soft);}
+  .order{text-align:center;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--oxblood);margin-top:8px;}
+  .cert-sub2{text-align:center;font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;}
+  .lede{text-align:center;font-size:19px;color:var(--ink-soft);max-width:460px;margin:18px auto 22px;font-weight:500;}
+  .diamond{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold-bright);margin:16px 0;}
+  .diamond::before,.diamond::after{content:"";height:1px;width:74px;background:linear-gradient(90deg,transparent,var(--gold-bright));}
+  .diamond::after{background:linear-gradient(90deg,var(--gold-bright),transparent);}
+  .diamond i{width:8px;height:8px;background:var(--gold-bright);transform:rotate(45deg);}
+
+  #quizView{display:block;}
+  .quiz-list{display:flex;flex-direction:column;gap:9px;margin:20px 0 8px;}
+  .sin{display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;width:100%;padding:13px 16px;border:1px solid #d0ba8e;border-radius:2px;background:rgba(255,253,247,.4);font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--ink);transition:.15s;}
+  .sin:hover{border-color:var(--oxblood);background:rgba(255,253,247,.85);}
+  .sin .box{flex:0 0 auto;width:22px;height:22px;border:1px solid var(--oxblood);border-radius:1px;display:flex;align-items:center;justify-content:center;color:var(--gold-pale);font-size:12px;}
+  .quiz-div{height:1px;margin:5px 16px;background:linear-gradient(90deg,transparent,rgba(189,152,70,.55),transparent);}
+  .sin .box::after{content:"✦";opacity:0;transition:.12s;}.sin.sel{background:rgba(94,15,27,.09);border-color:var(--oxblood);}.sin.sel .box{background:var(--oxblood);}.sin.sel .box::after{opacity:1;}
+  .counter{text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--ink-soft);min-height:15px;margin:8px 0 4px;}
+  .field{margin-top:18px;}
+  .field label{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--oxblood);margin-bottom:7px;}
+  .field input{width:100%;padding:14px 16px;font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--ink);background:rgba(255,253,247,.6);border:1px solid #d0ba8e;border-radius:1px;outline:none;transition:.18s;}
+  .field input:focus{border-color:var(--oxblood);box-shadow:0 0 0 3px rgba(94,15,27,.1);background:#fffdf7;}
+  .btn{display:block;width:100%;margin-top:20px;cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#F6ECD6;padding:17px;border:none;border-radius:1px;background:linear-gradient(180deg,var(--oxblood-2),var(--oxblood));box-shadow:0 10px 24px -9px rgba(94,15,27,.9),0 0 0 1px var(--gold) inset;transition:transform .12s,box-shadow .12s;}
+  .btn:hover{transform:translateY(-2px);}.btn:active{transform:translateY(0);}
+  .fine{text-align:center;font-size:16px;color:var(--ink-soft);margin-top:16px;font-style:italic;opacity:.85;}
+  .err{color:var(--oxblood);font-size:16px;margin-top:8px;min-height:18px;font-style:italic;text-align:center;}
+
+  #certView{display:none;}#certView.show{display:block;}
+  .cert-doc{text-align:center;}
+  .crest{display:flex;justify-content:center;color:var(--gold-bright);margin-bottom:6px;}
+  .crest svg{width:94px;height:auto;}
+  .intro{text-align:center;max-width:440px;margin:6px auto 0;font-size:19px;color:var(--ink);font-weight:500;}
+  .cert-body{font-size:19px;color:var(--ink);font-weight:500;max-width:440px;margin-left:auto;margin-right:auto;}
+  .name-wrap{margin:14px 0 6px;}
+  .cert-name{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(30px,8vw,46px);color:var(--oxblood);line-height:1.06;}
+  .rank-emblem{display:flex;justify-content:center;color:var(--gold-bright);margin:8px 0 2px;}
+  .rank-emblem svg{width:56px;height:56px;}
+  .rankbadge{display:inline-block;font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--oxblood);border:1px solid var(--gold-bright);border-radius:2px;padding:8px 18px;margin:6px 0 8px;background:rgba(189,152,70,.10);}
+  .typeline{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--oxblood);margin-top:4px;}
+  .typeline b{color:var(--ink);}
+  .typedesc{font-style:italic;font-size:16px;color:var(--ink-soft);max-width:430px;margin:4px auto 8px;text-align:center;}
+  .ch{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--oxblood);margin:16px 0 6px;text-align:center;}
+  .clist{text-align:left;max-width:440px;margin:6px auto 4px;}
+  .clist li{list-style:none;padding:5px 0 5px 28px;position:relative;font-size:18px;font-weight:500;}
+  .clist li::before{content:"✦";position:absolute;left:5px;color:var(--gold-bright);font-size:12px;top:8px;}
+  .frieze{display:flex;align-items:center;justify-content:center;gap:18px;color:var(--gold);margin:18px 0 4px;}
+  .frieze svg{width:30px;height:30px;}.frieze .dot{width:3px;height:3px;border-radius:50%;background:var(--gold-bright);}
+  .tri-h{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:24px;color:var(--oxblood);text-align:center;margin-top:6px;}
+  .tri-sub{font-style:italic;color:var(--ink-soft);font-size:16px;max-width:440px;margin:6px auto 10px;text-align:center;}
+  .tri{max-width:430px;margin:8px auto 4px;text-align:left;}
+  .tri-row{display:flex;gap:14px;align-items:baseline;padding:9px 2px;border-bottom:1px solid rgba(189,152,70,.28);}
+  .tri-row:last-child{border-bottom:none;}
+  .tri-cat{flex:0 0 120px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--oxblood);padding-top:2px;}
+  .tri-act{font-size:18.5px;font-weight:500;color:var(--ink);}
+  .tri-note{font-style:italic;color:var(--ink-soft);font-size:14px;text-align:center;margin-top:10px;opacity:.85;}
+  .closing{text-align:center;font-style:italic;font-size:20px;color:var(--oxblood);max-width:420px;margin:16px auto 4px;}
+  .seal-wrap{display:flex;justify-content:center;margin:18px 0 4px;}
+  .wax{width:176px;height:auto;animation:stamp .8s cubic-bezier(.2,1.5,.4,1) both;}
+  @keyframes stamp{0%{transform:scale(2.1) rotate(-13deg);opacity:0;}60%{opacity:1;}100%{transform:scale(1) rotate(-3deg);opacity:1;}}
+  .sign{text-align:center;margin-top:8px;}
+  .sign-name{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:var(--oxblood);line-height:1;}
+  .sign-cap{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:5px;}
+  .issued{text-align:center;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:12px;line-height:1.7;}
+  .motto{text-align:center;font-style:italic;font-size:17px;color:var(--gold);margin-top:6px;}
+  .brandline{text-align:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oxblood);margin-top:12px;opacity:.9;}
+
+  .actions{display:flex;gap:12px;margin-top:24px;}
+  .cta,.cta2{flex:1;cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;padding:16px;border-radius:1px;transition:transform .12s;}
+  .cta{border:none;color:#1A120C;background:linear-gradient(180deg,#D4AE5A,#BD9846);box-shadow:0 12px 26px -10px rgba(189,152,70,.7);}
+  .cta:hover{transform:translateY(-2px);}
+  .cta2{background:transparent;color:var(--gold-pale);border:1px solid rgba(189,152,70,.5);}
+  .cta2:hover{transform:translateY(-2px);border-color:var(--gold-bright);}
+  .textlink{display:block;margin:16px auto 0;background:none;border:none;color:var(--gold-pale);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;cursor:pointer;opacity:.85;}
+  .textlink:hover{opacity:1;text-decoration:underline;}
+  .subscribe{margin-top:30px;text-align:center;padding-top:24px;border-top:1px solid rgba(189,152,70,.25);}
+  .sub-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--gold-pale);margin-bottom:14px;}
+  .sub-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .sub-links a{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-pale);border:1px solid rgba(189,152,70,.5);padding:11px 18px;border-radius:1px;text-decoration:none;transition:.15s;}
+  .sub-links a:hover{background:var(--gold-bright);color:#1A120C;border-color:var(--gold-bright);}
+  .counter-line{margin-top:18px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(231,212,164,.65);min-height:14px;}
+
+  .overlay{position:fixed;inset:0;background:rgba(16,11,7,.94);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;}
+  .overlay.show{display:flex;}
+  .overlay img{max-width:100%;max-height:60vh;border-radius:4px;box-shadow:0 20px 50px rgba(0,0,0,.6);}
+  .overlay p{color:#f0e6d2;font-size:16px;text-align:center;max-width:360px;}
+  .overlay .ov-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .overlay a,.overlay button{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:12px 16px;border-radius:1px;text-decoration:none;cursor:pointer;border:none;}
+  .overlay .tg{background:#2AABEE;color:#fff;}.overlay .ig{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);color:#fff;}.overlay .dl{background:var(--gold-bright);color:#231a10;}.overlay .cl{background:transparent;color:#f0e6d2;border:1px solid #8a7a60;}
+
+  @media (max-width:520px){.parchment{padding:46px 22px 36px;}.wax{width:150px;}.crest svg{width:82px;}.actions{flex-direction:column;}.tri-cat{flex-basis:104px;}}
+  @media (prefers-reduced-motion:reduce){.wax{animation:none;transform:rotate(-3deg);}.btn,.cta,.cta2{transition:none;}}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="langbar"><button class="langbtn active" data-lang="ru">RU</button><button class="langbtn" data-lang="en">EN</button></div>
+
+  <!-- QUIZ + NAME -->
+  <div class="parchment" id="quizView">
+    <div class="edge-1"></div><div class="edge-2"></div>
+    <svg class="corner tl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+    <svg class="corner tr" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+    <svg class="corner bl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+    <svg class="corner br" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+    <div class="content">
+      <p class="eyebrow" data-i18n="q_eyebrow"></p>
+      <h1 class="title two"><span data-i18n="q_title"></span><small data-i18n="q_title_small"></small></h1>
+      <p class="sublatin">confiteor otium</p>
+      <p class="lede" data-i18n="q_lede"></p>
+      <div class="quiz-list" id="quizList"></div>
+      <p class="counter" id="counter"></p>
+      <div class="field"><label data-i18n="q_name_label"></label><input id="name" type="text" autocomplete="name" data-i18n-ph="q_name_ph"></div>
+      <p class="err" id="quizErr"></p>
+      <button class="btn" id="issueBtn" data-i18n="q_issue"></button>
+      <p class="fine" data-i18n="q_fine"></p>
+    </div>
+  </div>
+
+  <!-- CERTIFICATE -->
+  <div id="certView">
+    <div class="parchment" id="certCard">
+      <div class="edge-1"></div><div class="edge-2"></div>
+      <svg class="corner tl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+      <svg class="corner tr" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+      <svg class="corner bl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+      <svg class="corner br" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
+      <svg class="watermark" viewBox="0 0 200 200">
+        <g fill="none" stroke="currentColor" stroke-width="2"><circle cx="100" cy="100" r="94"/><circle cx="100" cy="100" r="82"/></g>
+        <g fill="currentColor"><ellipse cx="84" cy="118" rx="30" ry="40"/><ellipse cx="108" cy="122" rx="20" ry="34"/><ellipse cx="113" cy="92" rx="13" ry="22"/><circle cx="123" cy="66" r="20"/><ellipse cx="145" cy="72" rx="15" ry="8"/><path d="M117 50 L108 30 L125 47 Z"/><rect x="100" y="120" width="8" height="44" rx="4"/><rect x="116" y="122" width="8" height="42" rx="4"/><path d="M56 120 C42 113 40 96 53 86 C57 93 55 105 65 112 Z"/><ellipse cx="146" cy="76" rx="3.4" ry="2.6"/></g>
+      </svg>
+      <div class="content cert-doc" id="certDoc">
+        <div class="crest">
+          <svg viewBox="0 0 100 122" fill="none">
+            <g fill="currentColor"><path d="M30 17 L34 6 L42 13 L50 3 L58 13 L66 6 L70 17 Z"/><rect x="30" y="16" width="40" height="3.4"/><circle cx="34" cy="5" r="2"/><circle cx="50" cy="2.4" r="2.2"/><circle cx="66" cy="5" r="2"/></g>
+            <path d="M14 24 H86 V64 C86 92 60 108 50 113 C40 108 14 92 14 64 Z" fill="rgba(154,115,34,.10)" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M50 24 V108 M17 60 H83" stroke="currentColor" stroke-width="1"/>
+            <g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"><ellipse cx="32" cy="40" rx="6.5" ry="8.5"/><line x1="29" y1="34" x2="29" y2="46"/><line x1="35" y1="34" x2="35" y2="46"/><line x1="26" y1="37" x2="38" y2="37"/><line x1="26" y1="43" x2="38" y2="43"/><line x1="32" y1="48.5" x2="32" y2="54"/></g>
+            <g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round" stroke-linecap="round"><line x1="68" y1="30" x2="68" y2="50"/><path d="M68 31 L68 49 L58 49 Z"/><path d="M70 33 L70 49 L79 49 Z"/><path d="M59 50 H78 L74 55 H63 Z"/><path d="M59 58 q5 3 10 0 q5 -3 10 0"/></g>
+            <g stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"><line x1="29" y1="72" x2="29" y2="96"/><path d="M29 72 L40 75.5 L29 79 Z" fill="currentColor" stroke="none"/><line x1="22" y1="96" x2="40" y2="96"/><circle cx="35" cy="93.5" r="1.9" fill="currentColor" stroke="none"/></g>
+            <g stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"><path d="M58 78 C63 76 67 76 70 78 C73 76 77 76 82 78 L82 91 C77 89 73 89 70 91 C67 89 63 89 58 91 Z"/><line x1="70" y1="78" x2="70" y2="91"/><line x1="61.5" y1="82" x2="67.5" y2="82"/><line x1="61.5" y1="85" x2="67.5" y2="85"/><line x1="72.5" y1="82" x2="78.5" y2="82"/><line x1="72.5" y1="85" x2="78.5" y2="85"/></g>
+          </svg>
+        </div>
+        <p class="latin-head" data-i18n="c_latin_head"></p>
+        <h1 class="title" data-i18n="c_title"></h1>
+        <p class="sublatin" data-i18n="c_sublatin"></p>
+        <p class="order" data-i18n="c_order"></p>
+        <p class="cert-sub2" data-i18n="c_sub2"></p>
+        <div class="diamond"><i></i></div>
+
+        <p class="intro" id="certIntro1"></p>
+        <div class="name-wrap"><div class="cert-name" id="certName">Имя</div></div>
+        <div class="rank-emblem" id="rankEmblem"></div>
+        <div class="rankbadge" id="certRank"></div>
+        <p class="typeline" id="certType"></p>
+        <p class="typedesc" id="certTypeDesc"></p>
+
+        <p class="cert-body" data-i18n="c_intro2"></p>
+        <ul class="clist" id="sinList"></ul>
+        <div class="ch" data-i18n="c_ch_remedies"></div>
+        <ul class="clist" id="remedyList"></ul>
+
+        <p class="tri-h" data-i18n="tri_heading"></p>
+        <p class="tri-sub" data-i18n="tri_sub"></p>
+        <div class="tri" id="triBlock"></div>
+        <p class="tri-note" data-i18n="tri_note"></p>
+        <p class="closing" data-i18n="c_closing"></p>
+
+        <div class="seal-wrap">
+          <svg class="wax" viewBox="0 0 160 226" aria-label="seal">
+            <defs>
+              <radialGradient id="waxg" cx="38%" cy="30%" r="82%"><stop offset="0%" stop-color="#ad2531"/><stop offset="50%" stop-color="#771622"/><stop offset="100%" stop-color="#410912"/></radialGradient>
+              <linearGradient id="rib" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7d1623"/><stop offset="100%" stop-color="#54101a"/></linearGradient>
+            </defs>
+            <path d="M58 102 L44 222 L66 207 L80 224 L94 207 L116 222 L102 102 Z" fill="url(#rib)"/>
+            <path d="M58 102 H102 L99 126 L61 126 Z" fill="#3e0810"/>
+            <path fill="url(#waxg)" d="M80 16 C103 14 118 27 122 46 C138 52 144 73 134 89 C144 107 134 130 115 136 C109 155 88 163 69 159 C49 161 30 147 26 129 C11 122 7 99 18 85 C8 67 22 46 40 42 C47 23 64 16 80 16 Z"/>
+            <ellipse cx="58" cy="56" rx="28" ry="19" fill="#ffffff" opacity=".10"/>
+            <circle cx="80" cy="88" r="59" fill="none" stroke="#e6b352" stroke-width="1.6" opacity=".85"/>
+            <circle cx="80" cy="88" r="50" fill="none" stroke="#e6b352" stroke-width=".8" opacity=".5"/>
+            <path id="sealArc" d="M80 34 a54 54 0 1 1 -0.1 0" fill="none"/>
+            <text fill="#efc468" font-family="Cinzel, serif" font-size="6.4" letter-spacing="1.8"><textPath id="sealRing" href="#sealArc" startOffset="2%"></textPath></text>
+            <g fill="#efc468"><path d="M67 72 L71 61 L76 67 L80 58 L84 67 L89 61 L93 72 Z"/><rect x="67" y="72" width="26" height="2.6"/></g>
+            <text id="sealMono" x="80" y="110" text-anchor="middle" fill="#efc468" font-family="Playfair Display, serif" font-weight="700" font-size="32"></text>
+            <text x="80" y="129" text-anchor="middle" fill="#efc468" font-family="Cinzel, serif" font-size="7.5" letter-spacing="2.5">MMXXVI</text>
+          </svg>
+        </div>
+        <p class="issued"><span data-i18n="c_issued_by"></span> · №<span id="serial">000</span> · <span id="issueDate"></span></p>
+        <p class="motto" data-i18n="c_motto"></p>
+        <p class="brandline" id="brandLine"></p>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="cta" id="shareBtn" data-i18n="c_share"></button>
+      <button class="cta2" id="downloadBtn" data-i18n="c_save"></button>
+    </div>
+    <button class="textlink" id="againBtn" data-i18n="c_again"></button>
+    <div class="subscribe">
+      <p class="sub-h" data-i18n="sub_heading"></p>
+      <div class="sub-links" id="subLinks"></div>
+      <p class="counter-line" id="counterLine"></p>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <p id="ovText"></p>
+  <img id="ovImg" alt="indulgence">
+  <div class="ov-actions">
+    <a class="tg" id="ovTg" target="_blank" rel="noopener"></a>
+    <a class="dl" id="ovDownload" download="indulgence.png"></a>
+    <button class="cl" id="ovClose"></button>
+  </div>
+</div>
+
+<script>
+  /* ====== НАСТРОЙКИ ====== */
+  const SITE_URL    = "https://t.me/triathlon_of_pleasures";
+  const BRAND_HANDLE = "t.me/triathlon_of_pleasures";
+  const SOCIAL = [ { label:"Telegram", url:"https://t.me/triathlon_of_pleasures" } ];
+  const COUNTER_ENABLED = true, COUNTER_NS = "triatlon-udovolstvij", COUNTER_KEY = "gramoty-v2";
+  /* ======================= */
+
+  const $ = s => document.querySelector(s);
+  const rnd = n => Math.floor(Math.random()*n);
+  function seasonOf(m){ if(m===12||m<=2) return 'winter'; if(m<=5) return 'spring'; if(m<=8) return 'summer'; return 'autumn'; }
+
+  const RANK_EMBLEMS=[
+    '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="27" y="28" width="10" height="24" rx="1.5"/><line x1="32" y1="28" x2="32" y2="22"/><path d="M32 22 C28 18 30 13 32 10 C34 13 36 18 32 22 Z" fill="currentColor" stroke="none"/><line x1="21" y1="52" x2="43" y2="52"/></svg>',
+    '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="13" x2="44" y2="13"/><line x1="20" y1="51" x2="44" y2="51"/><path d="M23 13 L41 13 L33 32 L41 51 L23 51 L31 32 Z"/><path d="M28 19 L36 19 L32 27 Z" fill="currentColor" stroke="none"/></svg>',
+    '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 46 C14 42 22 40 32 40 C42 40 50 42 50 46 C50 50 44 52 32 52 C20 52 14 50 14 46 Z"/><path d="M32 40 C26 32 30 24 32 20 C34 24 40 30 36 36 C40 35 41 31 39 28 C43 33 41 41 32 40 Z" fill="currentColor" stroke="none"/></svg>',
+    '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M32 10 C40 22 46 30 46 42 L18 42 C18 30 24 22 32 10 Z"/><path d="M18 42 H46 V48 H18 Z"/><line x1="32" y1="16" x2="32" y2="42"/><line x1="25" y1="30" x2="39" y2="30"/><path d="M27 48 C26 53 25 56 23 58 M37 48 C38 53 39 56 41 58"/></svg>',
+    '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 46 L20 28 L27 37 L32 24 L37 37 L44 28 L48 46 Z"/><rect x="16" y="46" width="32" height="6" rx="1"/><path d="M20 28 c-2 -4 0 -7 1 -9 c2 2 3 5 -1 9 Z" fill="currentColor" stroke="none"/><path d="M32 24 c-2 -5 0 -8 1 -10 c2 2 3 5 -1 10 Z" fill="currentColor" stroke="none"/><path d="M44 28 c-2 -4 0 -7 1 -9 c2 2 3 5 -1 9 Z" fill="currentColor" stroke="none"/></svg>'
+  ];
+  const SINS=[
+   {t:'A',ru:"Считаю отдых лишь паузой между задачами",en:"I treat rest as a mere gap between tasks",rRu:["объявить паузу самоцелью","лечь и не вставать из принципа"],rEn:["to declare the pause an end in itself","to lie down and not get up, on principle"]},
+   {t:'B',ru:"Откладываю до последнего, а потом героически спасаю всё за ночь",en:"I delay till the last, then heroically save it all in one night",rRu:["лечь спать и спасти всё завтра","сдать вовремя — и без подвига"],rEn:["to go to sleep and save it tomorrow","to deliver on time, with no heroics"]},
+   {t:'C',ru:"Завожу пять проектов и ни один не довожу до конца",en:"I start five projects and finish none",rRu:["с удовольствием бросить начатое","оставить четыре проекта в покое"],rEn:["to happily abandon what you started","to leave four projects in peace"]},
+   {t:'D',ru:"Шлифую презентацию, которую никто не откроет",en:"I polish a deck no one will open",rRu:["оставить презентацию как есть","отправить, не открывая снова"],rEn:["to leave the deck as it is","to send it without reopening"]},
+   {t:'A',ru:"Прихожу раньше всех и ухожу позже всех — из принципа",en:"I arrive before everyone and leave after everyone — on principle",rRu:["уйти первым и помахать всем рукой","выйти ровно в 18:00 без объяснений"],rEn:["to leave first and wave to everyone","to leave at 6 sharp with no explanation"]},
+   {t:'B',ru:"Лучше не сдать вовсе, чем сдать неидеально",en:"Better not to deliver at all than to deliver imperfectly",rRu:["сдать «достаточно хорошо» — и выдохнуть","отпустить идеал на свободу"],rEn:["to deliver 'good enough' — and exhale","to set the ideal free"]},
+   {t:'C',ru:"Открываю сорок вкладок и забываю, что искал",en:"I open forty tabs and forget what I was looking for",rRu:["закрыть все вкладки разом","оставить одну вкладку — с котиками"],rEn:["to close all the tabs at once","to keep one tab — with cats"]},
+   {t:'D',ru:"Не могу делегировать — всё равно переделаю",en:"I can't delegate — I'll redo it anyway",rRu:["отдать дело и не проверять","довериться кому-то хоть раз"],rEn:["to hand it over and not check","to trust someone, just once"]},
+   {t:'A',ru:"Тайно горжусь фразой «я очень занят»",en:"I secretly take pride in saying 'I'm so busy'",rRu:["говорить «я отдыхаю» с тем же достоинством","хвастаться количеством свободного времени"],rEn:["to say 'I'm resting' with equal dignity","to boast about your free time instead"]},
+   {t:'B',ru:"Между авралами лежу пластом и виню себя за это",en:"Between sprints I lie flat and blame myself for it",rRu:["лежать пластом без чувства вины","объявить лежание заслуженным"],rEn:["to lie flat without guilt","to declare lying-down well-earned"]},
+   {t:'C',ru:"Отвечаю в трёх чатах, обедаю и слушаю подкаст одновременно",en:"I reply in three chats, eat lunch and listen to a podcast at once",rRu:["делать одно дело и наслаждаться им","обедать молча и без экранов"],rEn:["to do one thing and savour it","to lunch in silence, screen-free"]},
+   {t:'D',ru:"Перечитываю письмо семь раз перед отправкой",en:"I reread an email seven times before sending",rRu:["отправить с первого раза","смириться с одной опечаткой"],rEn:["to send on the first try","to make peace with one typo"]},
+   {t:'A',ru:"Закрываю задачи пачками и тут же хватаю новые",en:"I close tasks in batches and grab new ones at once",rRu:["оставить список дел недозакрытым","вычеркнуть дело, ничего не сделав"],rEn:["to leave the to-do list unfinished","to cross off a task without doing it"]},
+   {t:'B',ru:"Не начинаю, пока по-настоящему не прижмёт",en:"I don't start until it's truly urgent",rRu:["начать в удовольствие, а не в панике","не начинать вовсе — и это нормально"],rEn:["to start for pleasure, not in panic","to not start at all — and that's fine"]},
+   {t:'C',ru:"Проверяю рабочую почту в выходной, в отпуске и на пляже",en:"I check work email on weekends, on holiday and on the beach",rRu:["класть телефон экраном вниз","объявить выходной священным"],rEn:["to place the phone face-down","to declare the weekend sacred"]},
+   {t:'D',ru:"Мысли о работе преследуют меня в душе и перед сном",en:"Thoughts of work follow me in the shower and before sleep",rRu:["в душе думать только о приятном","отложить все мысли о работе до завтра"],rEn:["to think only of pleasant things in the shower","to postpone all work thoughts till tomorrow"]}
+  ];
+  function sinText(i){ return cur==='ru'?SINS[i].ru:SINS[i].en; }
+  function sinRem(i,k){ return (cur==='ru'?SINS[i].rRu:SINS[i].rEn)[k]; }
+
+  const I18N = {
+    ru:{
+      q_eyebrow:"Орден Триатлона удовольствий · Канцелярия отдыха",
+      q_title:"Исповедь", q_title_small:"трудоголика",
+      q_lede:"Покайтесь честно: отметьте грехи, что водятся за вами. Канцелярия определит ваш тип трудоголика, присвоит звание и пропишет персональный триатлон удовольствий.",
+      q_name_label:"Ваше имя", q_name_ph:"Как вписать вас в грамоту?",
+      q_issue:"Выписать индульгенцию", q_fine:"Имя никуда не отправляется — только в вашу грамоту.",
+      counter:"Грехов отмечено: ", err_quiz:"Не лукавьте — хоть один грешок за вами да водится.", err_name:"Впишите имя — без него грамота недействительна.",
+      c_latin_head:"Indulgentia · Plenaria", c_title:"Индульгенция на отдых", c_sublatin:"in remissionem laboris",
+      c_order:"Орден «Триатлон удовольствий»", c_sub2:"Грамота полного отпущения трудов",
+      c_intro1:"Сим во всеуслышание удостоверяется, что податель сего —",
+      rank_label:"Звание: ", type_label:"Тип по Робинсону: ",
+      c_intro2:"настоящим освобождается от всякой вины за нижеперечисленные грехи:",
+      c_ch_remedies:"✦ В искупление дозволяется ✦",
+      tri_heading:"Формула вашего триатлона",
+      tri_sub:"Хороший день редко состоит из одного удовольствия. На сегодня предписаны три — разного характера:",
+      tri_note:"Порядок значения не имеет. При должном усердии триатлон превращается в пентатлон.",
+      tri_body_label:"Телесное", tri_mind_label:"Культурное", tri_rest_label:"Созерцательное",
+      c_closing:"Никакое «надо бы» более не имеет над вами силы.",
+      c_sign_cap:"Главный Инквизитор Лени · Curia Otii",
+      c_issued_by:"Выдано канцелярией Триатлон удовольствий", c_motto:"ora et non labora",
+      c_share:"Поделиться", c_save:"Сохранить", c_again:"Пройти заново",
+      sub_heading:"Понравилось? Подписывайтесь на Триатлон удовольствий",
+      counter_label:"Уже выписано грамот: ",
+      share_text:"Я получил(а) индульгенцию на отдых и звание «{rank}» от Триатлона удовольствий ✦",
+      date_locale:"ru-RU", date_suffix:" от Р.Х.",
+      seal_ring:"✦ OTIUM SANCTUM · DOLCE FAR NIENTE · SINE CULPA ", seal_mono:"ТУ",
+      ov_text:"Картинка готова. Нажмите и удерживайте её, чтобы сохранить, или выберите, куда поделиться:", ov_tg:"В Telegram", ov_ig:"В Instagram", ov_dl:"Скачать", ov_close:"Закрыть",
+      ig_hint:"Картинка сохранена. Откройте Instagram и выложите её в Stories.",
+      ranks:["Послушник отдыха","Брат во грехе переработки","Магистр трудоголизма","Архиепископ дедлайнов","Великий Грешник Канцелярии"],
+      types:{
+        A:{n:"Неустанный", d:"Работаете быстро и без остановки, гоните к дедлайну и не умеете притормозить — классический трудоголик по Робинсону."},
+        B:{n:"Булимический", d:"Тянете до последнего, а затем в авральном рывке доделываете идеально или никак. Отдых и вина у вас всегда рядом."},
+        C:{n:"Адреналиновый", d:"Беретесь за десять дел сразу, жаждете стимула и новизны, скучаете и тревожитесь в тишине."},
+        D:{n:"Смакующий", d:"Погружаетесь в детали, доводите до совершенства и не можете отпустить или делегировать."},
+        E:{n:"Многоликий", d:"В вас уживается сразу несколько типов — как и отмечал Робинсон, чистые типы редки."}
+      },
+      triBody:[
+        {ru:"партия в теннис 🎾",s:["spring","summer","autumn"]},{ru:"долгая прогулка быстрым шагом",s:"all"},
+        {ru:"купание в озере",s:["summer"]},{ru:"велосипед без маршрута",s:["spring","summer","autumn"]},
+        {ru:"горные лыжи",s:["winter"]},{ru:"коньки на катке",s:["winter"]},
+        {ru:"танцы на кухне под любимый альбом",s:"all"},{ru:"утренняя зарядка у открытого окна",s:"all"},
+        {ru:"сапборд на рассвете",s:["summer"]},{ru:"сбор грибов в лесу",s:["autumn"]}
+      ],
+      triMind:[
+        {ru:"поход на выставку",s:"all"},{ru:"хорошее кино без отвлечений",s:"all"},{ru:"глава новой книги",s:"all"},
+        {ru:"новый альбом, прослушанный целиком",s:"all"},{ru:"лекция о чём-то прекрасном и бесполезном",s:"all"},
+        {ru:"вечер в театре",s:"all"},{ru:"блошиный рынок на рассвете",s:["spring","summer","autumn"]},{ru:"кино под открытым небом",s:["summer"]}
+      ],
+      triRest:[
+        {ru:"баня и тишина",s:"all"},{ru:"чашка кофе у окна",s:"all"},{ru:"созерцание воды",s:"all"},
+        {ru:"честный дневной сон",s:"all"},{ru:"медленный завтрак без часов",s:"all"},{ru:"закат, на который вы наконец посмотрите",s:"all"},
+        {ru:"гамак в тени",s:["summer"]},{ru:"глинтвейн и плед",s:["autumn","winter"]},{ru:"пикник на траве",s:["spring","summer"]}
+      ]
+    },
+    en:{
+      q_eyebrow:"Order of the Triathlon of Pleasures · Chancery of Rest",
+      q_title:"Confession", q_title_small:"of a workaholic",
+      q_lede:"Confess honestly: tick the sins you are guilty of. The Chancery will determine your workaholic type, grant your rank and prescribe a personal triathlon of pleasures.",
+      q_name_label:"Your name", q_name_ph:"How shall we inscribe you?",
+      q_issue:"Issue my indulgence", q_fine:"Your name is never sent anywhere — only onto your charter.",
+      counter:"Sins confessed: ", err_quiz:"Come now — surely at least one little sin is yours.", err_name:"Enter a name — without it the charter is void.",
+      c_latin_head:"Indulgentia · Plenaria", c_title:"Indulgence for Rest", c_sublatin:"in remissionem laboris",
+      c_order:"Order of the Triathlon of Pleasures", c_sub2:"A charter of full absolution from toil",
+      c_intro1:"Be it known to all that the bearer of this charter —",
+      rank_label:"Rank: ", type_label:"Type (after Robinson): ",
+      c_intro2:"is herewith absolved of all guilt for the sins below:",
+      c_ch_remedies:"✦ Granted as penance ✦",
+      tri_heading:"Your triathlon formula",
+      tri_sub:"A good day is rarely made of a single pleasure. Three are prescribed for today — each of a different nature:",
+      tri_note:"Order does not matter. With due diligence the triathlon becomes a pentathlon.",
+      tri_body_label:"Of the body", tri_mind_label:"Of the mind", tri_rest_label:"Of repose",
+      c_closing:"No 'I really should' holds any power over you henceforth.",
+      c_sign_cap:"Grand Inquisitor of Idleness · Curia Otii",
+      c_issued_by:"Issued by the Chancery of the Triathlon of Pleasures", c_motto:"ora et non labora",
+      c_share:"Share", c_save:"Save", c_again:"Start over",
+      sub_heading:"Enjoyed it? Follow the Triathlon of Pleasures",
+      counter_label:"Charters issued so far: ",
+      share_text:"I've received an indulgence for rest and the rank of '{rank}' from the Triathlon of Pleasures ✦",
+      date_locale:"en-GB", date_suffix:" A.D.",
+      seal_ring:"✦ OTIUM SANCTUM · DOLCE FAR NIENTE · SINE CULPA ", seal_mono:"TP",
+      ov_text:"Your image is ready. Press and hold to save it, or choose where to share:", ov_tg:"To Telegram", ov_ig:"To Instagram", ov_dl:"Download", ov_close:"Close",
+      ig_hint:"Image saved. Open Instagram and post it to your Stories.",
+      ranks:["Novice of Repose","Brother of Overwork","Master of Workaholism","Archbishop of Deadlines","Grand Sinner of the Chancery"],
+      types:{
+        A:{n:"The Relentless", d:"You work fast and without pause, racing to deadlines and unable to slow down — the classic workaholic in Robinson's terms."},
+        B:{n:"The Bulimic", d:"You delay till the last, then in a frantic burst finish it perfectly or not at all. Rest and guilt always travel together."},
+        C:{n:"The Attention-Deficit", d:"You start ten things at once, crave stimulation and novelty, and grow restless in silence."},
+        D:{n:"The Savoring", d:"You immerse yourself in detail, perfect everything, and cannot let go or delegate."},
+        E:{n:"The Many-Faced", d:"Several types coexist in you — as Robinson noted, pure types are rare."}
+      },
+      triBody:[
+        {en:"a game of tennis 🎾",s:["spring","summer","autumn"]},{en:"a long brisk walk",s:"all"},
+        {en:"a swim in the lake",s:["summer"]},{en:"a bicycle ride with no route",s:["spring","summer","autumn"]},
+        {en:"downhill skiing",s:["winter"]},{en:"ice skating",s:["winter"]},
+        {en:"dancing in the kitchen to a favourite album",s:"all"},{en:"morning exercises by an open window",s:"all"},
+        {en:"a paddleboard at dawn",s:["summer"]},{en:"mushroom-picking in the forest",s:["autumn"]}
+      ],
+      triMind:[
+        {en:"a visit to an exhibition",s:"all"},{en:"a good film with no distractions",s:"all"},{en:"a chapter of a new book",s:"all"},
+        {en:"a new album listened to in full",s:"all"},{en:"a lecture on something beautiful and useless",s:"all"},
+        {en:"an evening at the theatre",s:"all"},{en:"a flea market at dawn",s:["spring","summer","autumn"]},{en:"an open-air film screening",s:["summer"]}
+      ],
+      triRest:[
+        {en:"a sauna and silence",s:"all"},{en:"a cup of coffee by the window",s:"all"},{en:"contemplating water",s:"all"},
+        {en:"an honest afternoon nap",s:"all"},{en:"a slow breakfast with no clock",s:"all"},{en:"the sunset you'll finally watch",s:"all"},
+        {en:"a hammock in the shade",s:["summer"]},{en:"mulled wine and a blanket",s:["autumn","winter"]},{en:"a picnic on the grass",s:["spring","summer"]}
+      ]
+    }
+  };
+
+  let cur="ru"; const selected=new Set(); let state=null; let lastDataURL=null, lastFile=null, lastName="indulgence";
+  function rankIdx(n){ if(n<=2)return 0; if(n<=4)return 1; if(n<=6)return 2; if(n<=8)return 3; return 4; }
+  function typeKey(indices){ const c={A:0,B:0,C:0,D:0}; indices.forEach(i=>{ const k=SINS[i].t; if(k)c[k]++; }); let max=0,best=[]; for(const k in c){ if(c[k]>max){max=c[k];best=[k];} else if(c[k]===max&&max>0){best.push(k);} } if(max===0)return 'E'; return best.length===1?best[0]:'E'; }
+  function pickTri(pool,season){ const ok=[]; pool.forEach((o,i)=>{ if(o.s==='all'||o.s.includes(season)) ok.push(i); }); return ok.length?ok[rnd(ok.length)]:rnd(pool.length); }
+
+  function buildQuiz(){ const list=$('#quizList'); list.innerHTML='';
+    SINS.forEach((sn,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='sin'+(selected.has(i)?' sel':''); b.dataset.i=i;
+      b.innerHTML='<span class="box"></span><span>'+sinText(i)+'</span>';
+      b.addEventListener('click',()=>{ if(selected.has(i)){selected.delete(i);b.classList.remove('sel');}else{selected.add(i);b.classList.add('sel');} $('#counter').textContent=I18N[cur].counter+selected.size; $('#quizErr').textContent=''; });
+      list.appendChild(b);
+      if((i+1)%4===0 && i<SINS.length-1){ const d=document.createElement('div'); d.className='quiz-div'; list.appendChild(d); }
+    });
+  }
+  function buildSocial(){ const w=$('#subLinks'); w.innerHTML=''; SOCIAL.forEach(s=>{ const a=document.createElement('a'); a.href=s.url; a.target='_blank'; a.rel='noopener'; a.textContent=s.label; w.appendChild(a); }); }
+  function fmtDate(d){ const t=I18N[cur]; return d.toLocaleDateString(t.date_locale,{day:'numeric',month:'long',year:'numeric'})+t.date_suffix; }
+
+  function renderCert(){ if(!state)return; const t=I18N[cur];
+    $('#certIntro1').textContent=t.c_intro1;
+    $('#certName').textContent=state.name;
+    $('#rankEmblem').innerHTML=RANK_EMBLEMS[rankIdx(state.indices.length)];
+    $('#certRank').textContent=t.rank_label+t.ranks[rankIdx(state.indices.length)];
+    const ty=t.types[state.type]; $('#certType').innerHTML=t.type_label+'<b>'+ty.n+'</b>'; $('#certTypeDesc').textContent=ty.d;
+    $('#serial').textContent=state.serial; $('#issueDate').textContent=fmtDate(state.dateObj);
+    $('#sinList').innerHTML=state.indices.map(i=>'<li>'+sinText(i)+'</li>').join('');
+    $('#remedyList').innerHTML=state.indices.map(i=>'<li>'+sinRem(i,state.remedy[i])+'</li>').join('');
+    const rows=[[t.tri_body_label,t.triBody[state.tri.b][cur]],[t.tri_mind_label,t.triMind[state.tri.m][cur]],[t.tri_rest_label,t.triRest[state.tri.r][cur]]];
+    $('#triBlock').innerHTML=rows.map(r=>'<div class="tri-row"><span class="tri-cat">'+r[0]+'</span><span class="tri-act">'+r[1]+'</span></div>').join('');
+    $('#brandLine').textContent=BRAND_HANDLE;
+  }
+  function applyLang(lang){ cur=lang; const t=I18N[lang]; document.documentElement.lang=lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(t[k]!==undefined) el.textContent=t[k]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t[el.dataset.i18nPh]; });
+    $('#sealRing').textContent=t.seal_ring; $('#sealMono').textContent=t.seal_mono;
+    buildQuiz(); $('#counter').textContent=t.counter+selected.size;
+    document.querySelectorAll('.langbtn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+    if($('#certView').classList.contains('show')) renderCert();
+  }
+
+  async function makeImage(){ await (document.fonts?document.fonts.ready:Promise.resolve()); await new Promise(r=>setTimeout(r,160)); const c=await html2canvas($('#certCard'),{scale:2,backgroundColor:null,useCORS:true,logging:false}); return c.toDataURL('image/png'); }
+  async function bumpCounter(){ if(!COUNTER_ENABLED) return; try{ const r=await fetch('https://abacus.jasoncameron.dev/hit/'+COUNTER_NS+'/'+COUNTER_KEY); const d=await r.json(); const n=d.value??d.count; if(typeof n==='number') $('#counterLine').textContent=I18N[cur].counter_label+n.toLocaleString(cur==='ru'?'ru-RU':'en-GB'); }catch(e){} }
+
+  async function issue(){
+    const t=I18N[cur]; const name=$('#name').value.trim();
+    if(selected.size===0){ $('#quizErr').textContent=t.err_quiz; return; }
+    if(!name){ $('#quizErr').textContent=t.err_name; return; }
+    $('#quizErr').textContent='';
+    const indices=[...selected]; const remedy={}; indices.forEach(i=>{ remedy[i]=rnd(SINS[i].rRu.length); });
+    const season=seasonOf(new Date().getMonth()+1);
+    const tri={ b:pickTri(I18N.ru.triBody,season), m:pickTri(I18N.ru.triMind,season), r:pickTri(I18N.ru.triRest,season) };
+    state={ name, indices, remedy, tri, type:typeKey(indices), serial:String(Math.floor(100+Math.random()*900)), dateObj:new Date() };
+    lastName=name.replace(/\s+/g,'_'); lastDataURL=null; lastFile=null; renderCert();
+    $('#quizView').style.display='none'; $('#certView').classList.add('show'); window.scrollTo({top:0,behavior:'smooth'});
+    bumpCounter();
+    try{ lastDataURL=await makeImage(); $('#ovImg').src=lastDataURL; $('#ovDownload').href=lastDataURL; const blob=await (await fetch(lastDataURL)).blob(); lastFile=new File([blob],'indulgence-'+lastName+'.png',{type:'image/png'}); }catch(e){ console.warn(e); }
+  }
+  function restart(){ $('#certView').classList.remove('show'); selected.clear(); buildQuiz(); $('#counter').textContent=I18N[cur].counter+'0'; $('#name').value=''; $('#quizErr').textContent=''; state=null; lastDataURL=null; lastFile=null; $('#quizView').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+
+  function shareText(){ const t=I18N[cur]; if(!state)return ''; return t.share_text.replace('{rank}',t.ranks[rankIdx(state.indices.length)]); }
+  function openOverlay(){ const t=I18N[cur]; $('#ovText').textContent=t.ov_text; $('#ovTg').textContent=t.ov_tg; $('#ovDownload').textContent=t.ov_dl; $('#ovClose').textContent=t.ov_close;
+    if(lastDataURL){ $('#ovImg').src=lastDataURL; $('#ovDownload').href=lastDataURL; }
+    $('#ovTg').href='https://t.me/share/url?url='+encodeURIComponent(SITE_URL)+'&text='+encodeURIComponent(shareText());
+    $('#overlay').classList.add('show');
+  }
+  async function shareCert(){
+    try{ if(lastFile && navigator.canShare && navigator.canShare({files:[lastFile]})){ await navigator.share({ files:[lastFile], text:SITE_URL+'\n\n'+shareText() }); return; }
+      if(navigator.share){ await navigator.share({ text:shareText(), url:SITE_URL }); return; } }
+    catch(e){ if(e && e.name==='AbortError') return; }
+    openOverlay();
+  }
+  function triggerDownload(){ if(!lastDataURL) return; const a=document.createElement('a'); a.href=lastDataURL; a.download='indulgence-'+lastName+'.png'; document.body.appendChild(a); a.click(); a.remove(); }
+  async function saveCert(){ const btn=$('#downloadBtn'); btn.disabled=true; const old=btn.textContent; btn.textContent='…';
+    try{ if(!lastDataURL){ lastDataURL=await makeImage(); } triggerDownload(); openOverlay(); }
+    catch(e){ console.error(e); alert('Could not render image / Не удалось подготовить картинку.'); } finally{ btn.disabled=false; btn.textContent=old; }
+  }
+
+  document.querySelectorAll('.langbtn').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
+  $('#issueBtn').addEventListener('click',issue);
+  $('#name').addEventListener('keydown',e=>{ if(e.key==='Enter') issue(); });
+  $('#shareBtn').addEventListener('click',shareCert);
+  $('#downloadBtn').addEventListener('click',saveCert);
+  $('#againBtn').addEventListener('click',restart);
+  $('#ovClose').addEventListener('click',()=>$('#overlay').classList.remove('show'));
+  $('#overlay').addEventListener('click',e=>{ if(e.target.id==='overlay') $('#overlay').classList.remove('show'); });
+  buildSocial(); applyLang('ru');
+</script>
+</body>
+</html>
