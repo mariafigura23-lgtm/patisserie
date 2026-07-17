@@ -46,9 +46,9 @@ const WORLDS = [
       "Fill each mold three-quarters full.",
       "Bake for 9–11 minutes until lightly golden."
     ],
+    foregroundEnabled: false,
     assets: {
       background: "assets/madeleine-background.jpg",
-      fallbackBackground: "assets/madeleine-collage.jpg",
       dessertWhole: "assets/madeleine-whole.png",
       dessertBitten: "assets/madeleine-bitten.png",
       recipeImage: "assets/madeleine-recipe-card.jpg",
@@ -73,22 +73,22 @@ const WORLDS = [
     biteCrumbColor: "#d9b46e",
     hotspots: [
       {
-        key: "sensation", x: 38.5, y: 70, mx: 30, my: 66,
+        key: "sensation", x: 38.5, y: 70, mx: 30, my: 61,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Warm tea, soft cake, butter, and a texture that dissolves almost before it can be named. The body recognises something before the mind understands why it matters."
       },
       {
-        key: "scene", x: 43, y: 21, mx: 34, my: 24,
+        key: "scene", x: 43, y: 21, mx: 34, my: 27,
         title: "Scene", subtitle: "What world appears.",
         text: "A room returns: light on fabric, silence, a familiar table, the atmosphere of a time thought lost. The taste does not restore a fact. It restores an entire world."
       },
       {
-        key: "desire", x: 12.5, y: 18, mx: 14, my: 12,
+        key: "desire", x: 12.5, y: 18, mx: 15, my: 15,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is not merely to remember. It is to recover continuity — to feel that the former self and the present self still belong to the same life."
       },
       {
-        key: "rule", x: 12, y: 64, mx: 12, my: 74,
+        key: "rule", x: 12, y: 64, mx: 16, my: 55,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Adult time is expected to move forward. The past is treated as finished and private feeling must submit to chronology, discipline, and explanation. The taste briefly interrupts that order."
       }
@@ -125,9 +125,9 @@ const WORLDS = [
       "Fill the shells shortly before serving.",
       "Dust lightly with powdered sugar."
     ],
+    foregroundEnabled: false,
     assets: {
       background: "assets/cannoli-background.jpg",
-      fallbackBackground: "assets/cannoli-collage.jpg",
       dessertWhole: "assets/cannoli-whole.png",
       dessertBitten: "assets/cannoli-bitten.png",
       recipeImage: "assets/cannoli-recipe-card.jpg",
@@ -153,22 +153,22 @@ const WORLDS = [
     biteCrumbAccent: "#7e8c46", /* one pistachio crumb falls after the bite */
     hotspots: [
       {
-        key: "sensation", x: 61, y: 68, mx: 68, my: 66,
+        key: "sensation", x: 61, y: 68, mx: 68, my: 60,
         title: "Sensation", subtitle: "What the body feels.",
         text: "A brittle shell breaks into cool ricotta, citrus, sugar, and pistachio. The pleasure is brief, concentrated, and dependent on attention to the present moment."
       },
       {
-        key: "scene", x: 27, y: 40, mx: 24, my: 30,
+        key: "scene", x: 27, y: 40, mx: 24, my: 32,
         title: "Scene", subtitle: "What world appears.",
         text: "A small Sicilian pastry shop, an espresso, sunlight, a pause in the middle of an ordinary day. Nothing monumental happens. Life simply becomes good for a few minutes."
       },
       {
-        key: "desire", x: 43, y: 14, mx: 46, my: 12,
+        key: "desire", x: 43, y: 14, mx: 48, my: 16,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is not for limitless excess. It is for permission to enjoy life before every task is finished — to feel that this moment can already be enough."
       },
       {
-        key: "rule", x: 8.5, y: 70, mx: 10, my: 76,
+        key: "rule", x: 8.5, y: 70, mx: 14, my: 57,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Pleasure is often postponed until work is complete, success is achieved, or a special occasion arrives. The cannolo proposes another rhythm: a small joy may belong inside ordinary time."
       }
@@ -208,9 +208,9 @@ const WORLDS = [
       "Cover with pastry crumbs.",
       "Chill overnight."
     ],
+    foregroundEnabled: false,
     assets: {
       background: "assets/napoleon-background.jpg",
-      fallbackBackground: "assets/napoleon-collage.jpg",
       dessertWhole: "assets/napoleon-whole.png",
       dessertBitten: "assets/napoleon-bitten.png",
       recipeImage: "assets/napoleon-recipe-card.jpg",
@@ -236,22 +236,22 @@ const WORLDS = [
     biteCrumbColor: "#e9ddba",
     hotspots: [
       {
-        key: "sensation", x: 59, y: 71, mx: 66, my: 68,
+        key: "sensation", x: 59, y: 71, mx: 66, my: 61,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Cream softens the layers, crumbs fall, and the cake carries a dense sweetness associated with waiting. Its texture already contains time: it must rest before it is ready."
       },
       {
-        key: "scene", x: 82, y: 34, mx: 84, my: 26,
+        key: "scene", x: 82, y: 34, mx: 82, my: 30,
         title: "Scene", subtitle: "What world appears.",
         text: "An evening kitchen before a birthday or holiday. Someone rolls the layers, prepares the cream, and leaves the finished cake until tomorrow."
       },
       {
-        key: "desire", x: 55, y: 12, mx: 50, my: 10,
+        key: "desire", x: 55, y: 12, mx: 50, my: 15,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is for care made visible through effort: home, continuity, family closeness, abundance, and the promise that tomorrow will be special."
       },
       {
-        key: "rule", x: 12, y: 60, mx: 12, my: 74,
+        key: "rule", x: 12, y: 60, mx: 15, my: 56,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Pleasure must be prepared, deserved, and delayed. In a culture shaped by scarcity, luxury is not simply purchased. It is patiently assembled through domestic labour."
       }
@@ -290,9 +290,9 @@ const WORLDS = [
       "Decorate with edible flowers or sugar details.",
       "Serve at a table you have arranged for no reason at all."
     ],
+    foregroundEnabled: false,
     assets: {
       background: "assets/petit-four-background.jpg",
-      fallbackBackground: "assets/petit-four-collage.jpg",
       dessertWhole: "assets/petit-four-whole.png",
       dessertBitten: "assets/petit-four-bitten.png",
       recipeImage: "assets/petit-four-recipe-card.jpg",
@@ -317,22 +317,22 @@ const WORLDS = [
     biteCrumbColor: "#f2dfc9",
     hotspots: [
       {
-        key: "sensation", x: 44, y: 73, mx: 38, my: 68,
+        key: "sensation", x: 44, y: 73, mx: 40, my: 61,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Thin glaze, delicate sweetness, fragility, and decorative precision. The dessert is almost too perfect to disturb."
       },
       {
-        key: "scene", x: 24, y: 46, mx: 22, my: 32,
+        key: "scene", x: 24, y: 46, mx: 22, my: 34,
         title: "Scene", subtitle: "What world appears.",
         text: "A courtly interior of candles, mirrors, ceremony, and miniature beauty. The dessert belongs to a world in which pleasure is arranged as spectacle."
       },
       {
-        key: "desire", x: 65.5, y: 30, mx: 72, my: 22,
+        key: "desire", x: 65.5, y: 30, mx: 68, my: 25,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is to enter a world where beauty, elegance, abundance, and belonging appear natural — a life seemingly protected from disorder and necessity."
       },
       {
-        key: "rule", x: 10, y: 20, mx: 10, my: 12,
+        key: "rule", x: 10, y: 20, mx: 13, my: 16,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "At court, pleasure also communicates rank. Beauty appears effortless while concealing specialised labour, material wealth, codes of conduct, hierarchy, and the fragility of the order that produced it."
       }
@@ -421,7 +421,12 @@ function buildParticles(world) {
   svg.setAttribute("preserveAspectRatio", "xMidYMid slice");
   svg.setAttribute("aria-hidden", "true");
 
-  (PARTICLES[world.id] || []).forEach(p => {
+  const particleSet = PARTICLES[world.id] || [];
+  const visibleParticles = (isTouch || window.innerWidth < 600)
+    ? particleSet.slice(0, 3)
+    : particleSet;
+
+  visibleParticles.forEach(p => {
     const c = document.createElementNS(SVG_NS, "circle");
     c.setAttribute("class", `particle ${p.cls}`);
     c.setAttribute("cx", p.x);
@@ -444,7 +449,7 @@ function buildParticles(world) {
    -------------------------------------------------------------------------- */
 
 const stage = document.getElementById("stage");
-const rip = document.getElementById("rip");
+const sceneAnchor = stage.querySelector(".masthead");
 
 function buildPositionedLayer(className, spec, world, assetKey) {
   const layer = document.createElement("div");
@@ -485,7 +490,6 @@ function buildScene(world) {
   bgImg.alt = `Surreal archival collage for the ${world.name} world: ${world.shortLine}`;
   bgImg.draggable = false;
   bgImg.dataset.src = world.assets.background;
-  bgImg.dataset.fallback = world.assets.fallbackBackground;
   bgLayer.appendChild(bgImg);
   scene.appendChild(bgLayer);
 
@@ -520,8 +524,16 @@ function buildScene(world) {
   dessert.addEventListener("click", takeBite);
   scene.appendChild(dessert);
 
-  /* 5 · foreground paper or textile */
-  scene.appendChild(buildPositionedLayer("scene__foreground-layer", world.layers.foreground, world, "foreground"));
+  /* 5 · optional foreground. Disabled for the current worlds because the
+     wide strips obscure the plates and collapse the collage into one band. */
+  if (world.foregroundEnabled === true && world.layers.foreground && world.assets.foreground) {
+    scene.appendChild(buildPositionedLayer(
+      "scene__foreground-layer",
+      world.layers.foreground,
+      world,
+      "foreground"
+    ));
+  }
 
   /* 6 · generated particles */
   scene.appendChild(buildParticles(world));
@@ -532,7 +544,11 @@ function buildScene(world) {
   pulse.setAttribute("aria-hidden", "true");
   scene.appendChild(pulse);
 
-  /* 8 · cultural hotspots — the culture itself becomes the interface */
+  /* 8 · cultural hotspots — isolated above every decorative image */
+  const hotspotLayer = document.createElement("div");
+  hotspotLayer.className = "scene__hotspots";
+  hotspotLayer.setAttribute("aria-label", `${world.name} cultural fragments`);
+
   world.hotspots.forEach(spot => {
     const btn = document.createElement("button");
     btn.type = "button";
@@ -545,14 +561,15 @@ function buildScene(world) {
       <span class="hotspot__dot" aria-hidden="true"></span>
       <span class="hotspot__label" aria-hidden="true">${spot.title}</span>`;
     btn.addEventListener("click", () => openFragment(world, spot, btn));
-    scene.appendChild(btn);
+    hotspotLayer.appendChild(btn);
   });
+  scene.appendChild(hotspotLayer);
 
   return scene;
 }
 
 WORLDS.forEach(world => {
-  stage.insertBefore(buildScene(world), rip);
+  stage.insertBefore(buildScene(world), sceneAnchor);
 });
 
 const scenes = Array.from(stage.querySelectorAll(".scene"));
@@ -574,11 +591,12 @@ function loadSceneAssets(world) {
   const scene = sceneById(world.id);
 
   const bgImg = scene.querySelector(".scene__background-layer img");
-  loadWithFallback(bgImg, [bgImg.dataset.src, bgImg.dataset.fallback], () => {
+  loadWithFallback(bgImg, [bgImg.dataset.src], () => {
+    console.warn("Could not load scene background:", bgImg.dataset.src);
     bgImg.closest(".scene__layer").remove(); /* the painted CSS ground remains */
   });
 
-  ["scene__character-layer", "scene__magic-layer", "scene__foreground-layer"].forEach(cls => {
+  ["scene__character-layer", "scene__magic-layer"].forEach(cls => {
     const layer = scene.querySelector(`.${cls}`);
     if (!layer) return;
     const img = layer.querySelector("img");
@@ -623,34 +641,101 @@ applyResponsiveLayout();
 mobileLayout.addEventListener("change", applyResponsiveLayout);
 
 /* --------------------------------------------------------------------------
-   DIAL — sector buttons + rotating handle
+   DIAL — reliable quadrant selector + rotating handle
    -------------------------------------------------------------------------- */
 
 const dial = document.getElementById("dial");
 const dialArt = document.getElementById("dialArt");
+const dialCurrent = document.getElementById("dialCurrent");
 const handleGroup = document.getElementById("handleGroup");
 
-/* keep the selector elegant even before its artwork file exists */
-function dialArtFailed() { dial.classList.add("dial--noart"); }
-dialArt.addEventListener("error", dialArtFailed);
-if (dialArt.complete && dialArt.naturalWidth === 0) dialArtFailed();
+function markDialLoaded() {
+  dial.classList.add("dial--loaded");
+  dial.classList.remove("dial--noart");
+}
+
+function markDialFailed() {
+  dial.classList.remove("dial--loaded");
+  dial.classList.add("dial--noart");
+  console.warn("Could not load dessert dial:", dialArt.currentSrc || dialArt.src);
+}
+
+dialArt.addEventListener("load", markDialLoaded);
+dialArt.addEventListener("error", markDialFailed);
+if (dialArt.complete) {
+  if (dialArt.naturalWidth > 0) markDialLoaded();
+  else markDialFailed();
+}
 
 const SECTOR_POS = { 0: "top", 90: "right", 180: "bottom", 270: "left" };
 const SYMBOL_NAMES = { shell: "shell", spiral: "spiral", cake: "layered cake", flower: "flower" };
+const WORLD_BY_CARDINAL = {
+  top: "madeleine",
+  right: "napoleon",
+  bottom: "petitfour",
+  left: "cannoli"
+};
 
 WORLDS.forEach(world => {
   const btn = document.createElement("button");
+  const position = SECTOR_POS[world.handleAngle];
   btn.type = "button";
-  btn.className = `dial__sector dial__sector--${SECTOR_POS[world.handleAngle]}`;
+  btn.className = `dial__sector dial__sector--${position}`;
   btn.setAttribute("role", "radio");
   btn.setAttribute("aria-checked", "false");
   btn.setAttribute("aria-label", `${world.name} — the ${SYMBOL_NAMES[world.symbol]}`);
+  btn.tabIndex = -1;
   btn.dataset.id = world.id;
-  btn.addEventListener("click", () => selectWorld(world.id));
+  btn.dataset.position = position;
+  btn.addEventListener("click", event => {
+    event.stopPropagation();
+    selectWorld(world.id);
+  });
+  btn.addEventListener("keydown", event => {
+    if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(event.key)) return;
+    event.preventDefault();
+    const direction = (event.key === "ArrowRight" || event.key === "ArrowDown") ? 1 : -1;
+    step(direction, true);
+  });
   dial.appendChild(btn);
 });
 
 const sectorButtons = Array.from(dial.querySelectorAll(".dial__sector"));
+
+function acknowledgeCurrentSelection(id) {
+  const button = sectorButtons.find(item => item.dataset.id === id);
+  dial.classList.remove("is-clicked");
+  button?.classList.remove("is-confirmed");
+  requestAnimationFrame(() => {
+    dial.classList.add("is-clicked");
+    button?.classList.add("is-confirmed");
+  });
+  setTimeout(() => {
+    dial.classList.remove("is-clicked");
+    button?.classList.remove("is-confirmed");
+  }, 650);
+}
+
+function selectWorldFromDialPoint(event) {
+  if (event.target.closest(".dial__sector")) return;
+
+  const rect = dial.getBoundingClientRect();
+  const x = event.clientX - rect.left - rect.width / 2;
+  const y = event.clientY - rect.top - rect.height / 2;
+  const radius = Math.hypot(x, y);
+  if (radius < rect.width * 0.16 || radius > rect.width * 0.54) return;
+
+  const angle = Math.atan2(y, x) * 180 / Math.PI;
+  let cardinal;
+  if (angle >= -45 && angle < 45) cardinal = "right";
+  else if (angle >= 45 && angle < 135) cardinal = "bottom";
+  else if (angle >= -135 && angle < -45) cardinal = "top";
+  else cardinal = "left";
+
+  selectWorld(WORLD_BY_CARDINAL[cardinal]);
+}
+
+dial.addEventListener("click", selectWorldFromDialPoint);
 
 /* --------------------------------------------------------------------------
    STRIP STATE — name, status, progress, reset
@@ -757,12 +842,19 @@ function rotateHandle(world) {
   currentAngle += delta;
   handleGroup.style.setProperty("--angle", `${currentAngle}deg`);
 
-  dial.classList.remove("is-clicked");
-  const clickDelay = prefersReducedMotion.matches ? 80 : 640;
-  setTimeout(() => {
-    dial.classList.add("is-clicked");
-    setTimeout(() => dial.classList.remove("is-clicked"), 700);
-  }, clickDelay);
+  const clickDelay = prefersReducedMotion.matches ? 40 : 360;
+  setTimeout(() => acknowledgeCurrentSelection(world.id), clickDelay);
+}
+
+function updateDialState(world, moveFocus = false) {
+  sectorButtons.forEach(button => {
+    const selected = button.dataset.id === world.id;
+    button.setAttribute("aria-checked", String(selected));
+    button.tabIndex = selected ? 0 : -1;
+    button.classList.toggle("is-active", selected);
+    if (selected && moveFocus) button.focus({ preventScroll: true });
+  });
+  if (dialCurrent) dialCurrent.textContent = world.name;
 }
 
 /* ambient life wakes only after the viewer stays */
@@ -773,7 +865,7 @@ function scheduleSettle() {
   settleTimer = setTimeout(() => {
     const active = activeScene();
     if (active) active.classList.add("is-settled");
-  }, 5000);
+  }, isTouch ? 3200 : 4500);
 }
 
 /* restore a world's stored session state onto its scene */
@@ -789,8 +881,26 @@ function applyWorldState(world) {
   });
 }
 
-function selectWorld(id, instant = false) {
-  if (id === currentId) return;
+function runSceneEntrance(scene) {
+  if (!scene || prefersReducedMotion.matches) return;
+  scene.classList.add("is-entering");
+  strip.classList.add("is-entering");
+  void scene.offsetWidth;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    scene.classList.remove("is-entering");
+    strip.classList.remove("is-entering");
+  }));
+  setTimeout(() => {
+    scene.classList.remove("is-entering");
+    strip.classList.remove("is-entering");
+  }, 1900);
+}
+
+function selectWorld(id, instant = false, moveFocus = false) {
+  if (id === currentId) {
+    acknowledgeCurrentSelection(id);
+    return;
+  }
   if (transitioning) { queuedId = id; return; }
 
   const world = worldById(id);
@@ -804,8 +914,7 @@ function selectWorld(id, instant = false) {
 
   loadSceneAssets(world);
   applyWorldState(world);
-
-  sectorButtons.forEach(b => b.setAttribute("aria-checked", String(b.dataset.id === id)));
+  updateDialState(world, moveFocus);
   rotateHandle(world);
 
   const reduced = prefersReducedMotion.matches;
@@ -818,33 +927,34 @@ function selectWorld(id, instant = false) {
     renderStrip(world);
     strip.classList.remove("is-hushed");
     transitioning = false;
+    if (entered) runSceneEntrance(nextScene);
     scheduleSettle();
     flushQueue();
     return;
   }
 
-  /* the torn-paper transition: the world darkens, paper closes over it,
-     then the next memory assembles itself layer by layer */
+  /* Quiet transition: the old world darkens, then the new world assembles. */
   strip.classList.add("is-hushed");
   prevScene.classList.add("is-leaving");
-  stage.classList.add("is-ripping");
+  stage.classList.add("is-transitioning");
 
   setTimeout(() => {
     prevScene.classList.remove("is-active", "is-leaving");
     nextScene.classList.add("is-active");
-  }, 480);
+    runSceneEntrance(nextScene);
+  }, 300);
 
   setTimeout(() => {
     renderStrip(world);
     strip.classList.remove("is-hushed");
-  }, 900);
+  }, 680);
 
   setTimeout(() => {
-    stage.classList.remove("is-ripping");
+    stage.classList.remove("is-transitioning");
     transitioning = false;
     scheduleSettle();
     flushQueue();
-  }, 1300);
+  }, 1550);
 }
 
 function flushQueue() {
@@ -857,48 +967,74 @@ function flushQueue() {
   }
 }
 
-function step(direction) {
+function step(direction, moveFocus = false) {
   const idx = DIAL_ORDER.indexOf(currentId);
   const next = DIAL_ORDER[(idx + direction + DIAL_ORDER.length) % DIAL_ORDER.length];
-  selectWorld(next);
+  selectWorld(next, false, moveFocus);
 }
 
-/* keyboard: arrows turn the dial; Escape closes fragment, then overlay */
-document.addEventListener("keydown", e => {
+/* keyboard: arrows operate the dial only when they will not steal another control */
+document.addEventListener("keydown", event => {
   if (!veil.hidden) {
-    if (e.key === "Escape") closeLeaf();
+    if (event.key === "Escape") closeLeaf();
     return;
   }
-  if (e.key === "Escape" && !fragment.hidden) {
+  if (event.key === "Escape" && !fragment.hidden) {
     closeFragment(true);
     return;
   }
   if (!entered) return;
-  if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); step(1); }
-  if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); step(-1); }
+
+  const target = event.target;
+  const insideDial = target.closest?.("#dial");
+  const unrelatedControl = target.closest?.("button, a, input, textarea, select") && !insideDial;
+  if (unrelatedControl) return;
+
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+    event.preventDefault();
+    step(1, Boolean(insideDial));
+  }
+  if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+    event.preventDefault();
+    step(-1, Boolean(insideDial));
+  }
 });
 
-/* swipe on the stage and on the dial */
-let touchX = null, touchY = null;
+/* Swipe on the stage and dial; small movement remains a tap. */
+let touchX = null;
+let touchY = null;
+let touchTarget = null;
 
-function onTouchStart(e) {
-  touchX = e.changedTouches[0].clientX;
-  touchY = e.changedTouches[0].clientY;
+function resetTouch() {
+  touchX = null;
+  touchY = null;
+  touchTarget = null;
 }
 
-function onTouchEnd(e) {
+function onTouchStart(event) {
+  const touch = event.changedTouches[0];
+  touchX = touch.clientX;
+  touchY = touch.clientY;
+  touchTarget = event.target;
+}
+
+function onTouchEnd(event) {
   if (touchX === null) return;
-  const dx = e.changedTouches[0].clientX - touchX;
-  const dy = e.changedTouches[0].clientY - touchY;
-  if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+  const touch = event.changedTouches[0];
+  const dx = touch.clientX - touchX;
+  const dy = touch.clientY - touchY;
+  const beganOnSector = touchTarget?.closest?.(".dial__sector");
+
+  if (!beganOnSector && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.45) {
     step(dx < 0 ? 1 : -1);
   }
-  touchX = touchY = null;
+  resetTouch();
 }
 
-[stage, dial].forEach(el => {
-  el.addEventListener("touchstart", onTouchStart, { passive: true });
-  el.addEventListener("touchend", onTouchEnd, { passive: true });
+[stage, dial].forEach(element => {
+  element.addEventListener("touchstart", onTouchStart, { passive: true });
+  element.addEventListener("touchend", onTouchEnd, { passive: true });
+  element.addEventListener("touchcancel", resetTouch, { passive: true });
 });
 
 /* --------------------------------------------------------------------------
@@ -1089,8 +1225,9 @@ function openFragment(world, spot, hotspotBtn) {
   fragmentSubtitle.textContent = spot.subtitle;
   fragmentText.textContent = spot.text;
 
-  fragment.classList.toggle("is-left", spot.x >= 50);
-  fragment.classList.toggle("is-right", spot.x < 50);
+  const fragmentX = mobileLayout.matches && spot.mx !== undefined ? spot.mx : spot.x;
+  fragment.classList.toggle("is-left", fragmentX >= 50);
+  fragment.classList.toggle("is-right", fragmentX < 50);
 
   const scene = activeScene();
   scene.querySelectorAll(".hotspot").forEach(h => {
@@ -1279,10 +1416,12 @@ enterBtn.addEventListener("click", () => {
   threshold.classList.add("is-leaving");
   setTimeout(() => { threshold.hidden = true; }, 850);
 
+  const scene = activeScene();
+  runSceneEntrance(scene);
   scheduleSettle();
   wake();
 
-  const scene = activeScene();
+
   if (scene && !scene.classList.contains("scene--no-dessert") && !worldState[currentId].bitten) {
     clearTimeout(hintTimer);
     biteHint.classList.add("is-visible");
@@ -1292,10 +1431,12 @@ enterBtn.addEventListener("click", () => {
   const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
   if (checked) checked.focus({ preventScroll: true });
 
-  /* quietly prefetch the other worlds while the first is contemplated */
-  setTimeout(() => {
-    WORLDS.forEach(w => loadSceneAssets(w));
-  }, 2500);
+  /* Quietly prefetch inactive worlds without loading every large layer at once. */
+  const remaining = WORLDS.filter(world => world.id !== currentId);
+  const firstDelay = isTouch ? 7000 : 3500;
+  remaining.forEach((world, index) => {
+    setTimeout(() => loadSceneAssets(world), firstDelay + index * 1600);
+  });
 });
 
 /* --------------------------------------------------------------------------

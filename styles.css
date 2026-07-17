@@ -1439,6 +1439,322 @@ button { font: inherit; color: inherit; }
   .leaf__image { max-height: 34vh; }
 }
 
+
+
+/* ==========================================================================
+   JULY REVISION — clean stage, reliable dial, readable mobile narrative
+   ========================================================================== */
+
+.experience {
+  position: relative;
+  width: min(96vw, calc((100dvh - 1.6rem) * 16 / 9), 1800px);
+}
+
+.stage-wrap {
+  width: 100%;
+}
+
+/* The former broad foreground strips are intentionally not rendered. */
+.scene__foreground-layer { display: none !important; }
+
+/* Dedicated interaction plane above every decorative asset. */
+.scene__hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.scene__hotspots .hotspot {
+  pointer-events: auto;
+  min-width: 48px;
+  min-height: 48px;
+}
+
+.scene__layer,
+.scene__layer img,
+.scene__particles,
+.scene__pulse,
+.masthead {
+  pointer-events: none;
+}
+
+/* Quiet transition instead of the broad torn-paper slab. */
+.rip { display: none !important; }
+.stage.is-transitioning::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 29;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 25%, rgba(7, 12, 23, 0.48) 100%);
+  animation: quietVeil 1.05s ease both;
+}
+
+@keyframes quietVeil {
+  0%, 100% { opacity: 0; }
+  38%, 62% { opacity: 1; }
+}
+
+/* Explicit one-time assembly; idle movement stays almost still. */
+.scene__dessert {
+  --enter-y: 0px;
+  --enter-scale: 1;
+  opacity: 1;
+  transform:
+    translate(
+      calc(-50% + var(--px, 0) * 5px),
+      calc(-50% + var(--py, 0) * 5px + var(--enter-y)))
+    scale(var(--enter-scale))
+    scale(var(--bite-scale, 1));
+  transition:
+    transform 1.05s cubic-bezier(0.2, 0.78, 0.25, 1.08),
+    opacity 0.78s ease;
+}
+
+.scene.is-entering .scene__background-layer {
+  opacity: 0;
+  --enter-scale: 1.04;
+}
+
+.scene.is-entering .scene__character-layer {
+  opacity: 0;
+  --enter-y: 16px;
+  --enter-scale: 0.98;
+}
+
+.scene.is-entering .scene__magic-layer {
+  opacity: 0;
+  --enter-y: -12px;
+  --enter-scale: 0.97;
+}
+
+.scene.is-entering .scene__dessert {
+  opacity: 0;
+  --enter-y: 32px;
+  --enter-scale: 0.94;
+}
+
+/* Freeze the hidden entrance pose; removing .is-entering starts the transition. */
+.scene.is-entering .scene__layer,
+.scene.is-entering .scene__dessert,
+.strip.is-entering {
+  transition: none !important;
+}
+
+.strip.is-entering {
+  opacity: 0;
+  transform: translateY(9px);
+}
+
+.scene.is-active .scene__background-layer { transition-delay: 0ms; }
+.scene.is-active .scene__character-layer  { transition-delay: 260ms; }
+.scene.is-active .scene__magic-layer      { transition-delay: 470ms; }
+.scene.is-active .scene__dessert          { transition-delay: 650ms; }
+
+/* The plate is almost still; atmosphere supplies the life. */
+@keyframes dessertFloat {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0.8px, -1.4px, 0); }
+}
+
+.scene.is-active .scene__background-layer img { animation-duration: 23s; }
+.scene.is-active .scene__character-layer img  { animation-duration: 17s; }
+.scene.is-active .scene__magic-layer img      { animation-duration: 13s; }
+
+/* Caption is now a sibling of the stage, not a click-blocking child. */
+.strip {
+  left: 3.2%;
+  right: 22%;
+  bottom: 3.5%;
+  z-index: 25;
+  padding: clamp(0.65rem, 1.2vw, 1rem) clamp(0.75rem, 1.4vw, 1.15rem);
+  border-left: 1px solid rgba(224, 193, 132, 0.3);
+  background:
+    linear-gradient(90deg, rgba(7, 12, 23, 0.88), rgba(7, 12, 23, 0.56) 68%, transparent);
+  border-radius: 2px;
+}
+
+/* Fragment overlays the stage on desktop, but lives outside its overflow. */
+.fragment {
+  z-index: 50;
+}
+
+/* Dial: artwork never intercepts a click; quadrants are broad and tactile. */
+.dial {
+  z-index: 40;
+  isolation: isolate;
+  touch-action: manipulation;
+}
+
+.dial__art,
+.dial__fallbackFace,
+.dial__hub,
+.dial__current {
+  pointer-events: none;
+  user-select: none;
+}
+
+.dial__art,
+.dial__fallbackFace,
+.dial__hub { z-index: 1; }
+
+.dial--loaded .dial__fallbackFace { visibility: hidden; }
+.dial--loaded .dial__art { display: block; }
+
+.dial__sector {
+  z-index: 5;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 0;
+  touch-action: manipulation;
+  transition: background 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dial__sector--top {
+  left: 20%; top: 0; width: 60%; height: 48%;
+  clip-path: polygon(0 0, 100% 0, 66% 100%, 34% 100%);
+}
+.dial__sector--right {
+  right: 0; top: 20%; width: 48%; height: 60%;
+  clip-path: polygon(0 34%, 100% 0, 100% 100%, 0 66%);
+}
+.dial__sector--bottom {
+  left: 20%; bottom: 0; width: 60%; height: 48%;
+  clip-path: polygon(34% 0, 66% 0, 100% 100%, 0 100%);
+}
+.dial__sector--left {
+  left: 0; top: 20%; width: 48%; height: 60%;
+  clip-path: polygon(0 0, 100% 34%, 100% 66%, 0 100%);
+}
+
+.dial__sector[aria-checked="true"],
+.dial__sector.is-confirmed {
+  background: radial-gradient(circle at center, rgba(239, 217, 161, 0.2), transparent 65%);
+  filter: drop-shadow(0 0 7px rgba(239, 217, 161, 0.45));
+}
+
+.dial__current {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+  transform: translateX(-50%);
+  z-index: 6;
+  max-width: 12rem;
+  padding: 0.22rem 0.5rem;
+  font-family: var(--serif-caps);
+  font-size: clamp(0.55rem, 0.75vw, 0.68rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--brass-pale);
+  background: rgba(7, 12, 23, 0.72);
+  border: 1px solid rgba(224, 193, 132, 0.28);
+  text-shadow: 0 1px 8px #000;
+}
+
+@media (max-width: 900px) {
+  body { display: block; }
+
+  .app {
+    padding: max(0.5rem, env(safe-area-inset-top)) 0 calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .experience {
+    width: min(97vw, calc(74dvh * 3 / 4), 620px);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .stage-wrap {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    max-height: none;
+  }
+
+  .strip {
+    position: relative;
+    inset: auto;
+    order: 3;
+    width: 100%;
+    padding: 0.95rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+    color: var(--parchment);
+    background: rgba(7, 12, 23, 0.97);
+    border: 1px solid rgba(224, 193, 132, 0.42);
+    border-radius: 3px;
+    box-shadow: 0 18px 45px -30px rgba(0, 0, 0, 0.9);
+    backdrop-filter: none;
+  }
+
+  .strip__text { max-width: none; }
+  .strip__context { line-height: 1.45; }
+  .strip__line { line-height: 1.45; }
+
+  .strip__state {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .strip__action {
+    background: rgba(15, 25, 45, 0.96);
+    backdrop-filter: none;
+  }
+
+  .fragment {
+    position: relative;
+    order: 2;
+    width: 100%;
+    top: auto;
+    bottom: auto;
+    left: auto !important;
+    right: auto !important;
+    margin: 0;
+    max-height: 48dvh;
+    overflow: auto;
+  }
+
+  .dial {
+    right: 1.5%;
+    bottom: 1.5%;
+    width: clamp(116px, 30vw, 148px);
+  }
+
+  .dial__current {
+    bottom: calc(100% + 0.18rem);
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+  }
+
+  .hotspot {
+    width: 52px;
+    min-width: 52px;
+    min-height: 52px;
+  }
+
+  .hotspot__label {
+    max-width: 7rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .bite-hint { top: 25%; }
+}
+
+@media (max-width: 600px) {
+  .scene__particles .particle:nth-child(n+4) { display: none; }
+  .masthead__eyebrow { letter-spacing: 0.24em; }
+  .masthead__title { font-size: clamp(1.05rem, 5.4vw, 1.55rem); }
+}
+
+
 /* --------------------------------------------------------------------------
    REDUCED MOTION
    -------------------------------------------------------------------------- */
@@ -1457,7 +1773,7 @@ button { font: inherit; color: inherit; }
 
   .scene__layer { transform: none; }
 
-  .scene__dessert { transform: translate(-50%, -50%); }
+  .scene__dessert { transform: translate(-50%, -50%); opacity: 1; }
 
   .scene__particles,
   .scene.is-settled .scene__particles { opacity: 0; }
