@@ -1,0 +1,1230 @@
+/* ==========================================================================
+   THE PATISSERIE OF THE UNCONSCIOUS — styles
+   A widescreen theatrical cabinet built from modular collage layers.
+   ========================================================================== */
+
+:root {
+  --night: #0b1220;
+  --night-deep: #070c17;
+  --parchment: #e6dbc2;
+  --parchment-bright: #f2ead6;
+  --ink: #2a2118;
+  --ink-soft: #5d5140;
+  --brass: #b3904f;
+  --brass-bright: #e0c184;
+  --brass-pale: #efd9a1;
+  --brass-dim: #7d6132;
+  --blue-mist: #9db8ff;
+  --serif-display: "Cormorant Garamond", Georgia, serif;
+  --serif-body: "EB Garamond", Georgia, serif;
+  --serif-caps: "IM Fell English SC", serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { overflow-x: hidden; }
+
+html {
+  height: 100%;
+  background: var(--night-deep);
+}
+
+body {
+  min-height: 100dvh;
+  font-family: var(--serif-body);
+  color: var(--parchment);
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(157, 184, 255, 0.06), transparent 60%),
+    radial-gradient(90% 70% at 85% 100%, rgba(179, 144, 79, 0.08), transparent 55%),
+    linear-gradient(#0d1424, var(--night-deep));
+  display: grid;
+  place-items: center;
+}
+
+body.leaf-open { overflow: hidden; }
+
+img { max-width: 100%; }
+
+button { font: inherit; color: inherit; }
+
+/* --------------------------------------------------------------------------
+   STAGE — widescreen theatrical cabinet
+   -------------------------------------------------------------------------- */
+
+.app {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 1rem 0 1rem;
+}
+
+.stage-wrap {
+  position: relative;
+  width: min(96vw, calc((100dvh - 2rem) * 16 / 9), 1800px);
+  aspect-ratio: 16 / 9;
+  max-height: 92dvh;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid rgba(179, 144, 79, 0.75);
+  border-radius: 3px;
+  background: var(--night);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.8),
+    0 2px 0 rgba(239, 217, 161, 0.08) inset,
+    0 60px 140px -50px rgba(0, 0, 0, 0.9);
+}
+
+/* inner brass hairline — the elegant frame */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  border: 1px solid rgba(224, 193, 132, 0.28);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 24;
+}
+
+/* --------------------------------------------------------------------------
+   SCENES — modular collage layers
+   -------------------------------------------------------------------------- */
+
+.scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+}
+
+.scene.is-active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.9s ease;
+}
+
+/* everything decorative sleeps while its scene is off-stage */
+.scene:not(.is-active) *,
+.scene:not(.is-active)::before,
+.scene:not(.is-active)::after {
+  animation-play-state: paused !important;
+}
+
+/* painted fallback grounds, per world — shown until (or instead of)
+   the background asset; tuned to harmonise with each collage */
+.scene--madeleine {
+  background:
+    radial-gradient(80% 60% at 22% 18%, rgba(157, 184, 255, 0.14), transparent 60%),
+    radial-gradient(70% 55% at 50% 96%, rgba(179, 144, 79, 0.16), transparent 60%),
+    linear-gradient(168deg, #131c31 0%, #0d1424 55%, #090f1c 100%);
+}
+
+.scene--cannoli {
+  background:
+    radial-gradient(75% 60% at 30% 24%, rgba(232, 150, 60, 0.16), transparent 62%),
+    radial-gradient(65% 55% at 78% 88%, rgba(126, 140, 70, 0.10), transparent 58%),
+    linear-gradient(165deg, #241a12 0%, #191009 55%, #100a06 100%);
+}
+
+.scene--napoleon {
+  background:
+    radial-gradient(70% 55% at 62% 20%, rgba(239, 230, 207, 0.10), transparent 60%),
+    radial-gradient(70% 60% at 18% 90%, rgba(179, 144, 79, 0.12), transparent 60%),
+    linear-gradient(170deg, #221b10 0%, #171208 60%, #0f0c06 100%);
+}
+
+.scene--petitfour {
+  background:
+    radial-gradient(70% 55% at 52% 16%, rgba(157, 184, 255, 0.16), transparent 60%),
+    radial-gradient(60% 50% at 84% 78%, rgba(255, 202, 122, 0.10), transparent 58%),
+    linear-gradient(166deg, #171a30 0%, #101226 58%, #0a0c1a 100%);
+}
+
+/* faint archival grain over the painted grounds */
+.scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.72 0 0 0 0 0.65 0 0 0 0 0.5 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- shared layer plumbing ---------- */
+
+.scene__layer {
+  position: absolute;
+  inset: -2.5%;
+  pointer-events: none;
+  transform: translate3d(
+    calc(var(--px, 0) * var(--depth, 0) * 1px),
+    calc(var(--py, 0) * var(--depth, 0) * 1px),
+    0);
+  transition: transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.scene__layer img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--bg-pos, 50% 50%);
+}
+
+.scene__background-layer { --depth: 1.5; z-index: 1; }
+.scene__character-layer  { --depth: 3.5; z-index: 3; }
+.scene__magic-layer      { --depth: 7;   z-index: 4; }
+.scene__foreground-layer { --depth: 9;   z-index: 8; }
+.scene__particles        { z-index: 6; }
+
+.scene__magic-layer img,
+.scene__character-layer img,
+.scene__foreground-layer img { object-fit: contain; }
+
+/* ---------- the dessert — an independent, data-positioned layer ---------- */
+
+.scene__dessert {
+  position: absolute;
+  left: var(--dessert-left, 50%);
+  top: var(--dessert-top, 60%);
+  width: var(--dessert-width, 32%);
+  aspect-ratio: 1;
+  z-index: 5;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  transform: translate(
+    calc(-50% + var(--px, 0) * 5px),
+    calc(-50% + var(--py, 0) * 5px))
+    scale(var(--bite-scale, 1));
+  transition: transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.25),
+    0 30px 70px -22px rgba(0, 0, 0, 0.85);
+}
+
+.scene__dessert:focus-visible {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 4px;
+}
+
+/* tactile but quiet: a short settle when bitten */
+.scene__dessert.is-biting {
+  --bite-scale: 0.965;
+  transition: transform 0.16s ease-out;
+}
+
+/* whole and bitten share one canvas; only opacity moves */
+.scene__dessert-image {
+  position: absolute;
+  max-width: none;
+  width: calc(var(--plate-zoom, 1) * 100%);
+  height: calc(var(--plate-zoom, 1) * 100%);
+  left: calc((100% - var(--plate-zoom, 1) * 100%) / 2);
+  top: calc((100% - var(--plate-zoom, 1) * 100%) / 2 + var(--plate-shift-y, 0%));
+  object-fit: cover;
+  transition: opacity 0.65s ease, filter 1.2s ease;
+}
+
+.scene__dessert-image--bitten { opacity: 0; }
+.scene__dessert.is-bitten .scene__dessert-image--whole { opacity: 0; }
+.scene__dessert.is-bitten .scene__dessert-image--bitten { opacity: 1; }
+
+/* the dessert warms when approached */
+@media (hover: hover) {
+  .scene__dessert::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(255, 204, 120, 0.22), transparent 72%);
+    opacity: 0;
+    transition: opacity 1.4s ease;
+    pointer-events: none;
+  }
+  .scene__dessert:hover::after { opacity: 1; }
+  .scene__dessert:hover .scene__dessert-image { filter: brightness(1.06) saturate(1.04); }
+}
+
+/* missing assets never break the composition */
+.scene--no-dessert .scene__dessert { display: none; }
+
+/* ---------- particles (lightweight generated SVG) ---------- */
+
+.scene__particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+
+/* movement becomes noticeable only after the viewer stays */
+.scene.is-settled .scene__particles { opacity: 1; }
+
+.particle { opacity: 0; }
+
+.particle--rise   { animation: particleRise var(--dur, 16s) ease-in-out var(--delay, 0s) infinite; }
+.particle--fall   { animation: particleFall var(--dur, 16s) ease-in-out var(--delay, 0s) infinite; }
+.particle--toward { animation: particleToward var(--dur, 16s) ease-in var(--delay, 0s) infinite; }
+.particle--twinkle{ animation: particleTwinkle var(--dur, 12s) ease-in-out var(--delay, 0s) infinite; }
+
+@keyframes particleRise {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  18%  { opacity: var(--peak, 0.5); }
+  60%  { opacity: var(--peak, 0.5); }
+  100% { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, -14px)); }
+}
+
+@keyframes particleFall {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  20%  { opacity: var(--peak, 0.5); }
+  70%  { opacity: var(--peak, 0.45); }
+  100% { opacity: 0; transform: translate(var(--dx, 0px), var(--dy, 12px)); }
+}
+
+@keyframes particleToward {
+  0%   { opacity: 0; transform: translate(0, 0); }
+  22%  { opacity: var(--peak, 0.6); }
+  78%  { opacity: var(--peak, 0.5); }
+  100% { opacity: 0; transform: translate(var(--dx, -8px), var(--dy, -10px)); }
+}
+
+@keyframes particleTwinkle {
+  0%, 100% { opacity: calc(var(--peak, 0.6) * 0.25); }
+  50%      { opacity: var(--peak, 0.6); }
+}
+
+/* ---------- ambient life, 3–5 quiet details per world ---------- */
+
+/* magic overlays */
+.scene.is-settled.scene--madeleine .scene__magic-layer img {
+  animation: steamBreathe 19s ease-in-out infinite;
+}
+.scene.is-settled.scene--cannoli .scene__magic-layer img {
+  animation: peelCoil 24s ease-in-out infinite;
+}
+.scene.is-settled.scene--napoleon .scene__magic-layer img {
+  animation: birdsRise 26s ease-in-out infinite;
+}
+.scene.is-settled.scene--petitfour .scene__magic-layer img {
+  animation: portalTurn 240s linear infinite;
+}
+
+/* characters: rare, tiny movements */
+.scene.is-settled.scene--madeleine .scene__character-layer img {
+  animation: rareTwitch 16s ease-in-out infinite;
+}
+.scene.is-settled.scene--cannoli .scene__character-layer img {
+  animation: rareBow 19s ease-in-out infinite;
+}
+.scene.is-settled.scene--petitfour .scene__character-layer img {
+  animation: rareNod 21s ease-in-out infinite;
+}
+
+/* the Napoleon memory portrait appears only for the still viewer */
+.scene--napoleon .scene__character-layer {
+  opacity: 0;
+  transition: opacity 6s ease;
+}
+body.is-idle .scene--napoleon.is-active.is-settled .scene__character-layer { opacity: 0.4; }
+
+/* foreground paper stirs, barely */
+.scene.is-settled .scene__foreground-layer img {
+  animation: paperStir 28s ease-in-out infinite alternate;
+}
+
+/* light breathing inside cannoli's arch — no asset required */
+.scene--cannoli .scene__light {
+  position: absolute;
+  left: 20%;
+  top: 18%;
+  width: 30%;
+  height: 42%;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 226, 168, 0.30), transparent 72%);
+  mix-blend-mode: soft-light;
+  opacity: 0.4;
+}
+.scene.is-settled.scene--cannoli .scene__light {
+  animation: lightBreathe 12s ease-in-out infinite;
+}
+
+@keyframes steamBreathe {
+  0%, 100% { transform: translateY(0.6%); opacity: 0.85; }
+  50%      { transform: translateY(-1%); opacity: 1; }
+}
+
+@keyframes peelCoil {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50%      { transform: rotate(1.6deg) translateY(-0.5%); }
+}
+
+@keyframes birdsRise {
+  0%, 100% { transform: translateY(0.5%); opacity: 0.9; }
+  50%      { transform: translateY(-0.9%); opacity: 1; }
+}
+
+@keyframes portalTurn {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes rareTwitch {
+  0%, 91%, 100% { transform: none; }
+  93% { transform: rotate(0.7deg); }
+  95% { transform: rotate(-0.45deg); }
+  97% { transform: none; }
+}
+
+@keyframes rareBow {
+  0%, 90%, 100% { transform: none; }
+  94% { transform: rotate(1deg) translateY(0.4%); }
+  98% { transform: none; }
+}
+
+@keyframes rareNod {
+  0%, 92%, 100% { transform: none; }
+  95% { transform: translateY(0.5%); }
+  98% { transform: none; }
+}
+
+@keyframes paperStir {
+  from { transform: translateY(0) rotate(0deg); }
+  to   { transform: translateY(-0.6%) rotate(0.25deg); }
+}
+
+@keyframes lightBreathe {
+  0%, 100% { opacity: 0.28; }
+  50%      { opacity: 0.55; }
+}
+
+/* crumbs of the bite (elements created by script.js, animated by WAAPI) */
+.crumb {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 40% 60% 55% 45%;
+  pointer-events: none;
+  z-index: 7;
+}
+
+/* --------------------------------------------------------------------------
+   TOUCH DRIFT — no cursor, so the scene breathes on its own, very slowly
+   -------------------------------------------------------------------------- */
+
+body.is-touch .scene.is-active.is-settled .scene__layer {
+  animation: sceneDrift 52s ease-in-out infinite alternate;
+}
+
+body.is-touch .scene.is-active.is-settled .scene__dessert {
+  animation: dessertDrift 52s ease-in-out infinite alternate;
+}
+
+@keyframes sceneDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   {
+    transform: translate3d(
+      calc(var(--depth, 0) * 0.55px),
+      calc(var(--depth, 0) * -0.4px),
+      0);
+  }
+}
+
+@keyframes dessertDrift {
+  from { transform: translate(-50%, -50%) scale(var(--bite-scale, 1)); }
+  to   { transform: translate(calc(-50% + 2.6px), calc(-50% - 2px)) scale(var(--bite-scale, 1)); }
+}
+
+/* --------------------------------------------------------------------------
+   TORN-PAPER TRANSITION
+   -------------------------------------------------------------------------- */
+
+.rip {
+  position: absolute;
+  inset: -2% -4%;
+  z-index: 30;
+  pointer-events: none;
+  transform: translateX(-118%);
+  visibility: hidden;
+}
+
+.rip__svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 34px rgba(0, 0, 0, 0.65));
+}
+
+.stage.is-ripping .rip {
+  visibility: visible;
+  animation: ripSweep 1.12s cubic-bezier(0.55, 0.06, 0.28, 0.96) both;
+}
+
+@keyframes ripSweep {
+  0%   { transform: translateX(-118%); }
+  42%  { transform: translateX(-8%); }
+  58%  { transform: translateX(8%); }
+  100% { transform: translateX(118%); }
+}
+
+/* --------------------------------------------------------------------------
+   MASTHEAD
+   -------------------------------------------------------------------------- */
+
+.masthead {
+  position: absolute;
+  top: 3.4%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  padding: 0 12%;
+}
+
+.masthead__eyebrow {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.55rem, 0.9vw, 0.78rem);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: rgba(224, 193, 132, 0.82);
+  margin-bottom: 0.5em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+}
+
+.masthead__title {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2.6vw, 2.4rem);
+  letter-spacing: 0.045em;
+  color: var(--parchment-bright);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85), 0 0 46px rgba(11, 18, 32, 0.9);
+}
+
+/* --------------------------------------------------------------------------
+   STRIP — dessert label along the lower edge
+   -------------------------------------------------------------------------- */
+
+.strip {
+  position: absolute;
+  left: 3.2%;
+  right: 24%;
+  bottom: 4.2%;
+  z-index: 21;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.6rem;
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.strip.is-hushed {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.strip__text { max-width: 34rem; }
+
+.strip__context {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.55rem, 0.85vw, 0.75rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(224, 193, 132, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.strip__name {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.9vw, 2.7rem);
+  line-height: 1.04;
+  color: var(--parchment-bright);
+  margin: 0.12em 0 0.14em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+}
+
+.strip__line {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.15vw, 1.08rem);
+  color: rgba(242, 234, 214, 0.88);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+}
+
+.strip__bite {
+  flex: 0 0 auto;
+  font-family: var(--serif-caps);
+  font-size: clamp(0.62rem, 0.9vw, 0.8rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass-pale);
+  background: rgba(11, 18, 32, 0.55);
+  border: 1px solid rgba(224, 193, 132, 0.55);
+  border-radius: 2px;
+  padding: 0.85em 1.6em;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+  margin-bottom: 0.35rem;
+}
+
+.strip__bite:hover,
+.strip__bite:focus-visible {
+  border-color: var(--brass-bright);
+  color: #fff6dd;
+  background: rgba(11, 18, 32, 0.75);
+}
+
+.strip__bite:focus-visible {
+  outline: 2px solid var(--brass-bright);
+  outline-offset: 3px;
+}
+
+.bite-hint {
+  position: absolute;
+  left: 50%;
+  top: 28.5%;
+  transform: translateX(-50%);
+  z-index: 22;
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  color: rgba(242, 234, 214, 0.9);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  pointer-events: none;
+}
+
+.bite-hint.is-visible { opacity: 1; }
+
+/* --------------------------------------------------------------------------
+   DIAL — brass-and-blue rotary selector, lower right
+   -------------------------------------------------------------------------- */
+
+.dial {
+  position: absolute;
+  right: -1.5%;
+  bottom: -7%;
+  width: clamp(150px, 14.5vw, 236px);
+  aspect-ratio: 1;
+  z-index: 40;
+  user-select: none;
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+}
+
+.dial__art,
+.dial__fallbackFace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dial__fallbackFace { visibility: hidden; }
+.dial--noart .dial__fallbackFace { visibility: visible; }
+.dial--noart .dial__art { display: none; }
+
+.dial__hub {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dial__handleGroup {
+  transform: rotate(var(--angle, 0deg));
+  transition: transform 0.95s cubic-bezier(0.34, 1.28, 0.4, 1); /* mechanical overshoot */
+}
+
+.dial.is-clicked .dial__tipGlint { animation: tipGlint 0.7s ease-out both; }
+.dial.is-clicked .dial__clickGlow { animation: clickGlow 0.7s ease-out both; }
+
+@keyframes tipGlint {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes clickGlow {
+  0%   { opacity: 0; transform: scale(0.7); }
+  30%  { opacity: 0.55; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+
+/* four clickable sectors over the dial quadrants */
+.dial__sector {
+  position: absolute;
+  width: 34%;
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.dial__sector--top    { left: 33%; top: 2%; }
+.dial__sector--right  { right: 2%; top: 33%; }
+.dial__sector--bottom { left: 33%; bottom: 2%; }
+.dial__sector--left   { left: 2%; top: 33%; }
+
+.dial__sector:hover { box-shadow: 0 0 0 1px rgba(224, 193, 132, 0.45), 0 0 22px rgba(224, 193, 132, 0.2) inset; }
+
+.dial__sector:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--brass-bright), 0 0 26px rgba(224, 193, 132, 0.3) inset;
+}
+
+.dial__sector[aria-checked="true"] { box-shadow: 0 0 0 1px rgba(224, 193, 132, 0.3); }
+
+/* --------------------------------------------------------------------------
+   THRESHOLD
+   -------------------------------------------------------------------------- */
+
+.threshold {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 1.4rem;
+  background:
+    radial-gradient(110% 90% at 50% 0%, rgba(157, 184, 255, 0.07), transparent 55%),
+    linear-gradient(rgba(7, 12, 23, 0.96), rgba(7, 12, 23, 0.98));
+  transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+}
+
+.threshold.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.threshold__card {
+  max-width: 34rem;
+  width: 100%;
+  text-align: center;
+  border: 1px solid rgba(179, 144, 79, 0.55);
+  border-radius: 3px;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(157, 184, 255, 0.07), transparent 55%),
+    linear-gradient(160deg, #121a2e, #0b1220);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 1px 0 rgba(239, 217, 161, 0.07) inset,
+    0 50px 110px -40px rgba(0, 0, 0, 0.95);
+  padding: clamp(1.8rem, 4.5vh, 3rem) clamp(1.4rem, 4vw, 3rem);
+  max-height: 92dvh;
+  overflow-y: auto;
+}
+
+.threshold__eyebrow {
+  font-family: var(--serif-caps);
+  font-size: 0.68rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(224, 193, 132, 0.8);
+  margin-bottom: 1.1rem;
+}
+
+.threshold__title {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: clamp(1.9rem, 5.4vw, 3rem);
+  line-height: 1.08;
+  color: var(--parchment-bright);
+  margin-bottom: 1.1rem;
+}
+
+.threshold__lead {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+  color: var(--brass-pale);
+  margin: 1.3rem 0 1.35rem;
+}
+
+.threshold__body {
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  line-height: 1.65;
+  color: rgba(242, 234, 214, 0.88);
+  margin-bottom: 1rem;
+}
+
+.threshold__wink {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: rgba(224, 193, 132, 0.75);
+  margin: 1.2rem 0 1.6rem;
+}
+
+.threshold__enter {
+  font-family: var(--serif-caps);
+  font-size: 0.8rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #16100a;
+  background: linear-gradient(180deg, var(--brass-pale), var(--brass-bright) 55%, var(--brass));
+  border: 1px solid rgba(77, 58, 28, 0.9);
+  border-radius: 2px;
+  padding: 1em 2.2em;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -12px rgba(179, 144, 79, 0.65);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.threshold__enter:hover,
+.threshold__enter:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px -12px rgba(179, 144, 79, 0.8);
+}
+
+.threshold__enter:focus-visible {
+  outline: 2px solid var(--brass-pale);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   LEAF OVERLAY — the cultural record
+   -------------------------------------------------------------------------- */
+
+.veil[hidden] { display: none; }
+
+.veil {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: clamp(0.8rem, 3vh, 2rem);
+  background: rgba(7, 12, 23, 0.82);
+}
+
+.leaf {
+  position: relative;
+  width: min(46rem, 100%);
+  max-height: 90dvh;
+  overflow-y: auto;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 28% 8%, rgba(255, 252, 242, 0.75), transparent 60%),
+    radial-gradient(ellipse at 84% 94%, rgba(150, 110, 60, 0.15), transparent 55%),
+    linear-gradient(163deg, #f0e8d3, #e3d6b8);
+  border: 1px solid #cdb98d;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 60px 130px -40px rgba(0, 0, 0, 0.95);
+  padding: clamp(1.6rem, 4vh, 2.8rem) clamp(1.3rem, 4vw, 2.9rem) clamp(1.4rem, 3vh, 2.2rem);
+}
+
+.leaf__close {
+  position: sticky;
+  top: 0;
+  float: right;
+  margin: -0.6rem -0.6rem 0 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid rgba(93, 81, 64, 0.4);
+  border-radius: 50%;
+  background: rgba(240, 232, 211, 0.9);
+  color: var(--ink-soft);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.leaf__close:hover,
+.leaf__close:focus-visible { border-color: var(--ink-soft); color: var(--ink); }
+
+.leaf__close:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.leaf__catalogue {
+  font-family: var(--serif-caps);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #7a5c2e;
+  margin-bottom: 0.5rem;
+}
+
+.leaf__title {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
+  line-height: 1.05;
+  margin-bottom: 0.9rem;
+}
+
+.leaf__epigraph {
+  border-left: 2px solid rgba(156, 123, 46, 0.5);
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.leaf__epigraph blockquote {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #4c4133;
+}
+
+.leaf__epigraph figcaption {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+}
+
+.leaf__section { margin-bottom: 1.35rem; }
+
+.leaf__heading {
+  font-family: var(--serif-caps);
+  font-weight: 400;
+  font-size: 0.78rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #7a5c2e;
+  margin-bottom: 0.45rem;
+}
+
+.leaf__section p {
+  font-size: 1.02rem;
+  line-height: 1.62;
+}
+
+.leaf__aftertaste {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: 1.12rem;
+  color: #4c4133;
+}
+
+.leaf__recipeNote {
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.9rem;
+}
+
+.leaf__columns {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.6rem;
+}
+
+.leaf__subheading {
+  font-family: var(--serif-caps);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #7a5c2e;
+  margin-bottom: 0.5rem;
+}
+
+.leaf__columns ul,
+.leaf__columns ol {
+  padding-left: 1.1rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+.leaf__columns li { margin-bottom: 0.3rem; }
+
+.leaf__actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.7rem;
+}
+
+.leaf__save,
+.leaf__dismiss {
+  font-family: var(--serif-caps);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  padding: 0.9em 1.7em;
+  cursor: pointer;
+}
+
+.leaf__save {
+  color: #f6ecd6;
+  background: linear-gradient(180deg, #8a6b35, #6f5628);
+  border: 1px solid #4d3a1c;
+  box-shadow: 0 10px 22px -10px rgba(77, 58, 28, 0.8);
+}
+
+.leaf__save:hover,
+.leaf__save:focus-visible { background: linear-gradient(180deg, #9c7b3e, #7d6132); }
+
+.leaf__dismiss {
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1px solid rgba(93, 81, 64, 0.45);
+}
+
+.leaf__dismiss:hover,
+.leaf__dismiss:focus-visible { border-color: var(--ink-soft); color: var(--ink); }
+
+.leaf__save:focus-visible,
+.leaf__dismiss:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.leaf__saveHint {
+  font-style: italic;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 0.55rem;
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE — below ~900px the cabinet turns portrait
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .app { padding: 0.6rem 0 5.4rem; }
+
+  .stage-wrap {
+    width: min(96vw, calc((100dvh - 9rem) * 3 / 4));
+    aspect-ratio: 3 / 4;
+    max-height: none;
+  }
+
+  .masthead { top: 2.6%; padding: 0 6%; }
+
+  .strip {
+    left: 4%;
+    right: 4%;
+    bottom: 3.4%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .strip__name { font-size: clamp(1.4rem, 6.4vw, 2rem); }
+
+  .strip__bite { margin-bottom: 0; padding: 0.8em 1.5em; }
+
+  .dial {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: auto;
+    top: calc(100% - clamp(46px, 14vw, 70px));
+    width: clamp(132px, 38vw, 175px);
+  }
+
+  .bite-hint { top: 34%; }
+
+  .leaf__columns { grid-template-columns: 1fr; gap: 1.1rem; }
+}
+
+/* --------------------------------------------------------------------------
+   REDUCED MOTION
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .scene__layer,
+  .scene__dessert,
+  .strip,
+  .threshold,
+  .dial__handleGroup {
+    transition-duration: 0.01ms !important;
+  }
+
+  .scene__layer,
+  .scene__dessert {
+    transform: none;
+  }
+
+  .scene__dessert { transform: translate(-50%, -50%); }
+
+  .scene__particles,
+  .scene.is-settled .scene__particles { opacity: 0; }
+
+  .scene *,
+  .rip,
+  .dial * {
+    animation: none !important;
+  }
+
+  .scene--napoleon .scene__character-layer { transition-duration: 0.01ms !important; }
+}
+
+/* --------------------------------------------------------------------------
+   PRINT — the collectible cultural recipe card
+   -------------------------------------------------------------------------- */
+
+.print-card { display: none; }
+
+@media print {
+  @page { margin: 1.1cm; }
+
+  html, body {
+    background: #fffdf6 !important;
+    color: #2d2216;
+    overflow: visible;
+  }
+
+  .app,
+  .threshold,
+  .veil,
+  .dial { display: none !important; }
+
+  .print-card {
+    display: block;
+    font-family: "EB Garamond", Georgia, serif;
+    color: #2d2216;
+    max-width: 17cm;
+    margin: 0 auto;
+  }
+
+  .print-card__project {
+    text-align: center;
+    font-family: "IM Fell English SC", serif;
+    font-size: 10.5pt;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #5e4a22;
+    margin-bottom: 0.12cm;
+  }
+
+  .print-card__object {
+    text-align: center;
+    font-style: italic;
+    font-size: 10pt;
+    color: #6a5a40;
+    margin-bottom: 0.4cm;
+  }
+
+  .print-card__figure {
+    margin: 0 0 0.45cm;
+    text-align: center;
+    break-inside: avoid;
+  }
+
+  .print-card__figure.is-hidden { display: none; }
+
+  .print-card__image {
+    display: block;
+    width: 100%;
+    max-height: 6cm;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+
+  .print-card__name {
+    text-align: center;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 600;
+    font-size: 22pt;
+    line-height: 1.05;
+    margin-bottom: 0.1cm;
+  }
+
+  .print-card__context {
+    text-align: center;
+    font-family: "IM Fell English SC", serif;
+    font-size: 9pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #5e4a22;
+    margin-bottom: 0.28cm;
+  }
+
+  .print-card__aftertaste {
+    text-align: center;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-style: italic;
+    font-size: 12pt;
+    color: #4a3c28;
+    margin-bottom: 0.3cm;
+  }
+
+  .print-card__vignette {
+    font-size: 10pt;
+    line-height: 1.5;
+    font-style: italic;
+    color: #4a3c28;
+    text-align: center;
+    max-width: 14.5cm;
+    margin: 0 auto 0.45cm;
+  }
+
+  .print-card__recipeTitle {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-weight: 600;
+    font-size: 15pt;
+    border-top: 0.5pt solid #a08a5c;
+    padding-top: 0.3cm;
+    margin-bottom: 0.08cm;
+    text-align: center;
+  }
+
+  .print-card__note {
+    text-align: center;
+    font-style: italic;
+    font-size: 9.5pt;
+    color: #6a5a40;
+    margin-bottom: 0.35cm;
+  }
+
+  .print-card__columns {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 0.7cm;
+    break-inside: avoid;
+    margin-bottom: 0.4cm;
+  }
+
+  .print-card__columns h3,
+  .print-card__takeHome h3 {
+    font-family: "IM Fell English SC", serif;
+    font-weight: 400;
+    font-size: 9.5pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #5e4a22;
+    margin-bottom: 0.15cm;
+  }
+
+  .print-card__columns ul,
+  .print-card__columns ol {
+    padding-left: 0.45cm;
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+
+  .print-card__columns li {
+    margin-bottom: 0.06cm;
+    break-inside: avoid;
+  }
+
+  .print-card__takeHome {
+    border-top: 0.5pt solid #a08a5c;
+    padding-top: 0.28cm;
+    break-inside: avoid;
+  }
+
+  .print-card__takeHome p {
+    font-size: 10pt;
+    font-style: italic;
+    line-height: 1.5;
+    color: #4a3c28;
+  }
+}
