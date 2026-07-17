@@ -40,6 +40,13 @@
         <h1 class="masthead__title">The Patisserie of the Unconscious</h1>
       </header>
 
+      <!-- Clear guidance after the bite. It never intercepts clicks. -->
+      <div class="quest-guide" id="questGuide" hidden aria-live="polite">
+        <p class="quest-guide__eyebrow" id="questEyebrow">The world is open</p>
+        <p class="quest-guide__text" id="questText">Four fragments have awakened. Find the four glowing marks in the scene.</p>
+        <p class="quest-guide__progress" id="questProgress">0 of 4 found</p>
+      </div>
+
       <!-- fragment panel (hotspot content), injected into the stage -->
       <div class="fragment" id="fragment" role="dialog" aria-modal="false" aria-labelledby="fragmentTitle" hidden>
         <button class="fragment__close" id="fragmentClose" type="button" aria-label="Close fragment">×</button>
@@ -69,6 +76,12 @@
       </div>
 
       <p class="bite-hint" id="biteHint" aria-hidden="true">take a bite</p>
+
+      <!-- Appears only after all four fragments have been explored. -->
+      <button class="stage-cta" id="stageCta" type="button" hidden>
+        <span class="stage-cta__title">Explore the cultural story</span>
+        <span class="stage-cta__note">History · aftertaste · recipe</span>
+      </button>
     </section>
 
     <div class="dial" id="dial" role="radiogroup" aria-label="Dessert selector. Use left and right arrow keys, or choose a dessert directly.">

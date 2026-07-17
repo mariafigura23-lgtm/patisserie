@@ -1,3 +1,11 @@
-This build includes the hotspot/mobile layout fixes plus a new magical world-fold transition.
+This version adds explicit post-bite guidance and a clearer final action.
 
-Replace index.html, styles.css and script.js in the repository. The assets folder does not need to change for the transition.
+Changes:
+- central “The world is open” instruction after every bite
+- persistent progress: 0–4 fragments found
+- brighter, higher-contrast hotspot rings and labels
+- hotspot labels remain visible on mobile until explored
+- final central button renamed to “Explore the cultural story” with “History · aftertaste · recipe”
+- existing magical world transitions and four-fragment completion spell preserved
+
+Replace index.html, styles.css, and script.js. No new image assets are required.

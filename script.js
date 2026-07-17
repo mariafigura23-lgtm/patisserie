@@ -346,7 +346,7 @@ const WORLDS = [
 /* clockwise order around the dial, for arrow keys and swiping */
 const DIAL_ORDER = ["madeleine", "napoleon", "petitfour", "cannoli"];
 
-const HOTSPOT_INSTRUCTION = "Four fragments have awakened. Find them.";
+const HOTSPOT_INSTRUCTION = "Four fragments have awakened. Find the four glowing marks.";
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileLayout = window.matchMedia("(max-width: 900px)");
@@ -355,7 +355,7 @@ const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 /* per-world session state — preserved when returning to a world */
 const worldState = {};
 WORLDS.forEach(w => {
-  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, loaded: false };
+  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, completionPending: false, loaded: false };
 });
 
 /* --------------------------------------------------------------------------
@@ -682,8 +682,56 @@ const stripDots = document.getElementById("stripDots");
 const stripDotsLabel = document.getElementById("stripDotsLabel");
 const beginAgainBtn = document.getElementById("beginAgain");
 const biteHint = document.getElementById("biteHint");
+const questGuide = document.getElementById("questGuide");
+const questEyebrow = document.getElementById("questEyebrow");
+const questText = document.getElementById("questText");
+const questProgress = document.getElementById("questProgress");
+const stageCta = document.getElementById("stageCta");
 
 let statusTimer = null;
+let questTimer = null;
+
+function updateQuestGuide(world) {
+  const state = worldState[world.id];
+
+  if (!state.bitten || state.complete) {
+    questGuide.hidden = true;
+    questGuide.classList.remove("is-prominent", "is-compact");
+  } else {
+    questGuide.hidden = false;
+    questEyebrow.textContent = "The world is open";
+    questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
+    questProgress.textContent = `${state.explored.size} of 4 found`;
+    if (!questGuide.classList.contains("is-prominent")) {
+      questGuide.classList.add("is-compact");
+    }
+  }
+
+  if (state.complete) {
+    stageCta.hidden = false;
+    requestAnimationFrame(() => stageCta.classList.add("is-visible"));
+  } else {
+    stageCta.classList.remove("is-visible");
+    stageCta.hidden = true;
+  }
+}
+
+function startQuestGuide(world, scene) {
+  clearTimeout(questTimer);
+  questGuide.hidden = false;
+  questGuide.classList.remove("is-compact");
+  questGuide.classList.add("is-prominent");
+  questEyebrow.textContent = "The world is open";
+  questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
+  questProgress.textContent = "0 of 4 found";
+  scene.classList.add("is-guiding");
+
+  questTimer = window.setTimeout(() => {
+    questGuide.classList.remove("is-prominent");
+    questGuide.classList.add("is-compact");
+    scene.classList.remove("is-guiding");
+  }, 6500);
+}
 
 function renderStrip(world) {
   const state = worldState[world.id];
@@ -692,6 +740,7 @@ function renderStrip(world) {
   stripContext.textContent = world.context;
   stripName.textContent = world.name;
   stripLine.textContent = world.shortLine;
+  updateQuestGuide(world);
 
   const dots = Array.from(stripDots.children);
   dots.forEach((d, i) => d.classList.toggle("is-filled", i < state.explored.size));
@@ -715,11 +764,10 @@ function renderStrip(world) {
     stripStatus.textContent = HOTSPOT_INSTRUCTION;
     stripDots.hidden = false;
   } else {
-    stripAction.hidden = false;
-    stripAction.textContent = "Take its taste home";
+    stripAction.hidden = true;
     stripAction.dataset.mode = "home";
     stripStatus.hidden = false;
-    stripStatus.textContent = "The world is complete.";
+    stripStatus.textContent = "All four fragments found.";
     stripDots.hidden = false;
   }
 }
@@ -729,12 +777,15 @@ stripAction.addEventListener("click", () => {
   else takeBite();
 });
 
+stageCta.addEventListener("click", openLeaf);
+
 beginAgainBtn.addEventListener("click", () => {
   const world = worldById(currentId);
   const state = worldState[world.id];
   state.bitten = false;
   state.explored.clear();
   state.complete = false;
+  state.completionPending = false;
   const scene = sceneById(world.id);
   scene.classList.remove("is-bitten-world", "is-complete");
   const dessert = scene.querySelector(".scene__dessert");
@@ -743,7 +794,10 @@ beginAgainBtn.addEventListener("click", () => {
     h.classList.remove("is-explored", "is-open");
     h.setAttribute("aria-expanded", "false");
   });
-  closeFragment(false);
+  closeFragment(false, true);
+  clearTimeout(questTimer);
+  scene.classList.remove("is-guiding");
+  questGuide.classList.remove("is-prominent", "is-compact");
   renderStrip(world);
 });
 
@@ -813,7 +867,7 @@ function selectWorld(id, instant = false) {
   currentId = id;
   transitioning = true;
 
-  closeFragment(false);
+  closeFragment(false, true);
   clearTimeout(hintTimer);
   biteHint.classList.remove("is-visible");
 
@@ -1041,12 +1095,10 @@ function finishBite(world, scene) {
   state.bitten = true;
   scene.classList.add("is-bitten-world");
   renderStrip(world);
+  startQuestGuide(world, scene);
 
-  /* a quiet sequence of instructions */
-  stripStatus.textContent = "The world has opened.";
-  statusTimer = setTimeout(() => {
-    stripStatus.textContent = HOTSPOT_INSTRUCTION;
-  }, 2600);
+  /* The lower caption echoes the instruction; the central guide makes the next action unmistakable. */
+  stripStatus.textContent = HOTSPOT_INSTRUCTION;
 }
 
 function takeBite() {
@@ -1130,22 +1182,39 @@ function openFragment(world, spot, hotspotBtn) {
   if (!state.explored.has(spot.key)) {
     state.explored.add(spot.key);
     hotspotBtn.classList.add("is-explored");
+    clearTimeout(questTimer);
+    activeScene()?.classList.remove("is-guiding");
+    questGuide.classList.remove("is-prominent");
+    questGuide.classList.add("is-compact");
     renderStrip(world);
     if (state.explored.size === 4 && !state.complete) {
-      setTimeout(() => completeWorld(world), 900);
+      /* Let the visitor finish reading the fourth fragment.
+         The completion spell begins when that fragment is closed. */
+      state.completionPending = true;
     }
   }
 }
 
-function closeFragment(returnFocus) {
+function closeFragment(returnFocus, suppressCompletion = false) {
   if (fragment.hidden) return;
+
+  const closingWorld = currentId ? worldById(currentId) : null;
   fragment.hidden = true;
+
   if (fragmentSource) {
     fragmentSource.classList.remove("is-open");
     fragmentSource.setAttribute("aria-expanded", "false");
     if (returnFocus) fragmentSource.focus();
   }
   fragmentSource = null;
+
+  if (!suppressCompletion && closingWorld) {
+    const state = worldState[closingWorld.id];
+    if (state.completionPending && !state.complete) {
+      state.completionPending = false;
+      window.setTimeout(() => completeWorld(closingWorld), 220);
+    }
+  }
 }
 
 fragmentClose.addEventListener("click", () => closeFragment(true));
@@ -1154,25 +1223,65 @@ fragmentClose.addEventListener("click", () => closeFragment(true));
    COMPLETION — the world connects
    -------------------------------------------------------------------------- */
 
+function buildCompletionSpell(scene) {
+  scene.querySelector(".completion-spell")?.remove();
+
+  const spell = document.createElement("div");
+  spell.className = "completion-spell";
+  spell.setAttribute("aria-hidden", "true");
+
+  const rings = Array.from({ length: 3 }, (_, index) =>
+    `<span class="completion-spell__ring completion-spell__ring--${index + 1}"></span>`
+  ).join("");
+
+  const sparks = Array.from({ length: 14 }, (_, index) =>
+    `<i class="completion-spell__spark" style="--spark-index:${index};--spark-delay:${(index % 5) * 45}ms"></i>`
+  ).join("");
+
+  spell.innerHTML = `${rings}<span class="completion-spell__core"></span>${sparks}`;
+  scene.appendChild(spell);
+  return spell;
+}
+
 function completeWorld(world) {
   const state = worldState[world.id];
+  if (state.complete) return;
+
   state.complete = true;
+  state.completionPending = false;
+
   const scene = sceneById(world.id);
+  const dessert = scene.querySelector(".scene__dessert");
   scene.classList.add("is-complete");
 
-  /* a restrained transformation: particles brighten, the magic gains presence */
-  if (!prefersReducedMotion.matches) {
-    const magicImg = scene.querySelector(".scene__magic-layer img");
-    if (magicImg) {
-      magicImg.animate([
-        { filter: "brightness(1)" },
-        { filter: "brightness(1.3)", offset: 0.4 },
-        { filter: "brightness(1)" }
-      ], { duration: 2600, easing: "ease-in-out" });
-    }
+  if (prefersReducedMotion.matches) {
+    if (world.id === currentId) renderStrip(world);
+    return;
   }
 
-  if (world.id === currentId) renderStrip(world);
+  const spell = buildCompletionSpell(scene);
+  scene.classList.add("is-completing");
+  dessert?.classList.add("is-completing");
+
+  const magicImg = scene.querySelector(".scene__magic-layer img");
+  if (magicImg) {
+    magicImg.animate([
+      { filter: "brightness(1)", opacity: 0.88 },
+      { filter: "brightness(1.42) saturate(1.12)", opacity: 1, offset: 0.45 },
+      { filter: "brightness(1)", opacity: 1 }
+    ], { duration: 2300, easing: "ease-in-out" });
+  }
+
+  /* Reveal the final action after the magical gesture has become legible. */
+  window.setTimeout(() => {
+    if (world.id === currentId) renderStrip(world);
+  }, 900);
+
+  window.setTimeout(() => {
+    scene.classList.remove("is-completing");
+    dessert?.classList.remove("is-completing");
+    spell.remove();
+  }, 2500);
 }
 
 /* --------------------------------------------------------------------------
@@ -1254,7 +1363,7 @@ function openLeaf() {
   );
 
   fillPrintCard(world);
-  closeFragment(false);
+  closeFragment(false, true);
 
   lastFocused = document.activeElement;
   veil.hidden = false;

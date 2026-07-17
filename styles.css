@@ -397,6 +397,129 @@ button { font: inherit; color: inherit; }
 
 .scene.is-complete .scene__background-layer img { filter: brightness(1.05) saturate(1.04); }
 
+/* ---------- completion spell: four fragments become one world ---------- */
+
+.completion-spell {
+  position: absolute;
+  left: var(--dessert-left, 50%);
+  top: var(--dessert-top, 58%);
+  width: clamp(190px, 32vw, 460px);
+  aspect-ratio: 1;
+  z-index: 27;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(224, 193, 132, 0.32));
+}
+
+.completion-spell__ring,
+.completion-spell__core,
+.completion-spell__spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  pointer-events: none;
+}
+
+.completion-spell__ring {
+  border: 1px solid rgba(239, 217, 161, 0.82);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.completion-spell__ring--1 {
+  width: 36%;
+  height: 36%;
+  animation: completionRing 2.15s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.completion-spell__ring--2 {
+  width: 54%;
+  height: 54%;
+  border-style: dashed;
+  animation: completionRingReverse 2.25s cubic-bezier(0.22, 0.61, 0.36, 1) 80ms both;
+}
+
+.completion-spell__ring--3 {
+  width: 74%;
+  height: 74%;
+  border-color: rgba(157, 184, 255, 0.54);
+  animation: completionRing 2.35s cubic-bezier(0.22, 0.61, 0.36, 1) 150ms both;
+}
+
+.completion-spell__core {
+  width: 22%;
+  height: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 246, 221, 0.72), rgba(224, 193, 132, 0.18) 42%, transparent 72%);
+  transform: translate(-50%, -50%) scale(0.2);
+  opacity: 0;
+  animation: completionCore 2.05s ease-out 120ms both;
+}
+
+.completion-spell__spark {
+  --angle: calc(var(--spark-index) * 25.714deg);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--brass-pale);
+  box-shadow: 0 0 9px rgba(239, 217, 161, 0.9);
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-20px) scale(0.2);
+  animation: completionSpark 1.85s cubic-bezier(0.2, 0.7, 0.2, 1) var(--spark-delay) both;
+}
+
+.scene__dessert.is-completing .scene__dessert-inner {
+  animation: completionDessert 2.15s cubic-bezier(0.18, 0.74, 0.2, 1) both;
+}
+
+.scene.is-completing .hotspot {
+  animation: completionHotspot 1.25s ease-out both;
+}
+
+@keyframes completionDessert {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+  24%  { transform: translate3d(0, -4px, 0) rotate(-4deg) scale(1.035); }
+  52%  { transform: translate3d(0, -7px, 0) rotate(7deg) scale(1.075); }
+  76%  { transform: translate3d(0, -3px, 0) rotate(-2deg) scale(1.025); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+}
+
+@keyframes completionRing {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.28) rotate(0deg); }
+  24%  { opacity: 0.95; }
+  68%  { opacity: 0.62; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.18) rotate(390deg); }
+}
+
+@keyframes completionRingReverse {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.24) rotate(0deg); }
+  26%  { opacity: 0.9; }
+  72%  { opacity: 0.56; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1) rotate(-330deg); }
+}
+
+@keyframes completionCore {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  36%  { opacity: 0.92; transform: translate(-50%, -50%) scale(1.18); }
+  68%  { opacity: 0.48; transform: translate(-50%, -50%) scale(1.6); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.25); }
+}
+
+@keyframes completionSpark {
+  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-18px) scale(0.2); }
+  24%  { opacity: 1; }
+  72%  { opacity: 0.88; transform: translate(-50%, -50%) rotate(calc(var(--angle) + 150deg)) translateY(-38%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--angle) + 260deg)) translateY(-48%) scale(0.1); }
+}
+
+@keyframes completionHotspot {
+  0%   { filter: brightness(1); }
+  42%  { filter: brightness(1.7); }
+  100% { filter: brightness(0.9); }
+}
+
+
 /* ---------- particles (lightweight generated SVG) ---------- */
 
 .scene__particles {
@@ -484,12 +607,13 @@ button { font: inherit; color: inherit; }
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 24px;
-  height: 24px;
+  width: 29px;
+  height: 29px;
   transform: translate(-50%, -50%) rotate(-4deg);
-  border: 1.5px solid rgba(232, 200, 127, 0.85);
+  border: 2px solid rgba(255, 220, 136, 0.98);
   border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
-  box-shadow: 0 0 12px rgba(232, 200, 127, 0.35), 0 0 2px rgba(232, 200, 127, 0.5) inset;
+  background: rgba(7, 12, 23, 0.34);
+  box-shadow: 0 0 0 4px rgba(7, 12, 23, 0.30), 0 0 18px rgba(255, 210, 108, 0.78), 0 0 5px rgba(255, 238, 190, 0.75) inset;
   pointer-events: none;
 }
 
@@ -505,11 +629,12 @@ button { font: inherit; color: inherit; }
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  background: rgba(232, 200, 127, 0.9);
+  background: #fff0bd;
+  box-shadow: 0 0 10px rgba(255, 222, 142, 0.95);
   pointer-events: none;
 }
 
@@ -536,8 +661,12 @@ button { font: inherit; color: inherit; }
   font-size: clamp(0.58rem, 0.85vw, 0.74rem);
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--brass-pale);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95), 0 0 18px rgba(0, 0, 0, 0.8);
+  color: #fff0bd;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
+  background: rgba(7, 12, 23, 0.82);
+  border: 1px solid rgba(224, 193, 132, 0.42);
+  border-radius: 999px;
+  padding: 0.28rem 0.48rem 0.24rem;
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -549,6 +678,16 @@ button { font: inherit; color: inherit; }
 .hotspot.is-open .hotspot__label {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+.scene.is-guiding .hotspot:not(.is-explored) .hotspot__label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.scene.is-guiding .hotspot:not(.is-explored) .hotspot__ring {
+  animation-duration: 2.2s;
+  box-shadow: 0 0 0 5px rgba(7, 12, 23, 0.34), 0 0 26px rgba(255, 211, 105, 0.95), 0 0 7px rgba(255, 243, 204, 0.9) inset;
 }
 
 .hotspot:focus-visible {
@@ -1072,6 +1211,144 @@ button { font: inherit; color: inherit; }
 }
 
 .bite-hint.is-visible { opacity: 1; }
+
+
+/* --------------------------------------------------------------------------
+   QUEST GUIDE — makes the post-bite action unmistakable
+   -------------------------------------------------------------------------- */
+
+.quest-guide {
+  position: absolute;
+  left: 50%;
+  top: clamp(84px, 12vh, 122px);
+  z-index: 27;
+  width: min(560px, calc(100% - 2rem));
+  transform: translate(-50%, -6px) scale(0.98);
+  padding: 0.72rem 1.1rem 0.68rem;
+  text-align: center;
+  color: var(--parchment-bright);
+  background: linear-gradient(100deg, rgba(7, 12, 23, 0.10), rgba(7, 12, 23, 0.82), rgba(7, 12, 23, 0.10));
+  border-top: 1px solid rgba(224, 193, 132, 0.20);
+  border-bottom: 1px solid rgba(224, 193, 132, 0.34);
+  box-shadow: 0 16px 34px -26px rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease, transform 0.55s ease, padding 0.45s ease;
+}
+
+.quest-guide[hidden] { display: none; }
+
+.quest-guide.is-prominent,
+.quest-guide.is-compact {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.quest-guide.is-prominent {
+  padding-top: 0.9rem;
+  padding-bottom: 0.85rem;
+  animation: questArrival 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.quest-guide__eyebrow {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.58rem, 0.72vw, 0.72rem);
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+  margin-bottom: 0.24rem;
+}
+
+.quest-guide__text {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.25vw, 1.18rem);
+  line-height: 1.22;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.95);
+}
+
+.quest-guide__progress {
+  margin-top: 0.32rem;
+  font-family: var(--serif-caps);
+  font-size: clamp(0.52rem, 0.62vw, 0.64rem);
+  letter-spacing: 0.20em;
+  color: rgba(239, 217, 161, 0.82);
+  text-transform: uppercase;
+}
+
+.quest-guide.is-compact {
+  width: min(470px, calc(100% - 2rem));
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background: linear-gradient(100deg, transparent, rgba(7, 12, 23, 0.67), transparent);
+}
+
+.quest-guide.is-compact .quest-guide__eyebrow {
+  display: none;
+}
+
+.quest-guide.is-compact .quest-guide__text {
+  font-size: clamp(0.82rem, 1vw, 0.98rem);
+}
+
+@keyframes questArrival {
+  0% { opacity: 0; transform: translate(-50%, -12px) scale(0.96); }
+  65% { opacity: 1; transform: translate(-50%, 2px) scale(1.01); }
+  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+/* Final central action: clearer than “Take it home”. */
+.stage-cta {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  z-index: 29;
+  display: grid;
+  justify-items: center;
+  gap: 0.14rem;
+  min-width: min(330px, 72vw);
+  transform: translate(-50%, 14px) scale(0.96);
+  opacity: 0;
+  padding: 0.82rem 1.5rem 0.72rem;
+  color: #fff6dd;
+  background: linear-gradient(180deg, rgba(21, 29, 49, 0.94), rgba(7, 12, 23, 0.94));
+  border: 1px solid rgba(224, 193, 132, 0.82);
+  border-radius: 999px;
+  box-shadow: 0 14px 38px -18px rgba(0, 0, 0, 0.95), 0 0 25px rgba(224, 193, 132, 0.14);
+  cursor: pointer;
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.stage-cta[hidden] { display: none; }
+
+.stage-cta.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.stage-cta:hover,
+.stage-cta:focus-visible {
+  box-shadow: 0 18px 46px -18px rgba(0, 0, 0, 0.95), 0 0 32px rgba(224, 193, 132, 0.30);
+}
+
+.stage-cta:focus-visible {
+  outline: 2px solid var(--brass-pale);
+  outline-offset: 4px;
+}
+
+.stage-cta__title {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.68rem, 0.85vw, 0.82rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.stage-cta__note {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: clamp(0.72rem, 0.82vw, 0.86rem);
+  color: rgba(239, 217, 161, 0.82);
+}
 
 /* --------------------------------------------------------------------------
    DIAL — brass-and-blue rotary selector, lower right
@@ -1851,6 +2128,10 @@ button { font: inherit; color: inherit; }
     z-index: 35;
   }
 
+  .completion-spell {
+    width: clamp(170px, 62vw, 300px);
+  }
+
   .rip {
     --portal-x: 50%;
     --portal-y: 88%;
@@ -1871,6 +2152,31 @@ button { font: inherit; color: inherit; }
 
   .bite-hint { top: 24%; }
 
+  .quest-guide {
+    top: clamp(76px, 12.5%, 104px);
+    width: calc(100% - 1.25rem);
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .quest-guide__text {
+    font-size: clamp(0.88rem, 3.7vw, 1.04rem);
+  }
+
+  /* On touch screens every unexplored fragment keeps its name visible. */
+  .scene.is-bitten-world .hotspot:not(.is-explored) .hotspot__label {
+    opacity: 0.96;
+    transform: translateX(-50%) translateY(0);
+    font-size: 0.58rem;
+    letter-spacing: 0.17em;
+  }
+
+  .stage-cta {
+    top: 67%;
+    min-width: min(310px, 78vw);
+    padding: 0.72rem 1rem 0.66rem;
+  }
+
   .leaf__columns { grid-template-columns: 1fr; gap: 1.1rem; }
 
   .leaf__image { max-height: 34vh; }
@@ -1881,6 +2187,9 @@ button { font: inherit; color: inherit; }
    -------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
+  .completion-spell { display: none !important; }
+  .scene__dessert.is-completing .scene__dessert-inner,
+  .scene.is-completing .hotspot { animation: none !important; }
   .stage.is-ripping .rip__veil,
   .stage.is-ripping .rip__portal,
   .stage.is-ripping .rip__ring,
