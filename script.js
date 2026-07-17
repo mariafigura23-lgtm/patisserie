@@ -60,8 +60,8 @@ const WORLDS = [
       style: "plate",
       aspect: 1,
       layout: {
-        desktop: { left: "50%", top: "58%", width: "30%" },
-        mobile:  { left: "50%", top: "54%", width: "56%" }
+        desktop: { left: "50%", top: "56.5%", width: "31%" },
+        mobile:  { left: "50%", top: "48%", width: "56%" }
       }
     },
     layers: {
@@ -69,26 +69,26 @@ const WORLDS = [
       character:  { left: "70.5%", top: "40%", width: "10%" },
       foreground: { left: "-2%", top: "68%", width: "104%" }
     },
-    backgroundPosition: { desktop: "50% 50%", mobile: "44% 50%" },
+    backgroundPosition: { desktop: "50% 50%", mobile: "50% 46%" },
     biteCrumbColor: "#d9b46e",
     hotspots: [
       {
-        key: "sensation", x: 43, y: 62, mx: 30, my: 66,
+        key: "sensation", x: 49, y: 58, mx: 49, my: 58,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Warm tea, soft cake, butter, and a texture that dissolves almost before it can be named. The body recognises something before the mind understands why it matters."
       },
       {
-        key: "scene", x: 43, y: 21, mx: 34, my: 24,
+        key: "scene", x: 34, y: 32, mx: 34, my: 32,
         title: "Scene", subtitle: "What world appears.",
         text: "A room returns: light on fabric, silence, a familiar table, the atmosphere of a time thought lost. The taste does not restore a fact. It restores an entire world."
       },
       {
-        key: "desire", x: 12.5, y: 18, mx: 14, my: 12,
+        key: "desire", x: 68, y: 22, mx: 76, my: 22,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is not merely to remember. It is to recover continuity — to feel that the former self and the present self still belong to the same life."
       },
       {
-        key: "rule", x: 19, y: 54, mx: 12, my: 74,
+        key: "rule", x: 81, y: 46, mx: 84, my: 42,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Adult time is expected to move forward. The past is treated as finished and private feeling must submit to chronology, discipline, and explanation. The taste briefly interrupts that order."
       }
@@ -139,8 +139,8 @@ const WORLDS = [
       style: "cutout",
       aspect: 1.333,
       layout: {
-        desktop: { left: "50%", top: "59%", width: "33%" },
-        mobile:  { left: "50%", top: "55%", width: "62%" }
+        desktop: { left: "52%", top: "57%", width: "35%" },
+        mobile:  { left: "52%", top: "44%", width: "60%" }
       }
     },
     layers: {
@@ -148,27 +148,27 @@ const WORLDS = [
       character:  { left: "12%", top: "36%", width: "12.5%" },
       foreground: { left: "-2%", top: "70%", width: "104%" }
     },
-    backgroundPosition: { desktop: "50% 50%", mobile: "42% 50%" },
+    backgroundPosition: { desktop: "50% 50%", mobile: "50% 47%" },
     biteCrumbColor: "#e6c98f",
     biteCrumbAccent: "#7e8c46", /* one pistachio crumb falls after the bite */
     hotspots: [
       {
-        key: "sensation", x: 64, y: 61, mx: 68, my: 66,
+        key: "sensation", x: 63, y: 53, mx: 70, my: 52,
         title: "Sensation", subtitle: "What the body feels.",
         text: "A brittle shell breaks into cool ricotta, citrus, sugar, and pistachio. The pleasure is brief, concentrated, and dependent on attention to the present moment."
       },
       {
-        key: "scene", x: 27, y: 40, mx: 24, my: 30,
+        key: "scene", x: 23, y: 33, mx: 22, my: 30,
         title: "Scene", subtitle: "What world appears.",
         text: "A small Sicilian pastry shop, an espresso, sunlight, a pause in the middle of an ordinary day. Nothing monumental happens. Life simply becomes good for a few minutes."
       },
       {
-        key: "desire", x: 43, y: 14, mx: 46, my: 12,
+        key: "desire", x: 58, y: 18, mx: 58, my: 18,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is not for limitless excess. It is for permission to enjoy life before every task is finished — to feel that this moment can already be enough."
       },
       {
-        key: "rule", x: 18, y: 55, mx: 10, my: 76,
+        key: "rule", x: 14, y: 60, mx: 15, my: 60,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Pleasure is often postponed until work is complete, success is achieved, or a special occasion arrives. The cannolo proposes another rhythm: a small joy may belong inside ordinary time."
       }
@@ -223,35 +223,35 @@ const WORLDS = [
       aspect: 1.75,
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
-        desktop: { left: "50%", top: "59%", width: "36%" },
-        mobile:  { left: "50%", top: "55%", width: "66%" }
+        desktop: { left: "50%", top: "57%", width: "38%" },
+        mobile:  { left: "50%", top: "46%", width: "64%" }
       }
     },
     layers: {
-      magic:      { left: "42%", top: "18%", width: "20%" },
-      character:  { left: "2.5%", top: "8%", width: "24%", blend: "multiply", memory: true },
+      magic:      { left: "42%", top: "16%", width: "18%" },
+      character:  { left: "2.5%", top: "10%", width: "22%", blend: "multiply", memory: true },
       foreground: { left: "-2%", top: "52%", width: "104%" }
     },
-    backgroundPosition: { desktop: "50% 50%", mobile: "56% 50%" },
+    backgroundPosition: { desktop: "50% 48%", mobile: "50% 50%" },
     biteCrumbColor: "#e9ddba",
     hotspots: [
       {
-        key: "sensation", x: 63, y: 62, mx: 66, my: 68,
+        key: "sensation", x: 53, y: 57, mx: 52, my: 55,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Cream softens the layers, crumbs fall, and the cake carries a dense sweetness associated with waiting. Its texture already contains time: it must rest before it is ready."
       },
       {
-        key: "scene", x: 82, y: 34, mx: 84, my: 26,
+        key: "scene", x: 73, y: 34, mx: 74, my: 28,
         title: "Scene", subtitle: "What world appears.",
         text: "An evening kitchen before a birthday or holiday. Someone rolls the layers, prepares the cream, and leaves the finished cake until tomorrow."
       },
       {
-        key: "desire", x: 55, y: 12, mx: 50, my: 10,
+        key: "desire", x: 48, y: 18, mx: 49, my: 16,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is for care made visible through effort: home, continuity, family closeness, abundance, and the promise that tomorrow will be special."
       },
       {
-        key: "rule", x: 18, y: 53, mx: 12, my: 74,
+        key: "rule", x: 22, y: 36, mx: 16, my: 32,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "Pleasure must be prepared, deserved, and delayed. In a culture shaped by scarcity, luxury is not simply purchased. It is patiently assembled through domestic labour."
       }
@@ -304,8 +304,8 @@ const WORLDS = [
       style: "plate",
       aspect: 1.67,
       layout: {
-        desktop: { left: "50%", top: "60%", width: "34%" },
-        mobile:  { left: "50%", top: "56%", width: "64%" }
+        desktop: { left: "50%", top: "57%", width: "36%" },
+        mobile:  { left: "50%", top: "46%", width: "62%" }
       }
     },
     layers: {
@@ -313,26 +313,26 @@ const WORLDS = [
       character:  { left: "2.5%", top: "28%", width: "26%", vignette: true },
       foreground: { bleed: true, blend: "screen" }
     },
-    backgroundPosition: { desktop: "62% 50%", mobile: "62% 50%" },
+    backgroundPosition: { desktop: "60% 50%", mobile: "60% 48%" },
     biteCrumbColor: "#f2dfc9",
     hotspots: [
       {
-        key: "sensation", x: 54, y: 63, mx: 38, my: 68,
+        key: "sensation", x: 58, y: 57, mx: 58, my: 54,
         title: "Sensation", subtitle: "What the body feels.",
         text: "Thin glaze, delicate sweetness, fragility, and decorative precision. The dessert is almost too perfect to disturb."
       },
       {
-        key: "scene", x: 24, y: 46, mx: 22, my: 32,
+        key: "scene", x: 37, y: 36, mx: 34, my: 34,
         title: "Scene", subtitle: "What world appears.",
         text: "A courtly interior of candles, mirrors, ceremony, and miniature beauty. The dessert belongs to a world in which pleasure is arranged as spectacle."
       },
       {
-        key: "desire", x: 65.5, y: 30, mx: 72, my: 22,
+        key: "desire", x: 67, y: 28, mx: 68, my: 26,
         title: "Desire", subtitle: "What kind of life is being longed for.",
         text: "The desire is to enter a world where beauty, elegance, abundance, and belonging appear natural — a life seemingly protected from disorder and necessity."
       },
       {
-        key: "rule", x: 10, y: 20, mx: 10, my: 12,
+        key: "rule", x: 84, y: 42, mx: 82, my: 40,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
         text: "At court, pleasure also communicates rank. Beauty appears effortless while concealing specialised labour, material wealth, codes of conduct, hierarchy, and the fragility of the order that produced it."
       }
@@ -838,28 +838,30 @@ function selectWorld(id, instant = false) {
     return;
   }
 
-  /* the torn-paper transition: the world darkens, paper closes over it,
-     then the next memory assembles itself layer by layer */
+  /* Magical fold: the old world collapses toward the selector portal,
+     then the new world unfolds from the same point. */
   strip.classList.add("is-hushed");
-  prevScene.classList.add("is-leaving");
+  prevScene.classList.remove("is-leaving");
+  prevScene.classList.add("is-folding-out");
+  nextScene.classList.add("is-active", "is-folding-in");
   stage.classList.add("is-ripping");
 
   setTimeout(() => {
-    prevScene.classList.remove("is-active", "is-leaving");
-    nextScene.classList.add("is-active");
-  }, 480);
+    prevScene.classList.remove("is-active", "is-folding-out");
+  }, 700);
 
   setTimeout(() => {
     renderStrip(world);
     strip.classList.remove("is-hushed");
-  }, 900);
+  }, 920);
 
   setTimeout(() => {
+    nextScene.classList.remove("is-folding-in");
     stage.classList.remove("is-ripping");
     transitioning = false;
     scheduleSettle();
     flushQueue();
-  }, 1300);
+  }, 1480);
 }
 
 function flushQueue() {
