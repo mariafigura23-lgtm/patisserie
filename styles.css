@@ -1,6 +1,7 @@
 /* ==========================================================================
    THE PATISSERIE OF THE UNCONSCIOUS — styles
    A widescreen theatrical cabinet built from modular collage layers.
+   Sensation → Scene → Desire → Rule → Transformation → Return
    ========================================================================== */
 
 :root {
@@ -47,6 +48,15 @@ img { max-width: 100%; }
 
 button { font: inherit; color: inherit; }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* --------------------------------------------------------------------------
    STAGE — widescreen theatrical cabinet
    -------------------------------------------------------------------------- */
@@ -55,12 +65,12 @@ button { font: inherit; color: inherit; }
   width: 100%;
   display: grid;
   place-items: center;
-  padding: 1rem 0 1rem;
+  padding: 0.8rem 0;
 }
 
 .stage-wrap {
   position: relative;
-  width: min(96vw, calc((100dvh - 2rem) * 16 / 9), 1800px);
+  width: min(96vw, calc((100dvh - 1.6rem) * 16 / 9), 1800px);
   aspect-ratio: 16 / 9;
   max-height: 92dvh;
 }
@@ -98,14 +108,17 @@ button { font: inherit; color: inherit; }
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.9s ease, visibility 0s linear 0.9s;
+  transition: opacity 0.7s ease, visibility 0s linear 0.7s, filter 0.5s ease;
 }
 
 .scene.is-active {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.9s ease;
+  transition: opacity 0.7s ease, filter 0.5s ease;
 }
+
+/* the departing world darkens slightly before the paper closes over it */
+.scene.is-leaving { filter: brightness(0.72); }
 
 /* everything decorative sleeps while its scene is off-stage */
 .scene:not(.is-active) *,
@@ -114,8 +127,7 @@ button { font: inherit; color: inherit; }
   animation-play-state: paused !important;
 }
 
-/* painted fallback grounds, per world — shown until (or instead of)
-   the background asset; tuned to harmonise with each collage */
+/* painted fallback grounds, per world */
 .scene--madeleine {
   background:
     radial-gradient(80% 60% at 22% 18%, rgba(157, 184, 255, 0.14), transparent 60%),
@@ -158,33 +170,104 @@ button { font: inherit; color: inherit; }
 
 .scene__layer {
   position: absolute;
-  inset: -2.5%;
   pointer-events: none;
+  opacity: var(--layer-opacity, 1);
   transform: translate3d(
-    calc(var(--px, 0) * var(--depth, 0) * 1px),
-    calc(var(--py, 0) * var(--depth, 0) * 1px),
-    0);
-  transition: transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+      calc(var(--px, 0) * var(--depth, 0) * 1px),
+      calc(var(--py, 0) * var(--depth, 0) * 1px + var(--enter-y, 0%)),
+      0)
+    scale(var(--enter-scale, 1));
+  transition:
+    transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity 0.9s ease;
 }
 
+/* staggered assembly: a memory putting itself together */
+.scene:not(.is-active) .scene__background-layer { opacity: 0; --enter-scale: 1.04; }
+.scene:not(.is-active) .scene__foreground-layer { opacity: 0; --enter-y: 4%; }
+.scene:not(.is-active) .scene__character-layer  { opacity: 0; --enter-y: 2.5%; }
+.scene:not(.is-active) .scene__magic-layer      { opacity: 0; --enter-y: -2.5%; }
+.scene:not(.is-active) .scene__dessert          { opacity: 0; }
+
+.scene.is-active .scene__background-layer { transition-delay: 0s;    transition-duration: 1.3s, 1.3s; }
+.scene.is-active .scene__foreground-layer { transition-delay: 0.25s; }
+.scene.is-active .scene__character-layer  { transition-delay: 0.5s; }
+.scene.is-active .scene__magic-layer      { transition-delay: 0.7s; }
+.scene.is-active .scene__dessert          { transition-delay: 0.9s; }
+
 .scene__layer img {
-  position: absolute;
-  inset: 0;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.scene__background-layer {
+  inset: -2.5%;
+  --depth: 1.5;
+  z-index: 1;
+}
+
+.scene__background-layer img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: var(--bg-pos, 50% 50%);
 }
 
-.scene__background-layer { --depth: 1.5; z-index: 1; }
 .scene__character-layer  { --depth: 3.5; z-index: 3; }
 .scene__magic-layer      { --depth: 7;   z-index: 4; }
 .scene__foreground-layer { --depth: 9;   z-index: 8; }
 .scene__particles        { z-index: 6; }
 
-.scene__magic-layer img,
-.scene__character-layer img,
-.scene__foreground-layer img { object-fit: contain; }
+/* full-bleed positioned layers (napoleon foreground, petit four foreground) */
+.scene__layer--bleed { inset: -1.5%; }
+.scene__layer--bleed img { width: 100%; height: 100%; object-fit: cover; }
+
+/* blend variants for opaque archival material */
+.scene__layer--screen { mix-blend-mode: screen; }
+.scene__layer--multiply { mix-blend-mode: multiply; }
+
+/* the petit four mirror portal: a circular window onto a turning sky */
+.scene__layer--portal {
+  border-radius: 50%;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.scene__layer--portal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.45);
+}
+
+.scene.is-active .scene__layer--portal img {
+  animation: portalTurn 240s linear infinite;
+}
+
+/* the rabbits of Versailles arrive as a feathered collage fragment */
+.scene__layer--vignette img {
+  -webkit-mask-image: radial-gradient(ellipse 50% 48% at 50% 50%, #000 58%, transparent 78%);
+  mask-image: radial-gradient(ellipse 50% 48% at 50% 50%, #000 58%, transparent 78%);
+}
+
+/* ---------- idle drift: the world is never completely frozen ---------- */
+
+.scene.is-active .scene__background-layer img { animation: driftBg 17s ease-in-out infinite alternate; }
+.scene.is-active .scene__character-layer img  { animation: driftChar 11s ease-in-out infinite alternate; }
+.scene.is-active .scene__magic-layer img      { animation: driftMagic 8s ease-in-out infinite alternate; }
+.scene.is-active .scene__foreground-layer img { animation: driftFore 14s ease-in-out infinite alternate; }
+
+.scene.is-active .scene__layer--portal img {
+  /* the portal turns instead of drifting */
+  animation: portalTurn 240s linear infinite;
+}
+
+@keyframes driftBg    { from { transform: translate3d(0, 0, 0); }      to { transform: translate3d(1.6px, -1.2px, 0); } }
+@keyframes driftChar  { from { transform: translate3d(0, 0, 0); }      to { transform: translate3d(-2.5px, 2px, 0); } }
+@keyframes driftMagic { from { transform: translate3d(0, -3px, 0); }   to { transform: translate3d(4px, 3.5px, 0); } }
+@keyframes driftFore  { from { transform: translate3d(0, 0, 0); }      to { transform: translate3d(-4.5px, 3px, 0); } }
+@keyframes portalTurn { from { transform: scale(1.45) rotate(0deg); }  to { transform: scale(1.45) rotate(360deg); } }
 
 /* ---------- the dessert — an independent, data-positioned layer ---------- */
 
@@ -198,14 +281,17 @@ button { font: inherit; color: inherit; }
   padding: 0;
   border: none;
   background: transparent;
-  border-radius: 50%;
-  overflow: hidden;
   cursor: pointer;
   transform: translate(
-    calc(-50% + var(--px, 0) * 5px),
-    calc(-50% + var(--py, 0) * 5px))
+      calc(-50% + var(--px, 0) * 5px),
+      calc(-50% + var(--py, 0) * 5px))
     scale(var(--bite-scale, 1));
-  transition: transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: transform 1.8s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.9s ease;
+}
+
+.scene__dessert--plate {
+  border-radius: 50%;
+  overflow: hidden;
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.25),
     0 30px 70px -22px rgba(0, 0, 0, 0.85);
@@ -218,20 +304,39 @@ button { font: inherit; color: inherit; }
 
 /* tactile but quiet: a short settle when bitten */
 .scene__dessert.is-biting {
-  --bite-scale: 0.965;
+  --bite-scale: 0.97;
   transition: transform 0.16s ease-out;
 }
 
-/* whole and bitten share one canvas; only opacity moves */
+/* the dessert floats, barely */
+.scene__dessert-inner {
+  position: absolute;
+  inset: 0;
+}
+
+.scene.is-active .scene__dessert-inner { animation: dessertFloat 11s ease-in-out infinite alternate; }
+
+@keyframes dessertFloat {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(1.5px, -3px, 0); }
+}
+
+/* whole and bitten share one canvas; only opacity moves.
+   Geometry (zoom / shift) is applied inline per image by script.js */
 .scene__dessert-image {
   position: absolute;
   max-width: none;
-  width: calc(var(--plate-zoom, 1) * 100%);
-  height: calc(var(--plate-zoom, 1) * 100%);
-  left: calc((100% - var(--plate-zoom, 1) * 100%) / 2);
-  top: calc((100% - var(--plate-zoom, 1) * 100%) / 2 + var(--plate-shift-y, 0%));
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: opacity 0.65s ease, filter 1.2s ease;
+}
+
+.scene__dessert--cutout .scene__dessert-image {
+  object-fit: contain;
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.55));
 }
 
 .scene__dessert-image--bitten { opacity: 0; }
@@ -245,17 +350,52 @@ button { font: inherit; color: inherit; }
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(255, 204, 120, 0.22), transparent 72%);
+    background: radial-gradient(closest-side, rgba(255, 204, 120, 0.20), transparent 72%);
     opacity: 0;
     transition: opacity 1.4s ease;
     pointer-events: none;
   }
   .scene__dessert:hover::after { opacity: 1; }
-  .scene__dessert:hover .scene__dessert-image { filter: brightness(1.06) saturate(1.04); }
+  .scene__dessert:hover .scene__dessert-image { filter: brightness(1.05) saturate(1.03); }
 }
 
 /* missing assets never break the composition */
 .scene--no-dessert .scene__dessert { display: none; }
+
+/* some worlds set the dessert in front of the foreground paper */
+.scene--dessert-front .scene__dessert { z-index: 9; }
+
+/* one subtle pulse of light when the bite lands */
+.scene__pulse {
+  position: absolute;
+  z-index: 7;
+  width: 46%;
+  aspect-ratio: 1;
+  left: var(--dessert-left, 50%);
+  top: var(--dessert-top, 60%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 214, 140, 0.35), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scene__pulse.is-pulsing { animation: bitePulse 1.4s ease-out both; }
+
+@keyframes bitePulse {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  25%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.25); }
+}
+
+/* after the bite the magic quietly gains presence */
+.scene.is-bitten-world .scene__magic-layer { --layer-opacity: 1; }
+
+/* completion: the world connects */
+.scene.is-complete .scene__magic-layer,
+.scene.is-complete .scene__particles { filter: brightness(1.12); }
+
+.scene.is-complete .scene__background-layer img { filter: brightness(1.05) saturate(1.04); }
 
 /* ---------- particles (lightweight generated SVG) ---------- */
 
@@ -305,111 +445,6 @@ button { font: inherit; color: inherit; }
   50%      { opacity: var(--peak, 0.6); }
 }
 
-/* ---------- ambient life, 3–5 quiet details per world ---------- */
-
-/* magic overlays */
-.scene.is-settled.scene--madeleine .scene__magic-layer img {
-  animation: steamBreathe 19s ease-in-out infinite;
-}
-.scene.is-settled.scene--cannoli .scene__magic-layer img {
-  animation: peelCoil 24s ease-in-out infinite;
-}
-.scene.is-settled.scene--napoleon .scene__magic-layer img {
-  animation: birdsRise 26s ease-in-out infinite;
-}
-.scene.is-settled.scene--petitfour .scene__magic-layer img {
-  animation: portalTurn 240s linear infinite;
-}
-
-/* characters: rare, tiny movements */
-.scene.is-settled.scene--madeleine .scene__character-layer img {
-  animation: rareTwitch 16s ease-in-out infinite;
-}
-.scene.is-settled.scene--cannoli .scene__character-layer img {
-  animation: rareBow 19s ease-in-out infinite;
-}
-.scene.is-settled.scene--petitfour .scene__character-layer img {
-  animation: rareNod 21s ease-in-out infinite;
-}
-
-/* the Napoleon memory portrait appears only for the still viewer */
-.scene--napoleon .scene__character-layer {
-  opacity: 0;
-  transition: opacity 6s ease;
-}
-body.is-idle .scene--napoleon.is-active.is-settled .scene__character-layer { opacity: 0.4; }
-
-/* foreground paper stirs, barely */
-.scene.is-settled .scene__foreground-layer img {
-  animation: paperStir 28s ease-in-out infinite alternate;
-}
-
-/* light breathing inside cannoli's arch — no asset required */
-.scene--cannoli .scene__light {
-  position: absolute;
-  left: 20%;
-  top: 18%;
-  width: 30%;
-  height: 42%;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(closest-side, rgba(255, 226, 168, 0.30), transparent 72%);
-  mix-blend-mode: soft-light;
-  opacity: 0.4;
-}
-.scene.is-settled.scene--cannoli .scene__light {
-  animation: lightBreathe 12s ease-in-out infinite;
-}
-
-@keyframes steamBreathe {
-  0%, 100% { transform: translateY(0.6%); opacity: 0.85; }
-  50%      { transform: translateY(-1%); opacity: 1; }
-}
-
-@keyframes peelCoil {
-  0%, 100% { transform: rotate(0deg) translateY(0); }
-  50%      { transform: rotate(1.6deg) translateY(-0.5%); }
-}
-
-@keyframes birdsRise {
-  0%, 100% { transform: translateY(0.5%); opacity: 0.9; }
-  50%      { transform: translateY(-0.9%); opacity: 1; }
-}
-
-@keyframes portalTurn {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes rareTwitch {
-  0%, 91%, 100% { transform: none; }
-  93% { transform: rotate(0.7deg); }
-  95% { transform: rotate(-0.45deg); }
-  97% { transform: none; }
-}
-
-@keyframes rareBow {
-  0%, 90%, 100% { transform: none; }
-  94% { transform: rotate(1deg) translateY(0.4%); }
-  98% { transform: none; }
-}
-
-@keyframes rareNod {
-  0%, 92%, 100% { transform: none; }
-  95% { transform: translateY(0.5%); }
-  98% { transform: none; }
-}
-
-@keyframes paperStir {
-  from { transform: translateY(0) rotate(0deg); }
-  to   { transform: translateY(-0.6%) rotate(0.25deg); }
-}
-
-@keyframes lightBreathe {
-  0%, 100% { opacity: 0.28; }
-  50%      { opacity: 0.55; }
-}
-
 /* crumbs of the bite (elements created by script.js, animated by WAAPI) */
 .crumb {
   position: absolute;
@@ -421,30 +456,185 @@ body.is-idle .scene--napoleon.is-active.is-settled .scene__character-layer { opa
 }
 
 /* --------------------------------------------------------------------------
-   TOUCH DRIFT — no cursor, so the scene breathes on its own, very slowly
+   HOTSPOTS — the culture itself becomes the interface
    -------------------------------------------------------------------------- */
 
-body.is-touch .scene.is-active.is-settled .scene__layer {
-  animation: sceneDrift 52s ease-in-out infinite alternate;
+.hotspot {
+  position: absolute;
+  z-index: 12;
+  width: clamp(44px, 4.6vw, 64px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease, visibility 0s linear 1.2s;
 }
 
-body.is-touch .scene.is-active.is-settled .scene__dessert {
-  animation: dessertDrift 52s ease-in-out infinite alternate;
+.scene.is-bitten-world .hotspot {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1.2s ease;
 }
 
-@keyframes sceneDrift {
-  from { transform: translate3d(0, 0, 0); }
-  to   {
-    transform: translate3d(
-      calc(var(--depth, 0) * 0.55px),
-      calc(var(--depth, 0) * -0.4px),
-      0);
-  }
+/* a small hand-drawn gold ring, breathing slowly */
+.hotspot__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -50%) rotate(-4deg);
+  border: 1.5px solid rgba(232, 200, 127, 0.85);
+  border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+  box-shadow: 0 0 12px rgba(232, 200, 127, 0.35), 0 0 2px rgba(232, 200, 127, 0.5) inset;
+  pointer-events: none;
 }
 
-@keyframes dessertDrift {
-  from { transform: translate(-50%, -50%) scale(var(--bite-scale, 1)); }
-  to   { transform: translate(calc(-50% + 2.6px), calc(-50% - 2px)) scale(var(--bite-scale, 1)); }
+.scene.is-bitten-world .hotspot:not(.is-explored) .hotspot__ring {
+  animation: hotspotPulse 5.5s ease-in-out infinite;
+}
+
+.hotspot__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(232, 200, 127, 0.9);
+  pointer-events: none;
+}
+
+@keyframes hotspotPulse {
+  0%, 100% { transform: translate(-50%, -50%) rotate(-4deg) scale(1); opacity: 0.75; }
+  50%      { transform: translate(-50%, -50%) rotate(-4deg) scale(1.28); opacity: 1; }
+}
+
+/* explored fragments settle into a quiet mark */
+.hotspot.is-explored .hotspot__ring {
+  border-color: rgba(232, 200, 127, 0.4);
+  box-shadow: none;
+}
+
+.hotspot.is-explored .hotspot__dot { background: rgba(232, 200, 127, 0.5); }
+
+/* label appears on hover / focus / active */
+.hotspot__label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 2px);
+  transform: translateX(-50%) translateY(4px);
+  font-family: var(--serif-caps);
+  font-size: clamp(0.58rem, 0.85vw, 0.74rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--brass-pale);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95), 0 0 18px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.hotspot:hover .hotspot__label,
+.hotspot:focus-visible .hotspot__label,
+.hotspot.is-open .hotspot__label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.hotspot:focus-visible {
+  outline: none;
+}
+
+.hotspot:focus-visible .hotspot__ring {
+  border-color: var(--brass-pale);
+  box-shadow: 0 0 0 2px rgba(239, 217, 161, 0.65), 0 0 16px rgba(232, 200, 127, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   FRAGMENT PANEL — a torn archival scrap inside the stage
+   -------------------------------------------------------------------------- */
+
+.fragment {
+  position: absolute;
+  z-index: 26;
+  top: 16%;
+  width: min(340px, 36%);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 30% 10%, rgba(255, 252, 242, 0.7), transparent 60%),
+    linear-gradient(163deg, #efe6d0, #e0d2b2);
+  clip-path: polygon(2.5% 1%, 21% 3.5%, 38% 0.5%, 60% 3%, 79% 0.8%, 97% 3.4%, 99.4% 22%, 97% 41%, 99.2% 60%, 96.8% 79%, 98.8% 96%, 80% 99%, 61% 96.6%, 41% 99.4%, 20% 96.8%, 2% 99%, 0.8% 80%, 3% 60%, 0.6% 40%, 2.8% 21%);
+  filter: drop-shadow(0 24px 44px rgba(0, 0, 0, 0.6));
+  padding: clamp(1.2rem, 2.4vh, 1.7rem) clamp(1.15rem, 1.7vw, 1.6rem) clamp(1.3rem, 2.4vh, 1.8rem);
+  opacity: 1;
+  transform: translateY(0) rotate(-0.6deg);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.fragment[hidden] { display: none; }
+
+.fragment.is-left  { left: 4%; }
+.fragment.is-right { right: 4%; }
+
+.fragment.is-entering {
+  opacity: 0;
+  transform: translateY(14px) rotate(-0.6deg);
+}
+
+.fragment__close {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.8rem;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(93, 81, 64, 0.4);
+  border-radius: 50%;
+  background: rgba(240, 232, 211, 0.85);
+  color: var(--ink-soft);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.fragment__close:hover,
+.fragment__close:focus-visible { border-color: var(--ink-soft); color: var(--ink); }
+
+.fragment__close:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.fragment__kicker {
+  font-family: var(--serif-caps);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #7a5c2e;
+  margin-bottom: 0.3rem;
+}
+
+.fragment__title {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.9vw, 1.7rem);
+  line-height: 1.05;
+  margin-bottom: 0.2rem;
+}
+
+.fragment__subtitle {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 1.15vw, 1.02rem);
+  color: #6a5a40;
+  margin-bottom: 0.7rem;
+}
+
+.fragment__text {
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  line-height: 1.55;
 }
 
 /* --------------------------------------------------------------------------
@@ -484,7 +674,7 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
 
 .masthead {
   position: absolute;
-  top: 3.4%;
+  top: 3.2%;
   left: 0;
   right: 0;
   text-align: center;
@@ -513,18 +703,19 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
 }
 
 /* --------------------------------------------------------------------------
-   STRIP — dessert label along the lower edge
+   STRIP — dessert label and state along the lower edge
    -------------------------------------------------------------------------- */
 
 .strip {
   position: absolute;
   left: 3.2%;
-  right: 24%;
-  bottom: 4.2%;
+  right: 23%;
+  bottom: 4%;
   z-index: 21;
   display: flex;
   align-items: flex-end;
-  gap: 1.6rem;
+  justify-content: space-between;
+  gap: 1.4rem;
   transition: opacity 0.45s ease, transform 0.45s ease;
 }
 
@@ -533,7 +724,7 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   transform: translateY(6px);
 }
 
-.strip__text { max-width: 34rem; }
+.strip__text { max-width: 33rem; }
 
 .strip__context {
   font-family: var(--serif-caps);
@@ -562,8 +753,25 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
 }
 
-.strip__bite {
+.strip__reflection {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 1.2vw, 1.12rem);
+  color: var(--brass-pale);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.9);
+  margin-top: 0.45em;
+}
+
+.strip__state {
   flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  margin-bottom: 0.3rem;
+}
+
+.strip__action {
   font-family: var(--serif-caps);
   font-size: clamp(0.62rem, 0.9vw, 0.8rem);
   letter-spacing: 0.24em;
@@ -573,28 +781,75 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   border: 1px solid rgba(224, 193, 132, 0.55);
   border-radius: 2px;
   padding: 0.85em 1.6em;
+  min-height: 44px;
   cursor: pointer;
   backdrop-filter: blur(2px);
   transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
-  margin-bottom: 0.35rem;
 }
 
-.strip__bite:hover,
-.strip__bite:focus-visible {
+.strip__action:hover,
+.strip__action:focus-visible {
   border-color: var(--brass-bright);
   color: #fff6dd;
   background: rgba(11, 18, 32, 0.75);
 }
 
-.strip__bite:focus-visible {
+.strip__action:focus-visible {
   outline: 2px solid var(--brass-bright);
   outline-offset: 3px;
 }
 
+.strip__status {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.58rem, 0.85vw, 0.74rem);
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(239, 217, 161, 0.92);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
+  text-align: right;
+}
+
+.strip__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.strip__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 200, 127, 0.8);
+  background: transparent;
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+}
+
+.strip__dot.is-filled {
+  background: rgba(232, 200, 127, 0.9);
+  box-shadow: 0 0 8px rgba(232, 200, 127, 0.5);
+}
+
+.strip__reset {
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: clamp(0.72rem, 0.95vw, 0.85rem);
+  color: rgba(230, 219, 194, 0.6);
+  background: none;
+  border: none;
+  padding: 0.3em 0.2em;
+  cursor: pointer;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  transition: color 0.3s ease;
+}
+
+.strip__reset:hover,
+.strip__reset:focus-visible { color: rgba(239, 217, 161, 0.95); }
+
+.strip__reset:focus-visible { outline: 1px solid rgba(224, 193, 132, 0.6); outline-offset: 2px; }
+
 .bite-hint {
   position: absolute;
   left: 50%;
-  top: 28.5%;
+  top: 27.5%;
   transform: translateX(-50%);
   z-index: 22;
   font-family: var(--serif-body);
@@ -669,6 +924,8 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
 .dial__sector {
   position: absolute;
   width: 34%;
+  min-width: 44px;
+  min-height: 44px;
   aspect-ratio: 1;
   border: none;
   border-radius: 50%;
@@ -692,7 +949,7 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
 .dial__sector[aria-checked="true"] { box-shadow: 0 0 0 1px rgba(224, 193, 132, 0.3); }
 
 /* --------------------------------------------------------------------------
-   THRESHOLD
+   THRESHOLD — the entrance
    -------------------------------------------------------------------------- */
 
 .threshold {
@@ -713,7 +970,28 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   visibility: hidden;
 }
 
+/* drifting dust behind the card */
+.threshold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 30%, rgba(232, 200, 127, 0.4), transparent 100%),
+    radial-gradient(1px 1px at 72% 18%, rgba(232, 200, 127, 0.35), transparent 100%),
+    radial-gradient(1.5px 1.5px at 84% 64%, rgba(157, 184, 255, 0.3), transparent 100%),
+    radial-gradient(1px 1px at 32% 78%, rgba(232, 200, 127, 0.3), transparent 100%),
+    radial-gradient(1.2px 1.2px at 55% 46%, rgba(242, 234, 214, 0.22), transparent 100%);
+  animation: dustDrift 40s linear infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes dustDrift {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-18px, -26px, 0); }
+}
+
 .threshold__card {
+  position: relative;
   max-width: 34rem;
   width: 100%;
   text-align: center;
@@ -729,6 +1007,38 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   padding: clamp(1.8rem, 4.5vh, 3rem) clamp(1.4rem, 4vw, 3rem);
   max-height: 92dvh;
   overflow-y: auto;
+  animation: cardBreathe 1.1s ease-out both;
+}
+
+@keyframes cardBreathe {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* restrained, staggered arrival */
+.threshold__eyebrow,
+.threshold__title,
+.threshold__rule,
+.threshold__lead,
+.threshold__body,
+.threshold__enter,
+.threshold__credit {
+  opacity: 0;
+  animation: thresholdReveal 1.4s ease-out forwards;
+}
+
+.threshold__eyebrow { animation-delay: 0.3s; }
+.threshold__title   { animation-delay: 0.7s; animation-duration: 2s; }
+.threshold__rule    { animation: ruleDraw 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) 1.7s forwards; }
+.threshold__lead    { animation-delay: 2.1s; }
+.threshold__body:nth-of-type(1) { animation-delay: 2.6s; }
+.threshold__body    { animation-delay: 2.9s; }
+.threshold__enter   { animation-delay: 3.5s; }
+.threshold__credit  { animation-delay: 4s; }
+
+@keyframes thresholdReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .threshold__eyebrow {
@@ -746,7 +1056,22 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   font-size: clamp(1.9rem, 5.4vw, 3rem);
   line-height: 1.08;
   color: var(--parchment-bright);
-  margin-bottom: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* a gold line that draws itself */
+.threshold__rule {
+  width: 120px;
+  height: 1px;
+  margin: 0 auto 1.1rem;
+  background: linear-gradient(90deg, transparent, var(--brass-bright), transparent);
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+@keyframes ruleDraw {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 1; }
 }
 
 .threshold__lead {
@@ -754,21 +1079,14 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   font-style: italic;
   font-size: clamp(1.15rem, 2.6vw, 1.45rem);
   color: var(--brass-pale);
-  margin: 1.3rem 0 1.35rem;
+  margin: 0 0 1.35rem;
 }
 
 .threshold__body {
   font-size: clamp(0.95rem, 2vw, 1.08rem);
-  line-height: 1.65;
+  line-height: 1.7;
   color: rgba(242, 234, 214, 0.88);
-  margin-bottom: 1rem;
-}
-
-.threshold__wink {
-  font-style: italic;
-  font-size: 0.95rem;
-  color: rgba(224, 193, 132, 0.75);
-  margin: 1.2rem 0 1.6rem;
+  margin-bottom: 1.1rem;
 }
 
 .threshold__enter {
@@ -781,6 +1099,8 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   border: 1px solid rgba(77, 58, 28, 0.9);
   border-radius: 2px;
   padding: 1em 2.2em;
+  min-height: 44px;
+  margin-top: 0.6rem;
   cursor: pointer;
   box-shadow: 0 14px 30px -12px rgba(179, 144, 79, 0.65);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
@@ -797,8 +1117,25 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   outline-offset: 3px;
 }
 
+.threshold__credit {
+  display: block;
+  margin-top: 1.5rem;
+  font-family: var(--serif-body);
+  font-style: italic;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: rgba(230, 219, 194, 0.55);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.threshold__credit:hover,
+.threshold__credit:focus-visible { color: var(--brass-pale); }
+
+.threshold__credit:focus-visible { outline: 1px solid rgba(224, 193, 132, 0.6); outline-offset: 3px; }
+
 /* --------------------------------------------------------------------------
-   LEAF OVERLAY — the cultural record
+   LEAF OVERLAY — the Return
    -------------------------------------------------------------------------- */
 
 .veil[hidden] { display: none; }
@@ -836,8 +1173,8 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   top: 0;
   float: right;
   margin: -0.6rem -0.6rem 0 0;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border: 1px solid rgba(93, 81, 64, 0.4);
   border-radius: 50%;
   background: rgba(240, 232, 211, 0.9);
@@ -870,10 +1207,27 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   margin-bottom: 0.9rem;
 }
 
+.leaf__figure {
+  margin: 0 0 1.2rem;
+  border: 1px solid rgba(122, 92, 46, 0.35);
+  padding: 0.4rem;
+  background: rgba(255, 252, 242, 0.5);
+}
+
+.leaf__figure.is-hidden { display: none; }
+
+.leaf__image {
+  display: block;
+  width: 100%;
+  max-height: 46vh;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
 .leaf__epigraph {
   border-left: 2px solid rgba(156, 123, 46, 0.5);
   padding-left: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .leaf__epigraph blockquote {
@@ -887,6 +1241,15 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   font-size: 0.82rem;
   color: var(--ink-soft);
   margin-top: 0.35rem;
+}
+
+.leaf__return {
+  font-family: var(--serif-display);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.55;
+  color: #6a5a40;
+  margin-bottom: 1.4rem;
 }
 
 .leaf__section { margin-bottom: 1.35rem; }
@@ -960,6 +1323,7 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   text-transform: uppercase;
   border-radius: 2px;
   padding: 0.9em 1.7em;
+  min-height: 44px;
   cursor: pointer;
 }
 
@@ -992,45 +1356,87 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   margin-top: 0.55rem;
 }
 
+.leaf__hungry {
+  font-family: var(--serif-caps);
+  font-size: 0.8rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #7a5c2e;
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(156, 123, 46, 0.35);
+}
+
+.leaf__credit {
+  display: block;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  margin-top: 0.7rem;
+}
+
+.leaf__credit:hover,
+.leaf__credit:focus-visible { color: #7a5c2e; text-decoration: underline; }
+
 /* --------------------------------------------------------------------------
    MOBILE — below ~900px the cabinet turns portrait
    -------------------------------------------------------------------------- */
 
 @media (max-width: 900px) {
-  .app { padding: 0.6rem 0 5.4rem; }
+  .app { padding: 0.5rem 0 5.2rem; }
 
   .stage-wrap {
-    width: min(96vw, calc((100dvh - 9rem) * 3 / 4));
+    width: min(97vw, calc((100dvh - 8.6rem) * 3 / 4));
     aspect-ratio: 3 / 4;
     max-height: none;
   }
 
-  .masthead { top: 2.6%; padding: 0 6%; }
+  .masthead { top: 2.4%; padding: 0 5%; }
 
   .strip {
     left: 4%;
-    right: 4%;
-    bottom: 3.4%;
+    right: 34%;
+    bottom: 3%;
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.7rem;
+    gap: 0.6rem;
   }
 
-  .strip__name { font-size: clamp(1.4rem, 6.4vw, 2rem); }
+  .strip__name { font-size: clamp(1.35rem, 6vw, 2rem); }
 
-  .strip__bite { margin-bottom: 0; padding: 0.8em 1.5em; }
+  .strip__state {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+
+  .strip__status { text-align: left; }
+
+  .fragment {
+    width: min(360px, 88%);
+    top: auto;
+    bottom: 22%;
+  }
+
+  .fragment.is-left  { left: 6%; }
+  .fragment.is-right { right: 6%; }
 
   .dial {
-    right: 50%;
-    transform: translateX(50%);
-    bottom: auto;
-    top: calc(100% - clamp(46px, 14vw, 70px));
-    width: clamp(132px, 38vw, 175px);
+    right: -3%;
+    bottom: -6%;
+    width: clamp(118px, 32vw, 155px);
   }
 
-  .bite-hint { top: 34%; }
+  .bite-hint { top: 30%; }
 
   .leaf__columns { grid-template-columns: 1fr; gap: 1.1rem; }
+
+  .leaf__image { max-height: 34vh; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1043,14 +1449,13 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
   .scene__dessert,
   .strip,
   .threshold,
+  .fragment,
   .dial__handleGroup {
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 
-  .scene__layer,
-  .scene__dessert {
-    transform: none;
-  }
+  .scene__layer { transform: none; }
 
   .scene__dessert { transform: translate(-50%, -50%); }
 
@@ -1059,8 +1464,19 @@ body.is-touch .scene.is-active.is-settled .scene__dessert {
 
   .scene *,
   .rip,
+  .threshold::before,
+  .threshold__card,
+  .threshold__eyebrow,
+  .threshold__title,
+  .threshold__rule,
+  .threshold__lead,
+  .threshold__body,
+  .threshold__enter,
+  .threshold__credit,
   .dial * {
     animation: none !important;
+    opacity: 1;
+    transform: none;
   }
 
   .scene--napoleon .scene__character-layer { transition-duration: 0.01ms !important; }

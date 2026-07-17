@@ -1,11 +1,12 @@
 /* ==========================================================================
    THE PATISSERIE OF THE UNCONSCIOUS
-   One enchanted machine. Four dessert-worlds. No achievement required.
+   Every dessert holds a story — and a desire.
 
-   Scene architecture: each world is composed from separate modular layers —
-   background collage, magic overlay, character, independent dessert
-   (whole / bitten crossfade), foreground paper, and generated particles.
-   Missing assets degrade gracefully; nothing breaks before art arrives.
+   Sensation → Scene → Desire → Rule → Transformation → Return
+
+   Each world is assembled from independent collage layers. The bite opens
+   the dessert as a cultural form; four fragments awaken inside the scene;
+   when the world is complete, its taste can be taken home as a recipe.
    ========================================================================== */
 
 "use strict";
@@ -19,14 +20,15 @@ const WORLDS = [
     id: "madeleine",
     name: "Madeleine",
     objectNumber: "Object I of IV",
-    context: "Combray, early twentieth century",
-    shortLine: "Tea, crumbs, and a room returning from nowhere.",
+    context: "Combray / France / the return of lost time",
+    shortLine: "A taste waits quietly for the past to return.",
     epigraph: "“A taste arrives first. The lost room follows.”",
     epigraphSource: "Original epigraph inspired by Proustian involuntary memory.",
     vignette: "The cake touches the tea before it reaches the mouth. A taste arrives without explanation, and suddenly an entire room returns: its windows, silence, fabric, and forgotten light. The dessert does not merely accompany memory. It opens it.",
     history: "The madeleine began as a modest sponge cake from Commercy, in Lorraine — shaped in a scallop shell, sold at railway stations, carried in coat pockets. In 1913 Marcel Proust dipped one into lime-blossom tea on the first pages of In Search of Lost Time, and the little cake became the most famous mouthful in modern literature: proof that an entire vanished world can be stored, intact, inside a taste, waiting for the body to remember what the mind has filed away.",
     aftertaste: "Memory keeps what biography forgets.",
     takeItHome: "Prepare tea without your phone nearby. Try to remember not an event, but the atmosphere of a place: its light, smell, texture, and hour.",
+    reflection: "What part of your life would you return to through a taste?",
     recipeTitle: "Classic Madeleines",
     recipeNote: "A classic home recipe.",
     ingredients: [
@@ -54,15 +56,43 @@ const WORLDS = [
       character: "assets/madeleine-rabbit.png",
       foreground: "assets/madeleine-foreground.png"
     },
-    dessertLayout: {
-      desktop: { left: "50%", top: "60%", width: "29%" },
-      mobile:  { left: "50%", top: "55%", width: "60%" }
+    dessert: {
+      style: "plate",
+      aspect: 1,
+      layout: {
+        desktop: { left: "50%", top: "59%", width: "27%" },
+        mobile:  { left: "50%", top: "54%", width: "56%" }
+      }
     },
-    /* the plate photograph shares one canvas across whole/bitten;
-       zoom + shift crop the circular plate out of its parchment ground */
-    plate: { zoom: 1.44, shiftY: "1.5%" },
+    layers: {
+      magic:      { left: "56%", top: "4%", width: "16%" },
+      character:  { left: "70.5%", top: "40%", width: "10%" },
+      foreground: { left: "-2%", top: "68%", width: "104%" }
+    },
     backgroundPosition: { desktop: "50% 50%", mobile: "44% 50%" },
     biteCrumbColor: "#d9b46e",
+    hotspots: [
+      {
+        key: "sensation", x: 38.5, y: 70, mx: 30, my: 66,
+        title: "Sensation", subtitle: "What the body feels.",
+        text: "Warm tea, soft cake, butter, and a texture that dissolves almost before it can be named. The body recognises something before the mind understands why it matters."
+      },
+      {
+        key: "scene", x: 43, y: 21, mx: 34, my: 24,
+        title: "Scene", subtitle: "What world appears.",
+        text: "A room returns: light on fabric, silence, a familiar table, the atmosphere of a time thought lost. The taste does not restore a fact. It restores an entire world."
+      },
+      {
+        key: "desire", x: 12.5, y: 18, mx: 14, my: 12,
+        title: "Desire", subtitle: "What kind of life is being longed for.",
+        text: "The desire is not merely to remember. It is to recover continuity — to feel that the former self and the present self still belong to the same life."
+      },
+      {
+        key: "rule", x: 12, y: 64, mx: 12, my: 74,
+        title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
+        text: "Adult time is expected to move forward. The past is treated as finished and private feeling must submit to chronology, discipline, and explanation. The taste briefly interrupts that order."
+      }
+    ],
     symbol: "shell",
     handleAngle: 0,
     cssClass: "scene--madeleine"
@@ -71,14 +101,15 @@ const WORLDS = [
     id: "cannoli",
     name: "Cannoli",
     objectNumber: "Object II of IV",
-    context: "Sicily, a convent kitchen remembered through legend",
-    shortLine: "Ricotta, citrus, discipline, and excess.",
+    context: "Sicily / dolce vita / dolce far niente",
+    shortLine: "A small pleasure does not need a larger occasion.",
     epigraph: "“Even restraint can invent sweetness.”",
     epigraphSource: "Original epigraph.",
     vignette: "Inside a world of rules, someone prepares a sweetness that borders on extravagance. Crisp pastry holds soft ricotta, citrus, sugar, and patience. Restraint and pleasure are not always opposites. Sometimes one secretly produces the other.",
     history: "Sicily learned sugar from its Arab centuries, and kept it in the strangest of custodians: the convent. Behind grilles and vows, nuns became the island's great confectioners, selling cannoli, cassata, and marzipan fruit through turnstile windows to fund their houses. The crisp shell filled with sweetened ricotta was once a carnival extravagance; it survived because disciplined hands perfected it. A whole social order — devotion, enclosure, appetite — is folded into one fried tube of pastry.",
     aftertaste: "Even restraint can invent sweetness.",
     takeItHome: "Make something beautiful without waiting for a special occasion. Let pleasure exist without turning it into a reward.",
+    reflection: "What small pleasure have you postponed until life becomes less busy?",
     recipeTitle: "Simple Ricotta Cannoli",
     recipeNote: "A simplified home version using ready-made shells.",
     ingredients: [
@@ -104,14 +135,44 @@ const WORLDS = [
       character: "assets/cannoli-rabbit.png",
       foreground: "assets/cannoli-foreground.png"
     },
-    dessertLayout: {
-      desktop: { left: "50%", top: "61%", width: "31%" },
-      mobile:  { left: "50%", top: "56%", width: "62%" }
+    dessert: {
+      style: "cutout",
+      aspect: 1.333,
+      layout: {
+        desktop: { left: "50%", top: "60%", width: "30%" },
+        mobile:  { left: "50%", top: "55%", width: "62%" }
+      }
     },
-    plate: { zoom: 1.44, shiftY: "1.5%" },
-    backgroundPosition: { desktop: "50% 50%", mobile: "50% 50%" },
+    layers: {
+      magic:      { left: "59%", top: "7%", width: "24%" },
+      character:  { left: "12%", top: "36%", width: "12.5%" },
+      foreground: { left: "-2%", top: "70%", width: "104%" }
+    },
+    backgroundPosition: { desktop: "50% 50%", mobile: "42% 50%" },
     biteCrumbColor: "#e6c98f",
     biteCrumbAccent: "#7e8c46", /* one pistachio crumb falls after the bite */
+    hotspots: [
+      {
+        key: "sensation", x: 61, y: 68, mx: 68, my: 66,
+        title: "Sensation", subtitle: "What the body feels.",
+        text: "A brittle shell breaks into cool ricotta, citrus, sugar, and pistachio. The pleasure is brief, concentrated, and dependent on attention to the present moment."
+      },
+      {
+        key: "scene", x: 27, y: 40, mx: 24, my: 30,
+        title: "Scene", subtitle: "What world appears.",
+        text: "A small Sicilian pastry shop, an espresso, sunlight, a pause in the middle of an ordinary day. Nothing monumental happens. Life simply becomes good for a few minutes."
+      },
+      {
+        key: "desire", x: 43, y: 14, mx: 46, my: 12,
+        title: "Desire", subtitle: "What kind of life is being longed for.",
+        text: "The desire is not for limitless excess. It is for permission to enjoy life before every task is finished — to feel that this moment can already be enough."
+      },
+      {
+        key: "rule", x: 8.5, y: 70, mx: 10, my: 76,
+        title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
+        text: "Pleasure is often postponed until work is complete, success is achieved, or a special occasion arrives. The cannolo proposes another rhythm: a small joy may belong inside ordinary time."
+      }
+    ],
     symbol: "spiral",
     handleAngle: 270,
     cssClass: "scene--cannoli"
@@ -120,14 +181,15 @@ const WORLDS = [
     id: "napoleon",
     name: "Napoleon",
     objectNumber: "Object III of IV",
-    context: "A Soviet family kitchen, late 1980s",
-    shortLine: "Thin layers, warm cream, and a holiday built by hand.",
+    context: "A late Soviet family kitchen / domestic celebration",
+    shortLine: "Tomorrow becomes a celebration because someone begins tonight.",
     epigraph: "“Happiness, too, can be assembled layer by layer.”",
     epigraphSource: "Original epigraph.",
     vignette: "The cake takes hours. Layers are rolled, baked, cooled, covered with cream, and left overnight to soften into one whole. In a domestic culture of scarcity, celebration was often handmade. Sweetness came not as ease, but as effort transformed into festivity.",
     history: "Legend dates the cake to 1912, when Moscow's bakers cut mille-feuille into cocked-hat triangles for the centenary of the victory over Napoleon. In the Soviet kitchen it became something else: a holiday you had to build. Butter was queued for, layers were rolled late into the night, and the recipe travelled in handwritten notebooks from mother to daughter to neighbour. Left to rest until morning, the strict layers softened into one tender whole — scarcity, patience, and love pressed into a single slice.",
     aftertaste: "Sometimes love is measured in the number of layers.",
     takeItHome: "Create one celebration by hand. Not because it is efficient, but because making something slowly can itself become the event.",
+    reflection: "Whose labour made celebration feel effortless to you?",
     recipeTitle: "Home-Style Napoleon Cake",
     recipeNote: "A home-adapted version built on ready puff pastry.",
     ingredients: [
@@ -156,13 +218,44 @@ const WORLDS = [
       character: "assets/napoleon-memory.png",
       foreground: "assets/napoleon-foreground.png"
     },
-    dessertLayout: {
-      desktop: { left: "50%", top: "61%", width: "32%" },
-      mobile:  { left: "50%", top: "56%", width: "64%" }
+    dessert: {
+      style: "cutout",
+      aspect: 1.75,
+      front: true, /* the cake stands in front of the torn-paper table */
+      layout: {
+        desktop: { left: "50%", top: "60%", width: "33%" },
+        mobile:  { left: "50%", top: "55%", width: "66%" }
+      }
     },
-    plate: { zoom: 1.44, shiftY: "1.5%" },
-    backgroundPosition: { desktop: "50% 50%", mobile: "50% 50%" },
+    layers: {
+      magic:      { left: "42%", top: "18%", width: "20%" },
+      character:  { left: "2.5%", top: "8%", width: "24%", blend: "multiply", memory: true },
+      foreground: { left: "-2%", top: "52%", width: "104%" }
+    },
+    backgroundPosition: { desktop: "50% 50%", mobile: "56% 50%" },
     biteCrumbColor: "#e9ddba",
+    hotspots: [
+      {
+        key: "sensation", x: 59, y: 71, mx: 66, my: 68,
+        title: "Sensation", subtitle: "What the body feels.",
+        text: "Cream softens the layers, crumbs fall, and the cake carries a dense sweetness associated with waiting. Its texture already contains time: it must rest before it is ready."
+      },
+      {
+        key: "scene", x: 82, y: 34, mx: 84, my: 26,
+        title: "Scene", subtitle: "What world appears.",
+        text: "An evening kitchen before a birthday or holiday. Someone rolls the layers, prepares the cream, and leaves the finished cake until tomorrow."
+      },
+      {
+        key: "desire", x: 55, y: 12, mx: 50, my: 10,
+        title: "Desire", subtitle: "What kind of life is being longed for.",
+        text: "The desire is for care made visible through effort: home, continuity, family closeness, abundance, and the promise that tomorrow will be special."
+      },
+      {
+        key: "rule", x: 12, y: 60, mx: 12, my: 74,
+        title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
+        text: "Pleasure must be prepared, deserved, and delayed. In a culture shaped by scarcity, luxury is not simply purchased. It is patiently assembled through domestic labour."
+      }
+    ],
     symbol: "cake",
     handleAngle: 90,
     cssClass: "scene--napoleon"
@@ -171,14 +264,15 @@ const WORLDS = [
     id: "petitfour",
     name: "Court Petit Four",
     objectNumber: "Object IV of IV",
-    context: "Versailles, 1780s",
-    shortLine: "Sugar flowers, porcelain, spectacle, and a hairline crack.",
+    context: "Versailles / court culture / late eighteenth century",
+    shortLine: "A perfect surface promises a perfect world.",
     epigraph: "“Everything is designed to appear effortless.”",
     epigraphSource: "Original epigraph.",
     vignette: "At court, sweetness becomes design, performance, and illusion. Sugar is shaped into flowers, surfaces, and miniature architectures. Beauty is arranged so perfectly that it begins to look natural—just before history reminds the room that nothing delicate is guaranteed.",
     history: "The petit four is named for the cooling oven — à petit four — where confectioners finished delicate work after the great bakes were done. At Versailles, sugar was a theatre: pièces montées, spun-sugar architecture, glazed miniatures arranged down mirrored tables in the choreography of service à la française. Sweetness performed power, and performed it as effortlessness. Within a decade the tables were gone; the tiny glazed cake remains, carrying the whole doomed elegance of the ancien régime in one bite.",
     aftertaste: "Some worlds become most beautiful just before they disappear.",
     takeItHome: "Set a table beautifully for no practical reason, even for one person. Allow beauty to exist without needing to justify it.",
+    reflection: "What kind of beautiful world have you wanted to be admitted into?",
     recipeTitle: "Court-Inspired Petit Fours",
     recipeNote: "A modern fictional recipe inspired by the elegance of late eighteenth-century French confectionery.",
     ingredients: [
@@ -206,13 +300,43 @@ const WORLDS = [
       character: "assets/petit-four-rabbits.png",
       foreground: "assets/petit-four-foreground.png"
     },
-    dessertLayout: {
-      desktop: { left: "50%", top: "60%", width: "30%" },
-      mobile:  { left: "50%", top: "55%", width: "60%" }
+    dessert: {
+      style: "plate",
+      aspect: 1.67,
+      layout: {
+        desktop: { left: "50%", top: "62%", width: "31%" },
+        mobile:  { left: "50%", top: "56%", width: "64%" }
+      }
     },
-    plate: { zoom: 1.44, shiftY: "1.5%" },
-    backgroundPosition: { desktop: "50% 50%", mobile: "50% 50%" },
+    layers: {
+      magic:      { left: "56.5%", top: "14%", width: "16%", portal: true },
+      character:  { left: "2.5%", top: "28%", width: "26%", vignette: true },
+      foreground: { bleed: true, blend: "screen" }
+    },
+    backgroundPosition: { desktop: "62% 50%", mobile: "62% 50%" },
     biteCrumbColor: "#f2dfc9",
+    hotspots: [
+      {
+        key: "sensation", x: 44, y: 73, mx: 38, my: 68,
+        title: "Sensation", subtitle: "What the body feels.",
+        text: "Thin glaze, delicate sweetness, fragility, and decorative precision. The dessert is almost too perfect to disturb."
+      },
+      {
+        key: "scene", x: 24, y: 46, mx: 22, my: 32,
+        title: "Scene", subtitle: "What world appears.",
+        text: "A courtly interior of candles, mirrors, ceremony, and miniature beauty. The dessert belongs to a world in which pleasure is arranged as spectacle."
+      },
+      {
+        key: "desire", x: 65.5, y: 30, mx: 72, my: 22,
+        title: "Desire", subtitle: "What kind of life is being longed for.",
+        text: "The desire is to enter a world where beauty, elegance, abundance, and belonging appear natural — a life seemingly protected from disorder and necessity."
+      },
+      {
+        key: "rule", x: 10, y: 20, mx: 10, my: 12,
+        title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
+        text: "At court, pleasure also communicates rank. Beauty appears effortless while concealing specialised labour, material wealth, codes of conduct, hierarchy, and the fragility of the order that produced it."
+      }
+    ],
     symbol: "flower",
     handleAngle: 180,
     cssClass: "scene--petitfour"
@@ -222,16 +346,23 @@ const WORLDS = [
 /* clockwise order around the dial, for arrow keys and swiping */
 const DIAL_ORDER = ["madeleine", "napoleon", "petitfour", "cannoli"];
 
+const HOTSPOT_INSTRUCTION = "Four fragments have awakened. Find them.";
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileLayout = window.matchMedia("(max-width: 900px)");
 const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
+/* per-world session state — preserved when returning to a world */
+const worldState = {};
+WORLDS.forEach(w => {
+  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, loaded: false };
+});
+
 /* --------------------------------------------------------------------------
    IMAGE FALLBACKS
-   Try each source in order; if all fail, report so the layer can hide.
    -------------------------------------------------------------------------- */
 
-function loadWithFallback(img, sources, onFail, onLoad) {
+function loadWithFallback(img, sources, onFail) {
   const queue = sources.filter(Boolean);
 
   function tryNext() {
@@ -243,16 +374,14 @@ function loadWithFallback(img, sources, onFail, onLoad) {
   }
 
   img.addEventListener("error", tryNext);
-  if (onLoad) img.addEventListener("load", onLoad, { once: false });
   tryNext();
 }
 
 /* --------------------------------------------------------------------------
-   PARTICLES — 3–5 lightweight SVG elements per world, in a 160 × 90 space
+   PARTICLES — a handful of lightweight SVG motes per world (160 × 90 space)
    -------------------------------------------------------------------------- */
 
 const PARTICLES = {
-  /* gold stars drifting over Combray */
   madeleine: [
     { cls: "particle--rise", x: 108, y: 26, r: 0.9, color: "#e8c87f", dur: 17, delay: 0, peak: 0.55, dx: 3, dy: -9 },
     { cls: "particle--rise", x: 130, y: 18, r: 0.7, color: "#e8c87f", dur: 22, delay: 5, peak: 0.45, dx: -2, dy: -8 },
@@ -260,7 +389,6 @@ const PARTICLES = {
     { cls: "particle--twinkle", x: 25, y: 22, r: 0.7, color: "#e8c87f", dur: 11, delay: 3, peak: 0.5 },
     { cls: "particle--twinkle", x: 118, y: 55, r: 0.6, color: "#e8c87f", dur: 14, delay: 7, peak: 0.4 }
   ],
-  /* flour drifting down through convent light */
   cannoli: [
     { cls: "particle--fall", x: 28, y: 46, r: 0.7, color: "#f3ecdc", dur: 14, delay: 0, peak: 0.5, dx: 2, dy: 10 },
     { cls: "particle--fall", x: 35, y: 40, r: 0.55, color: "#f3ecdc", dur: 17, delay: 4, peak: 0.45, dx: -2, dy: 9 },
@@ -268,7 +396,6 @@ const PARTICLES = {
     { cls: "particle--fall", x: 132, y: 50, r: 0.65, color: "#f3ecdc", dur: 16, delay: 2, peak: 0.45, dx: -2, dy: 9 },
     { cls: "particle--twinkle", x: 16, y: 10, r: 0.8, color: "#e8c87f", dur: 13, delay: 5, peak: 0.4 }
   ],
-  /* crumbs lifting from the cake and becoming small stars */
   napoleon: [
     { cls: "particle--rise", x: 76, y: 52, r: 0.75, color: "#d8b06a", dur: 13, delay: 0, peak: 0.6, dx: 3, dy: -12 },
     { cls: "particle--rise", x: 83, y: 50, r: 0.6, color: "#efce8a", dur: 16, delay: 4, peak: 0.5, dx: -2, dy: -13 },
@@ -276,7 +403,6 @@ const PARTICLES = {
     { cls: "particle--rise", x: 86, y: 53, r: 0.55, color: "#efce8a", dur: 15, delay: 11, peak: 0.45, dx: -3, dy: -12 },
     { cls: "particle--twinkle", x: 118, y: 20, r: 0.7, color: "#efce8a", dur: 12, delay: 6, peak: 0.45 }
   ],
-  /* gold dust drawn toward the mirror, against gravity */
   petitfour: [
     { cls: "particle--toward", x: 98, y: 56, r: 0.7, color: "#ecd292", dur: 15, delay: 0, peak: 0.6, dx: -7, dy: -13 },
     { cls: "particle--toward", x: 106, y: 48, r: 0.6, color: "#ecd292", dur: 18, delay: 4, peak: 0.5, dx: -9, dy: -11 },
@@ -314,25 +440,35 @@ function buildParticles(world) {
 }
 
 /* --------------------------------------------------------------------------
-   BUILD THE SCENES — modular layers generated from WORLDS data
+   BUILD THE SCENES — layers generated from WORLDS data, lazy-loaded
    -------------------------------------------------------------------------- */
 
 const stage = document.getElementById("stage");
 const rip = document.getElementById("rip");
 
-function buildLayer(className, src, onFail) {
+function buildPositionedLayer(className, spec, world, assetKey) {
   const layer = document.createElement("div");
   layer.className = `scene__layer ${className}`;
   layer.setAttribute("aria-hidden", "true");
 
+  if (spec.bleed) {
+    layer.classList.add("scene__layer--bleed");
+  } else {
+    layer.style.left = spec.left;
+    layer.style.top = spec.top;
+    layer.style.width = spec.width;
+  }
+  if (spec.blend === "screen") layer.classList.add("scene__layer--screen");
+  if (spec.blend === "multiply") layer.classList.add("scene__layer--multiply");
+  if (spec.portal) layer.classList.add("scene__layer--portal");
+  if (spec.vignette) layer.classList.add("scene__layer--vignette");
+  if (spec.memory) layer.classList.add("scene__layer--memory");
+
   const img = document.createElement("img");
   img.alt = "";
   img.draggable = false;
+  img.dataset.src = world.assets[assetKey];
   layer.appendChild(img);
-  loadWithFallback(img, [src], () => {
-    layer.remove();
-    if (onFail) onFail();
-  });
 
   return layer;
 }
@@ -342,70 +478,75 @@ function buildScene(world) {
   scene.className = `scene ${world.cssClass}`;
   scene.dataset.id = world.id;
 
-  /* 1 · wide background collage, with graceful fallback chain */
+  /* 1 · wide background collage */
   const bgLayer = document.createElement("div");
   bgLayer.className = "scene__layer scene__background-layer";
   const bgImg = document.createElement("img");
   bgImg.alt = `Surreal archival collage for the ${world.name} world: ${world.shortLine}`;
   bgImg.draggable = false;
+  bgImg.dataset.src = world.assets.background;
+  bgImg.dataset.fallback = world.assets.fallbackBackground;
   bgLayer.appendChild(bgImg);
-  loadWithFallback(
-    bgImg,
-    [world.assets.background, world.assets.fallbackBackground],
-    () => bgLayer.remove() /* the painted CSS ground remains */
-  );
   scene.appendChild(bgLayer);
 
-  /* light that needs no asset (cannoli's breathing arch) */
-  if (world.id === "cannoli") {
-    const light = document.createElement("div");
-    light.className = "scene__light";
-    scene.appendChild(light);
-  }
-
   /* 2 · character or memory fragment */
-  scene.appendChild(buildLayer("scene__character-layer", world.assets.character));
+  scene.appendChild(buildPositionedLayer("scene__character-layer", world.layers.character, world, "character"));
 
   /* 3 · main magical overlay */
-  scene.appendChild(buildLayer("scene__magic-layer", world.assets.magic));
+  scene.appendChild(buildPositionedLayer("scene__magic-layer", world.layers.magic, world, "magic"));
 
   /* 4 · the dessert — whole and bitten stacked on one plate */
   const dessert = document.createElement("button");
   dessert.type = "button";
-  dessert.className = "scene__dessert";
+  dessert.className = `scene__dessert scene__dessert--${world.dessert.style}`;
   dessert.setAttribute("aria-label", `Take a bite of the ${world.name}`);
-  if (world.plate) {
-    dessert.style.setProperty("--plate-zoom", world.plate.zoom);
-    dessert.style.setProperty("--plate-shift-y", world.plate.shiftY);
-  }
+  dessert.style.aspectRatio = String(world.dessert.aspect);
+  if (world.dessert.front) scene.classList.add("scene--dessert-front");
 
+  const inner = document.createElement("span");
+  inner.className = "scene__dessert-inner";
   const whole = document.createElement("img");
   whole.className = "scene__dessert-image scene__dessert-image--whole";
   whole.alt = "";
   whole.draggable = false;
+  whole.dataset.src = world.assets.dessertWhole;
   const bitten = document.createElement("img");
   bitten.className = "scene__dessert-image scene__dessert-image--bitten";
   bitten.alt = "";
   bitten.draggable = false;
-  dessert.append(whole, bitten);
-
-  loadWithFallback(whole, [world.assets.dessertWhole], () => {
-    /* no independent dessert yet — the collage keeps carrying the image */
-    scene.classList.add("scene--no-dessert");
-  });
-  loadWithFallback(bitten, [world.assets.dessertBitten], () => {
-    scene.classList.add("scene--no-bitten");
-    bitten.remove();
-  });
-
+  bitten.dataset.src = world.assets.dessertBitten;
+  inner.append(whole, bitten);
+  dessert.appendChild(inner);
   dessert.addEventListener("click", takeBite);
   scene.appendChild(dessert);
 
   /* 5 · foreground paper or textile */
-  scene.appendChild(buildLayer("scene__foreground-layer", world.assets.foreground));
+  scene.appendChild(buildPositionedLayer("scene__foreground-layer", world.layers.foreground, world, "foreground"));
 
   /* 6 · generated particles */
   scene.appendChild(buildParticles(world));
+
+  /* 7 · the pulse of the bite */
+  const pulse = document.createElement("div");
+  pulse.className = "scene__pulse";
+  pulse.setAttribute("aria-hidden", "true");
+  scene.appendChild(pulse);
+
+  /* 8 · cultural hotspots — the culture itself becomes the interface */
+  world.hotspots.forEach(spot => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = `hotspot hotspot--${spot.key}`;
+    btn.dataset.key = spot.key;
+    btn.setAttribute("aria-label", `${spot.title} — ${spot.subtitle}`);
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = `
+      <span class="hotspot__ring" aria-hidden="true"></span>
+      <span class="hotspot__dot" aria-hidden="true"></span>
+      <span class="hotspot__label" aria-hidden="true">${spot.title}</span>`;
+    btn.addEventListener("click", () => openFragment(world, spot, btn));
+    scene.appendChild(btn);
+  });
 
   return scene;
 }
@@ -416,23 +557,65 @@ WORLDS.forEach(world => {
 
 const scenes = Array.from(stage.querySelectorAll(".scene"));
 
+function sceneById(id) {
+  return scenes.find(s => s.dataset.id === id);
+}
+
 function activeScene() {
   return scenes.find(s => s.classList.contains("is-active"));
+}
+
+/* assign real srcs the first time a world is needed */
+function loadSceneAssets(world) {
+  const state = worldState[world.id];
+  if (state.loaded) return;
+  state.loaded = true;
+
+  const scene = sceneById(world.id);
+
+  const bgImg = scene.querySelector(".scene__background-layer img");
+  loadWithFallback(bgImg, [bgImg.dataset.src, bgImg.dataset.fallback], () => {
+    bgImg.closest(".scene__layer").remove(); /* the painted CSS ground remains */
+  });
+
+  ["scene__character-layer", "scene__magic-layer", "scene__foreground-layer"].forEach(cls => {
+    const layer = scene.querySelector(`.${cls}`);
+    if (!layer) return;
+    const img = layer.querySelector("img");
+    loadWithFallback(img, [img.dataset.src], () => layer.remove());
+  });
+
+  const whole = scene.querySelector(".scene__dessert-image--whole");
+  const bitten = scene.querySelector(".scene__dessert-image--bitten");
+  loadWithFallback(whole, [whole.dataset.src], () => scene.classList.add("scene--no-dessert"));
+  loadWithFallback(bitten, [bitten.dataset.src], () => {
+    scene.classList.add("scene--no-bitten");
+    bitten.remove();
+  });
 }
 
 /* dessert position and background framing are data-driven per breakpoint */
 function applyResponsiveLayout() {
   const key = mobileLayout.matches ? "mobile" : "desktop";
   WORLDS.forEach(world => {
-    const scene = scenes.find(s => s.dataset.id === world.id);
-    const layout = world.dessertLayout[key];
+    const scene = sceneById(world.id);
+    const layout = world.dessert.layout[key];
     const dessert = scene.querySelector(".scene__dessert");
     dessert.style.setProperty("--dessert-left", layout.left);
     dessert.style.setProperty("--dessert-top", layout.top);
     dessert.style.setProperty("--dessert-width", layout.width);
+    scene.style.setProperty("--dessert-left", layout.left);
+    scene.style.setProperty("--dessert-top", layout.top);
     if (world.backgroundPosition) {
       scene.style.setProperty("--bg-pos", world.backgroundPosition[key]);
     }
+    world.hotspots.forEach(spot => {
+      const btn = scene.querySelector(`.hotspot--${spot.key}`);
+      const x = key === "mobile" && spot.mx !== undefined ? spot.mx : spot.x;
+      const y = key === "mobile" && spot.my !== undefined ? spot.my : spot.y;
+      btn.style.left = `${x}%`;
+      btn.style.top = `${y}%`;
+    });
   });
 }
 
@@ -470,14 +653,88 @@ WORLDS.forEach(world => {
 const sectorButtons = Array.from(dial.querySelectorAll(".dial__sector"));
 
 /* --------------------------------------------------------------------------
-   STATE + TRANSITIONS
+   STRIP STATE — name, status, progress, reset
    -------------------------------------------------------------------------- */
 
 const strip = document.getElementById("strip");
 const stripName = document.getElementById("stripName");
 const stripContext = document.getElementById("stripContext");
 const stripLine = document.getElementById("stripLine");
+const stripReflection = document.getElementById("stripReflection");
+const stripAction = document.getElementById("stripAction");
+const stripStatus = document.getElementById("stripStatus");
+const stripDots = document.getElementById("stripDots");
+const stripDotsLabel = document.getElementById("stripDotsLabel");
+const beginAgainBtn = document.getElementById("beginAgain");
 const biteHint = document.getElementById("biteHint");
+
+let statusTimer = null;
+
+function renderStrip(world) {
+  const state = worldState[world.id];
+  clearTimeout(statusTimer);
+
+  stripContext.textContent = world.context;
+  stripName.textContent = world.name;
+  stripLine.textContent = world.shortLine;
+
+  const dots = Array.from(stripDots.children);
+  dots.forEach((d, i) => d.classList.toggle("is-filled", i < state.explored.size));
+  stripDotsLabel.textContent = state.bitten
+    ? `${state.explored.size} of four fragments explored.`
+    : "";
+
+  beginAgainBtn.hidden = !state.bitten;
+  stripReflection.hidden = !state.complete;
+  stripReflection.textContent = state.complete ? world.reflection : "";
+
+  if (!state.bitten) {
+    stripAction.hidden = false;
+    stripAction.textContent = "Take a bite";
+    stripAction.dataset.mode = "bite";
+    stripStatus.hidden = true;
+    stripDots.hidden = true;
+  } else if (!state.complete) {
+    stripAction.hidden = true;
+    stripStatus.hidden = false;
+    stripStatus.textContent = HOTSPOT_INSTRUCTION;
+    stripDots.hidden = false;
+  } else {
+    stripAction.hidden = false;
+    stripAction.textContent = "Take its taste home";
+    stripAction.dataset.mode = "home";
+    stripStatus.hidden = false;
+    stripStatus.textContent = "The world is complete.";
+    stripDots.hidden = false;
+  }
+}
+
+stripAction.addEventListener("click", () => {
+  if (stripAction.dataset.mode === "home") openLeaf();
+  else takeBite();
+});
+
+beginAgainBtn.addEventListener("click", () => {
+  const world = worldById(currentId);
+  const state = worldState[world.id];
+  state.bitten = false;
+  state.explored.clear();
+  state.complete = false;
+  const scene = sceneById(world.id);
+  scene.classList.remove("is-bitten-world", "is-complete");
+  const dessert = scene.querySelector(".scene__dessert");
+  if (dessert) dessert.classList.remove("is-bitten");
+  scene.querySelectorAll(".hotspot").forEach(h => {
+    h.classList.remove("is-explored", "is-open");
+    h.setAttribute("aria-expanded", "false");
+  });
+  closeFragment(false);
+  renderStrip(world);
+});
+
+/* --------------------------------------------------------------------------
+   STATE + TRANSITIONS
+   -------------------------------------------------------------------------- */
 
 let currentId = null;
 let currentAngle = 0;      /* accumulated, so the handle takes the short way round */
@@ -485,17 +742,10 @@ let transitioning = false;
 let queuedId = null;
 let entered = false;
 let settleTimer = null;
-let healTimer = null;
 let hintTimer = null;
 
 function worldById(id) {
   return WORLDS.find(w => w.id === id);
-}
-
-function fillStrip(world) {
-  stripContext.textContent = world.context;
-  stripName.textContent = world.name;
-  stripLine.textContent = world.shortLine;
 }
 
 function rotateHandle(world) {
@@ -515,8 +765,7 @@ function rotateHandle(world) {
   }, clickDelay);
 }
 
-/* the first impression is a nearly still collage;
-   ambient movement wakes only after the viewer stays */
+/* ambient life wakes only after the viewer stays */
 function scheduleSettle() {
   clearTimeout(settleTimer);
   scenes.forEach(s => s.classList.remove("is-settled"));
@@ -524,14 +773,19 @@ function scheduleSettle() {
   settleTimer = setTimeout(() => {
     const active = activeScene();
     if (active) active.classList.add("is-settled");
-  }, 7000);
+  }, 5000);
 }
 
-function healDesserts() {
-  clearTimeout(healTimer);
-  scenes.forEach(s => {
-    const d = s.querySelector(".scene__dessert");
-    if (d) d.classList.remove("is-bitten");
+/* restore a world's stored session state onto its scene */
+function applyWorldState(world) {
+  const scene = sceneById(world.id);
+  const state = worldState[world.id];
+  const dessert = scene.querySelector(".scene__dessert");
+  scene.classList.toggle("is-bitten-world", state.bitten);
+  scene.classList.toggle("is-complete", state.complete);
+  if (dessert) dessert.classList.toggle("is-bitten", state.bitten && !scene.classList.contains("scene--no-bitten"));
+  scene.querySelectorAll(".hotspot").forEach(h => {
+    h.classList.toggle("is-explored", state.explored.has(h.dataset.key));
   });
 }
 
@@ -544,22 +798,24 @@ function selectWorld(id, instant = false) {
   currentId = id;
   transitioning = true;
 
-  healDesserts(); /* changing worlds heals the dessert */
-
+  closeFragment(false);
   clearTimeout(hintTimer);
   biteHint.classList.remove("is-visible");
+
+  loadSceneAssets(world);
+  applyWorldState(world);
 
   sectorButtons.forEach(b => b.setAttribute("aria-checked", String(b.dataset.id === id)));
   rotateHandle(world);
 
   const reduced = prefersReducedMotion.matches;
-  const nextScene = scenes.find(s => s.dataset.id === id);
-  const prevScene = prev ? scenes.find(s => s.dataset.id === prev.id) : null;
+  const nextScene = sceneById(id);
+  const prevScene = prev ? sceneById(prev.id) : null;
 
   if (instant || reduced || !prevScene) {
-    if (prevScene) prevScene.classList.remove("is-active");
+    if (prevScene) prevScene.classList.remove("is-active", "is-leaving");
     nextScene.classList.add("is-active");
-    fillStrip(world);
+    renderStrip(world);
     strip.classList.remove("is-hushed");
     transitioning = false;
     scheduleSettle();
@@ -567,26 +823,28 @@ function selectWorld(id, instant = false) {
     return;
   }
 
-  /* the torn-paper transition */
+  /* the torn-paper transition: the world darkens, paper closes over it,
+     then the next memory assembles itself layer by layer */
   strip.classList.add("is-hushed");
+  prevScene.classList.add("is-leaving");
   stage.classList.add("is-ripping");
 
   setTimeout(() => {
-    prevScene.classList.remove("is-active");
+    prevScene.classList.remove("is-active", "is-leaving");
     nextScene.classList.add("is-active");
   }, 480);
 
   setTimeout(() => {
-    fillStrip(world);
+    renderStrip(world);
     strip.classList.remove("is-hushed");
-  }, 700);
+  }, 900);
 
   setTimeout(() => {
     stage.classList.remove("is-ripping");
     transitioning = false;
     scheduleSettle();
     flushQueue();
-  }, 1120);
+  }, 1300);
 }
 
 function flushQueue() {
@@ -605,10 +863,14 @@ function step(direction) {
   selectWorld(next);
 }
 
-/* keyboard: arrows turn the dial anywhere on the page (unless the overlay is open) */
+/* keyboard: arrows turn the dial; Escape closes fragment, then overlay */
 document.addEventListener("keydown", e => {
   if (!veil.hidden) {
     if (e.key === "Escape") closeLeaf();
+    return;
+  }
+  if (e.key === "Escape" && !fragment.hidden) {
+    closeFragment(true);
     return;
   }
   if (!entered) return;
@@ -640,7 +902,7 @@ function onTouchEnd(e) {
 });
 
 /* --------------------------------------------------------------------------
-   CURSOR — slow parallax and patience
+   CURSOR — slow parallax, patience, rare gestures
    -------------------------------------------------------------------------- */
 
 if (isTouch) document.body.classList.add("is-touch");
@@ -670,7 +932,6 @@ if (!isTouch && !prefersReducedMotion.matches) {
       const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
       const active = activeScene();
       if (!active) return;
-      /* one pair of variables; each layer multiplies by its own depth */
       active.style.setProperty("--px", (-nx).toFixed(3));
       active.style.setProperty("--py", (-ny).toFixed(3));
     });
@@ -684,22 +945,53 @@ if (!isTouch && !prefersReducedMotion.matches) {
   });
 }
 
+/* occasional rare movement: an ear, a bow, a ceremonial nod.
+   WAAPI with composite:add so it layers over the idle drift. */
+function rareGesture() {
+  if (prefersReducedMotion.matches || !entered) return;
+  const scene = activeScene();
+  if (!scene || !scene.classList.contains("is-settled")) return;
+  const target = scene.querySelector(
+    Math.random() < 0.6 ? ".scene__character-layer img" : ".scene__magic-layer img"
+  );
+  if (!target) return;
+  const tilt = (Math.random() * 1.6 - 0.8).toFixed(2);
+  target.animate([
+    { transform: "rotate(0deg) translateY(0px)" },
+    { transform: `rotate(${tilt}deg) translateY(-2px)`, offset: 0.4 },
+    { transform: "rotate(0deg) translateY(0px)" }
+  ], { duration: 1800, easing: "ease-in-out", composite: "add" });
+}
+
+(function scheduleGesture() {
+  setTimeout(() => { rareGesture(); scheduleGesture(); }, 8000 + Math.random() * 7000);
+})();
+
+/* the napoleon memory appears for the still viewer */
+setInterval(() => {
+  const scene = activeScene();
+  if (!scene) return;
+  const memory = scene.querySelector(".scene__layer--memory");
+  if (!memory) return;
+  const still = document.body.classList.contains("is-idle") && scene.classList.contains("is-settled");
+  memory.style.setProperty("--layer-opacity", still ? "0.5" : "0");
+}, 1200);
+
 /* --------------------------------------------------------------------------
-   THE BITE — a quiet, tactile image swap
+   THE BITE — the central action
    -------------------------------------------------------------------------- */
 
 let biting = false;
 
-function crumbBurst(scene, world, dessert) {
+function crumbBurst(scene, world, origin) {
   if (prefersReducedMotion.matches) return;
 
   const sceneRect = scene.getBoundingClientRect();
-  const rect = dessert.getBoundingClientRect();
-  /* the bite lands on the upper right of the dessert */
-  const originX = rect.left - sceneRect.left + rect.width * 0.64;
-  const originY = rect.top - sceneRect.top + rect.height * 0.4;
+  const rect = origin.getBoundingClientRect();
+  const originX = rect.left - sceneRect.left + rect.width * 0.62;
+  const originY = rect.top - sceneRect.top + rect.height * 0.42;
 
-  const count = 9;
+  const count = 8;
   for (let i = 0; i < count; i++) {
     const crumb = document.createElement("span");
     crumb.className = "crumb";
@@ -712,7 +1004,7 @@ function crumbBurst(scene, world, dessert) {
     crumb.style.height = `${size}px`;
     scene.appendChild(crumb);
 
-    const angle = (Math.random() - 0.2) * Math.PI; /* mostly outward and up-right */
+    const angle = (Math.random() - 0.2) * Math.PI;
     const dist = 14 + Math.random() * 30;
     const dx = Math.cos(angle) * dist;
     const fall = 30 + Math.random() * 40;
@@ -727,19 +1019,36 @@ function crumbBurst(scene, world, dessert) {
   }
 }
 
+function finishBite(world, scene) {
+  const state = worldState[world.id];
+  state.bitten = true;
+  scene.classList.add("is-bitten-world");
+  renderStrip(world);
+
+  /* a quiet sequence of instructions */
+  stripStatus.textContent = "The world has opened.";
+  statusTimer = setTimeout(() => {
+    stripStatus.textContent = HOTSPOT_INSTRUCTION;
+  }, 2600);
+}
+
 function takeBite() {
-  if (!veil.hidden || biting || transitioning) return;
   const world = worldById(currentId);
   const scene = activeScene();
+  if (!world || !scene || biting || transitioning) return;
+  const state = worldState[world.id];
+  if (state.bitten) return;
+
+  clearTimeout(hintTimer);
+  biteHint.classList.remove("is-visible");
+
   const dessert = scene.querySelector(".scene__dessert");
   const hasDessert = dessert && !scene.classList.contains("scene--no-dessert");
   const hasBitten = hasDessert && !scene.classList.contains("scene--no-bitten");
 
-  clearTimeout(healTimer);
-
   if (!hasDessert || prefersReducedMotion.matches) {
     if (hasBitten) dessert.classList.add("is-bitten");
-    openLeaf();
+    finishBite(world, scene);
     return;
   }
 
@@ -747,22 +1056,137 @@ function takeBite() {
   dessert.classList.add("is-biting");
   crumbBurst(scene, world, dessert);
 
+  const pulse = scene.querySelector(".scene__pulse");
+  pulse.classList.remove("is-pulsing");
+  void pulse.offsetWidth;
+  pulse.classList.add("is-pulsing");
+
   setTimeout(() => { if (hasBitten) dessert.classList.add("is-bitten"); }, 150);
   setTimeout(() => dessert.classList.remove("is-biting"), 420);
-  setTimeout(() => { biting = false; openLeaf(); }, 680);
+  setTimeout(() => {
+    biting = false;
+    finishBite(world, scene);
+  }, 700);
 }
 
 /* --------------------------------------------------------------------------
-   "TAKE A BITE" OVERLAY + PRINTABLE CULTURAL RECIPE CARD
+   FRAGMENT PANEL — torn archival scraps for Sensation / Scene / Desire / Rule
+   -------------------------------------------------------------------------- */
+
+const fragment = document.getElementById("fragment");
+const fragmentClose = document.getElementById("fragmentClose");
+const fragmentKicker = document.getElementById("fragmentKicker");
+const fragmentTitle = document.getElementById("fragmentTitle");
+const fragmentSubtitle = document.getElementById("fragmentSubtitle");
+const fragmentText = document.getElementById("fragmentText");
+let fragmentSource = null; /* the hotspot that opened the panel */
+
+function openFragment(world, spot, hotspotBtn) {
+  if (transitioning) return;
+
+  fragmentKicker.textContent = world.name;
+  fragmentTitle.textContent = spot.title;
+  fragmentSubtitle.textContent = spot.subtitle;
+  fragmentText.textContent = spot.text;
+
+  fragment.classList.toggle("is-left", spot.x >= 50);
+  fragment.classList.toggle("is-right", spot.x < 50);
+
+  const scene = activeScene();
+  scene.querySelectorAll(".hotspot").forEach(h => {
+    h.classList.remove("is-open");
+    h.setAttribute("aria-expanded", "false");
+  });
+  hotspotBtn.classList.add("is-open");
+  hotspotBtn.setAttribute("aria-expanded", "true");
+  fragmentSource = hotspotBtn;
+
+  fragment.hidden = false;
+  fragment.classList.add("is-entering");
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    fragment.classList.remove("is-entering");
+  }));
+  fragmentClose.focus();
+
+  /* exploring the fragment counts the moment it is read open */
+  const state = worldState[world.id];
+  if (!state.explored.has(spot.key)) {
+    state.explored.add(spot.key);
+    hotspotBtn.classList.add("is-explored");
+    renderStrip(world);
+    if (state.explored.size === 4 && !state.complete) {
+      setTimeout(() => completeWorld(world), 900);
+    }
+  }
+}
+
+function closeFragment(returnFocus) {
+  if (fragment.hidden) return;
+  fragment.hidden = true;
+  if (fragmentSource) {
+    fragmentSource.classList.remove("is-open");
+    fragmentSource.setAttribute("aria-expanded", "false");
+    if (returnFocus) fragmentSource.focus();
+  }
+  fragmentSource = null;
+}
+
+fragmentClose.addEventListener("click", () => closeFragment(true));
+
+/* --------------------------------------------------------------------------
+   COMPLETION — the world connects
+   -------------------------------------------------------------------------- */
+
+function completeWorld(world) {
+  const state = worldState[world.id];
+  state.complete = true;
+  const scene = sceneById(world.id);
+  scene.classList.add("is-complete");
+
+  /* a restrained transformation: particles brighten, the magic gains presence */
+  if (!prefersReducedMotion.matches) {
+    const magicImg = scene.querySelector(".scene__magic-layer img");
+    if (magicImg) {
+      magicImg.animate([
+        { filter: "brightness(1)" },
+        { filter: "brightness(1.3)", offset: 0.4 },
+        { filter: "brightness(1)" }
+      ], { duration: 2600, easing: "ease-in-out" });
+    }
+  }
+
+  if (world.id === currentId) renderStrip(world);
+}
+
+/* --------------------------------------------------------------------------
+   LEAF OVERLAY — the Return, and the printable cultural recipe card
    -------------------------------------------------------------------------- */
 
 const veil = document.getElementById("veil");
 const leaf = document.getElementById("leaf");
-const biteBtn = document.getElementById("biteBtn");
 const leafClose = document.getElementById("leafClose");
 const leafDismiss = document.getElementById("leafDismiss");
 const leafSave = document.getElementById("leafSave");
 let lastFocused = null;
+
+function setFigureImage(figure, img, world, altText) {
+  figure.classList.remove("is-hidden");
+  img.alt = altText;
+  const probe = new Image();
+  const candidates = [world.assets.recipeImage, world.assets.dessertWhole].filter(Boolean);
+
+  function tryNext() {
+    if (!candidates.length) {
+      figure.classList.add("is-hidden");
+      img.removeAttribute("src");
+      return;
+    }
+    probe.src = candidates.shift();
+  }
+  probe.onload = () => { img.src = probe.src; };
+  probe.onerror = tryNext;
+  tryNext();
+}
 
 function fillPrintCard(world) {
   document.getElementById("printObject").textContent = world.objectNumber;
@@ -778,26 +1202,12 @@ function fillPrintCard(world) {
     world.steps.map(s => `<li>${s}</li>`).join("");
   document.getElementById("printTakeHome").textContent = world.takeItHome;
 
-  /* a real <img> so browsers print it reliably;
-     recipe image first, the whole dessert second, otherwise no figure */
-  const figure = document.getElementById("printFigure");
-  const img = document.getElementById("printImage");
-  figure.classList.remove("is-hidden");
-  img.alt = `${world.name} — printable cultural recipe card image`;
-  const probe = new Image();
-  const candidates = [world.assets.recipeImage, world.assets.dessertWhole].filter(Boolean);
-
-  function tryNext() {
-    if (!candidates.length) {
-      figure.classList.add("is-hidden");
-      img.removeAttribute("src");
-      return;
-    }
-    probe.src = candidates.shift();
-  }
-  probe.onload = () => { img.src = probe.src; };
-  probe.onerror = tryNext;
-  tryNext();
+  setFigureImage(
+    document.getElementById("printFigure"),
+    document.getElementById("printImage"),
+    world,
+    `${world.name} — printable cultural recipe card image`
+  );
 }
 
 function openLeaf() {
@@ -819,7 +1229,15 @@ function openLeaf() {
   document.getElementById("leafSteps").innerHTML =
     world.steps.map(s => `<li>${s}</li>`).join("");
 
+  setFigureImage(
+    document.getElementById("leafFigure"),
+    document.getElementById("leafImage"),
+    world,
+    `Illustrated recipe card for the ${world.name} world`
+  );
+
   fillPrintCard(world);
+  closeFragment(false);
 
   lastFocused = document.activeElement;
   veil.hidden = false;
@@ -832,13 +1250,8 @@ function closeLeaf() {
   veil.hidden = true;
   document.body.classList.remove("leaf-open");
   if (lastFocused) lastFocused.focus();
-
-  /* the dessert stays bitten a while, then quietly heals */
-  clearTimeout(healTimer);
-  healTimer = setTimeout(healDesserts, 6500);
 }
 
-biteBtn.addEventListener("click", takeBite);
 leafClose.addEventListener("click", closeLeaf);
 leafDismiss.addEventListener("click", closeLeaf);
 leafSave.addEventListener("click", () => window.print());
@@ -847,7 +1260,7 @@ veil.addEventListener("click", e => { if (e.target === veil) closeLeaf(); });
 /* keep focus inside the leaf while it is open */
 veil.addEventListener("keydown", e => {
   if (e.key !== "Tab") return;
-  const focusables = leaf.querySelectorAll("button");
+  const focusables = leaf.querySelectorAll("button, a[href]");
   const first = focusables[0];
   const last = focusables[focusables.length - 1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
@@ -870,7 +1283,7 @@ enterBtn.addEventListener("click", () => {
   wake();
 
   const scene = activeScene();
-  if (scene && !scene.classList.contains("scene--no-dessert")) {
+  if (scene && !scene.classList.contains("scene--no-dessert") && !worldState[currentId].bitten) {
     clearTimeout(hintTimer);
     biteHint.classList.add("is-visible");
     hintTimer = setTimeout(() => biteHint.classList.remove("is-visible"), 5200);
@@ -878,6 +1291,11 @@ enterBtn.addEventListener("click", () => {
 
   const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
   if (checked) checked.focus({ preventScroll: true });
+
+  /* quietly prefetch the other worlds while the first is contemplated */
+  setTimeout(() => {
+    WORLDS.forEach(w => loadSceneAssets(w));
+  }, 2500);
 });
 
 /* --------------------------------------------------------------------------
