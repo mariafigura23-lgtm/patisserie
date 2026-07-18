@@ -682,7 +682,26 @@ const RU_WORLDS = {
   }
 };
 
-const storedLanguage = localStorage.getItem("patisserie-language");
+/* Safari and privacy-restricted browsers may throw when localStorage is read.
+   Language selection must never block the entrance buttons, so storage is optional. */
+function readSavedLanguage() {
+  try {
+    return window.localStorage.getItem("patisserie-language");
+  } catch (error) {
+    console.warn("Language preference storage is unavailable; continuing without it.", error);
+    return null;
+  }
+}
+
+function saveLanguage(language) {
+  try {
+    window.localStorage.setItem("patisserie-language", language);
+  } catch (error) {
+    console.warn("Could not save language preference; the current visit will still work.", error);
+  }
+}
+
+const storedLanguage = readSavedLanguage();
 let currentLang = storedLanguage === "ru" || storedLanguage === "en"
   ? storedLanguage
   : (navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "en";
@@ -1941,7 +1960,7 @@ function refreshOpenPanels() {
 function applyLanguage(language, { persist = true } = {}) {
   if (language !== "en" && language !== "ru") return;
   currentLang = language;
-  if (persist) localStorage.setItem("patisserie-language", language);
+  if (persist) saveLanguage(language);
   updateStaticLanguage();
   updateSceneLanguage();
   refreshOpenPanels();
