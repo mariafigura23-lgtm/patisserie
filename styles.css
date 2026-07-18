@@ -3004,3 +3004,118 @@ button { font: inherit; color: inherit; }
     line-height: 1.52;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   LANGUAGE CHOICE + LIVE LANGUAGE SWITCHER
+   -------------------------------------------------------------------------- */
+
+.threshold__language-prompt {
+  font-family: var(--serif-caps);
+  font-size: clamp(0.62rem, 1.6vw, 0.76rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(224, 193, 132, 0.86);
+  margin: 1.15rem 0 0.75rem;
+  opacity: 0;
+  animation: thresholdReveal 1.4s ease-out 3.25s forwards;
+}
+
+.threshold__language-actions {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.threshold__language-actions .threshold__enter {
+  margin-top: 0;
+  min-width: min(13.5rem, 100%);
+}
+
+.language-switcher {
+  position: fixed;
+  top: max(0.75rem, env(safe-area-inset-top));
+  right: max(0.75rem, env(safe-area-inset-right));
+  z-index: 72;
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  padding: 0.38rem 0.58rem;
+  border: 1px solid rgba(224, 193, 132, 0.48);
+  border-radius: 999px;
+  background: rgba(7, 12, 23, 0.72);
+  color: rgba(230, 219, 194, 0.62);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+.language-switcher[hidden] { display: none; }
+
+.language-switcher__button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0.12rem 0.18rem;
+  font-family: var(--serif-caps);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.language-switcher__button.is-active {
+  color: var(--brass-pale);
+  text-shadow: 0 0 12px rgba(224, 193, 132, 0.5);
+}
+
+.language-switcher__button:focus-visible {
+  outline: 1px solid var(--brass-bright);
+  outline-offset: 3px;
+}
+
+html[lang="ru"] .masthead__title,
+html[lang="ru"] .threshold__title {
+  letter-spacing: 0.015em;
+}
+
+html[lang="ru"] .strip__context,
+html[lang="ru"] .quest-guide__eyebrow,
+html[lang="ru"] .quest-guide__progress,
+html[lang="ru"] .fragment__kicker,
+html[lang="ru"] .hotspot__label {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+}
+
+@media (max-width: 900px) {
+  .threshold__language-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: min(18rem, 100%);
+    margin-inline: auto;
+  }
+
+  .threshold__language-actions .threshold__enter {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .language-switcher {
+    top: max(0.55rem, env(safe-area-inset-top));
+    right: max(0.55rem, env(safe-area-inset-right));
+    padding: 0.32rem 0.48rem;
+  }
+
+  html[lang="ru"] .mobile-flow .quest-guide__text {
+    font-size: clamp(1.02rem, 4.6vw, 1.28rem);
+    line-height: 1.35;
+  }
+
+  html[lang="ru"] .mobile-flow .strip__context {
+    max-width: 25ch;
+  }
+}

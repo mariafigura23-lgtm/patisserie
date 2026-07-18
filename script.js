@@ -343,10 +343,396 @@ const WORLDS = [
   }
 ];
 
+/* --------------------------------------------------------------------------
+   LANGUAGE — one experience, expandable to any number of languages
+   -------------------------------------------------------------------------- */
+
+const UI = {
+  "en": {
+    "documentTitle": "The Patisserie of the Unconscious",
+    "metaDescription": "Every dessert holds a story — and a desire. Choose a dessert, take a bite, discover the world it holds.",
+    "mastheadEyebrow": "A Cultural Slow Web experience",
+    "mastheadTitle": "The Patisserie of the Unconscious",
+    "thresholdEyebrow": "A Cultural Slow Web experience",
+    "thresholdTitle": "The Patisserie<br>of the Unconscious",
+    "thresholdLead": "Every dessert holds a story — and a desire.",
+    "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
+    "thresholdBody2": "Choose a dessert.<br>Take a bite.<br>Discover the world it holds.",
+    "languagePrompt": "Choose the language of your visit",
+    "enterEnglish": "Enter in English",
+    "enterRussian": "Войти на русском",
+    "questEyebrow": "The world is open",
+    "questText": "Four fragments have awakened. Find the four glowing marks in the scene.",
+    "found": "found",
+    "foundStatus": "Found",
+    "hotspotInstruction": "Four fragments have awakened. Find the four glowing marks.",
+    "takeBite": "Take a bite",
+    "beginAgain": "Begin again",
+    "allFound": "All four fragments found.",
+    "explored": "of four fragments explored.",
+    "allConnected": "All four fragments are connected.",
+    "exploreStory": "Explore the cultural story",
+    "exploreNote": "History · aftertaste · recipe",
+    "closeFragment": "Close fragment",
+    "close": "Close",
+    "returnText": "A taste returns through repetition.<br>Prepare it, serve it, change it, and allow it to enter another life.",
+    "culturalVignette": "Cultural vignette",
+    "shortHistory": "A short cultural history",
+    "aftertaste": "Aftertaste",
+    "takeItHome": "Take it home",
+    "ingredients": "Ingredients",
+    "method": "Method",
+    "saveRecipe": "Take the recipe home",
+    "saveHint": "Save as a printable cultural recipe card.",
+    "hungry": "What were you really hungry for?",
+    "projectBy": "a project by @fashamigura",
+    "printProject": "The Patisserie of the Unconscious",
+    "dialLabel": "Dessert selector. Use left and right arrow keys, or choose a dessert directly.",
+    "takeBiteAria": "Take a bite of the {name}",
+    "sceneAlt": "Surreal archival collage for the {name} world: {line}",
+    "dialWorldAria": "{name} — the {symbol}",
+    "recipeImageAlt": "Illustrated recipe card for the {name} world",
+    "printImageAlt": "{name} — printable cultural recipe card image",
+    "symbols": {
+      "shell": "shell",
+      "spiral": "spiral",
+      "cake": "layered cake",
+      "flower": "flower"
+    }
+  },
+  "ru": {
+    "documentTitle": "Кондитерская бессознательного",
+    "metaDescription": "Каждый десерт хранит историю — и желание. Выберите десерт, откусите кусочек и откройте мир, который он в себе несёт.",
+    "mastheadEyebrow": "Культурный опыт медленного веба",
+    "mastheadTitle": "Кондитерская бессознательного",
+    "thresholdEyebrow": "Культурный опыт медленного веба",
+    "thresholdTitle": "Кондитерская<br>бессознательного",
+    "thresholdLead": "В каждом десерте скрыты история — и желание.",
+    "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
+    "thresholdBody2": "Выберите десерт.<br>Откусите кусочек.<br>Откройте мир, который он хранит.",
+    "languagePrompt": "Выберите язык посещения",
+    "enterEnglish": "Enter in English",
+    "enterRussian": "Войти на русском",
+    "questEyebrow": "Мир открыт",
+    "questText": "Четыре фрагмента пробудились. Найдите четыре светящиеся метки в сцене.",
+    "found": "найдено",
+    "foundStatus": "Найдено",
+    "hotspotInstruction": "Четыре фрагмента пробудились. Найдите четыре светящиеся метки.",
+    "takeBite": "Откусить кусочек",
+    "beginAgain": "Начать заново",
+    "allFound": "Все четыре фрагмента найдены.",
+    "explored": "фрагментов исследовано.",
+    "allConnected": "Все четыре фрагмента соединились.",
+    "exploreStory": "Открыть культурную историю",
+    "exploreNote": "История · послевкусие · рецепт",
+    "closeFragment": "Закрыть фрагмент",
+    "close": "Закрыть",
+    "returnText": "Вкус возвращается через повторение.<br>Приготовьте его, подайте, измените — и позвольте ему войти в другую жизнь.",
+    "culturalVignette": "Культурная сцена",
+    "shortHistory": "Краткая культурная история",
+    "aftertaste": "Послевкусие",
+    "takeItHome": "Забрать с собой",
+    "ingredients": "Ингредиенты",
+    "method": "Приготовление",
+    "saveRecipe": "Забрать рецепт",
+    "saveHint": "Сохраните как печатную культурную карточку-рецепт.",
+    "hungry": "Чего вам на самом деле хотелось?",
+    "projectBy": "проект @fashamigura",
+    "printProject": "Кондитерская бессознательного",
+    "dialLabel": "Переключатель десертов. Используйте стрелки влево и вправо или выберите десерт напрямую.",
+    "takeBiteAria": "Откусить кусочек десерта «{name}»",
+    "sceneAlt": "Сюрреалистический архивный коллаж мира «{name}»: {line}",
+    "dialWorldAria": "{name} — символ «{symbol}»",
+    "recipeImageAlt": "Иллюстрированная карточка-рецепт мира «{name}»",
+    "printImageAlt": "{name} — изображение для печатной культурной карточки-рецепта",
+    "symbols": {
+      "shell": "раковина",
+      "spiral": "спираль",
+      "cake": "слоёный торт",
+      "flower": "цветок"
+    }
+  }
+};
+const RU_WORLDS = {
+  "madeleine": {
+    "name": "Мадлен",
+    "objectNumber": "Объект I из IV",
+    "context": "Комбре / Франция / возвращение утраченного времени",
+    "shortLine": "Вкус тихо ждёт, когда прошлое вернётся.",
+    "epigraph": "«Сначала приходит вкус. Следом — утраченная комната.»",
+    "epigraphSource": "Авторский эпиграф, вдохновлённый прустовской непроизвольной памятью.",
+    "vignette": "Пирожное касается чая раньше, чем губ. Вкус приходит без объяснений — и внезапно возвращается целая комната: её окна, тишина, ткани и забытый свет. Десерт не просто сопровождает воспоминание. Он открывает его.",
+    "history": "Мадлен начиналась как скромное бисквитное пирожное из Коммерси в Лотарингии — в форме морской раковины, продававшееся на вокзалах и помещавшееся в кармане пальто. В 1913 году Марсель Пруст обмакнул мадленку в липовый чай на первых страницах романа «В поисках утраченного времени», и маленькое пирожное стало самым знаменитым вкусом модернистской литературы: доказательством того, что целый исчезнувший мир может храниться внутри вкуса, дожидаясь, пока тело вспомнит то, что разум давно убрал в архив.",
+    "aftertaste": "Память хранит то, что забывает биография.",
+    "takeItHome": "Заварите чай и уберите телефон. Попробуйте вспомнить не событие, а атмосферу места: его свет, запах, фактуру и время суток.",
+    "reflection": "В какую часть своей жизни вы бы вернулись через вкус?",
+    "recipeTitle": "Классические мадлен",
+    "recipeNote": "Классический домашний рецепт.",
+    "ingredients": [
+      "2 крупных яйца",
+      "100 г сахара",
+      "1 ч. л. ванильного экстракта",
+      "120 г пшеничной муки",
+      "1 ч. л. разрыхлителя",
+      "100 г растопленного сливочного масла",
+      "1 ст. л. молока",
+      "цедра 1 лимона",
+      "щепотка соли"
+    ],
+    "steps": [
+      "Разогрейте духовку до 190°C и смажьте форму для мадлен.",
+      "Взбейте яйца с сахаром до светлой пышной массы.",
+      "Добавьте ваниль, лимонную цедру, молоко и соль.",
+      "Аккуратно вмешайте муку с разрыхлителем.",
+      "Добавьте растопленное масло.",
+      "Оставьте тесто на 20–30 минут.",
+      "Заполните формы примерно на три четверти.",
+      "Выпекайте 9–11 минут до лёгкой золотистости."
+    ],
+    "hotspots": {
+      "sensation": {
+        "title": "Ощущение",
+        "subtitle": "Что чувствует тело.",
+        "text": "Тёплый чай, мягкое пирожное, сливочное масло и текстура, которая растворяется почти раньше, чем её удаётся назвать. Тело узнаёт что-то прежде, чем разум понимает, почему это важно."
+      },
+      "scene": {
+        "title": "Сцена",
+        "subtitle": "Какой мир возникает.",
+        "text": "Возвращается комната: свет на ткани, тишина, знакомый стол, атмосфера времени, которое казалось утраченным. Вкус восстанавливает не отдельный факт. Он возвращает целый мир."
+      },
+      "desire": {
+        "title": "Желание",
+        "subtitle": "О какой жизни мы тоскуем.",
+        "text": "Это желание не просто вспомнить. Это стремление вернуть непрерывность — почувствовать, что прежнее и нынешнее «я» всё ещё принадлежат одной жизни."
+      },
+      "rule": {
+        "title": "Правило",
+        "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
+        "text": "Взрослое время должно двигаться только вперёд. Прошлое считается завершённым, а личное чувство обязано подчиняться хронологии, дисциплине и объяснению. Вкус на мгновение нарушает этот порядок."
+      }
+    }
+  },
+  "cannoli": {
+    "name": "Канноли",
+    "objectNumber": "Объект II из IV",
+    "context": "Сицилия / dolce vita / dolce far niente",
+    "shortLine": "Маленькому удовольствию не нужен большой повод.",
+    "epigraph": "«Даже воздержание умеет изобретать сладость.»",
+    "epigraphSource": "Авторский эпиграф.",
+    "vignette": "Внутри мира правил кто-то готовит сладость, почти граничащую с излишеством. Хрустящее тесто удерживает нежную рикотту, цитрус, сахар и терпение. Воздержание и удовольствие не всегда противоположны. Иногда одно тайно производит другое.",
+    "history": "Сицилия узнала сахар в арабские века и доверила его самым неожиданным хранительницам — монастырям. За решётками и обетами монахини стали великими кондитерами острова: продавали канноли, кассату и марципановые фрукты через поворотные окошки, чтобы содержать свои обители. Хрустящая трубочка со сладкой рикоттой когда-то была карнавальной роскошью; она сохранилась потому, что дисциплинированные руки довели её до совершенства. В одном жареном цилиндре теста сложен целый социальный порядок — благочестие, затворничество и аппетит.",
+    "aftertaste": "Даже воздержание умеет изобретать сладость.",
+    "takeItHome": "Сделайте что-нибудь красивое, не дожидаясь особого случая. Позвольте удовольствию существовать, не превращая его в награду.",
+    "reflection": "Какое маленькое удовольствие вы откладывали до тех пор, пока жизнь не станет менее занятой?",
+    "recipeTitle": "Простые канноли с рикоттой",
+    "recipeNote": "Упрощённая домашняя версия с готовыми трубочками.",
+    "ingredients": [
+      "8 готовых трубочек для канноли",
+      "300 г рикотты",
+      "80 г сахарной пудры",
+      "1 ч. л. ванильного экстракта",
+      "цедра 1 апельсина или лимона",
+      "40 г рубленых фисташек или тёмного шоколада",
+      "ещё немного сахарной пудры"
+    ],
+    "steps": [
+      "При необходимости дайте рикотте стечь.",
+      "Смешайте рикотту, сахарную пудру, ваниль и цитрусовую цедру.",
+      "Добавьте фисташки или шоколад.",
+      "Охладите начинку 20–30 минут.",
+      "Наполните трубочки незадолго до подачи.",
+      "Слегка присыпьте сахарной пудрой."
+    ],
+    "hotspots": {
+      "sensation": {
+        "title": "Ощущение",
+        "subtitle": "Что чувствует тело.",
+        "text": "Хрупкая оболочка раскалывается и открывает прохладную рикотту, цитрус, сахар и фисташку. Удовольствие краткое и концентрированное — оно требует внимания к настоящему моменту."
+      },
+      "scene": {
+        "title": "Сцена",
+        "subtitle": "Какой мир возникает.",
+        "text": "Небольшая сицилийская кондитерская, эспрессо, солнечный свет и пауза посреди обычного дня. Ничего грандиозного не происходит. Жизнь просто становится хорошей на несколько минут."
+      },
+      "desire": {
+        "title": "Желание",
+        "subtitle": "О какой жизни мы тоскуем.",
+        "text": "Это желание не безграничного изобилия, а разрешения наслаждаться жизнью до того, как закончены все дела, — почувствовать, что уже этого мгновения достаточно."
+      },
+      "rule": {
+        "title": "Правило",
+        "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
+        "text": "Удовольствие часто откладывают до окончания работы, достижения успеха или наступления особого случая. Канноло предлагает другой ритм: маленькая радость может принадлежать обычному времени."
+      }
+    }
+  },
+  "napoleon": {
+    "name": "Наполеон",
+    "objectNumber": "Объект III из IV",
+    "context": "Позднесоветская семейная кухня / домашний праздник",
+    "shortLine": "Завтра становится праздником, потому что кто-то начинает готовить сегодня.",
+    "epigraph": "«Счастье тоже можно собрать слой за слоем.»",
+    "epigraphSource": "Авторский эпиграф.",
+    "vignette": "На торт уходят часы. Коржи раскатывают, выпекают, остужают, промазывают кремом и оставляют на ночь, чтобы отдельные слои стали одним целым. В домашней культуре дефицита праздник часто делали своими руками. Сладость приходила не как лёгкость, а как усилие, превращённое в торжество.",
+    "history": "По легенде, история торта начинается в 1912 году, когда московские кондитеры к столетию победы над Наполеоном нарезали мильфей треугольниками, напоминавшими треуголку. В советской кухне он стал чем-то другим — праздником, который нужно было построить. За маслом стояли в очередях, коржи раскатывали поздно ночью, а рецепт переходил в рукописных тетрадях от матери к дочери и от соседки к соседке. Оставленные до утра строгие слои размягчались и превращались в нежное целое — дефицит, терпение и любовь, спрессованные в одном куске.",
+    "aftertaste": "Иногда любовь измеряется количеством слоёв.",
+    "takeItHome": "Создайте один праздник своими руками. Не потому, что это эффективно, а потому, что медленное приготовление само может стать событием.",
+    "reflection": "Чей труд когда-то заставлял праздник казаться возникшим без усилий?",
+    "recipeTitle": "Домашний торт «Наполеон»",
+    "recipeNote": "Домашняя адаптация на основе готового слоёного теста.",
+    "ingredients": [
+      "500 г слоёного теста",
+      "500 мл молока",
+      "3 яичных желтка",
+      "120 г сахара",
+      "40 г кукурузного крахмала",
+      "1 ч. л. ванильного экстракта",
+      "150 г сливочного масла",
+      "щепотка соли"
+    ],
+    "steps": [
+      "Испеките слоёное тесто тонкими пластами до золотистого цвета.",
+      "Нагрейте большую часть молока.",
+      "Взбейте желтки с сахаром, крахмалом, солью и оставшимся молоком.",
+      "Постепенно влейте тёплое молоко.",
+      "Готовьте на слабом огне до загустения.",
+      "Добавьте ваниль и немного остудите.",
+      "Вмешайте сливочное масло.",
+      "Чередуйте слои теста и крема.",
+      "Покройте торт крошкой из коржей.",
+      "Оставьте в холодильнике на ночь."
+    ],
+    "hotspots": {
+      "sensation": {
+        "title": "Ощущение",
+        "subtitle": "Что чувствует тело.",
+        "text": "Крем размягчает слои, крошки осыпаются, а плотная сладость связана с ожиданием. Во вкусе уже заключено время: прежде чем стать готовым, торт должен настояться."
+      },
+      "scene": {
+        "title": "Сцена",
+        "subtitle": "Какой мир возникает.",
+        "text": "Вечерняя кухня накануне дня рождения или праздника. Кто-то раскатывает коржи, варит крем и оставляет собранный торт до завтра."
+      },
+      "desire": {
+        "title": "Желание",
+        "subtitle": "О какой жизни мы тоскуем.",
+        "text": "Это желание заботы, ставшей видимой через усилие: дома, непрерывности, семейной близости, изобилия и обещания, что завтра будет особенным."
+      },
+      "rule": {
+        "title": "Правило",
+        "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
+        "text": "Удовольствие нужно приготовить, заслужить и отложить. В культуре, сформированной дефицитом, роскошь нельзя просто купить — её терпеливо собирают домашним трудом."
+      }
+    }
+  },
+  "petitfour": {
+    "name": "Придворный птифур",
+    "objectNumber": "Объект IV из IV",
+    "context": "Версаль / придворная культура / конец XVIII века",
+    "shortLine": "Безупречная поверхность обещает безупречный мир.",
+    "epigraph": "«Всё устроено так, чтобы казаться не требующим усилий.»",
+    "epigraphSource": "Авторский эпиграф.",
+    "vignette": "При дворе сладость становится дизайном, спектаклем и иллюзией. Сахар превращают в цветы, поверхности и миниатюрные архитектуры. Красоту располагают настолько безупречно, что она начинает казаться естественной — ровно до того момента, когда история напоминает: ничто хрупкое не гарантировано.",
+    "history": "Название petit four происходит от остывающей печи — à petit four, — в которой кондитеры завершали деликатную работу после основной выпечки. В Версале сахар был театром: pièces montées, архитектура из тянутого сахара, глазированные миниатюры на зеркальных столах в хореографии service à la française. Сладость демонстрировала власть — и делала это как будто без усилий. Через десять лет столы исчезли; маленькое глазированное пирожное осталось, сохранив в одном укусе всю обречённую элегантность Старого порядка.",
+    "aftertaste": "Некоторые миры становятся прекраснее всего незадолго до исчезновения.",
+    "takeItHome": "Красиво накройте стол без практической причины — даже для одного человека. Позвольте красоте существовать без оправданий.",
+    "reflection": "В какой прекрасный мир вам хотелось быть допущенной?",
+    "recipeTitle": "Птифуры в придворном стиле",
+    "recipeNote": "Современный вымышленный рецепт, вдохновлённый изяществом французской кондитерской культуры конца XVIII века.",
+    "ingredients": [
+      "1 небольшой простой бисквит или кекс",
+      "4 ст. л. абрикосового или малинового джема",
+      "150 г сахарной пудры",
+      "2–3 ст. л. лимонного сока или воды",
+      "немного розового пищевого красителя по желанию",
+      "съедобные цветы или сахарные украшения"
+    ],
+    "steps": [
+      "Нарежьте бисквит небольшими аккуратными формами.",
+      "Смажьте верх тонким слоем джема.",
+      "Смешайте сахарную пудру с жидкостью до густой глазури.",
+      "При желании слегка подкрасьте её.",
+      "Покройте пирожные глазурью.",
+      "Дайте глазури застыть.",
+      "Украсьте съедобными цветами или сахарными деталями.",
+      "Подайте за столом, который вы накрыли без всякого повода."
+    ],
+    "hotspots": {
+      "sensation": {
+        "title": "Ощущение",
+        "subtitle": "Что чувствует тело.",
+        "text": "Тонкая глазурь, деликатная сладость, хрупкость и декоративная точность. Пирожное кажется почти слишком совершенным, чтобы нарушить его поверхность."
+      },
+      "scene": {
+        "title": "Сцена",
+        "subtitle": "Какой мир возникает.",
+        "text": "Придворный интерьер со свечами, зеркалами, церемонией и миниатюрной красотой. Десерт принадлежит миру, где удовольствие организовано как зрелище."
+      },
+      "desire": {
+        "title": "Желание",
+        "subtitle": "О какой жизни мы тоскуем.",
+        "text": "Это желание войти в мир, где красота, элегантность, изобилие и принадлежность кажутся естественными, — в жизнь, будто бы защищённую от беспорядка и необходимости."
+      },
+      "rule": {
+        "title": "Правило",
+        "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
+        "text": "При дворе удовольствие также сообщает о ранге. Красота выглядит непринуждённой, скрывая специализированный труд, материальное богатство, кодексы поведения, иерархию и хрупкость породившего её порядка."
+      }
+    }
+  }
+};
+
+/* Safari and privacy-restricted browsers may throw when localStorage is read.
+   Language selection must never block the entrance buttons, so storage is optional. */
+function readSavedLanguage() {
+  try {
+    return window.localStorage.getItem("patisserie-language");
+  } catch (error) {
+    console.warn("Language preference storage is unavailable; continuing without it.", error);
+    return null;
+  }
+}
+
+function saveLanguage(language) {
+  try {
+    window.localStorage.setItem("patisserie-language", language);
+  } catch (error) {
+    console.warn("Could not save language preference; the current visit will still work.", error);
+  }
+}
+
+const storedLanguage = readSavedLanguage();
+let currentLang = storedLanguage === "ru" || storedLanguage === "en"
+  ? storedLanguage
+  : (navigator.language || "").toLowerCase().startsWith("ru") ? "ru" : "en";
+
+function ui(key) {
+  return UI[currentLang]?.[key] ?? UI.en[key] ?? key;
+}
+
+function interpolate(template, values) {
+  return String(template).replace(/\{(\w+)\}/g, (_, key) => values[key] ?? "");
+}
+
+function worldText(world, field) {
+  return currentLang === "ru" ? (RU_WORLDS[world.id]?.[field] ?? world[field]) : world[field];
+}
+
+function worldList(world, field) {
+  return currentLang === "ru" ? (RU_WORLDS[world.id]?.[field] ?? world[field]) : world[field];
+}
+
+function spotText(world, spot, field) {
+  return currentLang === "ru"
+    ? (RU_WORLDS[world.id]?.hotspots?.[spot.key]?.[field] ?? spot[field])
+    : spot[field];
+}
+
+
 /* clockwise order around the dial, for arrow keys and swiping */
 const DIAL_ORDER = ["madeleine", "napoleon", "petitfour", "cannoli"];
 
-const HOTSPOT_INSTRUCTION = "Four fragments have awakened. Find the four glowing marks.";
+
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileLayout = window.matchMedia("(max-width: 900px)");
@@ -482,7 +868,7 @@ function buildScene(world) {
   const bgLayer = document.createElement("div");
   bgLayer.className = "scene__layer scene__background-layer";
   const bgImg = document.createElement("img");
-  bgImg.alt = `Surreal archival collage for the ${world.name} world: ${world.shortLine}`;
+  bgImg.alt = interpolate(ui("sceneAlt"), { name: worldText(world, "name"), line: worldText(world, "shortLine") });
   bgImg.draggable = false;
   bgImg.dataset.src = world.assets.background;
   bgImg.dataset.fallback = world.assets.fallbackBackground;
@@ -499,7 +885,7 @@ function buildScene(world) {
   const dessert = document.createElement("button");
   dessert.type = "button";
   dessert.className = `scene__dessert scene__dessert--${world.dessert.style}`;
-  dessert.setAttribute("aria-label", `Take a bite of the ${world.name}`);
+  dessert.setAttribute("aria-label", interpolate(ui("takeBiteAria"), { name: worldText(world, "name") }));
   dessert.style.aspectRatio = String(world.dessert.aspect);
   if (world.dessert.front) scene.classList.add("scene--dessert-front");
 
@@ -538,12 +924,12 @@ function buildScene(world) {
     btn.type = "button";
     btn.className = `hotspot hotspot--${spot.key}`;
     btn.dataset.key = spot.key;
-    btn.setAttribute("aria-label", `${spot.title} — ${spot.subtitle}`);
+    btn.setAttribute("aria-label", `${spotText(world, spot, "title")} — ${spotText(world, spot, "subtitle")}`);
     btn.setAttribute("aria-expanded", "false");
     btn.innerHTML = `
       <span class="hotspot__ring" aria-hidden="true"></span>
       <span class="hotspot__dot" aria-hidden="true"></span>
-      <span class="hotspot__label" aria-hidden="true">${spot.title}</span>`;
+      <span class="hotspot__label" aria-hidden="true">${spotText(world, spot, "title")}</span>`;
     btn.addEventListener("click", () => openFragment(world, spot, btn));
     scene.appendChild(btn);
   });
@@ -651,7 +1037,7 @@ if (dialArt.complete) {
 }
 
 const SECTOR_POS = { 0: "top", 90: "right", 180: "bottom", 270: "left" };
-const SYMBOL_NAMES = { shell: "shell", spiral: "spiral", cake: "layered cake", flower: "flower" };
+
 
 WORLDS.forEach(world => {
   const btn = document.createElement("button");
@@ -659,7 +1045,7 @@ WORLDS.forEach(world => {
   btn.className = `dial__sector dial__sector--${SECTOR_POS[world.handleAngle]}`;
   btn.setAttribute("role", "radio");
   btn.setAttribute("aria-checked", "false");
-  btn.setAttribute("aria-label", `${world.name} — the ${SYMBOL_NAMES[world.symbol]}`);
+  btn.setAttribute("aria-label", interpolate(ui("dialWorldAria"), { name: worldText(world, "name"), symbol: ui("symbols")[world.symbol] }));
   btn.dataset.id = world.id;
   btn.addEventListener("click", () => {
     const changingWorld = world.id !== currentId;
@@ -729,9 +1115,9 @@ function updateQuestGuide(world) {
     questGuide.classList.remove("is-prominent", "is-compact");
   } else {
     questGuide.hidden = false;
-    questEyebrow.textContent = "The world is open";
-    questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
-    questProgress.textContent = `${state.explored.size} / 4 found`;
+    questEyebrow.textContent = ui("questEyebrow");
+    questText.textContent = ui("questText");
+    questProgress.textContent = `${ui("foundStatus")}: ${state.explored.size} / 4`;
     if (!questGuide.classList.contains("is-prominent")) {
       questGuide.classList.add("is-compact");
     }
@@ -751,9 +1137,9 @@ function startQuestGuide(world, scene) {
   questGuide.hidden = false;
   questGuide.classList.remove("is-compact");
   questGuide.classList.add("is-prominent");
-  questEyebrow.textContent = "The world is open";
-  questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
-  questProgress.textContent = "0 / 4 found";
+  questEyebrow.textContent = ui("questEyebrow");
+  questText.textContent = ui("questText");
+  questProgress.textContent = `${ui("foundStatus")}: 0 / 4`;
   scene.classList.add("is-guiding");
 
   questTimer = window.setTimeout(() => {
@@ -767,37 +1153,37 @@ function renderStrip(world) {
   const state = worldState[world.id];
   clearTimeout(statusTimer);
 
-  stripContext.textContent = world.context;
-  stripName.textContent = world.name;
-  stripLine.textContent = world.shortLine;
+  stripContext.textContent = worldText(world, "context");
+  stripName.textContent = worldText(world, "name");
+  stripLine.textContent = worldText(world, "shortLine");
   updateQuestGuide(world);
 
   const dots = Array.from(stripDots.children);
   dots.forEach((d, i) => d.classList.toggle("is-filled", i < state.explored.size));
   stripDotsLabel.textContent = state.bitten
-    ? `${state.explored.size} of four fragments explored.`
+    ? currentLang === "ru" ? `Исследовано фрагментов: ${state.explored.size} из 4.` : `${state.explored.size} of four fragments explored.`
     : "";
 
   beginAgainBtn.hidden = !state.bitten;
   stripReflection.hidden = !state.complete;
-  stripReflection.textContent = state.complete ? world.reflection : "";
+  stripReflection.textContent = state.complete ? worldText(world, "reflection") : "";
 
   if (!state.bitten) {
     stripAction.hidden = false;
-    stripAction.textContent = "Take a bite";
+    stripAction.textContent = ui("takeBite");
     stripAction.dataset.mode = "bite";
     stripStatus.hidden = true;
     stripDots.hidden = true;
   } else if (!state.complete) {
     stripAction.hidden = true;
     stripStatus.hidden = false;
-    stripStatus.textContent = HOTSPOT_INSTRUCTION;
+    stripStatus.textContent = ui("hotspotInstruction");
     stripDots.hidden = false;
   } else {
     stripAction.hidden = true;
     stripAction.dataset.mode = "home";
     stripStatus.hidden = false;
-    stripStatus.textContent = "All four fragments found.";
+    stripStatus.textContent = ui("allFound");
     stripDots.hidden = false;
   }
 }
@@ -1129,7 +1515,7 @@ function finishBite(world, scene) {
   startQuestGuide(world, scene);
 
   /* The lower caption echoes the instruction; the central guide makes the next action unmistakable. */
-  stripStatus.textContent = HOTSPOT_INSTRUCTION;
+  stripStatus.textContent = ui("hotspotInstruction");
 }
 
 function takeBite() {
@@ -1190,10 +1576,10 @@ function openFragment(world, spot, hotspotBtn) {
   const isNewFragment = !state.explored.has(spot.key);
   const isFourthFragment = isNewFragment && state.explored.size === 3 && !state.complete;
 
-  fragmentKicker.textContent = world.name;
-  fragmentTitle.textContent = spot.title;
-  fragmentSubtitle.textContent = spot.subtitle;
-  fragmentText.textContent = spot.text;
+  fragmentKicker.textContent = worldText(world, "name");
+  fragmentTitle.textContent = spotText(world, spot, "title");
+  fragmentSubtitle.textContent = spotText(world, spot, "subtitle");
+  fragmentText.textContent = spotText(world, spot, "text");
   fragmentNext.hidden = !(state.complete || isFourthFragment);
 
   fragment.classList.toggle("is-left", spot.x >= 50);
@@ -1383,54 +1769,57 @@ function setFigureImage(figure, img, world, altText) {
 }
 
 function fillPrintCard(world) {
-  document.getElementById("printObject").textContent = world.objectNumber;
-  document.getElementById("printName").textContent = world.name;
-  document.getElementById("printContext").textContent = world.context;
-  document.getElementById("printAftertaste").textContent = world.aftertaste;
-  document.getElementById("printVignette").textContent = world.vignette;
-  document.getElementById("printRecipeTitle").textContent = world.recipeTitle;
-  document.getElementById("printRecipeNote").textContent = world.recipeNote;
+  document.getElementById("printObject").textContent = worldText(world, "objectNumber");
+  document.getElementById("printName").textContent = worldText(world, "name");
+  document.getElementById("printContext").textContent = worldText(world, "context");
+  document.getElementById("printAftertaste").textContent = worldText(world, "aftertaste");
+  document.getElementById("printVignette").textContent = worldText(world, "vignette");
+  document.getElementById("printRecipeTitle").textContent = worldText(world, "recipeTitle");
+  document.getElementById("printRecipeNote").textContent = worldText(world, "recipeNote");
   document.getElementById("printIngredients").innerHTML =
-    world.ingredients.map(i => `<li>${i}</li>`).join("");
+    worldList(world, "ingredients").map(i => `<li>${i}</li>`).join("");
   document.getElementById("printSteps").innerHTML =
-    world.steps.map(s => `<li>${s}</li>`).join("");
-  document.getElementById("printTakeHome").textContent = world.takeItHome;
+    worldList(world, "steps").map(s => `<li>${s}</li>`).join("");
+  document.getElementById("printTakeHome").textContent = worldText(world, "takeItHome");
 
   setFigureImage(
     document.getElementById("printFigure"),
     document.getElementById("printImage"),
     world,
-    `${world.name} — printable cultural recipe card image`
+    interpolate(ui("printImageAlt"), { name: worldText(world, "name") })
   );
 }
 
-function openLeaf() {
-  const world = worldById(currentId);
-
+function populateLeaf(world) {
   document.getElementById("leafCatalogue").textContent =
-    `${world.objectNumber} · ${world.context}`;
-  document.getElementById("leafTitle").textContent = world.name;
-  document.getElementById("leafEpigraph").textContent = world.epigraph;
-  document.getElementById("leafEpigraphSource").textContent = world.epigraphSource;
-  document.getElementById("leafVignette").textContent = world.vignette;
-  document.getElementById("leafHistory").textContent = world.history;
-  document.getElementById("leafAftertaste").textContent = world.aftertaste;
-  document.getElementById("leafTakeHome").textContent = world.takeItHome;
-  document.getElementById("leafRecipeTitle").textContent = world.recipeTitle;
-  document.getElementById("leafRecipeNote").textContent = world.recipeNote;
+    `${worldText(world, "objectNumber")} · ${worldText(world, "context")}`;
+  document.getElementById("leafTitle").textContent = worldText(world, "name");
+  document.getElementById("leafEpigraph").textContent = worldText(world, "epigraph");
+  document.getElementById("leafEpigraphSource").textContent = worldText(world, "epigraphSource");
+  document.getElementById("leafVignette").textContent = worldText(world, "vignette");
+  document.getElementById("leafHistory").textContent = worldText(world, "history");
+  document.getElementById("leafAftertaste").textContent = worldText(world, "aftertaste");
+  document.getElementById("leafTakeHome").textContent = worldText(world, "takeItHome");
+  document.getElementById("leafRecipeTitle").textContent = worldText(world, "recipeTitle");
+  document.getElementById("leafRecipeNote").textContent = worldText(world, "recipeNote");
   document.getElementById("leafIngredients").innerHTML =
-    world.ingredients.map(i => `<li>${i}</li>`).join("");
+    worldList(world, "ingredients").map(i => `<li>${i}</li>`).join("");
   document.getElementById("leafSteps").innerHTML =
-    world.steps.map(s => `<li>${s}</li>`).join("");
+    worldList(world, "steps").map(s => `<li>${s}</li>`).join("");
 
   setFigureImage(
     document.getElementById("leafFigure"),
     document.getElementById("leafImage"),
     world,
-    `Illustrated recipe card for the ${world.name} world`
+    interpolate(ui("recipeImageAlt"), { name: worldText(world, "name") })
   );
 
   fillPrintCard(world);
+}
+
+function openLeaf() {
+  const world = worldById(currentId);
+  populateLeaf(world);
   closeFragment(false, true);
 
   lastFocused = document.activeElement;
@@ -1462,14 +1851,137 @@ veil.addEventListener("keydown", e => {
 });
 
 /* --------------------------------------------------------------------------
+   APPLY LANGUAGE — updates the live scene without resetting the visit
+   -------------------------------------------------------------------------- */
+
+const languageSwitcher = document.getElementById("languageSwitcher");
+const languageButtons = Array.from(document.querySelectorAll("[data-language]"));
+
+function updateStaticLanguage() {
+  document.documentElement.lang = currentLang;
+  document.title = ui("documentTitle");
+  document.querySelector('meta[name="description"]')?.setAttribute("content", ui("metaDescription"));
+
+  document.getElementById("mastheadEyebrow").textContent = ui("mastheadEyebrow");
+  document.getElementById("mastheadTitle").textContent = ui("mastheadTitle");
+  document.getElementById("thresholdEyebrow").textContent = ui("thresholdEyebrow");
+  document.getElementById("thresholdTitle").innerHTML = ui("thresholdTitle");
+  document.getElementById("thresholdLead").textContent = ui("thresholdLead");
+  document.getElementById("thresholdBodyOne").innerHTML = ui("thresholdBody1");
+  document.getElementById("thresholdBodyTwo").innerHTML = ui("thresholdBody2");
+  document.getElementById("languagePrompt").textContent = ui("languagePrompt");
+  document.getElementById("enterEnglish").textContent = ui("enterEnglish");
+  document.getElementById("enterRussian").textContent = ui("enterRussian");
+
+  document.getElementById("fragmentNextStatus").textContent = ui("allConnected");
+  document.getElementById("fragmentNextTitle").textContent = ui("exploreStory");
+  document.getElementById("fragmentNextNote").textContent = ui("exploreNote");
+  document.getElementById("stageCtaTitle").textContent = ui("exploreStory");
+  document.getElementById("stageCtaNote").textContent = ui("exploreNote");
+  fragmentClose.setAttribute("aria-label", ui("closeFragment"));
+  beginAgainBtn.textContent = ui("beginAgain");
+  biteHint.textContent = currentLang === "ru" ? "откусите кусочек" : "take a bite";
+
+  document.getElementById("leafReturn").innerHTML = ui("returnText");
+  document.getElementById("leafVignetteHeading").textContent = ui("culturalVignette");
+  document.getElementById("leafHistoryHeading").textContent = ui("shortHistory");
+  document.getElementById("leafAftertasteHeading").textContent = ui("aftertaste");
+  document.getElementById("leafTakeHomeHeading").textContent = ui("takeItHome");
+  document.getElementById("leafIngredientsHeading").textContent = ui("ingredients");
+  document.getElementById("leafMethodHeading").textContent = ui("method");
+  leafSave.textContent = ui("saveRecipe");
+  leafDismiss.textContent = ui("close");
+  leafClose.setAttribute("aria-label", ui("close"));
+  document.getElementById("leafSaveHint").textContent = ui("saveHint");
+  document.getElementById("leafHungry").textContent = ui("hungry");
+  document.getElementById("leafCredit").textContent = ui("projectBy");
+
+  document.getElementById("printProject").textContent = ui("printProject");
+  document.getElementById("printIngredientsHeading").textContent = ui("ingredients");
+  document.getElementById("printMethodHeading").textContent = ui("method");
+  document.getElementById("printTakeHomeHeading").textContent = ui("takeItHome");
+  dial.setAttribute("aria-label", ui("dialLabel"));
+
+  languageButtons.forEach(button => {
+    const active = button.dataset.language === currentLang;
+    button.classList.toggle("is-active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function updateSceneLanguage() {
+  WORLDS.forEach(world => {
+    const scene = sceneById(world.id);
+    const bg = scene.querySelector(".scene__background-layer img");
+    if (bg) bg.alt = interpolate(ui("sceneAlt"), {
+      name: worldText(world, "name"), line: worldText(world, "shortLine")
+    });
+
+    const dessert = scene.querySelector(".scene__dessert");
+    dessert?.setAttribute("aria-label", interpolate(ui("takeBiteAria"), {
+      name: worldText(world, "name")
+    }));
+
+    world.hotspots.forEach(spot => {
+      const button = scene.querySelector(`.hotspot--${spot.key}`);
+      if (!button) return;
+      button.setAttribute("aria-label", `${spotText(world, spot, "title")} — ${spotText(world, spot, "subtitle")}`);
+      const label = button.querySelector(".hotspot__label");
+      if (label) label.textContent = spotText(world, spot, "title");
+    });
+
+    const sector = dial.querySelector(`.dial__sector[data-id="${world.id}"]`);
+    sector?.setAttribute("aria-label", interpolate(ui("dialWorldAria"), {
+      name: worldText(world, "name"), symbol: ui("symbols")[world.symbol]
+    }));
+  });
+}
+
+function refreshOpenPanels() {
+  if (currentId) {
+    const world = worldById(currentId);
+    renderStrip(world);
+
+    if (!fragment.hidden && fragmentSource) {
+      const spot = world.hotspots.find(item => item.key === fragmentSource.dataset.key);
+      if (spot) {
+        fragmentKicker.textContent = worldText(world, "name");
+        fragmentTitle.textContent = spotText(world, spot, "title");
+        fragmentSubtitle.textContent = spotText(world, spot, "subtitle");
+        fragmentText.textContent = spotText(world, spot, "text");
+      }
+    }
+
+    if (!veil.hidden) populateLeaf(world);
+    fillPrintCard(world);
+  }
+}
+
+function applyLanguage(language, { persist = true } = {}) {
+  if (language !== "en" && language !== "ru") return;
+  currentLang = language;
+  if (persist) saveLanguage(language);
+  updateStaticLanguage();
+  updateSceneLanguage();
+  refreshOpenPanels();
+}
+
+languageSwitcher.querySelectorAll("[data-language]").forEach(button => {
+  button.addEventListener("click", () => applyLanguage(button.dataset.language));
+});
+
+/* --------------------------------------------------------------------------
    THRESHOLD — enter the patisserie
    -------------------------------------------------------------------------- */
 
 const threshold = document.getElementById("threshold");
-const enterBtn = document.getElementById("enterBtn");
+const enterEnglish = document.getElementById("enterEnglish");
+const enterRussian = document.getElementById("enterRussian");
 
-enterBtn.addEventListener("click", () => {
+function enterPatisserie(language) {
+  applyLanguage(language);
   entered = true;
+  languageSwitcher.hidden = false;
   threshold.classList.add("is-leaving");
   setTimeout(() => { threshold.hidden = true; }, 850);
 
@@ -1490,10 +2002,14 @@ enterBtn.addEventListener("click", () => {
   setTimeout(() => {
     WORLDS.forEach(w => loadSceneAssets(w));
   }, 2500);
-});
+}
+
+enterEnglish.addEventListener("click", () => enterPatisserie("en"));
+enterRussian.addEventListener("click", () => enterPatisserie("ru"));
 
 /* --------------------------------------------------------------------------
    BEGIN — in Combray, where all remembering starts
    -------------------------------------------------------------------------- */
 
 selectWorld("madeleine", true);
+applyLanguage(currentLang, { persist: false });

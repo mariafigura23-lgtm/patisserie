@@ -1,1 +1,1 @@
-Mobile compact bridge update. Replace index.html, styles.css and script.js. No asset changes are required. The selector now overlaps the lower part of the collage, desserts are larger, cards are centered and more compact, and the fragment counter is high-contrast.
+Fix: entrance language buttons now work even when Safari or a privacy setting blocks localStorage. Replace index.html, styles.css, and script.js. Assets are unchanged.
