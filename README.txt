@@ -1,11 +1,11 @@
-This version adds explicit post-bite guidance and a clearer final action.
+MOBILE SCROLL FIX
 
-Changes:
-- central “The world is open” instruction after every bite
-- persistent progress: 0–4 fragments found
-- brighter, higher-contrast hotspot rings and labels
-- hotspot labels remain visible on mobile until explored
-- final central button renamed to “Explore the cultural story” with “History · aftertaste · recipe”
-- existing magical world transitions and four-fragment completion spell preserved
+Replace only index.html, styles.css and script.js in the repository. Assets are unchanged.
 
-Replace index.html, styles.css, and script.js. No new image assets are required.
+Mobile changes:
+- collage remains clean and uncluttered;
+- task guide, fragment explanation, title/action, final cultural-story button and selector are moved into a vertical reading flow below the collage;
+- fragment cards use larger readable type;
+- hotspot labels no longer crowd the image; rings remain bright and tappable;
+- opening a fragment scrolls to its explanation; closing it returns to the collage;
+- desktop layout is preserved.

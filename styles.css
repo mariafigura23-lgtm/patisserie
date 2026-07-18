@@ -2409,3 +2409,347 @@ button { font: inherit; color: inherit; }
 .scene__foreground-layer {
   display: none !important;
 }
+
+
+/* ==========================================================================
+   MOBILE READING FLOW — clean scene first, explanations below
+   This final override intentionally wins over the earlier portrait rules.
+   ========================================================================== */
+
+.mobile-flow {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    display: block;
+  }
+
+  .app {
+    display: block;
+    width: 100%;
+    padding: 0.45rem 0 max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .stage-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    max-height: none;
+    aspect-ratio: auto;
+    gap: 0;
+  }
+
+  /* The collage is now one calm, uncluttered visual panel. */
+  .stage {
+    position: relative;
+    inset: auto;
+    width: min(97vw, 760px);
+    height: auto;
+    aspect-ratio: 3 / 4;
+    margin: 0 auto;
+    flex: 0 0 auto;
+  }
+
+  .mobile-flow {
+    display: grid;
+    width: min(97vw, 760px);
+    margin: 0 auto;
+    padding: 0.8rem 0 0;
+    gap: 0.8rem;
+  }
+
+  /* The guide becomes an editorial card below the image, never over it. */
+  .mobile-flow .quest-guide {
+    position: relative;
+    inset: auto;
+    left: auto;
+    top: auto;
+    width: 100%;
+    transform: none;
+    opacity: 0;
+    padding: 1rem 1.05rem 0.95rem;
+    text-align: left;
+    color: var(--parchment-bright);
+    background:
+      radial-gradient(120% 120% at 100% 0%, rgba(179, 144, 79, 0.14), transparent 55%),
+      linear-gradient(155deg, rgba(19, 28, 48, 0.98), rgba(7, 12, 23, 0.98));
+    border: 1px solid rgba(224, 193, 132, 0.48);
+    border-radius: 3px;
+    box-shadow: 0 18px 44px -32px rgba(0, 0, 0, 0.95);
+  }
+
+  .mobile-flow .quest-guide.is-prominent,
+  .mobile-flow .quest-guide.is-compact {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mobile-flow .quest-guide.is-prominent {
+    animation: mobileCardArrival 0.6s ease-out both;
+  }
+
+  .mobile-flow .quest-guide.is-compact {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: linear-gradient(155deg, rgba(17, 25, 43, 0.98), rgba(7, 12, 23, 0.98));
+  }
+
+  .mobile-flow .quest-guide.is-compact .quest-guide__eyebrow {
+    display: block;
+  }
+
+  .mobile-flow .quest-guide__eyebrow {
+    margin-bottom: 0.32rem;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    letter-spacing: 0.26em;
+  }
+
+  .mobile-flow .quest-guide__text,
+  .mobile-flow .quest-guide.is-compact .quest-guide__text {
+    max-width: 34ch;
+    font-size: clamp(1.05rem, 4.5vw, 1.28rem);
+    line-height: 1.32;
+    text-shadow: none;
+  }
+
+  .mobile-flow .quest-guide__progress {
+    margin-top: 0.65rem;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    letter-spacing: 0.18em;
+  }
+
+  /* Dessert title and action become a separate readable section. */
+  .mobile-flow .strip {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    display: grid;
+    width: 100%;
+    gap: 0.8rem;
+    padding: 1.15rem 1.05rem 1.1rem;
+    pointer-events: auto;
+    background:
+      radial-gradient(100% 100% at 0% 100%, rgba(179, 144, 79, 0.12), transparent 60%),
+      rgba(7, 12, 23, 0.96);
+    border: 1px solid rgba(224, 193, 132, 0.42);
+    border-radius: 3px;
+    box-shadow: 0 18px 44px -32px rgba(0, 0, 0, 0.95);
+  }
+
+  .mobile-flow .strip__text {
+    max-width: none;
+  }
+
+  .mobile-flow .strip__context {
+    max-width: 38ch;
+    font-size: 0.68rem;
+    line-height: 1.45;
+    letter-spacing: 0.20em;
+  }
+
+  .mobile-flow .strip__name {
+    margin: 0.15rem 0 0.22rem;
+    font-size: clamp(2rem, 9vw, 2.8rem);
+    line-height: 0.96;
+  }
+
+  .mobile-flow .strip__line,
+  .mobile-flow .strip__reflection {
+    max-width: 31ch;
+    font-size: clamp(1.05rem, 4.6vw, 1.3rem);
+    line-height: 1.38;
+  }
+
+  .mobile-flow .strip__state {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    width: 100%;
+    margin: 0;
+  }
+
+  /* The guide above already explains the task; avoid a duplicate tiny paragraph. */
+  .mobile-flow .strip__status {
+    display: none !important;
+  }
+
+  .mobile-flow .strip__dots {
+    gap: 0.65rem;
+  }
+
+  .mobile-flow .strip__dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .mobile-flow .strip__action {
+    min-height: 48px;
+    padding: 0.85em 1.35em;
+    font-size: 0.72rem;
+  }
+
+  .mobile-flow .strip__reset {
+    font-size: 1rem;
+  }
+
+  /* Fragment explanations are no longer a modal-looking sheet over the collage. */
+  .mobile-flow .fragment {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    z-index: auto;
+    width: 100%;
+    min-height: 0;
+    transform: none;
+    padding: 1.35rem 1.15rem 1.3rem;
+    clip-path: polygon(0.8% 1%, 22% 0.3%, 48% 1.2%, 72% 0.2%, 99% 1%, 98.7% 30%, 99.4% 62%, 98.8% 99%, 72% 98.9%, 49% 99.6%, 24% 98.8%, 0.7% 99%, 1.2% 67%, 0.4% 34%);
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.48));
+  }
+
+  .mobile-flow .fragment.is-left,
+  .mobile-flow .fragment.is-right {
+    left: auto;
+    right: auto;
+  }
+
+  .mobile-flow .fragment.is-entering {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .mobile-flow .fragment__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.8rem;
+    width: 2.65rem;
+    height: 2.65rem;
+  }
+
+  .mobile-flow .fragment__kicker {
+    padding-right: 3rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.27em;
+  }
+
+  .mobile-flow .fragment__title {
+    padding-right: 2.8rem;
+    font-size: clamp(2rem, 8vw, 2.55rem);
+    line-height: 1;
+  }
+
+  .mobile-flow .fragment__subtitle {
+    max-width: 30ch;
+    font-size: clamp(1.15rem, 4.8vw, 1.35rem);
+    line-height: 1.35;
+  }
+
+  .mobile-flow .fragment__text {
+    font-size: clamp(1.08rem, 4.45vw, 1.26rem);
+    line-height: 1.62;
+  }
+
+  /* The final route into cultural history is a proper full-width next step. */
+  .mobile-flow .stage-cta {
+    position: relative;
+    inset: auto;
+    left: auto;
+    top: auto;
+    z-index: auto;
+    width: 100%;
+    min-width: 0;
+    transform: translateY(8px);
+    padding: 1rem 1.1rem 0.9rem;
+  }
+
+  .mobile-flow .stage-cta.is-visible {
+    transform: translateY(0);
+  }
+
+  .mobile-flow .stage-cta__title {
+    font-size: 0.82rem;
+  }
+
+  .mobile-flow .stage-cta__note {
+    font-size: 0.95rem;
+  }
+
+  /* Selector stays centered at the end of the mobile scroll, never over text. */
+  .mobile-flow .dial {
+    position: relative;
+    inset: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: auto;
+    justify-self: center;
+    width: clamp(126px, 34vw, 164px);
+    margin: 0.2rem auto 0.6rem;
+    transform: none;
+  }
+
+  /* Four bright targets, without four large labels fighting for space. */
+  .scene.is-bitten-world .hotspot {
+    z-index: 35;
+  }
+
+  .scene.is-bitten-world .hotspot__ring {
+    width: 28px;
+    height: 28px;
+    border-width: 2px;
+    border-color: rgba(255, 225, 155, 0.98);
+    background: rgba(7, 12, 23, 0.40);
+    box-shadow:
+      0 0 0 5px rgba(7, 12, 23, 0.34),
+      0 0 18px rgba(255, 211, 117, 0.78),
+      0 0 34px rgba(255, 211, 117, 0.28);
+  }
+
+  .scene.is-bitten-world .hotspot__dot {
+    width: 6px;
+    height: 6px;
+    background: #fff0b9;
+    box-shadow: 0 0 12px rgba(255, 229, 154, 0.95);
+  }
+
+  .scene.is-bitten-world .hotspot__label,
+  .scene.is-bitten-world .hotspot:not(.is-explored) .hotspot__label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(4px);
+  }
+
+  .scene.is-bitten-world .hotspot.is-open .hotspot__label,
+  .scene.is-bitten-world .hotspot:focus-visible .hotspot__label {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+  }
+
+  @keyframes mobileCardArrival {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

@@ -687,6 +687,21 @@ const questEyebrow = document.getElementById("questEyebrow");
 const questText = document.getElementById("questText");
 const questProgress = document.getElementById("questProgress");
 const stageCta = document.getElementById("stageCta");
+const stageWrap = document.querySelector(".stage-wrap");
+const mobileFlow = document.getElementById("mobileFlow");
+const responsiveFragment = document.getElementById("fragment");
+
+function arrangeResponsiveInterface() {
+  if (mobileLayout.matches) {
+    mobileFlow.append(questGuide, responsiveFragment, strip, stageCta, dial);
+  } else {
+    stage.append(questGuide, responsiveFragment, strip, stageCta);
+    stageWrap.appendChild(dial);
+  }
+}
+
+arrangeResponsiveInterface();
+mobileLayout.addEventListener("change", arrangeResponsiveInterface);
 
 let statusTimer = null;
 let questTimer = null;
@@ -1175,7 +1190,13 @@ function openFragment(world, spot, hotspotBtn) {
   requestAnimationFrame(() => requestAnimationFrame(() => {
     fragment.classList.remove("is-entering");
   }));
-  fragmentClose.focus();
+  fragmentClose.focus({ preventScroll: true });
+
+  if (mobileLayout.matches) {
+    window.setTimeout(() => {
+      fragment.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
+    }, 80);
+  }
 
   /* exploring the fragment counts the moment it is read open */
   const state = worldState[world.id];
@@ -1204,9 +1225,15 @@ function closeFragment(returnFocus, suppressCompletion = false) {
   if (fragmentSource) {
     fragmentSource.classList.remove("is-open");
     fragmentSource.setAttribute("aria-expanded", "false");
-    if (returnFocus) fragmentSource.focus();
+    if (returnFocus) fragmentSource.focus({ preventScroll: true });
   }
   fragmentSource = null;
+
+  if (mobileLayout.matches) {
+    window.setTimeout(() => {
+      stage.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
+    }, 40);
+  }
 
   if (!suppressCompletion && closingWorld) {
     const state = worldState[closingWorld.id];
