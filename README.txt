@@ -1,1 +1,1 @@
-Bilingual EN/RU version. The first screen asks which language to enter in. The selected language is saved in localStorage and can be changed with the EN/RU switcher inside the patisserie. Replace index.html, styles.css, and script.js. Assets are unchanged.
+Mobile compact bridge update. Replace index.html, styles.css and script.js. No asset changes are required. The selector now overlaps the lower part of the collage, desserts are larger, cards are centered and more compact, and the fragment counter is high-contrast.

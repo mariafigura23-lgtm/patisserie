@@ -15,12 +15,6 @@
 
 <main class="app" id="app">
 
-  <div class="language-switcher" id="languageSwitcher" role="group" aria-label="Language / Язык" hidden>
-    <button class="language-switcher__button" type="button" data-language="en">EN</button>
-    <span aria-hidden="true">/</span>
-    <button class="language-switcher__button" type="button" data-language="ru">RU</button>
-  </div>
-
   <div class="stage-wrap">
 
     <section class="stage" id="stage">
@@ -42,8 +36,8 @@
       </div>
 
       <header class="masthead">
-        <p class="masthead__eyebrow" id="mastheadEyebrow">A Cultural Slow Web experience</p>
-        <h1 class="masthead__title" id="mastheadTitle">The Patisserie of the Unconscious</h1>
+        <p class="masthead__eyebrow">A Cultural Slow Web experience</p>
+        <h1 class="masthead__title">The Patisserie of the Unconscious</h1>
       </header>
 
       <!-- Clear guidance after the bite. It never intercepts clicks. -->
@@ -61,10 +55,10 @@
         <p class="fragment__subtitle" id="fragmentSubtitle"></p>
         <p class="fragment__text" id="fragmentText"></p>
         <div class="fragment__next" id="fragmentNext" hidden>
-          <p class="fragment__next-status" id="fragmentNextStatus">All four fragments are connected.</p>
+          <p class="fragment__next-status">All four fragments are connected.</p>
           <button class="fragment__next-button" id="fragmentNextButton" type="button">
-            <span id="fragmentNextTitle">Explore the cultural story</span>
-            <small id="fragmentNextNote">History · aftertaste · recipe</small>
+            <span>Explore the cultural story</span>
+            <small>History · aftertaste · recipe</small>
           </button>
         </div>
       </div>
@@ -92,8 +86,8 @@
 
       <!-- Appears only after all four fragments have been explored. -->
       <button class="stage-cta" id="stageCta" type="button" hidden>
-        <span class="stage-cta__title" id="stageCtaTitle">Explore the cultural story</span>
-        <span class="stage-cta__note" id="stageCtaNote">History · aftertaste · recipe</span>
+        <span class="stage-cta__title">Explore the cultural story</span>
+        <span class="stage-cta__note">History · aftertaste · recipe</span>
       </button>
     </section>
 
@@ -178,17 +172,20 @@
 <!-- Threshold — the entrance to the archive -->
 <div class="threshold" id="threshold">
   <div class="threshold__card" role="dialog" aria-modal="true" aria-labelledby="thresholdTitle">
-    <p class="threshold__eyebrow" id="thresholdEyebrow">A Cultural Slow Web experience</p>
+    <p class="threshold__eyebrow">A Cultural Slow Web experience</p>
     <h1 class="threshold__title" id="thresholdTitle">The Patisserie<br>of the Unconscious</h1>
     <div class="threshold__rule" aria-hidden="true"></div>
-    <p class="threshold__lead" id="thresholdLead">Every dessert holds a story&nbsp;— and a desire.</p>
-    <p class="threshold__body" id="thresholdBodyOne">Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.</p>
-    <p class="threshold__body" id="thresholdBodyTwo">Choose a dessert.<br>Take a bite.<br>Discover the world it holds.</p>
-    <p class="threshold__language-prompt" id="languagePrompt">Choose the language of your visit · Выберите язык посещения</p>
-    <div class="threshold__language-actions">
-      <button class="threshold__enter" id="enterEnglish" type="button" data-language="en">Enter in English</button>
-      <button class="threshold__enter" id="enterRussian" type="button" data-language="ru">Войти на русском</button>
-    </div>
+    <p class="threshold__lead">Every dessert holds a story&nbsp;— and a desire.</p>
+    <p class="threshold__body">
+      Taste begins in the body.<br>
+      It gathers a scene, a longing, a rule, and a history.
+    </p>
+    <p class="threshold__body">
+      Choose a dessert.<br>
+      Take a bite.<br>
+      Discover the world it holds.
+    </p>
+    <button class="threshold__enter" id="enterBtn" type="button">Enter the patisserie</button>
     <a class="threshold__credit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram · @fashamigura</a>
   </div>
 </div>
@@ -207,25 +204,28 @@
       <figcaption id="leafEpigraphSource"></figcaption>
     </figure>
 
-    <p class="leaf__return" id="leafReturn">A taste returns through repetition.<br>Prepare it, serve it, change it, and allow it to enter another life.</p>
+    <p class="leaf__return">
+      A taste returns through repetition.<br>
+      Prepare it, serve it, change it, and allow it to enter another life.
+    </p>
 
     <section class="leaf__section">
-      <h3 class="leaf__heading" id="leafVignetteHeading">Cultural vignette</h3>
+      <h3 class="leaf__heading">Cultural vignette</h3>
       <p id="leafVignette"></p>
     </section>
 
     <section class="leaf__section">
-      <h3 class="leaf__heading" id="leafHistoryHeading">A short cultural history</h3>
+      <h3 class="leaf__heading">A short cultural history</h3>
       <p id="leafHistory"></p>
     </section>
 
     <section class="leaf__section">
-      <h3 class="leaf__heading" id="leafAftertasteHeading">Aftertaste</h3>
+      <h3 class="leaf__heading">Aftertaste</h3>
       <p class="leaf__aftertaste" id="leafAftertaste"></p>
     </section>
 
     <section class="leaf__section">
-      <h3 class="leaf__heading" id="leafTakeHomeHeading">Take it home</h3>
+      <h3 class="leaf__heading">Take it home</h3>
       <p id="leafTakeHome"></p>
     </section>
 
@@ -234,11 +234,11 @@
       <p class="leaf__recipeNote" id="leafRecipeNote"></p>
       <div class="leaf__columns">
         <div>
-          <h4 class="leaf__subheading" id="leafIngredientsHeading">Ingredients</h4>
+          <h4 class="leaf__subheading">Ingredients</h4>
           <ul id="leafIngredients"></ul>
         </div>
         <div>
-          <h4 class="leaf__subheading" id="leafMethodHeading">Method</h4>
+          <h4 class="leaf__subheading">Method</h4>
           <ol id="leafSteps"></ol>
         </div>
       </div>
@@ -248,16 +248,16 @@
       <button class="leaf__save" id="leafSave" type="button">Take the recipe home</button>
       <button class="leaf__dismiss" id="leafDismiss" type="button">Close</button>
     </div>
-    <p class="leaf__saveHint" id="leafSaveHint">Save as a printable cultural recipe card.</p>
+    <p class="leaf__saveHint">Save as a printable cultural recipe card.</p>
 
-    <p class="leaf__hungry" id="leafHungry">What were you really hungry for?</p>
-    <a class="leaf__credit" id="leafCredit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">a project by @fashamigura</a>
+    <p class="leaf__hungry">What were you really hungry for?</p>
+    <a class="leaf__credit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">a project by @fashamigura</a>
   </div>
 </div>
 
 <!-- Printable recipe card (visible only in print) -->
 <div class="print-card" id="printCard" aria-hidden="true">
-  <p class="print-card__project" id="printProject">The Patisserie of the Unconscious</p>
+  <p class="print-card__project">The Patisserie of the Unconscious</p>
   <p class="print-card__object" id="printObject"></p>
   <figure class="print-card__figure" id="printFigure">
     <img class="print-card__image" id="printImage" src="" alt="">
@@ -270,16 +270,16 @@
   <p class="print-card__note" id="printRecipeNote"></p>
   <div class="print-card__columns">
     <div>
-      <h3 id="printIngredientsHeading">Ingredients</h3>
+      <h3>Ingredients</h3>
       <ul id="printIngredients"></ul>
     </div>
     <div>
-      <h3 id="printMethodHeading">Method</h3>
+      <h3>Method</h3>
       <ol id="printSteps"></ol>
     </div>
   </div>
   <div class="print-card__takeHome">
-    <h3 id="printTakeHomeHeading">Take it home</h3>
+    <h3>Take it home</h3>
     <p id="printTakeHome"></p>
   </div>
 </div>
