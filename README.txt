@@ -1,11 +1,8 @@
-MOBILE SCROLL FIX
+Mobile UX update:
 
-Replace only index.html, styles.css and script.js in the repository. Assets are unchanged.
+1. The dessert selector now sits directly between the collage and the text cards.
+2. Selecting a dessert on mobile scrolls the collage back into view so the transition is visible.
+3. Opening the fourth fragment completes the world immediately; closing the card is no longer required.
+4. The fourth fragment contains a clear “Explore the cultural story” button.
 
-Mobile changes:
-- collage remains clean and uncluttered;
-- task guide, fragment explanation, title/action, final cultural-story button and selector are moved into a vertical reading flow below the collage;
-- fragment cards use larger readable type;
-- hotspot labels no longer crowd the image; rings remain bright and tappable;
-- opening a fragment scrolls to its explanation; closing it returns to the collage;
-- desktop layout is preserved.
+Replace index.html, styles.css and script.js. Assets are unchanged.

@@ -661,7 +661,19 @@ WORLDS.forEach(world => {
   btn.setAttribute("aria-checked", "false");
   btn.setAttribute("aria-label", `${world.name} — the ${SYMBOL_NAMES[world.symbol]}`);
   btn.dataset.id = world.id;
-  btn.addEventListener("click", () => selectWorld(world.id));
+  btn.addEventListener("click", () => {
+    const changingWorld = world.id !== currentId;
+    selectWorld(world.id);
+
+    if (mobileLayout.matches && changingWorld) {
+      window.setTimeout(() => {
+        stage.scrollIntoView({
+          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+          block: "start"
+        });
+      }, 90);
+    }
+  });
   dial.appendChild(btn);
 });
 
@@ -693,7 +705,7 @@ const responsiveFragment = document.getElementById("fragment");
 
 function arrangeResponsiveInterface() {
   if (mobileLayout.matches) {
-    mobileFlow.append(questGuide, responsiveFragment, strip, stageCta, dial);
+    mobileFlow.append(dial, questGuide, responsiveFragment, strip, stageCta);
   } else {
     stage.append(questGuide, responsiveFragment, strip, stageCta);
     stageWrap.appendChild(dial);
@@ -813,6 +825,7 @@ beginAgainBtn.addEventListener("click", () => {
   clearTimeout(questTimer);
   scene.classList.remove("is-guiding");
   questGuide.classList.remove("is-prominent", "is-compact");
+  fragmentNext.hidden = true;
   renderStrip(world);
 });
 
@@ -1163,15 +1176,22 @@ const fragmentKicker = document.getElementById("fragmentKicker");
 const fragmentTitle = document.getElementById("fragmentTitle");
 const fragmentSubtitle = document.getElementById("fragmentSubtitle");
 const fragmentText = document.getElementById("fragmentText");
+const fragmentNext = document.getElementById("fragmentNext");
+const fragmentNextButton = document.getElementById("fragmentNextButton");
 let fragmentSource = null; /* the hotspot that opened the panel */
 
 function openFragment(world, spot, hotspotBtn) {
   if (transitioning) return;
 
+  const state = worldState[world.id];
+  const isNewFragment = !state.explored.has(spot.key);
+  const isFourthFragment = isNewFragment && state.explored.size === 3 && !state.complete;
+
   fragmentKicker.textContent = world.name;
   fragmentTitle.textContent = spot.title;
   fragmentSubtitle.textContent = spot.subtitle;
   fragmentText.textContent = spot.text;
+  fragmentNext.hidden = !(state.complete || isFourthFragment);
 
   fragment.classList.toggle("is-left", spot.x >= 50);
   fragment.classList.toggle("is-right", spot.x < 50);
@@ -1190,17 +1210,8 @@ function openFragment(world, spot, hotspotBtn) {
   requestAnimationFrame(() => requestAnimationFrame(() => {
     fragment.classList.remove("is-entering");
   }));
-  fragmentClose.focus({ preventScroll: true });
 
-  if (mobileLayout.matches) {
-    window.setTimeout(() => {
-      fragment.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
-    }, 80);
-  }
-
-  /* exploring the fragment counts the moment it is read open */
-  const state = worldState[world.id];
-  if (!state.explored.has(spot.key)) {
+  if (isNewFragment) {
     state.explored.add(spot.key);
     hotspotBtn.classList.add("is-explored");
     clearTimeout(questTimer);
@@ -1208,11 +1219,37 @@ function openFragment(world, spot, hotspotBtn) {
     questGuide.classList.remove("is-prominent");
     questGuide.classList.add("is-compact");
     renderStrip(world);
-    if (state.explored.size === 4 && !state.complete) {
-      /* Let the visitor finish reading the fourth fragment.
-         The completion spell begins when that fragment is closed. */
-      state.completionPending = true;
+  }
+
+  if (isFourthFragment) {
+    state.completionPending = false;
+    fragmentNext.hidden = false;
+
+    window.setTimeout(() => completeWorld(world), 180);
+
+    if (mobileLayout.matches) {
+      window.setTimeout(() => {
+        fragment.scrollIntoView({
+          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+          block: "start"
+        });
+        window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
+      }, prefersReducedMotion.matches ? 250 : 1750);
+    } else {
+      window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
     }
+    return;
+  }
+
+  fragmentClose.focus({ preventScroll: true });
+
+  if (mobileLayout.matches) {
+    window.setTimeout(() => {
+      fragment.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "start"
+      });
+    }, 80);
   }
 }
 
@@ -1245,6 +1282,7 @@ function closeFragment(returnFocus, suppressCompletion = false) {
 }
 
 fragmentClose.addEventListener("click", () => closeFragment(true));
+fragmentNextButton.addEventListener("click", openLeaf);
 
 /* --------------------------------------------------------------------------
    COMPLETION — the world connects
