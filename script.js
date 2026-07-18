@@ -61,7 +61,7 @@ const WORLDS = [
       aspect: 1,
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "31%" },
-        mobile:  { left: "50%", top: "48%", width: "56%" }
+        mobile:  { left: "50%", top: "43%", width: "65%" }
       }
     },
     layers: {
@@ -140,7 +140,7 @@ const WORLDS = [
       aspect: 1.333,
       layout: {
         desktop: { left: "52%", top: "57%", width: "35%" },
-        mobile:  { left: "52%", top: "44%", width: "60%" }
+        mobile:  { left: "52%", top: "42%", width: "68%" }
       }
     },
     layers: {
@@ -224,7 +224,7 @@ const WORLDS = [
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
         desktop: { left: "50%", top: "57%", width: "38%" },
-        mobile:  { left: "50%", top: "46%", width: "64%" }
+        mobile:  { left: "50%", top: "43%", width: "72%" }
       }
     },
     layers: {
@@ -305,7 +305,7 @@ const WORLDS = [
       aspect: 1.67,
       layout: {
         desktop: { left: "50%", top: "57%", width: "36%" },
-        mobile:  { left: "50%", top: "46%", width: "62%" }
+        mobile:  { left: "50%", top: "43%", width: "70%" }
       }
     },
     layers: {
@@ -705,7 +705,10 @@ const responsiveFragment = document.getElementById("fragment");
 
 function arrangeResponsiveInterface() {
   if (mobileLayout.matches) {
-    mobileFlow.append(dial, questGuide, responsiveFragment, strip, stageCta);
+    /* Keep the selector visually attached to the collage instead of sending it
+       to the bottom of the reading flow. The cards begin directly beneath it. */
+    stageWrap.appendChild(dial);
+    mobileFlow.append(questGuide, responsiveFragment, strip, stageCta);
   } else {
     stage.append(questGuide, responsiveFragment, strip, stageCta);
     stageWrap.appendChild(dial);
@@ -728,7 +731,7 @@ function updateQuestGuide(world) {
     questGuide.hidden = false;
     questEyebrow.textContent = "The world is open";
     questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
-    questProgress.textContent = `${state.explored.size} of 4 found`;
+    questProgress.textContent = `${state.explored.size} / 4 found`;
     if (!questGuide.classList.contains("is-prominent")) {
       questGuide.classList.add("is-compact");
     }
@@ -750,7 +753,7 @@ function startQuestGuide(world, scene) {
   questGuide.classList.add("is-prominent");
   questEyebrow.textContent = "The world is open";
   questText.textContent = "Four fragments have awakened. Find the four glowing marks in the scene.";
-  questProgress.textContent = "0 of 4 found";
+  questProgress.textContent = "0 / 4 found";
   scene.classList.add("is-guiding");
 
   questTimer = window.setTimeout(() => {

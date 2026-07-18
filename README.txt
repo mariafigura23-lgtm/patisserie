@@ -1,8 +1,1 @@
-Mobile UX update:
-
-1. The dessert selector now sits directly between the collage and the text cards.
-2. Selecting a dessert on mobile scrolls the collage back into view so the transition is visible.
-3. Opening the fourth fragment completes the world immediately; closing the card is no longer required.
-4. The fourth fragment contains a clear “Explore the cultural story” button.
-
-Replace index.html, styles.css and script.js. Assets are unchanged.
+Mobile compact bridge update. Replace index.html, styles.css and script.js. No asset changes are required. The selector now overlaps the lower part of the collage, desserts are larger, cards are centered and more compact, and the fragment counter is high-contrast.
