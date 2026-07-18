@@ -61,7 +61,7 @@ const WORLDS = [
       aspect: 1,
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "31%" },
-        mobile:  { left: "50%", top: "43%", width: "65%" }
+        mobile:  { left: "50%", top: "42%", width: "70%" }
       }
     },
     layers: {
@@ -140,7 +140,7 @@ const WORLDS = [
       aspect: 1.333,
       layout: {
         desktop: { left: "52%", top: "57%", width: "35%" },
-        mobile:  { left: "52%", top: "42%", width: "68%" }
+        mobile:  { left: "52%", top: "41%", width: "73%" }
       }
     },
     layers: {
@@ -224,7 +224,7 @@ const WORLDS = [
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
         desktop: { left: "50%", top: "57%", width: "38%" },
-        mobile:  { left: "50%", top: "43%", width: "72%" }
+        mobile:  { left: "50%", top: "42%", width: "76%" }
       }
     },
     layers: {
@@ -305,7 +305,7 @@ const WORLDS = [
       aspect: 1.67,
       layout: {
         desktop: { left: "50%", top: "57%", width: "36%" },
-        mobile:  { left: "50%", top: "43%", width: "70%" }
+        mobile:  { left: "50%", top: "42%", width: "74%" }
       }
     },
     layers: {
@@ -361,6 +361,8 @@ const UI = {
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
+    "enterPatisserie": "Enter the patisserie",
+    "backToDessert": "Back to the dessert",
     "questEyebrow": "The world is open",
     "questText": "Four fragments have awakened. Find the four glowing marks in the scene.",
     "found": "found",
@@ -413,6 +415,8 @@ const UI = {
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
+    "enterPatisserie": "Войти в кондитерскую",
+    "backToDessert": "Вернуться к десерту",
     "questEyebrow": "Мир открыт",
     "questText": "Четыре фрагмента пробудились. Найдите четыре светящиеся метки в сцене.",
     "found": "найдено",
@@ -1078,6 +1082,7 @@ const stripAction = document.getElementById("stripAction");
 const stripStatus = document.getElementById("stripStatus");
 const stripDots = document.getElementById("stripDots");
 const stripDotsLabel = document.getElementById("stripDotsLabel");
+const stripState = document.querySelector(".strip__state");
 const beginAgainBtn = document.getElementById("beginAgain");
 const biteHint = document.getElementById("biteHint");
 const questGuide = document.getElementById("questGuide");
@@ -1094,7 +1099,7 @@ function arrangeResponsiveInterface() {
     /* Keep the selector visually attached to the collage instead of sending it
        to the bottom of the reading flow. The cards begin directly beneath it. */
     stageWrap.appendChild(dial);
-    mobileFlow.append(questGuide, responsiveFragment, strip, stageCta);
+    mobileFlow.append(strip, questGuide, responsiveFragment, stageCta);
   } else {
     stage.append(questGuide, responsiveFragment, strip, stageCta);
     stageWrap.appendChild(dial);
@@ -1169,17 +1174,20 @@ function renderStrip(world) {
   stripReflection.textContent = state.complete ? worldText(world, "reflection") : "";
 
   if (!state.bitten) {
-    stripAction.hidden = false;
+    stripState.hidden = true;
+    stripAction.hidden = true;
     stripAction.textContent = ui("takeBite");
     stripAction.dataset.mode = "bite";
     stripStatus.hidden = true;
     stripDots.hidden = true;
   } else if (!state.complete) {
+    stripState.hidden = false;
     stripAction.hidden = true;
     stripStatus.hidden = false;
     stripStatus.textContent = ui("hotspotInstruction");
     stripDots.hidden = false;
   } else {
+    stripState.hidden = false;
     stripAction.hidden = true;
     stripAction.dataset.mode = "home";
     stripStatus.hidden = false;
@@ -1275,6 +1283,12 @@ function applyWorldState(world) {
   });
 }
 
+function showBitePrompt(world) {
+  clearTimeout(hintTimer);
+  const shouldShow = entered && world && !worldState[world.id].bitten;
+  biteHint.classList.toggle("is-visible", Boolean(shouldShow));
+}
+
 function selectWorld(id, instant = false) {
   if (id === currentId) return;
   if (transitioning) { queuedId = id; return; }
@@ -1303,6 +1317,7 @@ function selectWorld(id, instant = false) {
     nextScene.classList.add("is-active");
     renderStrip(world);
     strip.classList.remove("is-hushed");
+    showBitePrompt(world);
     transitioning = false;
     scheduleSettle();
     flushQueue();
@@ -1324,6 +1339,7 @@ function selectWorld(id, instant = false) {
   setTimeout(() => {
     renderStrip(world);
     strip.classList.remove("is-hushed");
+    showBitePrompt(world);
   }, 920);
 
   setTimeout(() => {
@@ -1567,6 +1583,8 @@ const fragmentSubtitle = document.getElementById("fragmentSubtitle");
 const fragmentText = document.getElementById("fragmentText");
 const fragmentNext = document.getElementById("fragmentNext");
 const fragmentNextButton = document.getElementById("fragmentNextButton");
+const fragmentReturn = document.getElementById("fragmentReturn");
+const fragmentReturnLabel = document.getElementById("fragmentReturnLabel");
 let fragmentSource = null; /* the hotspot that opened the panel */
 
 function openFragment(world, spot, hotspotBtn) {
@@ -1630,15 +1648,16 @@ function openFragment(world, spot, hotspotBtn) {
     return;
   }
 
-  fragmentClose.focus({ preventScroll: true });
-
   if (mobileLayout.matches) {
+    fragmentReturn.focus({ preventScroll: true });
     window.setTimeout(() => {
       fragment.scrollIntoView({
         behavior: prefersReducedMotion.matches ? "auto" : "smooth",
         block: "start"
       });
     }, 80);
+  } else {
+    fragmentClose.focus({ preventScroll: true });
   }
 }
 
@@ -1671,6 +1690,7 @@ function closeFragment(returnFocus, suppressCompletion = false) {
 }
 
 fragmentClose.addEventListener("click", () => closeFragment(true));
+fragmentReturn.addEventListener("click", () => closeFragment(false));
 fragmentNextButton.addEventListener("click", openLeaf);
 
 /* --------------------------------------------------------------------------
@@ -1870,8 +1890,7 @@ function updateStaticLanguage() {
   document.getElementById("thresholdBodyOne").innerHTML = ui("thresholdBody1");
   document.getElementById("thresholdBodyTwo").innerHTML = ui("thresholdBody2");
   document.getElementById("languagePrompt").textContent = ui("languagePrompt");
-  document.getElementById("enterEnglish").textContent = ui("enterEnglish");
-  document.getElementById("enterRussian").textContent = ui("enterRussian");
+  document.getElementById("enterPatisserie").textContent = ui("enterPatisserie");
 
   document.getElementById("fragmentNextStatus").textContent = ui("allConnected");
   document.getElementById("fragmentNextTitle").textContent = ui("exploreStory");
@@ -1879,8 +1898,9 @@ function updateStaticLanguage() {
   document.getElementById("stageCtaTitle").textContent = ui("exploreStory");
   document.getElementById("stageCtaNote").textContent = ui("exploreNote");
   fragmentClose.setAttribute("aria-label", ui("closeFragment"));
+  fragmentReturnLabel.textContent = ui("backToDessert");
   beginAgainBtn.textContent = ui("beginAgain");
-  biteHint.textContent = currentLang === "ru" ? "откусите кусочек" : "take a bite";
+  biteHint.textContent = currentLang === "ru" ? "Откусите кусочек" : "Take a bite";
 
   document.getElementById("leafReturn").innerHTML = ui("returnText");
   document.getElementById("leafVignetteHeading").textContent = ui("culturalVignette");
@@ -1966,7 +1986,7 @@ function applyLanguage(language, { persist = true } = {}) {
   refreshOpenPanels();
 }
 
-languageSwitcher.querySelectorAll("[data-language]").forEach(button => {
+languageButtons.forEach(button => {
   button.addEventListener("click", () => applyLanguage(button.dataset.language));
 });
 
@@ -1975,8 +1995,7 @@ languageSwitcher.querySelectorAll("[data-language]").forEach(button => {
    -------------------------------------------------------------------------- */
 
 const threshold = document.getElementById("threshold");
-const enterEnglish = document.getElementById("enterEnglish");
-const enterRussian = document.getElementById("enterRussian");
+const enterPatisserieButton = document.getElementById("enterPatisserie");
 
 function enterPatisserie(language) {
   applyLanguage(language);
@@ -1989,10 +2008,8 @@ function enterPatisserie(language) {
   wake();
 
   const scene = activeScene();
-  if (scene && !scene.classList.contains("scene--no-dessert") && !worldState[currentId].bitten) {
-    clearTimeout(hintTimer);
-    biteHint.classList.add("is-visible");
-    hintTimer = setTimeout(() => biteHint.classList.remove("is-visible"), 5200);
+  if (scene && !scene.classList.contains("scene--no-dessert")) {
+    showBitePrompt(worldById(currentId));
   }
 
   const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
@@ -2004,8 +2021,7 @@ function enterPatisserie(language) {
   }, 2500);
 }
 
-enterEnglish.addEventListener("click", () => enterPatisserie("en"));
-enterRussian.addEventListener("click", () => enterPatisserie("ru"));
+enterPatisserieButton.addEventListener("click", () => enterPatisserie(currentLang));
 
 /* --------------------------------------------------------------------------
    BEGIN — in Combray, where all remembering starts

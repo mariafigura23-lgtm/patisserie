@@ -67,6 +67,10 @@
             <small id="fragmentNextNote">History · aftertaste · recipe</small>
           </button>
         </div>
+        <button class="fragment__return" id="fragmentReturn" type="button">
+          <span class="fragment__return-arrow" aria-hidden="true">↑</span>
+          <span id="fragmentReturnLabel">Back to the dessert</span>
+        </button>
       </div>
 
       <!-- slim label strip along the bottom of the stage -->
@@ -185,10 +189,12 @@
     <p class="threshold__body" id="thresholdBodyOne">Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.</p>
     <p class="threshold__body" id="thresholdBodyTwo">Choose a dessert.<br>Take a bite.<br>Discover the world it holds.</p>
     <p class="threshold__language-prompt" id="languagePrompt">Choose the language of your visit · Выберите язык посещения</p>
-    <div class="threshold__language-actions">
-      <button class="threshold__enter" id="enterEnglish" type="button" data-language="en">Enter in English</button>
-      <button class="threshold__enter" id="enterRussian" type="button" data-language="ru">Войти на русском</button>
+    <div class="language-switcher language-switcher--threshold" id="thresholdLanguageSwitcher" role="group" aria-label="Language / Язык">
+      <button class="language-switcher__button" type="button" data-language="en">EN</button>
+      <span aria-hidden="true">/</span>
+      <button class="language-switcher__button" type="button" data-language="ru">RU</button>
     </div>
+    <button class="threshold__enter" id="enterPatisserie" type="button">Enter the patisserie</button>
     <a class="threshold__credit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram · @fashamigura</a>
   </div>
 </div>

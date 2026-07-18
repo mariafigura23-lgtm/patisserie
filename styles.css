@@ -3119,3 +3119,214 @@ html[lang="ru"] .hotspot__label {
     max-width: 25ch;
   }
 }
+
+
+/* ========================================================================== 
+   MOBILE ENTRY + BRIDGE REFINEMENT
+   One language toggle, a persistent bite cue, a tighter selector bridge,
+   and an explicit return route from fragment reading to the collage.
+   ========================================================================== */
+
+/* hidden must win over mobile layout display declarations */
+.strip__state[hidden],
+.strip__dots[hidden],
+.strip__status[hidden],
+.strip__action[hidden],
+.quest-guide[hidden],
+.fragment__next[hidden],
+.stage-cta[hidden] {
+  display: none !important;
+}
+
+.language-switcher--threshold {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  display: inline-flex;
+  margin: 0 auto 0.85rem;
+  padding: 0.5rem 0.78rem;
+  background: rgba(7, 12, 23, 0.74);
+  border-color: rgba(224, 193, 132, 0.58);
+  opacity: 0;
+  animation: thresholdReveal 1.4s ease-out 3.35s forwards;
+}
+
+.language-switcher--threshold + .threshold__enter {
+  display: block;
+  min-width: min(15rem, 100%);
+  margin: 0.05rem auto 0;
+}
+
+.fragment__return {
+  display: none;
+}
+
+/* The instruction is a label, never a second button. */
+.bite-hint {
+  top: 23.5%;
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  padding: 0.42rem 0.78rem 0.34rem;
+  font-family: var(--serif-caps);
+  font-style: normal;
+  font-size: clamp(0.62rem, 0.9vw, 0.78rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass-pale);
+  background: rgba(7, 12, 23, 0.52);
+  border: 1px solid rgba(224, 193, 132, 0.36);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.bite-hint::after {
+  content: "↓";
+  display: block;
+  margin-top: 0.08rem;
+  font-family: Georgia, serif;
+  font-size: 1.35em;
+  line-height: 0.75;
+  letter-spacing: 0;
+  animation: biteArrow 1.7s ease-in-out infinite;
+}
+
+@keyframes biteArrow {
+  0%, 100% { transform: translateY(0); opacity: 0.72; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+@media (max-width: 900px) {
+  /* The selector sits fully within the lower collage instead of creating a
+     separate scroll step below it. */
+  .stage-wrap > .dial {
+    top: calc((min(97vw, 760px) * 4 / 3) - clamp(5.8rem, 22vw, 8.2rem));
+    width: clamp(132px, 35vw, 166px);
+  }
+
+  .mobile-flow {
+    padding-top: 0;
+    gap: 0.38rem;
+  }
+
+  /* The dessert label is always the first card. Its raised brass arch follows
+     the round selector and closes the visual gap between image and text. */
+  .mobile-flow .strip {
+    isolation: isolate;
+    margin-top: clamp(-1.65rem, -5vw, -1.1rem);
+    padding: 1.22rem 0.9rem 0.82rem;
+    border-radius: 24px 24px 16px 16px;
+    overflow: visible;
+  }
+
+  .mobile-flow .strip::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: clamp(-4.2rem, -16vw, -3.2rem);
+    width: clamp(154px, 41vw, 192px);
+    height: clamp(4.1rem, 16vw, 5.2rem);
+    transform: translateX(-50%);
+    z-index: -1;
+    border: 1px solid rgba(224, 193, 132, 0.48);
+    border-bottom: 0;
+    border-radius: 999px 999px 0 0;
+    background:
+      radial-gradient(100% 90% at 50% 100%, rgba(179, 144, 79, 0.12), transparent 62%),
+      rgba(7, 12, 23, 0.97);
+  }
+
+  .mobile-flow .strip__name {
+    font-size: clamp(2rem, 8.3vw, 2.55rem);
+  }
+
+  .mobile-flow .strip__line,
+  .mobile-flow .strip__reflection {
+    max-width: 27ch;
+    font-size: clamp(0.96rem, 4vw, 1.12rem);
+    line-height: 1.24;
+  }
+
+  .mobile-flow .strip__state:empty,
+  .mobile-flow .strip__state:has(> [hidden]:only-child) {
+    display: none;
+  }
+
+  /* Once bitten, progress appears in the quest card only. No pre-bite dots. */
+  .mobile-flow .strip__dots[hidden] {
+    display: none !important;
+  }
+
+  .mobile-flow .quest-guide {
+    margin-top: 0;
+    padding: 0.88rem 0.9rem 0.78rem;
+    border-radius: 14px;
+  }
+
+  .mobile-flow .quest-guide.is-compact,
+  .mobile-flow .quest-guide.is-prominent {
+    padding: 0.88rem 0.9rem 0.78rem;
+  }
+
+  .mobile-flow .quest-guide__text,
+  .mobile-flow .quest-guide.is-compact .quest-guide__text {
+    max-width: 27ch;
+    font-size: clamp(0.94rem, 3.9vw, 1.08rem);
+  }
+
+  .bite-hint {
+    top: 22%;
+    font-size: clamp(0.62rem, 2.55vw, 0.74rem);
+    padding: 0.4rem 0.68rem 0.32rem;
+  }
+
+  /* On mobile the cross is replaced by a clear route back to the scene. */
+  .mobile-flow .fragment__close {
+    display: none;
+  }
+
+  .mobile-flow .fragment__return {
+    display: flex;
+    width: min(18rem, 100%);
+    min-height: 50px;
+    margin: 1rem auto 0;
+    padding: 0.72rem 1rem 0.68rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border: 1px solid rgba(122, 92, 46, 0.5);
+    border-radius: 999px;
+    background: rgba(255, 252, 242, 0.42);
+    color: #5f4b2e;
+    font-family: var(--serif-caps);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mobile-flow .fragment__return-arrow {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .mobile-flow .fragment__return:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 3px;
+  }
+
+  .threshold__language-actions {
+    display: none;
+  }
+
+  .language-switcher--threshold {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 0 auto 0.8rem;
+    padding: 0.48rem 0.74rem;
+  }
+}
