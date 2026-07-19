@@ -1914,6 +1914,37 @@ veil.addEventListener("keydown", e => {
 const languageSwitcher = document.getElementById("languageSwitcher");
 const languageButtons = Array.from(document.querySelectorAll("[data-language]"));
 
+function wrapIntroBreaks(element, extraClass = "") {
+  if (!element) return;
+
+  const parts = element.innerHTML
+    .split(/<br\s*\/?\s*>/i)
+    .map(part => part.replace(/<[^>]*>/g, "").trim())
+    .filter(Boolean);
+
+  element.replaceChildren(...parts.map(part => {
+    const line = document.createElement("span");
+    line.className = `threshold__line${extraClass ? ` ${extraClass}` : ""}`;
+    line.textContent = part;
+    return line;
+  }));
+}
+
+function decorateIntroLines() {
+  wrapIntroBreaks(document.getElementById("thresholdTitle"), "threshold__line--title");
+  wrapIntroBreaks(document.getElementById("thresholdBodyTwo"));
+}
+
+function startIntroReveal() {
+  const thresholdElement = document.getElementById("threshold");
+  if (!thresholdElement || thresholdElement.hidden) return;
+
+  thresholdElement.classList.remove("is-intro-revealing");
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => thresholdElement.classList.add("is-intro-revealing"));
+  });
+}
+
 function updateStaticLanguage() {
   document.documentElement.lang = currentLang;
   document.title = ui("documentTitle");
@@ -1926,6 +1957,7 @@ function updateStaticLanguage() {
   document.getElementById("thresholdLead").textContent = ui("thresholdLead");
   document.getElementById("thresholdBodyOne").innerHTML = ui("thresholdBody1");
   document.getElementById("thresholdBodyTwo").innerHTML = ui("thresholdBody2");
+  decorateIntroLines();
   document.getElementById("languagePrompt").textContent = ui("languagePrompt");
   document.getElementById("enterPatisserie").textContent = ui("enterPatisserie");
 
@@ -2072,3 +2104,11 @@ enterPatisserieButton.addEventListener("click", () => enterPatisserie(currentLan
 
 selectWorld("madeleine", true);
 applyLanguage(currentLang, { persist: false });
+
+
+/* Start the entrance sequence after the initial hidden state has been painted. */
+if (document.readyState === "complete") {
+  startIntroReveal();
+} else {
+  window.addEventListener("load", startIntroReveal, { once: true });
+}
