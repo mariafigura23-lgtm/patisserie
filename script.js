@@ -47,13 +47,13 @@ const WORLDS = [
       "Bake for 9–11 minutes until lightly golden."
     ],
     assets: {
-      background: "assets/madeleine-background.jpg",
+      background: "assets/madeleine-background.webp",
       fallbackBackground: "assets/madeleine-collage.jpg",
-      dessertWhole: "assets/madeleine-whole.png",
-      dessertBitten: "assets/madeleine-bitten.png",
-      recipeImage: "assets/madeleine-recipe-card.jpg",
-      magic: "assets/madeleine-magic.png",
-      character: "assets/madeleine-rabbit.png",
+      dessertWhole: "assets/madeleine-whole.webp",
+      dessertBitten: "assets/madeleine-bitten.webp",
+      recipeImage: "assets/madeleine-recipe-card.webp",
+      magic: "assets/madeleine-magic.webp",
+      character: "assets/madeleine-rabbit.webp",
       foreground: "assets/madeleine-foreground.png"
     },
     dessert: {
@@ -126,13 +126,13 @@ const WORLDS = [
       "Dust lightly with powdered sugar."
     ],
     assets: {
-      background: "assets/cannoli-background.jpg",
+      background: "assets/cannoli-background.webp",
       fallbackBackground: "assets/cannoli-collage.jpg",
-      dessertWhole: "assets/cannoli-whole.png",
-      dessertBitten: "assets/cannoli-bitten.png",
-      recipeImage: "assets/cannoli-recipe-card.jpg",
-      magic: "assets/cannoli-magic.png",
-      character: "assets/cannoli-rabbit.png",
+      dessertWhole: "assets/cannoli-whole.webp",
+      dessertBitten: "assets/cannoli-bitten.webp",
+      recipeImage: "assets/cannoli-recipe-card.webp",
+      magic: "assets/cannoli-magic.webp",
+      character: "assets/cannoli-rabbit.webp",
       foreground: "assets/cannoli-foreground.png"
     },
     dessert: {
@@ -209,13 +209,13 @@ const WORLDS = [
       "Chill overnight."
     ],
     assets: {
-      background: "assets/napoleon-background.jpg",
+      background: "assets/napoleon-background.webp",
       fallbackBackground: "assets/napoleon-collage.jpg",
-      dessertWhole: "assets/napoleon-whole.png",
-      dessertBitten: "assets/napoleon-bitten.png",
-      recipeImage: "assets/napoleon-recipe-card.jpg",
-      magic: "assets/napoleon-magic.png",
-      character: "assets/napoleon-memory.png",
+      dessertWhole: "assets/napoleon-whole.webp",
+      dessertBitten: "assets/napoleon-bitten.webp",
+      recipeImage: "assets/napoleon-recipe-card.webp",
+      magic: "assets/napoleon-magic.webp",
+      character: "assets/napoleon-memory.webp",
       foreground: "assets/napoleon-foreground.png"
     },
     dessert: {
@@ -291,13 +291,13 @@ const WORLDS = [
       "Serve at a table you have arranged for no reason at all."
     ],
     assets: {
-      background: "assets/petit-four-background.jpg",
+      background: "assets/petit-four-background.webp",
       fallbackBackground: "assets/petit-four-collage.jpg",
-      dessertWhole: "assets/petit-four-whole.png",
-      dessertBitten: "assets/petit-four-bitten.png",
-      recipeImage: "assets/petit-four-recipe-card.jpg",
-      magic: "assets/petit-four-magic.png",
-      character: "assets/petit-four-rabbits.png",
+      dessertWhole: "assets/petit-four-whole.webp",
+      dessertBitten: "assets/petit-four-bitten.webp",
+      recipeImage: "assets/petit-four-recipe-card.webp",
+      magic: "assets/petit-four-magic.webp",
+      character: "assets/petit-four-rabbits.webp",
       foreground: "assets/petit-four-foreground.png"
     },
     dessert: {
@@ -899,11 +899,17 @@ function buildScene(world) {
   whole.className = "scene__dessert-image scene__dessert-image--whole";
   whole.alt = "";
   whole.draggable = false;
+  whole.decoding = "async";
+  whole.loading = world.id === "madeleine" ? "eager" : "lazy";
+  whole.fetchPriority = world.id === "madeleine" ? "high" : "auto";
   whole.dataset.src = world.assets.dessertWhole;
   const bitten = document.createElement("img");
   bitten.className = "scene__dessert-image scene__dessert-image--bitten";
   bitten.alt = "";
   bitten.draggable = false;
+  bitten.decoding = "async";
+  bitten.loading = "lazy";
+  bitten.fetchPriority = "low";
   bitten.dataset.src = world.assets.dessertBitten;
   inner.append(whole, bitten);
   dessert.appendChild(inner);
@@ -962,26 +968,51 @@ function loadSceneAssets(world) {
   state.loaded = true;
 
   const scene = sceneById(world.id);
-
   const bgImg = scene.querySelector(".scene__background-layer img");
-  loadWithFallback(bgImg, [bgImg.dataset.src, bgImg.dataset.fallback], () => {
-    bgImg.closest(".scene__layer").remove(); /* the painted CSS ground remains */
-  });
-
-  ["scene__character-layer", "scene__magic-layer"].forEach(cls => {
-    const layer = scene.querySelector(`.${cls}`);
-    if (!layer) return;
-    const img = layer.querySelector("img");
-    loadWithFallback(img, [img.dataset.src], () => layer.remove());
-  });
-
   const whole = scene.querySelector(".scene__dessert-image--whole");
   const bitten = scene.querySelector(".scene__dessert-image--bitten");
-  loadWithFallback(whole, [whole.dataset.src], () => scene.classList.add("scene--no-dessert"));
-  loadWithFallback(bitten, [bitten.dataset.src], () => {
-    scene.classList.add("scene--no-bitten");
-    bitten.remove();
-  });
+
+  /* The background and intact dessert are the visible essentials. Load those
+     first; decorative layers and the bitten state wait until the browser is idle. */
+  if (bgImg) {
+    bgImg.decoding = "async";
+    bgImg.fetchPriority = world.id === "madeleine" ? "high" : "auto";
+    loadWithFallback(bgImg, [bgImg.dataset.src, bgImg.dataset.fallback], () => {
+      bgImg.closest(".scene__layer")?.remove();
+    });
+  }
+
+  if (whole) {
+    whole.fetchPriority = world.id === "madeleine" ? "high" : "auto";
+    loadWithFallback(whole, [whole.dataset.src], () => scene.classList.add("scene--no-dessert"));
+  }
+
+  const loadNonCritical = () => {
+    ["scene__character-layer", "scene__magic-layer"].forEach(cls => {
+      const layer = scene.querySelector(`.${cls}`);
+      if (!layer) return;
+      const img = layer.querySelector("img");
+      if (!img) return;
+      img.decoding = "async";
+      img.loading = "lazy";
+      img.fetchPriority = "low";
+      loadWithFallback(img, [img.dataset.src], () => layer.remove());
+    });
+
+    if (bitten) {
+      bitten.fetchPriority = "low";
+      loadWithFallback(bitten, [bitten.dataset.src], () => {
+        scene.classList.add("scene--no-bitten");
+        bitten.remove();
+      });
+    }
+  };
+
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(loadNonCritical, { timeout: 900 });
+  } else {
+    window.setTimeout(loadNonCritical, 240);
+  }
 }
 
 /* dessert position and background framing are data-driven per breakpoint */
@@ -1026,13 +1057,15 @@ function playWorldGateway() {
   if (!worldGateway || prefersReducedMotion.matches) return;
   clearTimeout(gatewayTimer);
   worldGateway.classList.remove("is-active");
+  document.body.classList.add("is-world-gateway-active");
   dial.classList.add("is-gateway-hidden");
   void worldGateway.offsetWidth;
   worldGateway.classList.add("is-active");
   gatewayTimer = window.setTimeout(() => {
     worldGateway.classList.remove("is-active");
     dial.classList.remove("is-gateway-hidden");
-  }, 1080);
+    document.body.classList.remove("is-world-gateway-active");
+  }, 1260);
 }
 
 /* Always prefer the custom dial artwork. The SVG face is used only if the PNG truly fails. */
@@ -1364,6 +1397,22 @@ function selectWorld(id, instant = false) {
     scheduleSettle();
     flushQueue();
   }, 1080);
+}
+
+function warmRemainingWorlds() {
+  const warm = () => {
+    WORLDS.filter(w => w.id !== currentId).forEach(world => {
+      [world.assets.background, world.assets.dessertWhole].forEach(src => {
+        if (!src) return;
+        const image = new Image();
+        image.decoding = "async";
+        image.fetchPriority = "low";
+        image.src = src;
+      });
+    });
+  };
+  if ("requestIdleCallback" in window) window.requestIdleCallback(warm, { timeout: 1800 });
+  else window.setTimeout(warm, 900);
 }
 
 function flushQueue() {
@@ -2020,6 +2069,7 @@ function enterPatisserie(language) {
   window.setTimeout(() => {
     threshold.hidden = true;
     threshold.classList.remove("is-opening");
+    warmRemainingWorlds();
   }, 1060);
 
   scheduleSettle();
