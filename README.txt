@@ -1,1 +1,1 @@
-Final polish: compact no-scroll entrance, selector preview and full-screen dial gateway, single cultural-story CTA, mobile dial transition, compact completion caption. Replace index.html, styles.css, script.js. Assets unchanged.
+Rollback to the last stable visual version. Changes kept: compact no-scroll entrance, clear dial instruction, one cultural-story CTA, and restrained in-place dial rotation for entrance/world changes. Replace index.html, styles.css and script.js only.

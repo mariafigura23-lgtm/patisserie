@@ -3330,3 +3330,132 @@ html[lang="ru"] .hotspot__label {
     padding: 0.48rem 0.74rem;
   }
 }
+
+
+/* ========================================================================== 
+   CLEAN ROLLBACK — restrained entrance and dial transitions
+   ========================================================================== */
+
+/* One cultural-story action only: the button beneath the dessert card. */
+.fragment__next {
+  display: none !important;
+}
+
+/* Keep the entrance elegant and inside one viewport without making the dial
+   the entire composition. */
+.threshold {
+  overflow: hidden;
+  padding: clamp(.65rem, 2vh, 1.2rem);
+}
+
+.threshold__card {
+  width: min(32rem, 100%);
+  max-height: calc(100dvh - 1.3rem);
+  overflow: hidden;
+  padding: clamp(1.15rem, 3vh, 2rem) clamp(1.1rem, 3vw, 2.25rem);
+}
+
+#thresholdBodyOne {
+  display: none;
+}
+
+.threshold__eyebrow { margin-bottom: .65rem; }
+.threshold__title {
+  margin-bottom: .62rem;
+  font-size: clamp(1.78rem, 4.8vw, 2.8rem);
+}
+.threshold__rule { margin-bottom: .65rem; }
+.threshold__lead {
+  margin-bottom: .75rem;
+  font-size: clamp(1.05rem, 2.25vw, 1.32rem);
+}
+.threshold__body {
+  max-width: 31ch;
+  margin: 0 auto .8rem;
+  line-height: 1.45;
+  font-size: clamp(.9rem, 1.8vw, 1rem);
+}
+.threshold__language-prompt {
+  margin-top: .1rem;
+  margin-bottom: .55rem;
+}
+.language-switcher--threshold { margin-bottom: .55rem; }
+.language-switcher--threshold + .threshold__enter {
+  margin-top: 0;
+  min-height: 42px;
+  padding: .82em 1.65em;
+}
+.threshold__credit {
+  margin-top: .72rem;
+  font-size: .76rem;
+}
+
+/* The working selector turns in place as a magical hinge. It never expands
+   over the whole screen. */
+.dial.is-gateway-turning,
+.dial.is-entry-turning {
+  animation: restrainedDialTurn 1.25s cubic-bezier(.22,.72,.18,1) both;
+}
+
+.dial.is-entry-turning {
+  animation-duration: 1.45s;
+}
+
+@keyframes restrainedDialTurn {
+  0%   { transform: var(--dial-base-transform, none) rotate(0deg) scale(.96); filter: brightness(.9); }
+  44%  { transform: var(--dial-base-transform, none) rotate(210deg) scale(1.09); filter: brightness(1.22) drop-shadow(0 0 28px rgba(224,193,132,.55)); }
+  100% { transform: var(--dial-base-transform, none) rotate(360deg) scale(1); filter: brightness(1); }
+}
+
+@media (min-width: 901px) {
+  .threshold__card { max-height: calc(100dvh - 2rem); }
+  .threshold__body { font-size: clamp(.88rem, 1.15vw, .98rem); }
+}
+
+@media (max-width: 900px) {
+  .threshold {
+    padding: max(.5rem, env(safe-area-inset-top)) .55rem max(.5rem, env(safe-area-inset-bottom));
+  }
+
+  .threshold__card {
+    max-height: calc(100dvh - 1rem);
+    padding: .95rem .95rem .85rem;
+  }
+
+  .threshold__eyebrow { margin-bottom: .42rem; }
+  .threshold__title {
+    margin-bottom: .46rem;
+    font-size: clamp(1.7rem, 8.1vw, 2.2rem);
+  }
+  .threshold__rule { margin-bottom: .48rem; }
+  .threshold__lead {
+    margin-bottom: .55rem;
+    font-size: clamp(1rem, 4.7vw, 1.2rem);
+  }
+  .threshold__body {
+    margin-bottom: .62rem;
+    max-width: 27ch;
+    font-size: clamp(.84rem, 3.6vw, .96rem);
+    line-height: 1.38;
+  }
+  .threshold__language-prompt {
+    margin-bottom: .42rem;
+    font-size: clamp(.58rem, 2.55vw, .68rem);
+  }
+  .language-switcher--threshold { margin-bottom: .45rem; }
+  .threshold__credit { margin-top: .48rem; }
+
+  /* preserve the centered bridge position while allowing rotation */
+  .mobile-flow .dial,
+  .stage-wrap > .dial {
+    --dial-base-transform: translateX(-50%);
+  }
+}
+
+@media (max-height: 650px) {
+  .threshold__eyebrow,
+  .threshold__credit { display: none; }
+  .threshold__title { font-size: clamp(1.55rem, 6vh, 2rem); }
+  .threshold__lead { font-size: clamp(.95rem, 3.2vh, 1.1rem); }
+  .threshold__body { font-size: .84rem; margin-bottom: .42rem; }
+}

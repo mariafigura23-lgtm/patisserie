@@ -357,7 +357,7 @@ const UI = {
     "thresholdTitle": "The Patisserie<br>of the Unconscious",
     "thresholdLead": "Every dessert holds a story — and a desire.",
     "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
-    "thresholdBody2": "Choose a dessert.<br>Take a bite.<br>Discover the world it holds.",
+    "thresholdBody2": "Turn the dial to move between four dessert worlds.",
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -411,7 +411,7 @@ const UI = {
     "thresholdTitle": "Кондитерская<br>бессознательного",
     "thresholdLead": "В каждом десерте скрыты история — и желание.",
     "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
-    "thresholdBody2": "Выберите десерт.<br>Откусите кусочек.<br>Откройте мир, который он хранит.",
+    "thresholdBody2": "Поворачивайте переключатель, чтобы переходить между четырьмя мирами десертов.",
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -1327,6 +1327,9 @@ function selectWorld(id, instant = false) {
   /* Magical fold: the old world collapses toward the selector portal,
      then the new world unfolds from the same point. */
   strip.classList.add("is-hushed");
+  dial.classList.remove("is-gateway-turning");
+  void dial.offsetWidth;
+  dial.classList.add("is-gateway-turning");
   prevScene.classList.remove("is-leaving");
   prevScene.classList.add("is-folding-out");
   nextScene.classList.add("is-active", "is-folding-in");
@@ -1345,6 +1348,7 @@ function selectWorld(id, instant = false) {
   setTimeout(() => {
     nextScene.classList.remove("is-folding-in");
     stage.classList.remove("is-ripping");
+    dial.classList.remove("is-gateway-turning");
     transitioning = false;
     scheduleSettle();
     flushQueue();
@@ -1598,7 +1602,7 @@ function openFragment(world, spot, hotspotBtn) {
   fragmentTitle.textContent = spotText(world, spot, "title");
   fragmentSubtitle.textContent = spotText(world, spot, "subtitle");
   fragmentText.textContent = spotText(world, spot, "text");
-  fragmentNext.hidden = !(state.complete || isFourthFragment);
+  fragmentNext.hidden = true;
 
   fragment.classList.toggle("is-left", spot.x >= 50);
   fragment.classList.toggle("is-right", spot.x < 50);
@@ -1630,7 +1634,7 @@ function openFragment(world, spot, hotspotBtn) {
 
   if (isFourthFragment) {
     state.completionPending = false;
-    fragmentNext.hidden = false;
+    fragmentNext.hidden = true;
 
     window.setTimeout(() => completeWorld(world), 180);
 
@@ -1640,10 +1644,7 @@ function openFragment(world, spot, hotspotBtn) {
           behavior: prefersReducedMotion.matches ? "auto" : "smooth",
           block: "start"
         });
-        window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
-      }, prefersReducedMotion.matches ? 250 : 1750);
-    } else {
-      window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
+      }, prefersReducedMotion.matches ? 220 : 1050);
     }
     return;
   }
@@ -2002,7 +2003,11 @@ function enterPatisserie(language) {
   entered = true;
   languageSwitcher.hidden = false;
   threshold.classList.add("is-leaving");
-  setTimeout(() => { threshold.hidden = true; }, 850);
+  dial.classList.add("is-entry-turning");
+  setTimeout(() => {
+    threshold.hidden = true;
+    window.setTimeout(() => dial.classList.remove("is-entry-turning"), 1100);
+  }, 650);
 
   scheduleSettle();
   wake();
