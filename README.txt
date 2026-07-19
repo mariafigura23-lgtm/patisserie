@@ -1,1 +1,1 @@
-Fix: entrance language buttons now work even when Safari or a privacy setting blocks localStorage. Replace index.html, styles.css, and script.js. Assets are unchanged.
+Final polish: compact no-scroll entrance, selector preview and full-screen dial gateway, single cultural-story CTA, mobile dial transition, compact completion caption. Replace index.html, styles.css, script.js. Assets unchanged.

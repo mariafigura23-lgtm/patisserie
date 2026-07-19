@@ -186,6 +186,9 @@
     <h1 class="threshold__title" id="thresholdTitle">The Patisserie<br>of the Unconscious</h1>
     <div class="threshold__rule" aria-hidden="true"></div>
     <p class="threshold__lead" id="thresholdLead">Every dessert holds a story&nbsp;— and a desire.</p>
+    <div class="threshold__dial-preview" id="thresholdDialPreview" aria-hidden="true">
+      <img src="assets/dessert-dial.png" alt="" draggable="false">
+    </div>
     <p class="threshold__body" id="thresholdBodyOne">Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.</p>
     <p class="threshold__body" id="thresholdBodyTwo">Choose a dessert.<br>Take a bite.<br>Discover the world it holds.</p>
     <p class="threshold__language-prompt" id="languagePrompt">Choose the language of your visit · Выберите язык посещения</p>
@@ -197,6 +200,12 @@
     <button class="threshold__enter" id="enterPatisserie" type="button">Enter the patisserie</button>
     <a class="threshold__credit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram · @fashamigura</a>
   </div>
+</div>
+
+<!-- The selector becomes a full-screen gateway while entering or changing worlds. -->
+<div class="dial-gateway" id="dialGateway" hidden aria-hidden="true">
+  <div class="dial-gateway__halo"></div>
+  <img class="dial-gateway__art" id="dialGatewayArt" src="assets/dessert-dial.png" alt="" draggable="false">
 </div>
 
 <!-- "Take its taste home" overlay — the Return -->

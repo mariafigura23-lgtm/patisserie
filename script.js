@@ -357,7 +357,7 @@ const UI = {
     "thresholdTitle": "The Patisserie<br>of the Unconscious",
     "thresholdLead": "Every dessert holds a story — and a desire.",
     "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
-    "thresholdBody2": "Choose a dessert.<br>Take a bite.<br>Discover the world it holds.",
+    "thresholdBody2": "Turn the dial. Choose a world.",
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -411,7 +411,7 @@ const UI = {
     "thresholdTitle": "Кондитерская<br>бессознательного",
     "thresholdLead": "В каждом десерте скрыты история — и желание.",
     "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
-    "thresholdBody2": "Выберите десерт.<br>Откусите кусочек.<br>Откройте мир, который он хранит.",
+    "thresholdBody2": "Поверните переключатель. Выберите мир.",
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -1157,6 +1157,7 @@ function startQuestGuide(world, scene) {
 function renderStrip(world) {
   const state = worldState[world.id];
   clearTimeout(statusTimer);
+  strip.classList.toggle("is-complete", state.complete);
 
   stripContext.textContent = worldText(world, "context");
   stripName.textContent = worldText(world, "name");
@@ -1187,12 +1188,13 @@ function renderStrip(world) {
     stripStatus.textContent = ui("hotspotInstruction");
     stripDots.hidden = false;
   } else {
+    /* Completion is communicated by the single cultural-story button.
+       The caption itself stays compact: no duplicate status or progress row. */
     stripState.hidden = false;
     stripAction.hidden = true;
     stripAction.dataset.mode = "home";
-    stripStatus.hidden = false;
-    stripStatus.textContent = ui("allFound");
-    stripDots.hidden = false;
+    stripStatus.hidden = true;
+    stripDots.hidden = true;
   }
 }
 
@@ -1225,6 +1227,102 @@ beginAgainBtn.addEventListener("click", () => {
   fragmentNext.hidden = true;
   renderStrip(world);
 });
+
+/* --------------------------------------------------------------------------
+   DIAL GATEWAY — the selector briefly becomes the door between worlds
+   -------------------------------------------------------------------------- */
+
+const dialGateway = document.getElementById("dialGateway");
+const dialGatewayArt = document.getElementById("dialGatewayArt");
+const thresholdDialPreview = document.getElementById("thresholdDialPreview");
+let gatewayAnimation = null;
+
+function gatewayRect(element, fallbackSize = 150) {
+  if (element) {
+    const rect = element.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) return rect;
+  }
+  const size = fallbackSize;
+  return {
+    left: (window.innerWidth - size) / 2,
+    top: (window.innerHeight - size) / 2,
+    width: size,
+    height: size
+  };
+}
+
+function runDialGateway({ source = dial, target = dial, onMidpoint, mode = "world" } = {}) {
+  if (prefersReducedMotion.matches || !dialGateway || !dialGatewayArt) {
+    if (onMidpoint) onMidpoint();
+    return Promise.resolve();
+  }
+
+  if (gatewayAnimation) gatewayAnimation.cancel();
+
+  const sourceRect = gatewayRect(source, mode === "entry" ? 132 : 150);
+  const targetRect = gatewayRect(target, 150);
+  const fullSize = Math.min(window.innerWidth * 0.82, window.innerHeight * 0.82, 720);
+  const fullLeft = (window.innerWidth - fullSize) / 2;
+  const fullTop = (window.innerHeight - fullSize) / 2;
+  const duration = mode === "entry" ? 1550 : mode === "completion" ? 1250 : 1150;
+  const midpoint = mode === "entry" ? 0.58 : 0.52;
+
+  dialGateway.hidden = false;
+  dialGateway.className = `dial-gateway is-active dial-gateway--${mode}`;
+  document.body.classList.add("dial-gateway-open");
+
+  const hideTarget = target === dial || source === dial;
+  if (hideTarget) dial.style.visibility = "hidden";
+
+  dialGatewayArt.style.left = `${sourceRect.left}px`;
+  dialGatewayArt.style.top = `${sourceRect.top}px`;
+  dialGatewayArt.style.width = `${sourceRect.width}px`;
+  dialGatewayArt.style.height = `${sourceRect.height}px`;
+
+  let swapped = false;
+  const swap = () => {
+    if (swapped) return;
+    swapped = true;
+    if (onMidpoint) onMidpoint();
+  };
+  const swapTimer = window.setTimeout(swap, duration * midpoint);
+
+  gatewayAnimation = dialGatewayArt.animate([
+    {
+      left: `${sourceRect.left}px`, top: `${sourceRect.top}px`,
+      width: `${sourceRect.width}px`, height: `${sourceRect.height}px`,
+      transform: "rotate(0deg) scale(0.96)", opacity: 0.88,
+      offset: 0
+    },
+    {
+      left: `${fullLeft}px`, top: `${fullTop}px`,
+      width: `${fullSize}px`, height: `${fullSize}px`,
+      transform: "rotate(620deg) scale(1)", opacity: 1,
+      offset: midpoint
+    },
+    {
+      left: `${targetRect.left}px`, top: `${targetRect.top}px`,
+      width: `${targetRect.width}px`, height: `${targetRect.height}px`,
+      transform: "rotate(1080deg) scale(1)", opacity: mode === "completion" ? 0 : 1,
+      offset: 1
+    }
+  ], {
+    duration,
+    easing: "cubic-bezier(.22,.72,.18,1)",
+    fill: "forwards"
+  });
+
+  return gatewayAnimation.finished.catch(() => {}).then(() => {
+    window.clearTimeout(swapTimer);
+    swap();
+    gatewayAnimation = null;
+    dialGateway.hidden = true;
+    dialGateway.className = "dial-gateway";
+    document.body.classList.remove("dial-gateway-open");
+    dialGatewayArt.removeAttribute("style");
+    if (hideTarget) dial.style.visibility = "";
+  });
+}
 
 /* --------------------------------------------------------------------------
    STATE + TRANSITIONS
@@ -1321,6 +1419,29 @@ function selectWorld(id, instant = false) {
     transitioning = false;
     scheduleSettle();
     flushQueue();
+    return;
+  }
+
+  /* On phones the selector itself becomes the magical door. This replaces
+     the split-screen fold, which felt visually heavy in a narrow viewport. */
+  if (mobileLayout.matches) {
+    strip.classList.add("is-hushed");
+    runDialGateway({
+      source: dial,
+      target: dial,
+      mode: "world",
+      onMidpoint: () => {
+        prevScene.classList.remove("is-active", "is-folding-out", "is-leaving");
+        nextScene.classList.add("is-active");
+        renderStrip(world);
+      }
+    }).then(() => {
+      strip.classList.remove("is-hushed");
+      showBitePrompt(world);
+      transitioning = false;
+      scheduleSettle();
+      flushQueue();
+    });
     return;
   }
 
@@ -1598,7 +1719,7 @@ function openFragment(world, spot, hotspotBtn) {
   fragmentTitle.textContent = spotText(world, spot, "title");
   fragmentSubtitle.textContent = spotText(world, spot, "subtitle");
   fragmentText.textContent = spotText(world, spot, "text");
-  fragmentNext.hidden = !(state.complete || isFourthFragment);
+  fragmentNext.hidden = true;
 
   fragment.classList.toggle("is-left", spot.x >= 50);
   fragment.classList.toggle("is-right", spot.x < 50);
@@ -1630,7 +1751,7 @@ function openFragment(world, spot, hotspotBtn) {
 
   if (isFourthFragment) {
     state.completionPending = false;
-    fragmentNext.hidden = false;
+    fragmentNext.hidden = true;
 
     window.setTimeout(() => completeWorld(world), 180);
 
@@ -1640,10 +1761,7 @@ function openFragment(world, spot, hotspotBtn) {
           behavior: prefersReducedMotion.matches ? "auto" : "smooth",
           block: "start"
         });
-        window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
-      }, prefersReducedMotion.matches ? 250 : 1750);
-    } else {
-      window.setTimeout(() => fragmentNextButton.focus({ preventScroll: true }), 420);
+      }, prefersReducedMotion.matches ? 180 : 1150);
     }
     return;
   }
@@ -1730,6 +1848,15 @@ function completeWorld(world) {
 
   if (prefersReducedMotion.matches) {
     if (world.id === currentId) renderStrip(world);
+    return;
+  }
+
+  /* Mobile completion uses the same full-screen selector gateway as world
+     changes, creating one coherent magical language throughout the visit. */
+  if (mobileLayout.matches) {
+    runDialGateway({ mode: "completion", source: null, target: null }).then(() => {
+      if (world.id === currentId) renderStrip(world);
+    });
     return;
   }
 
@@ -2000,20 +2127,28 @@ const enterPatisserieButton = document.getElementById("enterPatisserie");
 function enterPatisserie(language) {
   applyLanguage(language);
   entered = true;
-  languageSwitcher.hidden = false;
+  languageSwitcher.hidden = true;
   threshold.classList.add("is-leaving");
-  setTimeout(() => { threshold.hidden = true; }, 850);
 
-  scheduleSettle();
-  wake();
+  window.setTimeout(() => { threshold.hidden = true; }, 420);
 
-  const scene = activeScene();
-  if (scene && !scene.classList.contains("scene--no-dessert")) {
-    showBitePrompt(worldById(currentId));
-  }
+  runDialGateway({
+    source: thresholdDialPreview,
+    target: dial,
+    mode: "entry"
+  }).then(() => {
+    languageSwitcher.hidden = false;
+    scheduleSettle();
+    wake();
 
-  const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
-  if (checked) checked.focus({ preventScroll: true });
+    const scene = activeScene();
+    if (scene && !scene.classList.contains("scene--no-dessert")) {
+      showBitePrompt(worldById(currentId));
+    }
+
+    const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
+    if (checked) checked.focus({ preventScroll: true });
+  });
 
   /* quietly prefetch the other worlds while the first is contemplated */
   setTimeout(() => {
