@@ -59,8 +59,8 @@ const WORLDS = [
       style: "plate",
       aspect: 1,
       layout: {
-        desktop: { left: "50%", top: "56.5%", width: "31%" },
-        mobile:  { left: "50%", top: "42%", width: "70%" }
+        desktop: { left: "50%", top: "56.5%", width: "34%" },
+        mobile:  { left: "50%", top: "41.5%", width: "74%" }
       }
     },
     layers: {
@@ -137,8 +137,8 @@ const WORLDS = [
       style: "cutout",
       aspect: 1.333,
       layout: {
-        desktop: { left: "52%", top: "57%", width: "35%" },
-        mobile:  { left: "52%", top: "41%", width: "73%" }
+        desktop: { left: "52%", top: "56.5%", width: "38%" },
+        mobile:  { left: "52%", top: "40.5%", width: "77%" }
       }
     },
     layers: {
@@ -220,8 +220,8 @@ const WORLDS = [
       aspect: 1.75,
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
-        desktop: { left: "50%", top: "57%", width: "38%" },
-        mobile:  { left: "50%", top: "42%", width: "76%" }
+        desktop: { left: "50%", top: "56.5%", width: "41%" },
+        mobile:  { left: "50%", top: "41.5%", width: "82%" }
       }
     },
     layers: {
@@ -300,8 +300,8 @@ const WORLDS = [
       style: "plate",
       aspect: 1.67,
       layout: {
-        desktop: { left: "50%", top: "57%", width: "36%" },
-        mobile:  { left: "50%", top: "42%", width: "74%" }
+        desktop: { left: "50%", top: "56.5%", width: "39%" },
+        mobile:  { left: "50%", top: "41.5%", width: "79%" }
       }
     },
     layers: {

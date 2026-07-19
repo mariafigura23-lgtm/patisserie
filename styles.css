@@ -1147,11 +1147,13 @@ button { font: inherit; color: inherit; }
 .strip__name {
   font-family: var(--serif-display);
   font-weight: 600;
-  font-size: clamp(1.5rem, 2.9vw, 2.7rem);
-  line-height: 1.04;
+  font-size: clamp(1.42rem, 2.55vw, 2.45rem);
+  line-height: 1.02;
   color: var(--parchment-bright);
   margin: 0.12em 0 0.14em;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  text-wrap: nowrap;
 }
 
 .strip__line {
@@ -2051,10 +2053,11 @@ button { font: inherit; color: inherit; }
   }
 
   .strip__name {
-    font-size: clamp(1.6rem, 2.1vw, 2.5rem);
+    font-size: clamp(1.48rem, 1.92vw, 2.15rem);
     line-height: 0.98;
     margin: 0.12em 0 0.12em;
-    text-wrap: balance;
+    white-space: nowrap;
+    text-wrap: nowrap;
   }
 
   .strip__line,
@@ -2626,8 +2629,10 @@ button { font: inherit; color: inherit; }
 
   .mobile-flow .strip__name {
     margin: 0.15rem 0 0.22rem;
-    font-size: clamp(2rem, 9vw, 2.8rem);
+    font-size: clamp(1.82rem, 7.9vw, 2.35rem);
     line-height: 0.96;
+    white-space: nowrap;
+    text-wrap: nowrap;
   }
 
   .mobile-flow .strip__line,
@@ -3006,6 +3011,55 @@ button { font: inherit; color: inherit; }
 }
 
 
+
+/* --------------------------------------------------------------------------
+   INTRO STAGGERED REVEAL
+   -------------------------------------------------------------------------- */
+
+.threshold__eyebrow,
+.threshold__title,
+.threshold__rule,
+.threshold__lead,
+.threshold__body,
+.threshold__language-prompt,
+.language-switcher--threshold,
+.threshold__enter,
+.threshold__credit {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: introLineReveal 0.95s cubic-bezier(.22,.72,.18,1) forwards;
+}
+
+.threshold__eyebrow { animation-delay: 0.08s; }
+.threshold__title { animation-delay: 0.22s; }
+.threshold__rule { animation-delay: 0.38s; }
+.threshold__lead { animation-delay: 0.5s; }
+#thresholdBodyOne,
+#thresholdBodyTwo { animation-delay: 0.65s; }
+.threshold__language-prompt { animation-delay: 0.85s; }
+.language-switcher--threshold { animation-delay: 1s; }
+.threshold__enter { animation-delay: 1.14s; }
+.threshold__credit { animation-delay: 1.28s; }
+
+.threshold.is-opening .threshold__eyebrow,
+.threshold.is-opening .threshold__title,
+.threshold.is-opening .threshold__rule,
+.threshold.is-opening .threshold__lead,
+.threshold.is-opening .threshold__body,
+.threshold.is-opening .threshold__language-prompt,
+.threshold.is-opening .language-switcher--threshold,
+.threshold.is-opening .threshold__enter,
+.threshold.is-opening .threshold__credit {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes introLineReveal {
+  0% { opacity: 0; transform: translateY(12px); filter: blur(2px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
 /* --------------------------------------------------------------------------
    LANGUAGE CHOICE + LIVE LANGUAGE SWITCHER
    -------------------------------------------------------------------------- */
@@ -3202,7 +3256,7 @@ html[lang="ru"] .hotspot__label {
   /* The selector sits fully within the lower collage instead of creating a
      separate scroll step below it. */
   .stage-wrap > .dial {
-    top: calc((min(97vw, 760px) * 4 / 3) - clamp(5.8rem, 22vw, 8.2rem));
+    top: calc((min(97vw, 760px) * 4 / 3) - clamp(6.5rem, 24vw, 8.9rem));
     width: clamp(132px, 35vw, 166px);
   }
 
@@ -3239,7 +3293,9 @@ html[lang="ru"] .hotspot__label {
   }
 
   .mobile-flow .strip__name {
-    font-size: clamp(2rem, 8.3vw, 2.55rem);
+    font-size: clamp(1.85rem, 7.4vw, 2.2rem);
+    white-space: nowrap;
+    text-wrap: nowrap;
   }
 
   .mobile-flow .strip__line,
@@ -3880,15 +3936,15 @@ html[lang="ru"] .hotspot__label {
 }
 
 .threshold__eyebrow {
-  margin: 0 0 clamp(.7rem, 1.6vh, 1.15rem);
-  line-height: 1.35;
+  margin: 0 0 clamp(.9rem, 2vh, 1.35rem);
+  line-height: 1.45;
   text-shadow: 0 2px 18px rgba(0, 0, 0, .92);
 }
 
 .threshold__title {
-  margin: 0 0 clamp(.65rem, 1.5vh, 1.05rem);
+  margin: 0 0 clamp(.9rem, 1.9vh, 1.35rem);
   font-size: clamp(2.35rem, 5.3vw, 5rem);
-  line-height: 1.01;
+  line-height: 1.08;
   text-wrap: balance;
   text-shadow: 0 3px 24px rgba(0, 0, 0, .92);
 }
@@ -3898,17 +3954,17 @@ html[lang="ru"] .hotspot__label {
 }
 
 .threshold__lead {
-  margin: 0 0 clamp(.85rem, 1.75vh, 1.3rem);
+  margin: 0 0 clamp(1rem, 2vh, 1.5rem);
   font-size: clamp(1.15rem, 2vw, 1.65rem);
-  line-height: 1.35;
+  line-height: 1.5;
   text-shadow: 0 2px 18px rgba(0, 0, 0, .9);
 }
 
 .threshold__body {
-  margin: 0 auto clamp(.7rem, 1.35vh, 1rem);
+  margin: 0 auto clamp(.9rem, 1.75vh, 1.2rem);
   max-width: 42ch;
   font-size: clamp(.94rem, 1.22vw, 1.08rem);
-  line-height: 1.58;
+  line-height: 1.7;
   text-shadow: 0 2px 14px rgba(0, 0, 0, .92);
 }
 
@@ -3969,15 +4025,15 @@ html[lang="ru"] .hotspot__label {
 
   .threshold__eyebrow {
     display: block;
-    margin-bottom: clamp(.55rem, 1.5vh, .85rem);
+    margin-bottom: clamp(.72rem, 1.9vh, 1rem);
     font-size: clamp(.54rem, 2.65vw, .69rem);
     letter-spacing: .33em;
   }
 
   .threshold__title {
-    margin-bottom: clamp(.55rem, 1.45vh, .85rem);
+    margin-bottom: clamp(.78rem, 1.8vh, 1.05rem);
     font-size: clamp(2.05rem, 10.1vw, 3.05rem);
-    line-height: 1.01;
+    line-height: 1.1;
   }
 
   .threshold__rule {
@@ -3985,9 +4041,9 @@ html[lang="ru"] .hotspot__label {
   }
 
   .threshold__lead {
-    margin-bottom: clamp(.65rem, 1.45vh, .9rem);
+    margin-bottom: clamp(.82rem, 1.75vh, 1.05rem);
     font-size: clamp(1.02rem, 4.7vw, 1.26rem);
-    line-height: 1.32;
+    line-height: 1.46;
   }
 
   #thresholdBodyOne {
@@ -4014,7 +4070,8 @@ html[lang="ru"] .hotspot__label {
 
   .threshold__enter {
     min-height: 46px;
-    padding: .88em 1.1em;
+    padding: .92em 1.22em;
+    border-radius: 999px;
   }
 
   .threshold__credit {
