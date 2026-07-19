@@ -1019,6 +1019,19 @@ mobileLayout.addEventListener("change", applyResponsiveLayout);
 const dial = document.getElementById("dial");
 const dialArt = document.getElementById("dialArt");
 const handleGroup = document.getElementById("handleGroup");
+const worldGateway = document.getElementById("worldGateway");
+let gatewayTimer = null;
+
+function playWorldGateway() {
+  if (!worldGateway || prefersReducedMotion.matches) return;
+  clearTimeout(gatewayTimer);
+  worldGateway.classList.remove("is-active");
+  void worldGateway.offsetWidth;
+  worldGateway.classList.add("is-active");
+  gatewayTimer = window.setTimeout(() => {
+    worldGateway.classList.remove("is-active");
+  }, 1080);
+}
 
 /* Always prefer the custom dial artwork. The SVG face is used only if the PNG truly fails. */
 function dialArtLoaded() {
@@ -1324,35 +1337,31 @@ function selectWorld(id, instant = false) {
     return;
   }
 
-  /* Magical fold: the old world collapses toward the selector portal,
-     then the new world unfolds from the same point. */
+  /* The dial becomes a full-screen magical hinge while the scenes dissolve
+     through light. The working selector itself stays anchored in place. */
   strip.classList.add("is-hushed");
-  dial.classList.remove("is-gateway-turning");
-  void dial.offsetWidth;
-  dial.classList.add("is-gateway-turning");
-  prevScene.classList.remove("is-leaving");
-  prevScene.classList.add("is-folding-out");
-  nextScene.classList.add("is-active", "is-folding-in");
-  stage.classList.add("is-ripping");
-
-  setTimeout(() => {
-    prevScene.classList.remove("is-active", "is-folding-out");
-  }, 700);
+  playWorldGateway();
+  prevScene.classList.remove("is-leaving", "is-folding-out");
+  nextScene.classList.remove("is-folding-in");
+  prevScene.classList.add("is-crossfade-out");
+  nextScene.classList.add("is-active", "is-crossfade-in");
 
   setTimeout(() => {
     renderStrip(world);
     strip.classList.remove("is-hushed");
     showBitePrompt(world);
-  }, 920);
+  }, 470);
 
   setTimeout(() => {
-    nextScene.classList.remove("is-folding-in");
-    stage.classList.remove("is-ripping");
-    dial.classList.remove("is-gateway-turning");
+    prevScene.classList.remove("is-active", "is-crossfade-out");
+  }, 760);
+
+  setTimeout(() => {
+    nextScene.classList.remove("is-crossfade-in");
     transitioning = false;
     scheduleSettle();
     flushQueue();
-  }, 1480);
+  }, 1080);
 }
 
 function flushQueue() {
@@ -2002,12 +2011,14 @@ function enterPatisserie(language) {
   applyLanguage(language);
   entered = true;
   languageSwitcher.hidden = false;
-  threshold.classList.add("is-leaving");
-  dial.classList.add("is-entry-turning");
-  setTimeout(() => {
+  threshold.classList.add("is-opening");
+  window.setTimeout(() => {
+    threshold.classList.add("is-leaving");
+  }, 520);
+  window.setTimeout(() => {
     threshold.hidden = true;
-    window.setTimeout(() => dial.classList.remove("is-entry-turning"), 1100);
-  }, 650);
+    threshold.classList.remove("is-opening");
+  }, 1060);
 
   scheduleSettle();
   wake();

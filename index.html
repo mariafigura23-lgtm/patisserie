@@ -9,6 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/madeleine-background.jpg">
+<link rel="preload" as="image" href="assets/intro-background-desktop.png" media="(min-width: 1101px)">
+<link rel="preload" as="image" href="assets/intro-background-tablet.png" media="(min-width: 701px) and (max-width: 1100px)">
+<link rel="preload" as="image" href="assets/intro-background-mobile.png" media="(max-width: 700px)">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -179,6 +182,12 @@
   </div>
 </main>
 
+<!-- Full-screen magical dial used only during entry and world changes -->
+<div class="world-gateway" id="worldGateway" aria-hidden="true">
+  <div class="world-gateway__halo"></div>
+  <img class="world-gateway__dial" src="assets/dessert-dial.png" alt="" draggable="false">
+</div>
+
 <!-- Threshold — the entrance to the archive -->
 <div class="threshold" id="threshold">
   <div class="threshold__card" role="dialog" aria-modal="true" aria-labelledby="thresholdTitle">
@@ -186,6 +195,10 @@
     <h1 class="threshold__title" id="thresholdTitle">The Patisserie<br>of the Unconscious</h1>
     <div class="threshold__rule" aria-hidden="true"></div>
     <p class="threshold__lead" id="thresholdLead">Every dessert holds a story&nbsp;— and a desire.</p>
+    <div class="threshold__dial-visual" aria-hidden="true">
+      <span class="threshold__dial-glow"></span>
+      <img src="assets/dessert-dial.png" alt="" draggable="false">
+    </div>
     <p class="threshold__body" id="thresholdBodyOne">Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.</p>
     <p class="threshold__body" id="thresholdBodyTwo">Choose a dessert.<br>Take a bite.<br>Discover the world it holds.</p>
     <p class="threshold__language-prompt" id="languagePrompt">Choose the language of your visit · Выберите язык посещения</p>

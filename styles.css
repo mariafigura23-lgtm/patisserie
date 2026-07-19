@@ -3459,3 +3459,589 @@ html[lang="ru"] .hotspot__label {
   .threshold__lead { font-size: clamp(.95rem, 3.2vh, 1.1rem); }
   .threshold__body { font-size: .84rem; margin-bottom: .42rem; }
 }
+
+
+/* ========================================================================== 
+   FULL-SCREEN ENTRANCE + DIAL GATEWAY
+   Restores the immersive entrance and replaces dark curtain transitions.
+   ========================================================================== */
+
+/* The former curtain/portal transition is no longer used. */
+.rip { display: none !important; }
+.scene.is-folding-out,
+.scene.is-folding-in { animation: none !important; }
+
+/* A transparent full-screen dial appears briefly while worlds change. */
+.world-gateway {
+  position: fixed;
+  inset: 0;
+  z-index: 78;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(224, 193, 132, 0.17), rgba(32, 45, 78, 0.07) 34%, transparent 68%);
+}
+
+.world-gateway.is-active {
+  visibility: visible;
+  animation: gatewayOverlay 1.05s ease both;
+}
+
+.world-gateway__halo {
+  position: absolute;
+  width: min(88vmin, 720px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 37%, rgba(239, 217, 161, 0.13) 38% 39%, transparent 40% 53%, rgba(157, 184, 255, 0.10) 54% 55%, transparent 56%),
+    conic-gradient(from 20deg, transparent, rgba(224, 193, 132, 0.10), transparent 18%, rgba(157, 184, 255, 0.08), transparent 42%, rgba(224, 193, 132, 0.10), transparent 72%);
+  filter: blur(.2px);
+}
+
+.world-gateway.is-active .world-gateway__halo {
+  animation: gatewayHalo 1.05s cubic-bezier(.22,.72,.18,1) both;
+}
+
+.world-gateway__dial {
+  display: block;
+  width: min(62vmin, 560px);
+  max-width: 82vw;
+  height: auto;
+  filter: drop-shadow(0 0 36px rgba(224, 193, 132, .48)) drop-shadow(0 26px 44px rgba(0,0,0,.48));
+  transform-origin: 50% 50%;
+}
+
+.world-gateway.is-active .world-gateway__dial {
+  animation: gatewayDial 1.05s cubic-bezier(.22,.72,.18,1) both;
+}
+
+@keyframes gatewayOverlay {
+  0%   { opacity: 0; }
+  18%  { opacity: 1; }
+  76%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes gatewayHalo {
+  0%   { opacity: 0; transform: scale(.54) rotate(-18deg); }
+  44%  { opacity: 1; transform: scale(1) rotate(84deg); }
+  100% { opacity: 0; transform: scale(1.18) rotate(150deg); }
+}
+
+@keyframes gatewayDial {
+  0%   { opacity: 0; transform: scale(.42) rotate(-110deg); filter: brightness(.78) drop-shadow(0 0 0 rgba(224,193,132,0)); }
+  26%  { opacity: 1; }
+  52%  { transform: scale(1) rotate(168deg); filter: brightness(1.16) drop-shadow(0 0 42px rgba(224,193,132,.62)); }
+  100% { opacity: 0; transform: scale(.68) rotate(360deg); filter: brightness(.92) drop-shadow(0 0 18px rgba(224,193,132,.22)); }
+}
+
+/* Worlds dissolve through light instead of closing behind dark curtains. */
+.scene.is-crossfade-out {
+  z-index: 2;
+  animation: worldDissolveOut .82s cubic-bezier(.4,0,.2,1) both;
+}
+
+.scene.is-crossfade-in {
+  z-index: 3;
+  animation: worldDissolveIn .88s cubic-bezier(.2,.75,.2,1) both;
+}
+
+@keyframes worldDissolveOut {
+  from { opacity: 1; filter: brightness(1) blur(0) saturate(1); transform: scale(1); }
+  to   { opacity: 0; filter: brightness(1.22) blur(7px) saturate(.78); transform: scale(1.025); }
+}
+
+@keyframes worldDissolveIn {
+  from { opacity: 0; filter: brightness(1.34) blur(8px) saturate(.72); transform: scale(.985); }
+  to   { opacity: 1; filter: brightness(1) blur(0) saturate(1); transform: scale(1); }
+}
+
+/* The entrance occupies the viewport and uses the dial as a real visual key. */
+.threshold {
+  padding: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(7, 12, 23, .78), rgba(7, 12, 23, .90)),
+    url("assets/madeleine-background.jpg") center / cover no-repeat;
+}
+
+.threshold::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 74% 50%, rgba(224, 193, 132, .13), transparent 28%),
+    linear-gradient(90deg, rgba(7,12,23,.14), rgba(7,12,23,.02) 48%, rgba(7,12,23,.18));
+}
+
+.threshold__card {
+  z-index: 1;
+  width: min(92vw, 1120px);
+  height: min(86dvh, 780px);
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+  grid-template-areas:
+    "eyebrow dial"
+    "title dial"
+    "rule dial"
+    "lead dial"
+    "body1 dial"
+    "body2 dial"
+    "prompt dial"
+    "switch dial"
+    "enter dial"
+    "credit dial";
+  align-content: center;
+  column-gap: clamp(1.5rem, 4vw, 4.5rem);
+  padding: clamp(2rem, 5vh, 4rem) clamp(2rem, 5vw, 5rem);
+  background:
+    radial-gradient(120% 110% at 72% 48%, rgba(157,184,255,.08), transparent 48%),
+    linear-gradient(145deg, rgba(17,25,44,.96), rgba(8,14,27,.94));
+  border-color: rgba(224,193,132,.68);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.65), 0 60px 140px -54px rgba(0,0,0,.95);
+}
+
+.threshold__eyebrow { grid-area: eyebrow; }
+.threshold__title { grid-area: title; }
+.threshold__rule { grid-area: rule; }
+.threshold__lead { grid-area: lead; }
+#thresholdBodyOne { grid-area: body1; display: block; }
+#thresholdBodyTwo { grid-area: body2; }
+.threshold__language-prompt { grid-area: prompt; }
+.language-switcher--threshold { grid-area: switch; }
+.threshold__enter { grid-area: enter; }
+.threshold__credit { grid-area: credit; }
+
+.threshold__dial-visual {
+  grid-area: dial;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.threshold__dial-visual::before,
+.threshold__dial-visual::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(44vw, 510px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.threshold__dial-visual::before {
+  background: radial-gradient(circle, rgba(224,193,132,.14), rgba(157,184,255,.06) 42%, transparent 70%);
+  filter: blur(3px);
+}
+
+.threshold__dial-visual::after {
+  border: 1px solid rgba(224,193,132,.16);
+  box-shadow: 0 0 70px rgba(157,184,255,.08) inset;
+}
+
+.threshold__dial-visual img {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: min(40vw, 470px);
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 24px 44px rgba(0,0,0,.56)) drop-shadow(0 0 22px rgba(224,193,132,.16));
+}
+
+.threshold.is-opening .threshold__dial-visual img {
+  animation: thresholdDialOpen 1.05s cubic-bezier(.22,.72,.18,1) both;
+}
+
+.threshold.is-opening .threshold__card {
+  animation: thresholdCardOpen 1.05s ease both;
+}
+
+@keyframes thresholdDialOpen {
+  0%   { transform: rotate(0deg) scale(1); filter: brightness(1) drop-shadow(0 24px 44px rgba(0,0,0,.56)); }
+  55%  { transform: rotate(218deg) scale(1.12); filter: brightness(1.22) drop-shadow(0 0 46px rgba(224,193,132,.62)); }
+  100% { transform: rotate(360deg) scale(.74); opacity: 0; }
+}
+
+@keyframes thresholdCardOpen {
+  0%, 58% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.015); }
+}
+
+/* The working dial remains anchored. No class may translate it during a switch. */
+.dial.is-gateway-turning,
+.dial.is-entry-turning {
+  animation: none !important;
+}
+
+@media (min-width: 901px) {
+  .threshold__eyebrow { margin-bottom: .8rem; }
+  .threshold__title { font-size: clamp(2.5rem, 4.2vw, 4.25rem); margin-bottom: .72rem; }
+  .threshold__lead { font-size: clamp(1.25rem, 2vw, 1.65rem); margin-bottom: .9rem; }
+  .threshold__body { max-width: 35ch; margin: 0 auto .78rem; font-size: clamp(.95rem, 1.15vw, 1.08rem); line-height: 1.52; }
+  .threshold__language-prompt { margin-top: .2rem; }
+}
+
+@media (max-width: 900px) {
+  .threshold {
+    place-items: stretch;
+    min-height: 100dvh;
+    background:
+      linear-gradient(rgba(7,12,23,.84), rgba(7,12,23,.94)),
+      url("assets/madeleine-background.jpg") 48% 50% / cover no-repeat;
+  }
+
+  .threshold__card {
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding:
+      max(1.05rem, env(safe-area-inset-top))
+      clamp(1rem, 5vw, 1.45rem)
+      max(1rem, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(90% 54% at 50% 48%, rgba(157,184,255,.08), transparent 62%),
+      linear-gradient(165deg, rgba(17,25,44,.97), rgba(8,14,27,.96));
+  }
+
+  .threshold__card::after {
+    content: "";
+    position: absolute;
+    inset: max(.55rem, env(safe-area-inset-top)) .55rem max(.55rem, env(safe-area-inset-bottom));
+    border: 1px solid rgba(224,193,132,.48);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .threshold__eyebrow { margin: 0 0 .45rem; font-size: clamp(.56rem, 2.8vw, .7rem); }
+  .threshold__title { margin: 0 0 .4rem; font-size: clamp(2rem, 9.3vw, 2.8rem); line-height: 1.02; }
+  .threshold__rule { margin: .1rem auto .45rem; }
+  .threshold__lead { margin: 0 0 .45rem; font-size: clamp(1.02rem, 4.7vw, 1.25rem); }
+  #thresholdBodyOne { display: none; }
+  #thresholdBodyTwo { order: 6; margin: .2rem auto .5rem; max-width: 25ch; font-size: clamp(.84rem, 3.55vw, .98rem); line-height: 1.36; }
+
+  .threshold__dial-visual {
+    order: 5;
+    flex: 0 0 auto;
+    min-height: 0;
+    width: min(72vw, 330px);
+    height: min(31dvh, 300px);
+    margin: .05rem auto .25rem;
+  }
+
+  .threshold__dial-visual::before,
+  .threshold__dial-visual::after {
+    width: min(74vw, 340px);
+  }
+
+  .threshold__dial-visual img {
+    width: min(70vw, 320px);
+  }
+
+  .threshold__language-prompt { order: 7; margin: .2rem 0 .35rem; font-size: clamp(.56rem, 2.6vw, .68rem); }
+  .language-switcher--threshold { order: 8; margin: 0 0 .45rem; }
+  .threshold__enter { order: 9; width: min(84vw, 360px); margin: 0; min-height: 46px; padding: .86em 1.15em; }
+  .threshold__credit { order: 10; margin: .48rem 0 0; font-size: .75rem; }
+
+  .world-gateway__dial { width: min(78vw, 430px); }
+  .world-gateway__halo { width: min(94vw, 500px); }
+
+  /* The selector remains exactly at its bridge position while the overlay spins. */
+  .mobile-flow .dial,
+  .stage-wrap > .dial {
+    transform: translateX(-50%) !important;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 900px) {
+  .threshold__eyebrow,
+  .threshold__credit { display: none; }
+  .threshold__title { font-size: clamp(1.72rem, 7.6vw, 2.2rem); }
+  .threshold__lead { font-size: .98rem; }
+  .threshold__dial-visual { height: 26dvh; width: min(58vw, 250px); }
+  .threshold__dial-visual img { width: min(56vw, 240px); }
+  #thresholdBodyTwo { font-size: .82rem; margin-bottom: .35rem; }
+  .threshold__language-prompt { margin-top: .05rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-gateway { display: none !important; }
+  .scene.is-crossfade-out,
+  .scene.is-crossfade-in,
+  .threshold.is-opening .threshold__dial-visual img,
+  .threshold.is-opening .threshold__card { animation: none !important; }
+}
+
+
+/* ========================================================================== 
+   INTRO — responsive celestial dial backgrounds
+   Three aspect-specific assets keep the entrance full-bleed on every screen.
+   ========================================================================== */
+
+.threshold {
+  --intro-art: url("assets/intro-background-desktop.png");
+  min-height: 100dvh;
+  padding: 0;
+  overflow: hidden;
+  place-items: stretch;
+  background-color: #07101f;
+  background-image:
+    linear-gradient(rgba(5, 10, 20, 0.18), rgba(5, 10, 20, 0.30)),
+    var(--intro-art);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.threshold::before {
+  background:
+    radial-gradient(ellipse 48% 68% at 50% 50%, rgba(5, 10, 20, 0.22), rgba(5, 10, 20, 0.07) 62%, rgba(5, 10, 20, 0.20) 100%);
+  opacity: 1;
+}
+
+.threshold::after {
+  background:
+    linear-gradient(180deg, rgba(4, 8, 17, 0.08), transparent 18%, transparent 80%, rgba(4, 8, 17, 0.15)),
+    radial-gradient(ellipse 58% 72% at 50% 50%, transparent 54%, rgba(4, 8, 17, 0.12) 100%);
+}
+
+.threshold__card {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding:
+    max(1.25rem, env(safe-area-inset-top))
+    clamp(1.25rem, 5vw, 5rem)
+    max(1.15rem, env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    radial-gradient(ellipse 42% 72% at 50% 50%, rgba(7, 13, 26, 0.50), rgba(7, 13, 26, 0.20) 68%, transparent 100%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.threshold__card::after {
+  content: "";
+  position: absolute;
+  inset: clamp(10px, 1.35vw, 22px);
+  border: 1px solid rgba(224, 193, 132, 0.43);
+  box-shadow: 0 0 0 1px rgba(5, 10, 20, 0.28) inset;
+  pointer-events: none;
+}
+
+/* The dial motif is now part of the responsive background artwork. */
+.threshold__dial-visual {
+  display: none !important;
+}
+
+.threshold__eyebrow,
+.threshold__title,
+.threshold__rule,
+.threshold__lead,
+.threshold__body,
+.threshold__language-prompt,
+.language-switcher--threshold,
+.threshold__enter,
+.threshold__credit {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 720px);
+}
+
+.threshold__eyebrow {
+  margin: 0 0 clamp(.7rem, 1.6vh, 1.15rem);
+  line-height: 1.35;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .92);
+}
+
+.threshold__title {
+  margin: 0 0 clamp(.65rem, 1.5vh, 1.05rem);
+  font-size: clamp(2.35rem, 5.3vw, 5rem);
+  line-height: 1.01;
+  text-wrap: balance;
+  text-shadow: 0 3px 24px rgba(0, 0, 0, .92);
+}
+
+.threshold__rule {
+  margin: 0 auto clamp(.8rem, 1.7vh, 1.2rem);
+}
+
+.threshold__lead {
+  margin: 0 0 clamp(.85rem, 1.75vh, 1.3rem);
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  line-height: 1.35;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .9);
+}
+
+.threshold__body {
+  margin: 0 auto clamp(.7rem, 1.35vh, 1rem);
+  max-width: 42ch;
+  font-size: clamp(.94rem, 1.22vw, 1.08rem);
+  line-height: 1.58;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, .92);
+}
+
+.threshold__language-prompt {
+  margin: clamp(.15rem, .8vh, .5rem) 0 .55rem;
+  line-height: 1.4;
+}
+
+.language-switcher--threshold {
+  width: auto;
+  margin: 0 0 clamp(.7rem, 1.4vh, 1rem);
+  background: rgba(7, 12, 23, .72);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+}
+
+.threshold__enter {
+  width: min(86vw, 470px);
+  margin: 0;
+}
+
+.threshold__credit {
+  margin-top: clamp(.7rem, 1.4vh, 1rem);
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .threshold {
+    --intro-art: url("assets/intro-background-tablet.png");
+  }
+
+  .threshold__card {
+    padding-inline: clamp(1.5rem, 7vw, 4.5rem);
+  }
+
+  .threshold__title {
+    font-size: clamp(2.65rem, 7vw, 4.45rem);
+  }
+}
+
+@media (max-width: 700px) {
+  .threshold {
+    --intro-art: url("assets/intro-background-mobile.png");
+    background-position: center center;
+  }
+
+  .threshold__card {
+    justify-content: center;
+    padding:
+      max(.95rem, env(safe-area-inset-top))
+      clamp(1.15rem, 7vw, 2rem)
+      max(.9rem, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(ellipse 74% 72% at 50% 49%, rgba(7, 13, 26, .56), rgba(7, 13, 26, .24) 70%, transparent 100%);
+  }
+
+  .threshold__card::after {
+    inset: max(.55rem, env(safe-area-inset-top)) .55rem max(.55rem, env(safe-area-inset-bottom));
+  }
+
+  .threshold__eyebrow {
+    display: block;
+    margin-bottom: clamp(.55rem, 1.5vh, .85rem);
+    font-size: clamp(.54rem, 2.65vw, .69rem);
+    letter-spacing: .33em;
+  }
+
+  .threshold__title {
+    margin-bottom: clamp(.55rem, 1.45vh, .85rem);
+    font-size: clamp(2.05rem, 10.1vw, 3.05rem);
+    line-height: 1.01;
+  }
+
+  .threshold__rule {
+    margin-bottom: clamp(.6rem, 1.45vh, .85rem);
+  }
+
+  .threshold__lead {
+    margin-bottom: clamp(.65rem, 1.45vh, .9rem);
+    font-size: clamp(1.02rem, 4.7vw, 1.26rem);
+    line-height: 1.32;
+  }
+
+  #thresholdBodyOne {
+    display: none;
+  }
+
+  #thresholdBodyTwo {
+    display: block;
+    order: initial;
+    margin: 0 auto clamp(.65rem, 1.5vh, .9rem);
+    max-width: 27ch;
+    font-size: clamp(.82rem, 3.45vw, .98rem);
+    line-height: 1.45;
+  }
+
+  .threshold__language-prompt {
+    margin: 0 0 .45rem;
+    font-size: clamp(.54rem, 2.45vw, .67rem);
+  }
+
+  .language-switcher--threshold {
+    margin-bottom: clamp(.62rem, 1.4vh, .85rem);
+  }
+
+  .threshold__enter {
+    min-height: 46px;
+    padding: .88em 1.1em;
+  }
+
+  .threshold__credit {
+    display: block;
+    margin-top: clamp(.55rem, 1.2vh, .75rem);
+    font-size: .74rem;
+  }
+}
+
+@media (max-width: 700px) and (max-height: 690px) {
+  .threshold__eyebrow,
+  .threshold__credit {
+    display: none;
+  }
+
+  .threshold__title {
+    font-size: clamp(1.8rem, 8.4vw, 2.35rem);
+    margin-bottom: .45rem;
+  }
+
+  .threshold__lead {
+    margin-bottom: .48rem;
+    font-size: .98rem;
+  }
+
+  #thresholdBodyTwo {
+    margin-bottom: .5rem;
+    font-size: .8rem;
+  }
+}

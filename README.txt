@@ -1,1 +1,1 @@
-Rollback to the last stable visual version. Changes kept: compact no-scroll entrance, clear dial instruction, one cultural-story CTA, and restrained in-place dial rotation for entrance/world changes. Replace index.html, styles.css and script.js only.
+Responsive intro background update. Upload index.html and styles.css, and add the three intro-background-*.png files to the existing assets folder. script.js is unchanged but included so the code set stays together. Do not delete the rest of the existing assets.
