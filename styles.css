@@ -3565,7 +3565,7 @@ html[lang="ru"] .hotspot__label {
   overflow: hidden;
   background:
     linear-gradient(rgba(7, 12, 23, .78), rgba(7, 12, 23, .90)),
-    url("assets/madeleine-background.webp") center / cover no-repeat;
+    url("assets/madeleine-background.jpg") center / cover no-repeat;
 }
 
 .threshold::after {
@@ -3701,7 +3701,7 @@ html[lang="ru"] .hotspot__label {
     min-height: 100dvh;
     background:
       linear-gradient(rgba(7,12,23,.84), rgba(7,12,23,.94)),
-      url("assets/madeleine-background.webp") 48% 50% / cover no-repeat;
+      url("assets/madeleine-background.jpg") 48% 50% / cover no-repeat;
   }
 
   .threshold__card {
@@ -4159,40 +4159,12 @@ html[lang="ru"] .hotspot__label {
 
 
 /* ========================================================================== 
-   PERFORMANCE + MOBILE GATEWAY FIX — definitive final overrides
+   STABLE RECOVERY — conservative loading and mobile dial safeguards
    ========================================================================== */
 
-/* The anchored selector must be absent for the complete gateway animation,
-   including its final fade. This body state is more reliable than timing a
-   class on a node Safari may be repositioning in the mobile layout. */
-body.is-world-gateway-active .stage-wrap > .dial,
-body.is-world-gateway-active #dial,
-.dial.is-gateway-hidden {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transition: none !important;
-}
-
-/* Keep the working selector in one stable bridge position. It never translates
-   during a world change; only the separate full-screen gateway image rotates. */
-@media (max-width: 900px) {
-  .stage-wrap > .dial {
-    position: absolute !important;
-    left: 50% !important;
-    right: auto !important;
-    top: calc((min(97vw, 760px) * 4 / 3) - clamp(10rem, 34vw, 12.5rem)) !important;
-    bottom: auto !important;
-    transform: translateX(-50%) !important;
-    width: clamp(132px, 35vw, 166px) !important;
-  }
-}
-
-/* Restore the elegant staggered appearance on desktop. Earlier emergency
-   overrides made everything appear immediately; these later rules safely win. */
-@keyframes introDesktopRevealFinal {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* The entry text is never left transparent if an animation is interrupted. */
+.threshold:not([hidden]) .threshold__card {
+  visibility: visible;
 }
 
 @media (min-width: 901px) {
@@ -4205,43 +4177,25 @@ body.is-world-gateway-active #dial,
   .threshold:not([hidden]) .language-switcher--threshold,
   .threshold:not([hidden]) .threshold__enter,
   .threshold:not([hidden]) .threshold__credit {
-    opacity: 0 !important;
-    animation: introDesktopRevealFinal .78s ease-out forwards !important;
+    animation-fill-mode: forwards !important;
   }
-
-  .threshold:not([hidden]) .threshold__eyebrow { animation-delay: .12s !important; }
-  .threshold:not([hidden]) .threshold__title { animation-delay: .26s !important; }
-  .threshold:not([hidden]) .threshold__rule { animation-delay: .40s !important; }
-  .threshold:not([hidden]) .threshold__lead { animation-delay: .52s !important; }
-  .threshold:not([hidden]) #thresholdBodyOne { animation-delay: .64s !important; }
-  .threshold:not([hidden]) #thresholdBodyTwo { animation-delay: .74s !important; }
-  .threshold:not([hidden]) .threshold__language-prompt { animation-delay: .84s !important; }
-  .threshold:not([hidden]) .language-switcher--threshold { animation-delay: .94s !important; }
-  .threshold:not([hidden]) .threshold__enter { animation-delay: 1.04s !important; }
-  .threshold:not([hidden]) .threshold__credit { animation-delay: 1.14s !important; }
 }
 
-/* A clearly rounded entry control on phones, matching the language lozenge. */
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+  /* A little higher, but still bridging the collage and the text card. */
+  .stage-wrap > .dial {
+    top: calc((min(97vw, 760px) * 4 / 3) - clamp(7.7rem, 28vw, 10rem)) !important;
+  }
+
   .threshold__enter {
     border-radius: 999px !important;
-    width: min(88vw, 390px) !important;
-    padding-inline: 1.35rem !important;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .threshold:not([hidden]) .threshold__eyebrow,
-  .threshold:not([hidden]) .threshold__title,
-  .threshold:not([hidden]) .threshold__rule,
-  .threshold:not([hidden]) .threshold__lead,
-  .threshold:not([hidden]) .threshold__body,
-  .threshold:not([hidden]) .threshold__language-prompt,
-  .threshold:not([hidden]) .language-switcher--threshold,
-  .threshold:not([hidden]) .threshold__enter,
-  .threshold:not([hidden]) .threshold__credit {
-    opacity: 1 !important;
-    animation: none !important;
-    transform: none !important;
-  }
+/* A hard JS hide is used during gateway motion; this is its CSS backup. */
+body.is-world-gateway-active #dial,
+#dial.is-gateway-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
