@@ -5022,95 +5022,101 @@ body.is-world-gateway-active #dial,
   pointer-events: none !important;
 }
 
-
-/* ========================================================================== 
-   INTRO REVEAL — final cascade-safe sequence
+/* ==========================================================================
+   THRESHOLD ENTRANCE — fail-safe transition reveal (single source of truth).
+   Every earlier keyframe reveal on these items is neutralised with
+   `animation: none !important`; the entrance is driven by transitions, which
+   have no fill-mode quirks. DEFAULT (no .intro class) = fully visible, so the
+   Enter button can never be lost if the JS never runs. JS arms `.intro`
+   (hidden) then `.is-revealed` (staggered reveal, first line to last).
    ========================================================================== */
 
 .threshold:not([hidden]) .threshold__eyebrow,
+.threshold:not([hidden]) .threshold__title .threshold__line,
 .threshold:not([hidden]) .threshold__rule,
 .threshold:not([hidden]) .threshold__lead,
+.threshold:not([hidden]) #thresholdBodyOne,
+.threshold:not([hidden]) #thresholdBodyTwo .threshold__line,
 .threshold:not([hidden]) .threshold__language-prompt,
 .threshold:not([hidden]) .language-switcher--threshold,
 .threshold:not([hidden]) .threshold__enter,
 .threshold:not([hidden]) .threshold__credit {
-  opacity: 0 !important;
-  visibility: visible !important;
-  transform: translateY(12px);
-  filter: blur(2px);
   animation: none !important;
+  opacity: 1;
+  transform: none;
+  filter: none;
 }
 
 .threshold:not([hidden]) .threshold__title,
 .threshold:not([hidden]) #thresholdBodyTwo {
   opacity: 1 !important;
-  visibility: visible !important;
-  transform: none !important;
-  filter: none !important;
   animation: none !important;
 }
 
-.threshold__line {
-  display: block;
+/* each wrapped line sits on its own row (title breaks into two lines) */
+.threshold__line { display: block; }
+
+/* armed by JS: start hidden with a transition ready */
+.threshold.intro .threshold__eyebrow,
+.threshold.intro .threshold__title .threshold__line,
+.threshold.intro .threshold__rule,
+.threshold.intro .threshold__lead,
+.threshold.intro #thresholdBodyOne,
+.threshold.intro #thresholdBodyTwo .threshold__line,
+.threshold.intro .threshold__language-prompt,
+.threshold.intro .language-switcher--threshold,
+.threshold.intro .threshold__enter,
+.threshold.intro .threshold__credit {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(12px);
   filter: blur(2px);
+  transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease;
 }
 
-.threshold.is-intro-revealing .threshold__eyebrow {
-  animation: introRevealFinal .82s cubic-bezier(.22,.72,.18,1) .08s both !important;
-}
-.threshold.is-intro-revealing .threshold__title .threshold__line:nth-child(1) {
-  animation: introRevealFinal .9s cubic-bezier(.22,.72,.18,1) .22s both;
-}
-.threshold.is-intro-revealing .threshold__title .threshold__line:nth-child(2) {
-  animation: introRevealFinal .9s cubic-bezier(.22,.72,.18,1) .36s both;
-}
-.threshold.is-intro-revealing .threshold__rule {
-  animation: introRevealFinal .8s cubic-bezier(.22,.72,.18,1) .5s both !important;
-}
-.threshold.is-intro-revealing .threshold__lead {
-  animation: introRevealFinal .88s cubic-bezier(.22,.72,.18,1) .62s both !important;
-}
-.threshold.is-intro-revealing #thresholdBodyTwo .threshold__line:nth-child(1) {
-  animation: introRevealFinal .78s cubic-bezier(.22,.72,.18,1) .79s both;
-}
-.threshold.is-intro-revealing #thresholdBodyTwo .threshold__line:nth-child(2) {
-  animation: introRevealFinal .78s cubic-bezier(.22,.72,.18,1) .91s both;
-}
-.threshold.is-intro-revealing #thresholdBodyTwo .threshold__line:nth-child(3) {
-  animation: introRevealFinal .78s cubic-bezier(.22,.72,.18,1) 1.03s both;
-}
-.threshold.is-intro-revealing .threshold__language-prompt {
-  animation: introRevealFinal .82s cubic-bezier(.22,.72,.18,1) 1.18s both !important;
-}
-.threshold.is-intro-revealing .language-switcher--threshold {
-  animation: introRevealFinal .82s cubic-bezier(.22,.72,.18,1) 1.31s both !important;
-}
-.threshold.is-intro-revealing .threshold__enter {
-  animation: introRevealFinal .86s cubic-bezier(.22,.72,.18,1) 1.44s both !important;
-}
-.threshold.is-intro-revealing .threshold__credit {
-  animation: introRevealFinal .78s cubic-bezier(.22,.72,.18,1) 1.58s both !important;
+/* revealed: transition each item in, staggered first line to last */
+.threshold.intro.is-revealed .threshold__eyebrow,
+.threshold.intro.is-revealed .threshold__title .threshold__line,
+.threshold.intro.is-revealed .threshold__rule,
+.threshold.intro.is-revealed .threshold__lead,
+.threshold.intro.is-revealed #thresholdBodyOne,
+.threshold.intro.is-revealed #thresholdBodyTwo .threshold__line,
+.threshold.intro.is-revealed .threshold__language-prompt,
+.threshold.intro.is-revealed .language-switcher--threshold,
+.threshold.intro.is-revealed .threshold__enter,
+.threshold.intro.is-revealed .threshold__credit {
+  opacity: 1;
+  transform: none;
+  filter: none;
 }
 
-@keyframes introRevealFinal {
-  from { opacity: 0; transform: translateY(12px); filter: blur(2px); }
-  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
+.threshold.intro.is-revealed .threshold__eyebrow { transition-delay: 0.2s; }
+.threshold.intro.is-revealed .threshold__title .threshold__line:nth-child(1) { transition-delay: 0.5s; }
+.threshold.intro.is-revealed .threshold__title .threshold__line:nth-child(2) { transition-delay: 0.8s; }
+.threshold.intro.is-revealed .threshold__rule { transition-delay: 1.1s; }
+.threshold.intro.is-revealed .threshold__lead { transition-delay: 1.4s; }
+.threshold.intro.is-revealed #thresholdBodyOne { transition-delay: 1.7s; }
+.threshold.intro.is-revealed #thresholdBodyTwo .threshold__line:nth-child(1) { transition-delay: 1.95s; }
+.threshold.intro.is-revealed #thresholdBodyTwo .threshold__line:nth-child(2) { transition-delay: 2.2s; }
+.threshold.intro.is-revealed #thresholdBodyTwo .threshold__line:nth-child(3) { transition-delay: 2.45s; }
+.threshold.intro.is-revealed .threshold__language-prompt { transition-delay: 2.75s; }
+.threshold.intro.is-revealed .language-switcher--threshold { transition-delay: 3.05s; }
+.threshold.intro.is-revealed .threshold__enter { transition-delay: 3.35s; }
+.threshold.intro.is-revealed .threshold__credit { transition-delay: 3.65s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .threshold:not([hidden]) .threshold__eyebrow,
-  .threshold:not([hidden]) .threshold__rule,
-  .threshold:not([hidden]) .threshold__lead,
-  .threshold:not([hidden]) .threshold__language-prompt,
-  .threshold:not([hidden]) .language-switcher--threshold,
-  .threshold:not([hidden]) .threshold__enter,
-  .threshold:not([hidden]) .threshold__credit,
-  .threshold:not([hidden]) .threshold__line {
+  .threshold.intro .threshold__eyebrow,
+  .threshold.intro .threshold__title .threshold__line,
+  .threshold.intro .threshold__rule,
+  .threshold.intro .threshold__lead,
+  .threshold.intro #thresholdBodyOne,
+  .threshold.intro #thresholdBodyTwo .threshold__line,
+  .threshold.intro .threshold__language-prompt,
+  .threshold.intro .language-switcher--threshold,
+  .threshold.intro .threshold__enter,
+  .threshold.intro .threshold__credit {
     opacity: 1 !important;
     transform: none !important;
     filter: none !important;
-    animation: none !important;
+    transition: none !important;
   }
 }

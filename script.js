@@ -11,6 +11,15 @@
 
 "use strict";
 
+/* Arm the threshold entrance BEFORE the first paint so the staggered reveal
+   has no visible flash. If reduced motion is preferred, or if any of this
+   fails, the threshold simply stays fully visible (fail-safe). */
+try {
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.getElementById("threshold")?.classList.add("intro");
+  }
+} catch (e) { /* threshold stays visible */ }
+
 /* --------------------------------------------------------------------------
    DATA — the four worlds
    -------------------------------------------------------------------------- */
@@ -2449,10 +2458,17 @@ function decorateIntroLines() {
 function startIntroReveal() {
   const thresholdElement = document.getElementById("threshold");
   if (!thresholdElement || thresholdElement.hidden) return;
-
-  thresholdElement.classList.remove("is-intro-revealing");
+  if (prefersReducedMotion.matches) {
+    /* reduced motion: everything is already visible, no cascade needed */
+    thresholdElement.classList.remove("intro");
+    return;
+  }
+  /* `intro` (hidden state) is armed synchronously at script start to avoid a
+     flash; here we trigger the staggered reveal on the next frames */
+  thresholdElement.classList.add("intro");
+  thresholdElement.classList.remove("is-revealed");
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => thresholdElement.classList.add("is-intro-revealing"));
+    requestAnimationFrame(() => thresholdElement.classList.add("is-revealed"));
   });
 }
 
