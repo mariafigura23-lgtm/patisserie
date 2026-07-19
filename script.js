@@ -1026,10 +1026,12 @@ function playWorldGateway() {
   if (!worldGateway || prefersReducedMotion.matches) return;
   clearTimeout(gatewayTimer);
   worldGateway.classList.remove("is-active");
+  dial.classList.add("is-gateway-hidden");
   void worldGateway.offsetWidth;
   worldGateway.classList.add("is-active");
   gatewayTimer = window.setTimeout(() => {
     worldGateway.classList.remove("is-active");
+    dial.classList.remove("is-gateway-hidden");
   }, 1080);
 }
 

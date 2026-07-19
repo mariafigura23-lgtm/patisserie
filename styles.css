@@ -4045,3 +4045,114 @@ html[lang="ru"] .hotspot__label {
     font-size: .8rem;
   }
 }
+
+
+/* ========================================================================== 
+   INTRO + MOBILE DIAL PATCH — final narrow overrides
+   - the responsive background owns the entrance dial motif;
+   - entrance copy/actions are always visible on desktop;
+   - mobile entry button is softer and spacing breathes a little more;
+   - the working dial sits higher and disappears while the gateway dial spins.
+   ========================================================================== */
+
+/* The entrance artwork already contains dial fragments. Never render a second
+   live dial inside the entrance card, even if an older cached HTML still has it. */
+.threshold .threshold__dial-visual {
+  display: none !important;
+}
+
+/* Old staggered-reveal rules could leave the lower desktop controls invisible
+   for several seconds. Keep the complete entrance immediately usable. */
+.threshold:not([hidden]) .threshold__eyebrow,
+.threshold:not([hidden]) .threshold__title,
+.threshold:not([hidden]) .threshold__rule,
+.threshold:not([hidden]) .threshold__lead,
+.threshold:not([hidden]) .threshold__body,
+.threshold:not([hidden]) .threshold__language-prompt,
+.threshold:not([hidden]) .language-switcher--threshold,
+.threshold:not([hidden]) .threshold__enter,
+.threshold:not([hidden]) .threshold__credit {
+  opacity: 1 !important;
+  visibility: visible !important;
+  animation: none !important;
+}
+
+@media (min-width: 901px) {
+  .threshold__card {
+    justify-content: center;
+    padding-block: clamp(2rem, 6vh, 4.5rem);
+  }
+
+  .threshold__eyebrow {
+    margin-bottom: clamp(.75rem, 1.6vh, 1.1rem);
+  }
+
+  .threshold__title {
+    margin-bottom: clamp(.8rem, 1.7vh, 1.2rem);
+  }
+
+  .threshold__lead {
+    margin-bottom: clamp(1rem, 2vh, 1.4rem);
+  }
+
+  .threshold__body {
+    margin-bottom: clamp(.85rem, 1.6vh, 1.15rem);
+  }
+
+  .threshold__language-prompt {
+    margin-top: clamp(.25rem, .8vh, .55rem);
+  }
+}
+
+/* A soft archival lozenge rather than a hard rectangular entry button. */
+.threshold__enter {
+  border-radius: 16px;
+}
+
+@media (max-width: 700px) {
+  .threshold__eyebrow {
+    margin-bottom: clamp(.68rem, 1.8vh, .95rem);
+    line-height: 1.48;
+  }
+
+  .threshold__title {
+    margin-bottom: clamp(.68rem, 1.7vh, .95rem);
+    line-height: 1.055;
+  }
+
+  .threshold__lead {
+    margin-bottom: clamp(.78rem, 1.7vh, 1rem);
+    line-height: 1.42;
+  }
+
+  #thresholdBodyTwo {
+    margin-bottom: clamp(.78rem, 1.7vh, 1rem);
+    line-height: 1.55;
+  }
+
+  .threshold__language-prompt {
+    line-height: 1.55;
+  }
+
+  .threshold__enter {
+    border-radius: 18px;
+    padding-block: .96em;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Raise the selector by roughly 20–24px without changing the dessert or the
+     reading-card geometry. */
+  .stage-wrap > .dial {
+    top: calc((min(97vw, 760px) * 4 / 3) - clamp(7.1rem, 26vw, 9.5rem));
+  }
+}
+
+/* While the enlarged gateway dial turns, hide the anchored selector beneath it
+   so the user never sees two copies of the instrument. */
+.dial.is-gateway-hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity .12s ease, visibility 0s linear .12s !important;
+}
