@@ -92,6 +92,123 @@ const WORLDS = [
         text: "Adult time is expected to move forward. The past is treated as finished and private feeling must submit to chronology, discipline, and explanation. The taste briefly interrupts that order."
       }
     ],
+    /* Madeleine alone opens an interactive two-page "Book of Taste"
+       instead of the linear #leaf overlay. Journey + recipe-chapter text
+       lives here (bilingual); the recipe chapters reuse world.steps by index. */
+    book: {
+      en: {
+        journeyTitle: "A Cultural Journey of Memory",
+        journeyIntro: "Follow four stops to discover how a local cake became one of the most famous symbols of memory.",
+        journeyFinal: "A local cake had become a way of thinking about time.",
+        stops: [
+          {
+            date: "c. 1750",
+            name: "The Court Kitchen",
+            place: "Commercy",
+            paras: [
+              "The origin of the madeleine is wrapped in legend. The history preserved in Commercy links the small shell-shaped cake to the kitchens of Stanislas around 1750, although its precise inventor remains unknown.",
+              "One popular story gives the cake the name of a young servant, Madeleine, who prepared it when a royal dinner was left without dessert. Whether or not the scene happened exactly this way, the legend places the pastry between domestic knowledge and the theatre of the court."
+            ]
+          },
+          {
+            date: "1766 — early 19th century",
+            name: "From Secret to Craft",
+            place: "Commercy",
+            paras: [
+              "After Stanislas died in 1766, one of his pastry cooks is said to have settled in Commercy and carried the recipe into local trade.",
+              "During the nineteenth century, the number of madeleine makers increased. The cake was no longer only a courtly curiosity: it became a town craft, produced by families of bakers and sold by the dozen.",
+              "A recipe once surrounded by secrecy gradually became part of the identity of a place."
+            ]
+          },
+          {
+            date: "1852 — 1874",
+            name: "The Railway Cake",
+            place: "Paris — Commercy — Strasbourg",
+            paras: [
+              "The railway transformed the madeleine from a local speciality into a travelling object.",
+              "The Paris–Strasbourg line reached Commercy in 1852. Later, vendors were officially allowed to sell boxes of madeleines on the station platform.",
+              "During the short stop, the cakes were passed through open carriage windows. They travelled in wooden boxes, entered Parisian homes, and became an edible souvenir of modern movement.",
+              "The madeleine was now not only baked in a place. It carried that place elsewhere."
+            ]
+          },
+          {
+            date: "1913",
+            name: "Proust’s Madeleine",
+            place: "Combray",
+            paras: [
+              "In the first volume of In Search of Lost Time, published in 1913, the narrator tastes a piece of madeleine softened in lime-blossom tea.",
+              "The sensation does not produce an immediate explanation. First comes an intense, mysterious pleasure. Only afterwards does the forgotten world of Combray return: the house, the streets, the garden, the Sunday mornings and the rooms of childhood.",
+              "The object was not inevitable. In early drafts, Proust experimented with toast and rusk before choosing the madeleine.",
+              "Through this scene, a regional cake became a cultural metaphor for involuntary memory: the moment when the body remembers before the conscious mind knows what it has found."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "The taste is complete",
+          text: "The madeleine needs only a few ingredients, but its cultural life was assembled over centuries."
+        }
+      },
+      ru: {
+        journeyTitle: "Культурное путешествие памяти",
+        journeyIntro: "Пройдите четыре остановки и узнайте, как местное пирожное стало одним из главных символов памяти.",
+        journeyFinal: "Местное пирожное стало способом размышлять о времени.",
+        stops: [
+          {
+            date: "ок. 1750",
+            name: "Придворная кухня",
+            place: "Commercy",
+            paras: [
+              "Происхождение мадлен окутано легендами. История, которую сохраняет Коммерси, связывает маленькое пирожное в форме раковины с кухнями Станислава около 1750 года, хотя имя его настоящего создателя остаётся неизвестным.",
+              "Одна из популярных легенд называет пирожное в честь молодой служанки Мадлен, которая приготовила его, когда королевский ужин неожиданно остался без десерта. Случилось ли всё именно так, неизвестно, но легенда помещает мадлен между домашним знанием и театром придворной жизни."
+            ]
+          },
+          {
+            date: "1766 — начало XIX века",
+            name: "От секрета к ремеслу",
+            place: "Commercy",
+            paras: [
+              "После смерти Станислава в 1766 году один из его кондитеров, согласно местной истории, поселился в Коммерси и перенёс рецепт в городскую торговлю.",
+              "В XIX веке число производителей мадлен росло. Пирожное перестало быть только придворной диковинкой: оно стало городским ремеслом, которое сохраняли семьи пекарей и продавали уже не поштучно, а десятками.",
+              "Рецепт, когда-то окружённый тайной, постепенно стал частью идентичности места."
+            ]
+          },
+          {
+            date: "1852 — 1874",
+            name: "Пирожное железной дороги",
+            place: "Paris — Commercy — Strasbourg",
+            paras: [
+              "Железная дорога превратила мадлен из местной специальности в путешествующий предмет.",
+              "Линия Париж — Страсбург пришла в Коммерси в 1852 году. Позднее продавцам официально разрешили торговать коробками мадлен на вокзальной платформе.",
+              "За несколько минут стоянки пирожные передавали пассажирам через открытые окна вагонов. Они путешествовали в деревянных коробках, попадали в парижские дома и становились съедобным сувениром современной мобильности.",
+              "Теперь мадлен не просто выпекали в определённом месте. Она переносила это место с собой."
+            ]
+          },
+          {
+            date: "1913",
+            name: "Мадлен Пруста",
+            place: "Combray",
+            paras: [
+              "В первом томе романа «В поисках утраченного времени», опубликованном в 1913 году, рассказчик пробует кусочек мадлен, размягчённый в липовом чае.",
+              "Ощущение не сразу превращается в объяснение. Сначала возникает сильное и загадочное удовольствие. И только затем возвращается забытый мир Комбре: дом, улицы, сад, воскресные утра и комнаты детства.",
+              "Этот предмет возник не сразу. В ранних черновиках Пруст пробовал хлеб и сухарь, прежде чем остановился на мадлен.",
+              "Благодаря этой сцене региональное пирожное стало культурной метафорой непроизвольной памяти: момента, когда тело вспоминает раньше, чем сознание понимает, что именно оно нашло."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "Вкус собран",
+          text: "Для мадлен нужно всего несколько ингредиентов, но её культурная жизнь собиралась столетиями."
+        }
+      },
+      /* five interactive chapters; each pulls its body from world.steps by index */
+      chapters: [
+        { steps: [0],    en: "Prepare the shells",  ru: "Подготовьте формы" },
+        { steps: [1],    en: "Whisk the beginning", ru: "Взбейте основу" },
+        { steps: [2, 3], en: "Add the aroma",       ru: "Добавьте аромат" },
+        { steps: [4, 5], en: "Butter and waiting",  ru: "Масло и ожидание" },
+        { steps: [6, 7], en: "Fill and bake",       ru: "Наполните и испеките" }
+      ]
+    },
     symbol: "shell",
     handleAngle: 0,
     cssClass: "scene--madeleine"
@@ -371,6 +488,20 @@ const UI = {
     "allConnected": "All four fragments are connected.",
     "exploreStory": "Explore the cultural story",
     "exploreNote": "History · aftertaste · recipe",
+    "bookCtaStory": "Open the Book of Taste",
+    "bookCtaNote": "Cultural journey · recipe",
+    "bookRecipeHeading": "Assemble the recipe",
+    "bookTurnTitle": "Turn the page",
+    "bookTurnNote": "Assemble the recipe →",
+    "bookBack": "← The cultural journey",
+    "bookProgress": "{n} of 5",
+    "bookTakeHomeTitle": "Take the taste home",
+    "bookTakeHomeNote": "Open the complete recipe",
+    "bookStopAria": "Stop {n}: {name}",
+    "bookStopLocked": "Read the previous stop first",
+    "bookChapterAria": "Step {n} of 5: {title}",
+    "bookChapterLocked": "Complete the previous step first",
+    "journeyHint": "Open the first stop to begin.",
     "closeFragment": "Close fragment",
     "close": "Close",
     "returnText": "A taste returns through repetition.<br>Prepare it, serve it, change it, and allow it to enter another life.",
@@ -425,6 +556,20 @@ const UI = {
     "allConnected": "Все четыре фрагмента соединились.",
     "exploreStory": "Открыть культурную историю",
     "exploreNote": "История · послевкусие · рецепт",
+    "bookCtaStory": "Открыть книгу вкуса",
+    "bookCtaNote": "Культурное путешествие · рецепт",
+    "bookRecipeHeading": "Соберите рецепт",
+    "bookTurnTitle": "Перевернуть страницу",
+    "bookTurnNote": "Собрать рецепт →",
+    "bookBack": "← Культурное путешествие",
+    "bookProgress": "{n} из 5",
+    "bookTakeHomeTitle": "Забрать вкус с собой",
+    "bookTakeHomeNote": "Открыть полный рецепт",
+    "bookStopAria": "Остановка {n}: {name}",
+    "bookStopLocked": "Сначала прочитайте предыдущую остановку",
+    "bookChapterAria": "Этап {n} из 5: {title}",
+    "bookChapterLocked": "Сначала завершите предыдущий этап",
+    "journeyHint": "Откройте первую остановку, чтобы начать.",
     "closeFragment": "Закрыть фрагмент",
     "close": "Закрыть",
     "returnText": "Вкус возвращается через повторение.<br>Приготовьте его, подайте, измените — и позвольте ему войти в другую жизнь.",
@@ -1152,8 +1297,23 @@ mobileLayout.addEventListener("change", arrangeResponsiveInterface);
 let statusTimer = null;
 let questTimer = null;
 
+/* Madeleine's completion button opens the Book of Taste; the others open
+   the linear cultural story. Both the stage CTA and the fragment CTA share
+   these labels. */
+function applyStoryCtaLabels() {
+  const isBook = currentId === "madeleine";
+  const title = isBook ? ui("bookCtaStory") : ui("exploreStory");
+  const note = isBook ? ui("bookCtaNote") : ui("exploreNote");
+  const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+  set("stageCtaTitle", title);
+  set("stageCtaNote", note);
+  set("fragmentNextTitle", title);
+  set("fragmentNextNote", note);
+}
+
 function updateQuestGuide(world) {
   const state = worldState[world.id];
+  applyStoryCtaLabels();
 
   if (!state.bitten || state.complete) {
     questGuide.hidden = true;
@@ -1237,11 +1397,11 @@ function renderStrip(world) {
 }
 
 stripAction.addEventListener("click", () => {
-  if (stripAction.dataset.mode === "home") openLeaf();
+  if (stripAction.dataset.mode === "home") openStory();
   else takeBite();
 });
 
-stageCta.addEventListener("click", openLeaf);
+stageCta.addEventListener("click", openStory);
 
 beginAgainBtn.addEventListener("click", () => {
   const world = worldById(currentId);
@@ -1263,6 +1423,11 @@ beginAgainBtn.addEventListener("click", () => {
   scene.classList.remove("is-guiding");
   questGuide.classList.remove("is-prominent", "is-compact");
   fragmentNext.hidden = true;
+  /* a fresh Madeleine visit also restarts its Book of Taste */
+  if (world.id === "madeleine") {
+    if (!book.hidden) closeBook();
+    bookState = null;
+  }
   renderStrip(world);
 });
 
@@ -1409,6 +1574,9 @@ function step(direction) {
 
 /* keyboard: arrows turn the dial; Escape closes fragment, then overlay */
 document.addEventListener("keydown", e => {
+  /* the book handles its own keys (Escape, Tab) and must not let arrows
+     leak through to the dial */
+  if (book && !book.hidden) return;
   if (!veil.hidden) {
     if (e.key === "Escape") closeLeaf();
     return;
@@ -1728,7 +1896,7 @@ function closeFragment(returnFocus, suppressCompletion = false) {
 
 fragmentClose.addEventListener("click", () => closeFragment(true));
 fragmentReturn.addEventListener("click", () => closeFragment(false));
-fragmentNextButton.addEventListener("click", openLeaf);
+fragmentNextButton.addEventListener("click", openStory);
 
 /* --------------------------------------------------------------------------
    COMPLETION — the world connects
@@ -1908,6 +2076,349 @@ veil.addEventListener("keydown", e => {
 });
 
 /* --------------------------------------------------------------------------
+   MADELEINE "BOOK OF TASTE" — an interactive two-page overlay.
+   Only Madeleine routes here; the other three worlds keep the linear #leaf.
+   -------------------------------------------------------------------------- */
+
+const book = document.getElementById("book");
+const bookDialog = document.getElementById("bookDialog");
+const bookClose = document.getElementById("bookClose");
+const bookSpread = document.getElementById("bookSpread");
+const bookPageJourney = document.getElementById("bookPageJourney");
+const bookPageRecipe = document.getElementById("bookPageRecipe");
+const journeyStops = document.getElementById("journeyStops");
+const journeyTrackFill = document.getElementById("journeyTrackFill");
+const journeyDate = document.getElementById("journeyDate");
+const journeyStopTitle = document.getElementById("journeyStopTitle");
+const journeyText = document.getElementById("journeyText");
+const journeyFinal = document.getElementById("journeyFinal");
+const bookNext = document.getElementById("bookNext");
+const bookNextTitle = document.getElementById("bookNextTitle");
+const bookNextNote = document.getElementById("bookNextNote");
+const recipeVisual = document.getElementById("recipeVisual");
+const recipeImage = document.getElementById("recipeImage");
+const recipeProgress = document.getElementById("recipeProgress");
+const recipeChapters = document.getElementById("recipeChapters");
+const recipeDetail = document.getElementById("recipeDetail");
+const recipeHeading = document.getElementById("recipeHeading");
+const recipeComplete = document.getElementById("recipeComplete");
+const recipeCompleteTitle = document.getElementById("recipeCompleteTitle");
+const recipeCompleteText = document.getElementById("recipeCompleteText");
+const fullRecipe = document.getElementById("fullRecipe");
+const bookBack = document.getElementById("bookBack");
+const bookTakeHome = document.getElementById("bookTakeHome");
+const bookTakeHomeTitle = document.getElementById("bookTakeHomeTitle");
+const bookTakeHomeNote = document.getElementById("bookTakeHomeNote");
+const bookPrint = document.getElementById("bookPrint");
+const bookShellSegs = Array.from(document.querySelectorAll(".recipe-shell__seg"));
+
+let bookLastFocused = null;
+let bookState = null;
+
+function madeleineWorld() { return worldById("madeleine"); }
+function bookLang(world) { return world.book[currentLang] || world.book.en; }
+function chapterTitle(chapter) { return currentLang === "ru" ? chapter.ru : chapter.en; }
+
+function newBookState() {
+  return {
+    page: "journey",
+    openedStops: new Set(),
+    currentStop: -1,
+    openedRecipeSteps: new Set(),
+    currentRecipeStep: -1,
+    fullRecipeOpen: false
+  };
+}
+
+/* ---- PAGE I: the cultural journey ---- */
+
+function renderJourneyStops(world) {
+  const stops = bookLang(world).stops;
+  const opened = bookState.openedStops;
+  const maxOpened = opened.size ? Math.max(...opened) : -1;
+
+  journeyStops.innerHTML = stops.map((s, i) => {
+    const isOpen = opened.has(i);
+    const active = i === bookState.currentStop;
+    const unlocked = i === 0 || opened.has(i - 1);
+    const cls = ["journey-stop"];
+    if (isOpen) cls.push("is-open");
+    if (active) cls.push("is-active");
+    if (!unlocked) cls.push("is-locked");
+    const lockAttr = unlocked ? "" : ` disabled aria-disabled="true" title="${ui("bookStopLocked")}"`;
+    return `<button type="button" class="${cls.join(" ")}" role="listitem" data-index="${i}"${lockAttr}
+        aria-label="${interpolate(ui("bookStopAria"), { n: i + 1, name: s.name })}" aria-current="${active ? "true" : "false"}">
+        <span class="journey-stop__node"><span class="journey-stop__num">${i + 1}</span><span class="journey-stop__check" aria-hidden="true">✓</span></span>
+        <span class="journey-stop__meta"><span class="journey-stop__date">${s.date}</span><span class="journey-stop__name">${s.name}</span></span>
+      </button>`;
+  }).join("");
+
+  const denom = Math.max(1, stops.length - 1);
+  const fill = maxOpened < 0 ? 0 : Math.min(maxOpened + 1, stops.length - 1) / denom;
+  journeyTrackFill.style.setProperty("--journey-fill", fill.toFixed(3));
+}
+
+function renderStopDetail(world, index) {
+  const stop = index >= 0 ? bookLang(world).stops[index] : null;
+  if (!stop) {
+    journeyDate.textContent = "";
+    journeyStopTitle.textContent = "";
+    journeyText.innerHTML = `<p class="journey-line journey-line--hint">${ui("journeyHint")}</p>`;
+    return;
+  }
+  journeyDate.textContent = stop.date;
+  journeyStopTitle.textContent = stop.name;
+  journeyText.innerHTML = stop.paras
+    .map((p, i) => `<p class="journey-line" style="--line:${i}">${p}</p>`)
+    .join("");
+}
+
+function openJourneyStop(index) {
+  const world = madeleineWorld();
+  const stops = bookLang(world).stops;
+  const unlocked = index === 0 || bookState.openedStops.has(index - 1);
+  if (!unlocked) return;
+  bookState.openedStops.add(index);
+  bookState.currentStop = index;
+  renderJourneyStops(world);
+  renderStopDetail(world, index);
+  if (bookState.openedStops.size === stops.length) completeJourney(world);
+}
+
+function completeJourney(world) {
+  bookPageJourney.classList.add("is-journey-complete");
+  journeyFinal.textContent = bookLang(world).journeyFinal;
+  journeyFinal.hidden = false;
+  bookNext.disabled = false;
+}
+
+/* ---- PAGE II: assemble the recipe ---- */
+
+function renderRecipeChapters(world) {
+  const chapters = world.book.chapters;
+  const opened = bookState.openedRecipeSteps;
+
+  recipeChapters.innerHTML = chapters.map((c, i) => {
+    const isOpen = opened.has(i);
+    const active = i === bookState.currentRecipeStep;
+    const unlocked = i === 0 || opened.has(i - 1);
+    const title = chapterTitle(c);
+    const cls = ["recipe-chapter"];
+    if (isOpen) cls.push("is-open");
+    if (active) cls.push("is-active");
+    if (!unlocked) cls.push("is-locked");
+    const lockAttr = unlocked ? "" : ` disabled aria-disabled="true" title="${ui("bookChapterLocked")}"`;
+    return `<button type="button" class="${cls.join(" ")}" role="listitem" data-index="${i}"${lockAttr}
+        aria-label="${interpolate(ui("bookChapterAria"), { n: i + 1, title })}" aria-current="${active ? "true" : "false"}">
+        <span class="recipe-chapter__num">${i + 1}</span>
+        <span class="recipe-chapter__title">${title}</span>
+        <span class="recipe-chapter__check" aria-hidden="true">✓</span>
+      </button>`;
+  }).join("");
+
+  recipeVisual.style.setProperty("--warm", (opened.size / chapters.length).toFixed(3));
+  bookShellSegs.forEach((seg, i) => seg.classList.toggle("is-lit", opened.has(i)));
+  recipeProgress.textContent = interpolate(ui("bookProgress"), { n: opened.size });
+}
+
+function renderRecipeDetail(world, index) {
+  const chapter = index >= 0 ? world.book.chapters[index] : null;
+  if (!chapter) { recipeDetail.innerHTML = ""; return; }
+  const steps = worldList(world, "steps");
+  const body = chapter.steps.map(si => steps[si]).filter(Boolean);
+  recipeDetail.innerHTML =
+    `<p class="recipe-detail__num">${index + 1}</p>` +
+    `<h4 class="recipe-detail__title">${chapterTitle(chapter)}</h4>` +
+    body.map((t, i) => `<p class="recipe-line" style="--line:${i}">${t}</p>`).join("");
+}
+
+function openRecipeChapter(index) {
+  const world = madeleineWorld();
+  const chapters = world.book.chapters;
+  const unlocked = index === 0 || bookState.openedRecipeSteps.has(index - 1);
+  if (!unlocked) return;
+  bookState.openedRecipeSteps.add(index);
+  bookState.currentRecipeStep = index;
+  renderRecipeChapters(world);
+  renderRecipeDetail(world, index);
+  if (bookState.openedRecipeSteps.size === chapters.length) completeRecipe(world);
+}
+
+function completeRecipe(world) {
+  recipeVisual.classList.add("is-complete");
+  recipeComplete.hidden = false;
+  recipeCompleteTitle.textContent = bookLang(world).recipeComplete.title;
+  recipeCompleteText.textContent = bookLang(world).recipeComplete.text;
+}
+
+function buildFullRecipe(world) {
+  document.getElementById("bookIngredients").innerHTML =
+    worldList(world, "ingredients").map(x => `<li>${x}</li>`).join("");
+  document.getElementById("bookSteps").innerHTML =
+    worldList(world, "steps").map(x => `<li>${x}</li>`).join("");
+  document.getElementById("bookTakeHomeText").textContent = worldText(world, "takeItHome");
+  document.getElementById("bookReflection").textContent = worldText(world, "reflection");
+}
+
+function toggleFullRecipe() {
+  const world = madeleineWorld();
+  bookState.fullRecipeOpen = true;
+  buildFullRecipe(world);
+  fullRecipe.hidden = false;
+  bookTakeHome.setAttribute("aria-expanded", "true");
+  if (!prefersReducedMotion.matches) {
+    fullRecipe.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+/* ---- page turning ---- */
+
+function focusIncomingPage(target) {
+  if (target === "recipe") bookBack.focus({ preventScroll: true });
+  else bookNext.focus({ preventScroll: true });
+}
+
+function turnBookPage(target) {
+  if (!bookState || bookState.page === target) return;
+  const outgoing = target === "recipe" ? bookPageJourney : bookPageRecipe;
+  const incoming = target === "recipe" ? bookPageRecipe : bookPageJourney;
+  bookState.page = target;
+  bookSpread.scrollTop = 0;
+
+  if (prefersReducedMotion.matches) {
+    outgoing.hidden = true;
+    incoming.hidden = false;
+    focusIncomingPage(target);
+    return;
+  }
+
+  const dir = target === "recipe" ? 1 : -1;
+  incoming.hidden = false;
+  incoming.style.setProperty("--turn-dir", String(dir));
+  outgoing.style.setProperty("--turn-dir", String(dir));
+  outgoing.classList.add("is-leaving");
+  incoming.classList.add("is-entering");
+  window.setTimeout(() => {
+    outgoing.hidden = true;
+    outgoing.classList.remove("is-leaving");
+    incoming.classList.remove("is-entering");
+    focusIncomingPage(target);
+  }, 680);
+}
+
+/* ---- static labels + full render (also used on language change) ---- */
+
+function renderBookStatic(world) {
+  document.getElementById("bookKicker").textContent = worldText(world, "name");
+  document.getElementById("bookHeading").textContent = bookLang(world).journeyTitle;
+  document.getElementById("journeyIntro").textContent = bookLang(world).journeyIntro;
+  bookNextTitle.textContent = ui("bookTurnTitle");
+  bookNextNote.textContent = ui("bookTurnNote");
+  bookBack.textContent = ui("bookBack");
+  recipeHeading.textContent = ui("bookRecipeHeading");
+  recipeImage.alt = interpolate(ui("recipeImageAlt"), { name: worldText(world, "name") });
+  bookTakeHomeTitle.textContent = ui("bookTakeHomeTitle");
+  bookTakeHomeNote.textContent = ui("bookTakeHomeNote");
+  document.getElementById("bookIngredientsHeading").textContent = ui("ingredients");
+  document.getElementById("bookMethodHeading").textContent = ui("method");
+  document.getElementById("bookTakeHomeHeading").textContent = ui("takeItHome");
+  bookPrint.textContent = ui("saveRecipe");
+  bookClose.setAttribute("aria-label", ui("close"));
+  journeyFinal.textContent = bookLang(world).journeyFinal;
+  recipeCompleteTitle.textContent = bookLang(world).recipeComplete.title;
+  recipeCompleteText.textContent = bookLang(world).recipeComplete.text;
+}
+
+function renderBook(world) {
+  renderBookStatic(world);
+  renderJourneyStops(world);
+  renderStopDetail(world, bookState.currentStop);
+  renderRecipeChapters(world);
+  renderRecipeDetail(world, bookState.currentRecipeStep);
+
+  const journeyDone = bookState.openedStops.size === bookLang(world).stops.length;
+  journeyFinal.hidden = !journeyDone;
+  bookNext.disabled = !journeyDone;
+  bookPageJourney.classList.toggle("is-journey-complete", journeyDone);
+
+  const recipeDone = bookState.openedRecipeSteps.size === world.book.chapters.length;
+  recipeComplete.hidden = !recipeDone;
+  recipeVisual.classList.toggle("is-complete", recipeDone);
+
+  if (bookState.fullRecipeOpen) {
+    buildFullRecipe(world);
+    fullRecipe.hidden = false;
+    bookTakeHome.setAttribute("aria-expanded", "true");
+  } else {
+    fullRecipe.hidden = true;
+    bookTakeHome.setAttribute("aria-expanded", "false");
+  }
+
+  const showRecipe = bookState.page === "recipe";
+  bookPageJourney.hidden = showRecipe;
+  bookPageRecipe.hidden = !showRecipe;
+}
+
+/* ---- open / close ---- */
+
+function openBook() {
+  const world = madeleineWorld();
+  if (!bookState) bookState = newBookState();
+  fillPrintCard(world);
+  closeFragment(false, true);
+  bookLastFocused = document.activeElement;
+  recipeImage.src = world.assets.dessertWhole;
+  renderBook(world);
+  book.hidden = false;
+  document.body.classList.add("leaf-open");
+  bookSpread.scrollTop = 0;
+  requestAnimationFrame(() => bookClose.focus());
+}
+
+function closeBook() {
+  book.hidden = true;
+  document.body.classList.remove("leaf-open");
+  if (bookLastFocused) bookLastFocused.focus();
+}
+
+/* Router used by every completion button. Madeleine → book, others → leaf. */
+function openStory() {
+  const world = worldById(currentId);
+  if (world && world.id === "madeleine") openBook();
+  else openLeaf();
+}
+
+bookClose.addEventListener("click", closeBook);
+book.addEventListener("click", e => { if (e.target === book) closeBook(); });
+bookNext.addEventListener("click", () => { if (!bookNext.disabled) turnBookPage("recipe"); });
+bookBack.addEventListener("click", () => turnBookPage("journey"));
+bookTakeHome.addEventListener("click", toggleFullRecipe);
+bookPrint.addEventListener("click", () => window.print());
+
+journeyStops.addEventListener("click", e => {
+  const b = e.target.closest(".journey-stop");
+  if (b && !b.disabled) openJourneyStop(Number(b.dataset.index));
+});
+recipeChapters.addEventListener("click", e => {
+  const b = e.target.closest(".recipe-chapter");
+  if (b && !b.disabled) openRecipeChapter(Number(b.dataset.index));
+});
+
+/* focus trap + Escape while the book is open */
+book.addEventListener("keydown", e => {
+  if (e.key === "Escape") { e.stopPropagation(); closeBook(); return; }
+  if (e.key !== "Tab") return;
+  const focusables = Array.from(
+    bookDialog.querySelectorAll('button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])')
+  ).filter(el => el.offsetParent !== null);
+  if (!focusables.length) return;
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+/* --------------------------------------------------------------------------
    APPLY LANGUAGE — updates the live scene without resetting the visit
    -------------------------------------------------------------------------- */
 
@@ -1962,10 +2473,7 @@ function updateStaticLanguage() {
   document.getElementById("enterPatisserie").textContent = ui("enterPatisserie");
 
   document.getElementById("fragmentNextStatus").textContent = ui("allConnected");
-  document.getElementById("fragmentNextTitle").textContent = ui("exploreStory");
-  document.getElementById("fragmentNextNote").textContent = ui("exploreNote");
-  document.getElementById("stageCtaTitle").textContent = ui("exploreStory");
-  document.getElementById("stageCtaNote").textContent = ui("exploreNote");
+  applyStoryCtaLabels();
   fragmentClose.setAttribute("aria-label", ui("closeFragment"));
   fragmentReturnLabel.textContent = ui("backToDessert");
   beginAgainBtn.textContent = ui("beginAgain");
@@ -2042,6 +2550,7 @@ function refreshOpenPanels() {
     }
 
     if (!veil.hidden) populateLeaf(world);
+    if (book && !book.hidden && bookState) renderBook(madeleineWorld());
     fillPrintCard(world);
   }
 }
