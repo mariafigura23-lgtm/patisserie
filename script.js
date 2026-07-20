@@ -501,7 +501,9 @@ const UI = {
     "bookCtaNote": "Cultural journey · recipe",
     "bookRecipeHeading": "Assemble the recipe",
     "bookTurnTitle": "Turn the page",
-    "bookTurnNote": "Assemble the recipe →",
+    "bookTurnNote": "The recipe (optional) →",
+    "readMore": "Read more",
+    "readLess": "Show less",
     "bookBack": "← The cultural journey",
     "bookProgress": "{n} of 5",
     "bookTakeHomeTitle": "Take the taste home",
@@ -569,7 +571,9 @@ const UI = {
     "bookCtaNote": "Культурное путешествие · рецепт",
     "bookRecipeHeading": "Соберите рецепт",
     "bookTurnTitle": "Перевернуть страницу",
-    "bookTurnNote": "Собрать рецепт →",
+    "bookTurnNote": "Рецепт (по желанию) →",
+    "readMore": "Читать дальше",
+    "readLess": "Свернуть",
     "bookBack": "← Культурное путешествие",
     "bookProgress": "{n} из 5",
     "bookTakeHomeTitle": "Забрать вкус с собой",
@@ -2101,25 +2105,20 @@ const journeyDate = document.getElementById("journeyDate");
 const journeyStopTitle = document.getElementById("journeyStopTitle");
 const journeyText = document.getElementById("journeyText");
 const journeyFinal = document.getElementById("journeyFinal");
+const journeyPractice = document.getElementById("journeyPractice");
+const practiceHeading = document.getElementById("practiceHeading");
+const practiceText = document.getElementById("practiceText");
+const practiceQuestion = document.getElementById("practiceQuestion");
 const bookNext = document.getElementById("bookNext");
 const bookNextTitle = document.getElementById("bookNextTitle");
 const bookNextNote = document.getElementById("bookNextNote");
-const recipeVisual = document.getElementById("recipeVisual");
 const recipeImage = document.getElementById("recipeImage");
-const recipeProgress = document.getElementById("recipeProgress");
 const recipeChapters = document.getElementById("recipeChapters");
-const recipeDetail = document.getElementById("recipeDetail");
 const recipeHeading = document.getElementById("recipeHeading");
-const recipeComplete = document.getElementById("recipeComplete");
-const recipeCompleteTitle = document.getElementById("recipeCompleteTitle");
+const recipeNote = document.getElementById("recipeNote");
 const recipeCompleteText = document.getElementById("recipeCompleteText");
-const fullRecipe = document.getElementById("fullRecipe");
 const bookBack = document.getElementById("bookBack");
-const bookTakeHome = document.getElementById("bookTakeHome");
-const bookTakeHomeTitle = document.getElementById("bookTakeHomeTitle");
-const bookTakeHomeNote = document.getElementById("bookTakeHomeNote");
 const bookPrint = document.getElementById("bookPrint");
-const bookShellSegs = Array.from(document.querySelectorAll(".recipe-shell__seg"));
 
 let bookLastFocused = null;
 let bookState = null;
@@ -2132,10 +2131,7 @@ function newBookState() {
   return {
     page: "journey",
     openedStops: new Set(),
-    currentStop: -1,
-    openedRecipeSteps: new Set(),
-    currentRecipeStep: -1,
-    fullRecipeOpen: false
+    currentStop: -1
   };
 }
 
@@ -2177,9 +2173,20 @@ function renderStopDetail(world, index) {
   }
   journeyDate.textContent = stop.date;
   journeyStopTitle.textContent = stop.name;
-  journeyText.innerHTML = stop.paras
-    .map((p, i) => `<p class="journey-line" style="--line:${i}">${p}</p>`)
-    .join("");
+
+  /* the first paragraph is always shown; the rest fold behind "read more"
+     so the history stays short for anyone who wants it brief */
+  const first = `<p class="journey-line" style="--line:0">${stop.paras[0]}</p>`;
+  const rest = stop.paras.slice(1);
+  let more = "";
+  if (rest.length) {
+    more =
+      `<div class="journey-more" id="journeyMore" hidden>` +
+      rest.map((p, i) => `<p class="journey-line" style="--line:${i}">${p}</p>`).join("") +
+      `</div>` +
+      `<button type="button" class="journey-readmore" id="journeyReadmore" aria-expanded="false" aria-controls="journeyMore">${ui("readMore")}</button>`;
+  }
+  journeyText.innerHTML = first + more;
 }
 
 function openJourneyStop(index) {
@@ -2194,90 +2201,44 @@ function openJourneyStop(index) {
   if (bookState.openedStops.size === stops.length) completeJourney(world);
 }
 
+function renderPractice(world, revealed) {
+  practiceHeading.textContent = ui("takeItHome");
+  practiceText.textContent = worldText(world, "takeItHome");
+  practiceQuestion.textContent = worldText(world, "reflection");
+  journeyPractice.hidden = !revealed;
+}
+
 function completeJourney(world) {
   bookPageJourney.classList.add("is-journey-complete");
   journeyFinal.textContent = bookLang(world).journeyFinal;
   journeyFinal.hidden = false;
+  renderPractice(world, true);
   bookNext.disabled = false;
 }
 
-/* ---- PAGE II: assemble the recipe ---- */
+/* ---- PAGE II: the recipe (all shown at once, no assembling game) ---- */
 
-function renderRecipeChapters(world) {
-  const chapters = world.book.chapters;
-  const opened = bookState.openedRecipeSteps;
+function renderRecipePage(world) {
+  recipeHeading.textContent = worldText(world, "recipeTitle");
+  recipeNote.textContent = worldText(world, "recipeNote");
+  recipeImage.alt = interpolate(ui("recipeImageAlt"), { name: worldText(world, "name") });
 
-  recipeChapters.innerHTML = chapters.map((c, i) => {
-    const isOpen = opened.has(i);
-    const active = i === bookState.currentRecipeStep;
-    const unlocked = i === 0 || opened.has(i - 1);
-    const title = chapterTitle(c);
-    const cls = ["recipe-chapter"];
-    if (isOpen) cls.push("is-open");
-    if (active) cls.push("is-active");
-    if (!unlocked) cls.push("is-locked");
-    const lockAttr = unlocked ? "" : ` disabled aria-disabled="true" title="${ui("bookChapterLocked")}"`;
-    return `<button type="button" class="${cls.join(" ")}" role="listitem" data-index="${i}"${lockAttr}
-        aria-label="${interpolate(ui("bookChapterAria"), { n: i + 1, title })}" aria-current="${active ? "true" : "false"}">
-        <span class="recipe-chapter__num">${i + 1}</span>
-        <span class="recipe-chapter__title">${title}</span>
-        <span class="recipe-chapter__check" aria-hidden="true">✓</span>
-      </button>`;
-  }).join("");
-
-  recipeVisual.style.setProperty("--warm", (opened.size / chapters.length).toFixed(3));
-  bookShellSegs.forEach((seg, i) => seg.classList.toggle("is-lit", opened.has(i)));
-  recipeProgress.textContent = interpolate(ui("bookProgress"), { n: opened.size });
-}
-
-function renderRecipeDetail(world, index) {
-  const chapter = index >= 0 ? world.book.chapters[index] : null;
-  if (!chapter) { recipeDetail.innerHTML = ""; return; }
-  const steps = worldList(world, "steps");
-  const body = chapter.steps.map(si => steps[si]).filter(Boolean);
-  recipeDetail.innerHTML =
-    `<p class="recipe-detail__num">${index + 1}</p>` +
-    `<h4 class="recipe-detail__title">${chapterTitle(chapter)}</h4>` +
-    body.map((t, i) => `<p class="recipe-line" style="--line:${i}">${t}</p>`).join("");
-}
-
-function openRecipeChapter(index) {
-  const world = madeleineWorld();
-  const chapters = world.book.chapters;
-  const unlocked = index === 0 || bookState.openedRecipeSteps.has(index - 1);
-  if (!unlocked) return;
-  bookState.openedRecipeSteps.add(index);
-  bookState.currentRecipeStep = index;
-  renderRecipeChapters(world);
-  renderRecipeDetail(world, index);
-  if (bookState.openedRecipeSteps.size === chapters.length) completeRecipe(world);
-}
-
-function completeRecipe(world) {
-  recipeVisual.classList.add("is-complete");
-  recipeComplete.hidden = false;
-  recipeCompleteTitle.textContent = bookLang(world).recipeComplete.title;
-  recipeCompleteText.textContent = bookLang(world).recipeComplete.text;
-}
-
-function buildFullRecipe(world) {
   document.getElementById("bookIngredients").innerHTML =
     worldList(world, "ingredients").map(x => `<li>${x}</li>`).join("");
-  document.getElementById("bookSteps").innerHTML =
-    worldList(world, "steps").map(x => `<li>${x}</li>`).join("");
-  document.getElementById("bookTakeHomeText").textContent = worldText(world, "takeItHome");
-  document.getElementById("bookReflection").textContent = worldText(world, "reflection");
-}
 
-function toggleFullRecipe() {
-  const world = madeleineWorld();
-  bookState.fullRecipeOpen = true;
-  buildFullRecipe(world);
-  fullRecipe.hidden = false;
-  bookTakeHome.setAttribute("aria-expanded", "true");
-  if (!prefersReducedMotion.matches) {
-    fullRecipe.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
+  const steps = worldList(world, "steps");
+  recipeChapters.innerHTML = world.book.chapters.map((c, i) => {
+    const body = c.steps.map(si => steps[si]).filter(Boolean);
+    return `<div class="recipe-chapter">
+        <span class="recipe-chapter__num">${i + 1}</span>
+        <div class="recipe-chapter__body">
+          <h5 class="recipe-chapter__title">${chapterTitle(c)}</h5>
+          ${body.map(t => `<p class="recipe-chapter__step">${t}</p>`).join("")}
+        </div>
+      </div>`;
+  }).join("");
+
+  recipeCompleteText.textContent = bookLang(world).recipeComplete.text;
 }
 
 /* ---- page turning ---- */
@@ -2324,44 +2285,24 @@ function renderBookStatic(world) {
   bookNextTitle.textContent = ui("bookTurnTitle");
   bookNextNote.textContent = ui("bookTurnNote");
   bookBack.textContent = ui("bookBack");
-  recipeHeading.textContent = ui("bookRecipeHeading");
-  recipeImage.alt = interpolate(ui("recipeImageAlt"), { name: worldText(world, "name") });
-  bookTakeHomeTitle.textContent = ui("bookTakeHomeTitle");
-  bookTakeHomeNote.textContent = ui("bookTakeHomeNote");
   document.getElementById("bookIngredientsHeading").textContent = ui("ingredients");
   document.getElementById("bookMethodHeading").textContent = ui("method");
-  document.getElementById("bookTakeHomeHeading").textContent = ui("takeItHome");
   bookPrint.textContent = ui("saveRecipe");
   bookClose.setAttribute("aria-label", ui("close"));
   journeyFinal.textContent = bookLang(world).journeyFinal;
-  recipeCompleteTitle.textContent = bookLang(world).recipeComplete.title;
-  recipeCompleteText.textContent = bookLang(world).recipeComplete.text;
 }
 
 function renderBook(world) {
   renderBookStatic(world);
   renderJourneyStops(world);
   renderStopDetail(world, bookState.currentStop);
-  renderRecipeChapters(world);
-  renderRecipeDetail(world, bookState.currentRecipeStep);
+  renderRecipePage(world);
 
   const journeyDone = bookState.openedStops.size === bookLang(world).stops.length;
   journeyFinal.hidden = !journeyDone;
+  renderPractice(world, journeyDone);
   bookNext.disabled = !journeyDone;
   bookPageJourney.classList.toggle("is-journey-complete", journeyDone);
-
-  const recipeDone = bookState.openedRecipeSteps.size === world.book.chapters.length;
-  recipeComplete.hidden = !recipeDone;
-  recipeVisual.classList.toggle("is-complete", recipeDone);
-
-  if (bookState.fullRecipeOpen) {
-    buildFullRecipe(world);
-    fullRecipe.hidden = false;
-    bookTakeHome.setAttribute("aria-expanded", "true");
-  } else {
-    fullRecipe.hidden = true;
-    bookTakeHome.setAttribute("aria-expanded", "false");
-  }
 
   const showRecipe = bookState.page === "recipe";
   bookPageJourney.hidden = showRecipe;
@@ -2401,16 +2342,23 @@ bookClose.addEventListener("click", closeBook);
 book.addEventListener("click", e => { if (e.target === book) closeBook(); });
 bookNext.addEventListener("click", () => { if (!bookNext.disabled) turnBookPage("recipe"); });
 bookBack.addEventListener("click", () => turnBookPage("journey"));
-bookTakeHome.addEventListener("click", toggleFullRecipe);
 bookPrint.addEventListener("click", () => window.print());
 
 journeyStops.addEventListener("click", e => {
   const b = e.target.closest(".journey-stop");
   if (b && !b.disabled) openJourneyStop(Number(b.dataset.index));
 });
-recipeChapters.addEventListener("click", e => {
-  const b = e.target.closest(".recipe-chapter");
-  if (b && !b.disabled) openRecipeChapter(Number(b.dataset.index));
+
+/* "read more" folds the extra history paragraphs of the active stop */
+journeyText.addEventListener("click", e => {
+  const btn = e.target.closest(".journey-readmore");
+  if (!btn) return;
+  const more = document.getElementById("journeyMore");
+  if (!more) return;
+  const open = more.hidden;
+  more.hidden = !open;
+  btn.setAttribute("aria-expanded", String(open));
+  btn.textContent = open ? ui("readLess") : ui("readMore");
 });
 
 /* focus trap + Escape while the book is open */

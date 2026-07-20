@@ -301,6 +301,17 @@
             </div>
           </div>
           <p class="journey-final" id="journeyFinal" hidden></p>
+
+          <!-- personal practice + closing question live at the end of Page I,
+               so visitors reach them without having to open the recipe -->
+          <div class="journey-practice" id="journeyPractice" hidden>
+            <div class="journey-practice__block">
+              <h3 class="journey-practice__heading" id="practiceHeading"></h3>
+              <p class="journey-practice__text" id="practiceText"></p>
+            </div>
+            <p class="journey-practice__question" id="practiceQuestion"></p>
+          </div>
+
           <button class="book-next" id="bookNext" type="button" disabled>
             <span class="book-next__title" id="bookNextTitle"></span>
             <small class="book-next__note" id="bookNextNote"></small>
@@ -312,56 +323,32 @@
       <section class="book-page book-page--recipe" id="bookPageRecipe" hidden>
         <div class="book-page__inner">
           <button class="book-back" id="bookBack" type="button"></button>
-          <div class="recipe-body">
-            <div class="recipe-visual" id="recipeVisual">
-              <div class="recipe-visual__frame">
-                <img class="recipe-visual__image" id="recipeImage" src="" alt="" loading="lazy" decoding="async">
-                <svg class="recipe-visual__shell" viewBox="0 0 100 130" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-                  <path class="recipe-shell__seg" data-seg="0" d="M50 12 C46 40 42 78 40 116"/>
-                  <path class="recipe-shell__seg" data-seg="1" d="M50 12 C49 42 48 80 47 118"/>
-                  <path class="recipe-shell__seg" data-seg="2" d="M50 12 C52 42 53 80 54 118"/>
-                  <path class="recipe-shell__seg" data-seg="3" d="M50 12 C55 40 59 78 61 116"/>
-                  <path class="recipe-shell__seg" data-seg="4" d="M50 12 C58 38 64 74 68 112"/>
-                </svg>
-                <span class="recipe-visual__steam" aria-hidden="true"><i></i><i></i><i></i></span>
-              </div>
-              <p class="recipe-visual__progress" id="recipeProgress" aria-live="polite"></p>
-            </div>
-            <div class="recipe-side">
-              <h3 class="recipe-side__title" id="recipeHeading"></h3>
-              <div class="recipe-chapters" id="recipeChapters" role="list"></div>
-              <div class="recipe-detail" id="recipeDetail" aria-live="polite"></div>
+
+          <div class="recipe-lead">
+            <figure class="recipe-visual">
+              <img class="recipe-visual__image" id="recipeImage" src="" alt="" loading="lazy" decoding="async">
+            </figure>
+            <div class="recipe-lead__intro">
+              <h3 class="recipe-lead__title" id="recipeHeading"></h3>
+              <p class="recipe-lead__note" id="recipeNote"></p>
             </div>
           </div>
 
-          <div class="recipe-complete" id="recipeComplete" hidden>
-            <h3 class="recipe-complete__title" id="recipeCompleteTitle"></h3>
-            <p class="recipe-complete__text" id="recipeCompleteText"></p>
-            <button class="book-takehome" id="bookTakeHome" type="button">
-              <span class="book-takehome__title" id="bookTakeHomeTitle"></span>
-              <small class="book-takehome__note" id="bookTakeHomeNote"></small>
-            </button>
+          <div class="recipe-columns">
+            <div class="recipe-ingredients">
+              <h4 class="recipe-subheading" id="bookIngredientsHeading">Ingredients</h4>
+              <ul id="bookIngredients"></ul>
+            </div>
+            <div class="recipe-method">
+              <h4 class="recipe-subheading" id="bookMethodHeading">Method</h4>
+              <div class="recipe-chapters" id="recipeChapters"></div>
+            </div>
           </div>
 
-          <div class="full-recipe" id="fullRecipe" hidden>
-            <div class="full-recipe__columns">
-              <div>
-                <h4 class="full-recipe__subheading" id="bookIngredientsHeading">Ingredients</h4>
-                <ul id="bookIngredients"></ul>
-              </div>
-              <div>
-                <h4 class="full-recipe__subheading" id="bookMethodHeading">Method</h4>
-                <ol id="bookSteps"></ol>
-              </div>
-            </div>
-            <div class="full-recipe__takehome">
-              <h4 class="full-recipe__subheading" id="bookTakeHomeHeading">Take it home</h4>
-              <p id="bookTakeHomeText"></p>
-            </div>
-            <p class="full-recipe__reflection" id="bookReflection"></p>
-            <div class="full-recipe__actions">
-              <button class="book-print" id="bookPrint" type="button">Take the recipe home</button>
-            </div>
+          <p class="recipe-closing" id="recipeCompleteText"></p>
+
+          <div class="recipe-actions">
+            <button class="book-print" id="bookPrint" type="button">Take the recipe home</button>
           </div>
         </div>
       </section>
