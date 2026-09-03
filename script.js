@@ -299,8 +299,109 @@ const WORLDS = [
         text: "Pleasure is often postponed until work is complete, success is achieved, or a special occasion arrives. The cannolo proposes another rhythm: a small joy may belong inside ordinary time."
       }
     ],
+    book: {
+      en: {
+        journeyTitle: "A Cultural Journey of Sweetness",
+        journeyIntro: "Follow four stops to see how one fried tube of pastry gathered a whole island's history.",
+        journeyFinal: "A carnival treat had become the taste of Sicily itself.",
+        stops: [
+          {
+            date: "9th — 11th century",
+            name: "The Arab Gift",
+            place: "Sicily",
+            paras: [
+              "Under Arab rule, Sicily received sugarcane, citrus, almonds and the art of working them — the foundation of everything sweet the island would later invent.",
+              "Ricotta, sugar and spice met on the same table for the first time. The cannolo did not yet exist, but its ingredients had already arrived."
+            ]
+          },
+          {
+            date: "Medieval — Baroque",
+            name: "Behind the Convent Grille",
+            place: "Palermo — Caltanissetta",
+            paras: [
+              "For centuries the island's finest confectioners were nuns. Behind grilles and vows, convents perfected cannoli, cassata and marzipan fruit.",
+              "The sweets were sold through a turnstile window — the ruota — to fund the houses. Pleasure was produced by enclosure, and passed to the world without a face."
+            ]
+          },
+          {
+            date: "Carnival season",
+            name: "A Carnival Luxury",
+            place: "Sicily",
+            paras: [
+              "The cannolo began as a treat of Carnevale, the brief season of excess before Lent's restraint.",
+              "The shell was fried hard and filled only at the last moment, so it stayed crisp against the cool ricotta. It was food for a feast day: rich, loud, and short-lived on purpose."
+            ]
+          },
+          {
+            date: "19th century — today",
+            name: "The Taste of the Island",
+            place: "Sicily — the world",
+            paras: [
+              "As convent kitchens faded, the recipe passed to town pastry shops and family trade, and the cannolo left the calendar of feast days to belong to any ordinary afternoon.",
+              "Today it travels the world as shorthand for Sicilian pleasure — dolce far niente, the sweetness of doing nothing, folded into one crisp shell."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "The taste is complete",
+          text: "A cannolo takes minutes to fill, but the sweetness inside it was assembled over a thousand years."
+        }
+      },
+      ru: {
+        journeyTitle: "Культурное путешествие сладости",
+        journeyIntro: "Четыре остановки — и вы увидите, как в одной трубочке жареного теста собралась история целого острова.",
+        journeyFinal: "Карнавальное лакомство стало вкусом самой Сицилии.",
+        stops: [
+          {
+            date: "IX — XI века",
+            name: "Арабский дар",
+            place: "Сицилия",
+            paras: [
+              "При арабском правлении Сицилия получила сахарный тростник, цитрусы, миндаль и искусство с ними обращаться — основу всего сладкого, что остров позже придумает.",
+              "Рикотта, сахар и пряности впервые встретились на одном столе. Канноло ещё не существовало, но его составляющие уже были здесь."
+            ]
+          },
+          {
+            date: "Средние века — барокко",
+            name: "За монастырской решёткой",
+            place: "Палермо — Кальтаниссетта",
+            paras: [
+              "Веками лучшими кондитерами острова были монахини. За решётками и обетами монастыри довели до совершенства канноли, кассату и марципановые фрукты.",
+              "Сладости продавали через поворотное окошко — ruota, — чтобы содержать обители. Удовольствие рождалось в затворничестве и уходило в мир без лица."
+            ]
+          },
+          {
+            date: "Время карнавала",
+            name: "Карнавальная роскошь",
+            place: "Сицилия",
+            paras: [
+              "Канноло начиналось как лакомство карнавала — короткого времени избытка перед постом и его воздержанием.",
+              "Трубочку жарили до хруста и наполняли лишь в последний момент, чтобы она оставалась ломкой рядом с прохладной рикоттой. Это была еда праздника: щедрая, звонкая и намеренно недолговечная."
+            ]
+          },
+          {
+            date: "XIX век — наши дни",
+            name: "Вкус острова",
+            place: "Сицилия — весь мир",
+            paras: [
+              "Когда монастырские кухни угасли, рецепт перешёл к городским кондитерским и семейному ремеслу, и канноло покинуло календарь праздников, чтобы принадлежать любому обычному дню.",
+              "Сегодня оно расходится по миру как знак сицилийского удовольствия — dolce far niente, сладости ничегонеделания, свёрнутой в одну хрустящую трубочку."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "Вкус собран",
+          text: "Наполнить канноло — минутное дело, но собранная в нём сладость складывалась тысячу лет."
+        }
+      },
+      chapters: [
+        { steps: [0],    en: "Drain the ricotta",  ru: "Откиньте рикотту" },
+        { steps: [1, 2], en: "Mix the filling",    ru: "Смешайте начинку" },
+        { steps: [3],    en: "Let it rest",        ru: "Дайте настояться" },
+        { steps: [4, 5], en: "Fill and finish",    ru: "Наполните и подайте" }
+      ]
+    },
     symbol: "spiral",
-    handleAngle: 270,
     cssClass: "scene--cannoli"
   },
   {
@@ -382,8 +483,110 @@ const WORLDS = [
         text: "Pleasure must be prepared, deserved, and delayed. In a culture shaped by scarcity, luxury is not simply purchased. It is patiently assembled through domestic labour."
       }
     ],
+    book: {
+      en: {
+        journeyTitle: "A Cultural Journey of Celebration",
+        journeyIntro: "Follow four stops to see how a French pastry became a Soviet holiday you had to build by hand.",
+        journeyFinal: "A cake had become a way of keeping a family together.",
+        stops: [
+          {
+            date: "18th — 19th century",
+            name: "The Thousand Leaves",
+            place: "France",
+            paras: [
+              "The cake descends from the French mille-feuille — the 'thousand leaves' — thin sheets of puff pastry layered with pastry cream.",
+              "It was a confectioner's showpiece: precise, patient, and built from almost nothing but butter, flour and time."
+            ]
+          },
+          {
+            date: "1912",
+            name: "A Cake Named Napoleon",
+            place: "Moscow",
+            paras: [
+              "For the centenary of the 1812 victory over Napoleon, Moscow's bakers cut the mille-feuille into small triangles resembling the emperor's cocked hat.",
+              "The joke stuck. A French pastry, renamed for a defeated French general, entered Russian life for good."
+            ]
+          },
+          {
+            date: "Soviet decades",
+            name: "The Holiday You Built",
+            place: "The Soviet home",
+            paras: [
+              "In the Soviet kitchen the Napoleon became a cake you assembled over two days. Butter was queued for; layers were rolled late into the night.",
+              "Scarcity turned dessert into an act of devotion. You could not simply buy the holiday — you made it, one thin layer at a time."
+            ]
+          },
+          {
+            date: "Passed by hand",
+            name: "The Family Notebook",
+            place: "From mother to daughter",
+            paras: [
+              "The recipe travelled in handwritten notebooks, from mother to daughter and neighbour to neighbour, each hand adjusting it slightly.",
+              "Left to rest until morning, the strict layers softened into one tender whole — patience and love pressed into a single slice."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "The taste is complete",
+          text: "The Napoleon is only pastry and cream, but its patience is the whole point — the waiting is the recipe."
+        }
+      },
+      ru: {
+        journeyTitle: "Культурное путешествие праздника",
+        journeyIntro: "Четыре остановки — и вы увидите, как французское пирожное стало советским праздником, который нужно построить своими руками.",
+        journeyFinal: "Торт стал способом удержать семью вместе.",
+        stops: [
+          {
+            date: "XVIII — XIX века",
+            name: "Тысяча листов",
+            place: "Франция",
+            paras: [
+              "Торт происходит от французского мильфея — «тысячи листов» — тонких пластов слоёного теста, переслоённых заварным кремом.",
+              "Это была витрина кондитера: точная, терпеливая, собранная почти из ничего — из масла, муки и времени."
+            ]
+          },
+          {
+            date: "1912 год",
+            name: "Торт по имени «Наполеон»",
+            place: "Москва",
+            paras: [
+              "К столетию победы над Наполеоном в 1812 году московские кондитеры нарезали мильфей маленькими треугольниками, напоминавшими треуголку императора.",
+              "Шутка прижилась. Французское пирожное, названное в честь побеждённого французского полководца, навсегда вошло в русскую жизнь."
+            ]
+          },
+          {
+            date: "Советские десятилетия",
+            name: "Праздник, который строят",
+            place: "Советский дом",
+            paras: [
+              "В советской кухне «Наполеон» стал тортом, который собирают два дня. За маслом стояли в очередях, коржи раскатывали поздней ночью.",
+              "Дефицит превратил десерт в акт преданности. Праздник нельзя было просто купить — его делали, один тонкий корж за другим."
+            ]
+          },
+          {
+            date: "Из рук в руки",
+            name: "Семейная тетрадь",
+            place: "От матери к дочери",
+            paras: [
+              "Рецепт путешествовал в рукописных тетрадях — от матери к дочери, от соседки к соседке, и каждая рука чуть его меняла.",
+              "Оставленные до утра, строгие слои размягчались в одно нежное целое — терпение и любовь, спрессованные в одном куске."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "Вкус собран",
+          text: "«Наполеон» — это всего лишь тесто и крем, но терпение и есть его суть: ожидание — часть рецепта."
+        }
+      },
+      chapters: [
+        { steps: [0],          en: "Bake the layers",  ru: "Испеките коржи" },
+        { steps: [1, 2, 3, 4], en: "Cook the cream",   ru: "Сварите крем" },
+        { steps: [5, 6],       en: "Finish the cream", ru: "Доведите крем" },
+        { steps: [7, 8],       en: "Build the cake",   ru: "Соберите торт" },
+        { steps: [9],          en: "Rest overnight",   ru: "Ночь в холоде" }
+      ]
+    },
     symbol: "cake",
-    handleAngle: 90,
     cssClass: "scene--napoleon"
   },
   {
@@ -457,6 +660,108 @@ const WORLDS = [
         text: "Here pleasure is allowed to be everyday. Sweetness need not be earned or reserved for ceremony; it can simply be offered — a homemade kindness at the ordinary hour."
       }
     ],
+    book: {
+      en: {
+        journeyTitle: "A Cultural Journey of Comfort",
+        journeyIntro: "Follow four stops to see how a simple 'pick-me-up' became the world's Italian dessert.",
+        journeyFinal: "A local pick-me-up had become a way of caring for one another.",
+        stops: [
+          {
+            date: "Older tradition",
+            name: "The Pick-Me-Up",
+            place: "The Veneto",
+            paras: [
+              "Long before the cake, the Veneto had its restoratives: egg yolks beaten with sugar — sbatudìn, zabaione — given to children, the tired, the recovering.",
+              "The idea was already there: something soft and sweet and gently strengthening, made at home to lift a body that was flagging."
+            ]
+          },
+          {
+            date: "Late 1960s — early 1970s",
+            name: "Born in Treviso",
+            place: "Treviso",
+            paras: [
+              "In Treviso, the modern tiramisù took shape — most often credited to the restaurant Le Beccherie and the family and pastry cook behind it.",
+              "Mascarpone, espresso-soaked savoiardi, egg, sugar and cocoa were layered into something new. Its name came from the dialect: tirame sù — 'pick me up.'"
+            ]
+          },
+          {
+            date: "1980s",
+            name: "The Name Travels",
+            place: "Italy",
+            paras: [
+              "Printed in cookbooks and copied from kitchen to kitchen, tiramisù spread out of the Veneto and across Italy within a decade.",
+              "Every region bent it a little — more coffee, a splash of liqueur, a different biscuit — but the gesture stayed the same."
+            ]
+          },
+          {
+            date: "Today",
+            name: "The World's Dessert",
+            place: "Everywhere",
+            paras: [
+              "Tiramisù is now perhaps the most recognised Italian dessert on earth, found on menus from Tokyo to Buenos Aires.",
+              "For all its fame it kept its humble character: no baking, no spectacle — just coffee, cream and the wish to lift someone's day."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "The taste is complete",
+          text: "Tiramisù is barely cooked at all — its whole art is in the layering, and in who you make it for."
+        }
+      },
+      ru: {
+        journeyTitle: "Культурное путешествие утешения",
+        journeyIntro: "Четыре остановки — и вы увидите, как простое «подними меня» стало главным итальянским десертом в мире.",
+        journeyFinal: "Местное «подними меня» стало способом заботиться друг о друге.",
+        stops: [
+          {
+            date: "Давняя традиция",
+            name: "«Подними меня»",
+            place: "Венето",
+            paras: [
+              "Задолго до торта в Венето были свои укрепляющие средства: желтки, взбитые с сахаром, — sbatudìn, забайоне, — их давали детям, уставшим, выздоравливающим.",
+              "Идея уже существовала: что-то мягкое, сладкое и тихо придающее сил, приготовленное дома, чтобы поддержать ослабевшее тело."
+            ]
+          },
+          {
+            date: "Конец 1960-х — начало 1970-х",
+            name: "Рождение в Тревизо",
+            place: "Тревизо",
+            paras: [
+              "Именно в Тревизо сложилось современное тирамису — чаще всего его связывают с рестораном Le Beccherie и стоявшими за ним семьёй и кондитером.",
+              "Маскарпоне, савоярди в эспрессо, яйца, сахар и какао сложились в новый десерт. Имя пришло из диалекта: tirame sù — «подними меня»."
+            ]
+          },
+          {
+            date: "1980-е",
+            name: "Имя расходится",
+            place: "Италия",
+            paras: [
+              "Напечатанное в кулинарных книгах и переписанное из кухни в кухню, тирамису за десятилетие вышло за пределы Венето и разошлось по всей Италии.",
+              "Каждый край чуть его менял — больше кофе, ложка ликёра, другое печенье, — но сам жест оставался прежним."
+            ]
+          },
+          {
+            date: "Сегодня",
+            name: "Десерт всего мира",
+            place: "Повсюду",
+            paras: [
+              "Сегодня тирамису — пожалуй, самый узнаваемый итальянский десерт на земле, он есть в меню от Токио до Буэнос-Айреса.",
+              "При всей славе оно сохранило скромный нрав: без выпечки, без зрелища — только кофе, крем и желание приподнять кому-то день."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "Вкус собран",
+          text: "Тирамису почти не готовят на огне — всё его искусство в том, как собраны слои и для кого."
+        }
+      },
+      chapters: [
+        { steps: [0, 1],    en: "The cream",       ru: "Крем" },
+        { steps: [2, 3],    en: "The coffee soak", ru: "Кофейная пропитка" },
+        { steps: [4, 5, 6], en: "Layer it",        ru: "Соберите слои" },
+        { steps: [7],       en: "Chill and dust",  ru: "Охладите и посыпьте" }
+      ]
+    },
     symbol: "coffee",
     cssClass: "scene--tiramisu"
   }
@@ -1301,7 +1606,8 @@ let questTimer = null;
    the linear cultural story. Both the stage CTA and the fragment CTA share
    these labels. */
 function applyStoryCtaLabels() {
-  const isBook = currentId === "madeleine";
+  const world = worldById(currentId);
+  const isBook = Boolean(world && world.book);
   const title = isBook ? ui("bookCtaStory") : ui("exploreStory");
   const note = isBook ? ui("bookCtaNote") : ui("exploreNote");
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
@@ -1423,8 +1729,8 @@ beginAgainBtn.addEventListener("click", () => {
   scene.classList.remove("is-guiding");
   questGuide.classList.remove("is-prominent", "is-compact");
   fragmentNext.hidden = true;
-  /* a fresh Madeleine visit also restarts its Book of Taste */
-  if (world.id === "madeleine") {
+  /* a fresh visit also restarts this world's Book of Taste */
+  if (bookState && bookState.worldId === world.id) {
     if (!book.hidden) closeBook();
     bookState = null;
   }
@@ -2091,12 +2397,17 @@ const bookPrint = document.getElementById("bookPrint");
 let bookLastFocused = null;
 let bookState = null;
 
-function madeleineWorld() { return worldById("madeleine"); }
+/* the book now opens for whichever world is on screen, not just Madeleine */
+function bookWorld() {
+  const id = bookState && bookState.worldId ? bookState.worldId : currentId;
+  return worldById(id) || worldById(currentId);
+}
 function bookLang(world) { return world.book[currentLang] || world.book.en; }
 function chapterTitle(chapter) { return currentLang === "ru" ? chapter.ru : chapter.en; }
 
-function newBookState() {
+function newBookState(worldId) {
   return {
+    worldId: worldId,
     page: "journey",
     openedStops: new Set(),
     currentStop: -1
@@ -2158,7 +2469,7 @@ function renderStopDetail(world, index) {
 }
 
 function openJourneyStop(index) {
-  const world = madeleineWorld();
+  const world = bookWorld();
   const stops = bookLang(world).stops;
   const unlocked = index === 0 || bookState.openedStops.has(index - 1);
   if (!unlocked) return;
@@ -2280,8 +2591,9 @@ function renderBook(world) {
 /* ---- open / close ---- */
 
 function openBook() {
-  const world = madeleineWorld();
-  if (!bookState) bookState = newBookState();
+  const world = worldById(currentId);
+  if (!world || !world.book) return;
+  if (!bookState || bookState.worldId !== world.id) bookState = newBookState(world.id);
   fillPrintCard(world);
   closeFragment(false, true);
   bookLastFocused = document.activeElement;
@@ -2299,10 +2611,11 @@ function closeBook() {
   if (bookLastFocused) bookLastFocused.focus();
 }
 
-/* Router used by every completion button. Madeleine → book, others → leaf. */
+/* Every world now opens its Book of Taste; the linear leaf remains as a
+   fallback for any world that has no book data yet. */
 function openStory() {
   const world = worldById(currentId);
-  if (world && world.id === "madeleine") openBook();
+  if (world && world.book) openBook();
   else openLeaf();
 }
 
@@ -2479,7 +2792,7 @@ function refreshOpenPanels() {
     }
 
     if (!veil.hidden) populateLeaf(world);
-    if (book && !book.hidden && bookState) renderBook(madeleineWorld());
+    if (book && !book.hidden && bookState) renderBook(bookWorld());
     fillPrintCard(world);
   }
 }
