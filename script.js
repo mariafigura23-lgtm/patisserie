@@ -59,6 +59,7 @@ const WORLDS = [
     assets: {
       background: "assets/madeleine-background.jpg",
       fallbackBackground: "assets/madeleine-background.jpg",
+      backgroundMobile: "assets/madeleine-background-mobile.jpg",
       dessertWhole: "assets/madeleine-whole.png",
       dessertBitten: "assets/madeleine-bitten.png",
       recipeImage: "assets/madeleine-recipe-card.jpg",
@@ -336,6 +337,7 @@ const WORLDS = [
     assets: {
       background: "assets/napoleon-background.jpg",
       fallbackBackground: "assets/napoleon-background.jpg",
+      backgroundMobile: "assets/napoleon-background-mobile.jpg",
       dessertWhole: "assets/napoleon-whole.png",
       dessertBitten: "assets/napoleon-bitten.png",
       recipeImage: "assets/napoleon-recipe-card.jpg",
@@ -415,9 +417,9 @@ const WORLDS = [
       "Chill at least 4 hours, then dust generously with cocoa before serving."
     ],
     assets: {
-      /* Placeholder scene ground until a tiramisù background is provided. */
-      background: "assets/petit-four-background.jpg",
-      fallbackBackground: "assets/petit-four-background.jpg",
+      background: "assets/tiramisu-background.jpg",
+      fallbackBackground: "assets/tiramisu-background.jpg",
+      backgroundMobile: "assets/tiramisu-background-mobile.jpg",
       dessertWhole: "assets/tiramisu-whole.png",
       dessertBitten: "assets/tiramisu-bitten.png",
       recipeImage: "assets/tiramisu-whole.png",
@@ -496,7 +498,7 @@ const UI = {
     "bookCtaNote": "Cultural journey · recipe",
     "bookRecipeHeading": "Assemble the recipe",
     "bookTurnTitle": "Turn the page",
-    "bookTurnNote": "The recipe (optional) →",
+    "bookTurnNote": "The recipe →",
     "readMore": "Read more",
     "readLess": "Show less",
     "bookBack": "← The cultural journey",
@@ -569,7 +571,7 @@ const UI = {
     "bookCtaNote": "Культурное путешествие · рецепт",
     "bookRecipeHeading": "Соберите рецепт",
     "bookTurnTitle": "Перевернуть страницу",
-    "bookTurnNote": "Рецепт (по желанию) →",
+    "bookTurnNote": "Рецепт →",
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "bookBack": "← Культурное путешествие",
@@ -1033,6 +1035,7 @@ function buildScene(world) {
   bgImg.draggable = false;
   bgImg.dataset.src = world.assets.background;
   bgImg.dataset.fallback = world.assets.fallbackBackground;
+  if (world.assets.backgroundMobile) bgImg.dataset.srcMobile = world.assets.backgroundMobile;
   bgLayer.appendChild(bgImg);
   scene.appendChild(bgLayer);
 
@@ -1117,6 +1120,13 @@ function activeScene() {
 }
 
 /* assign real srcs the first time a world is needed */
+/* choose the desktop or portrait-mobile background for the current breakpoint */
+function bgSourcesFor(bgImg) {
+  const mob = mobileLayout.matches && bgImg.dataset.srcMobile;
+  const primary = mob ? bgImg.dataset.srcMobile : bgImg.dataset.src;
+  return [primary, bgImg.dataset.src, bgImg.dataset.fallback].filter(Boolean);
+}
+
 function loadSceneAssets(world) {
   const state = worldState[world.id];
   if (state.loaded) return;
@@ -1132,7 +1142,7 @@ function loadSceneAssets(world) {
   if (bgImg) {
     bgImg.decoding = "async";
     if (world.id === "madeleine") bgImg.fetchPriority = "high";
-    loadWithFallback(bgImg, [bgImg.dataset.src, bgImg.dataset.fallback], () => {
+    loadWithFallback(bgImg, bgSourcesFor(bgImg), () => {
       bgImg.closest(".scene__layer")?.remove();
     });
   }
@@ -1179,6 +1189,12 @@ function applyResponsiveLayout() {
     scene.style.setProperty("--dessert-top", layout.top);
     if (world.backgroundPosition) {
       scene.style.setProperty("--bg-pos", world.backgroundPosition[key]);
+    }
+    /* swap to the portrait/landscape background when a loaded scene changes breakpoint */
+    const bgImg = scene.querySelector(".scene__background-layer img");
+    if (bgImg && worldState[world.id] && worldState[world.id].loaded) {
+      const want = bgSourcesFor(bgImg)[0];
+      if (want && !bgImg.src.endsWith(want)) bgImg.src = want;
     }
     world.hotspots.forEach(spot => {
       const btn = scene.querySelector(`.hotspot--${spot.key}`);
@@ -2338,8 +2354,6 @@ function openBook() {
   recipeImage.src = world.assets.dessertWhole;
   renderBook(world);
   book.hidden = false;
-  /* language is offered again inside the book, where it does not overlap the scene */
-  languageSwitcher.hidden = false;
   document.body.classList.add("leaf-open");
   bookSpread.scrollTop = 0;
   requestAnimationFrame(() => bookClose.focus());
@@ -2347,7 +2361,6 @@ function openBook() {
 
 function closeBook() {
   book.hidden = true;
-  if (entered) languageSwitcher.hidden = true;
   document.body.classList.remove("leaf-open");
   if (bookLastFocused) bookLastFocused.focus();
 }
@@ -2561,8 +2574,8 @@ const enterPatisserieButton = document.getElementById("enterPatisserie");
 function enterPatisserie(language) {
   applyLanguage(language);
   entered = true;
-  /* the switcher lives on the threshold and inside the Book of Taste; inside
-     the main scene it only overlapped captions, so hide it here. */
+  /* language is chosen once, on the threshold; after entering, the switcher is
+     gone for good (it only overlapped captions and the book's close button). */
   languageSwitcher.hidden = true;
   threshold.classList.add("is-opening");
   window.setTimeout(() => {

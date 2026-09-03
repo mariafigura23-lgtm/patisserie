@@ -1091,6 +1091,22 @@ button { font: inherit; color: inherit; }
   z-index: 20;
   pointer-events: none;
   padding: 0 12%;
+  isolation: isolate;
+}
+
+/* soft dark halo so the cream title reads over pale, parchment-centred
+   backgrounds — barely visible over the darker scenes */
+.masthead::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  width: 128%;
+  height: 340%;
+  background: radial-gradient(58% 58% at 50% 45%, rgba(8, 12, 22, 0.52), rgba(8, 12, 22, 0.24) 46%, transparent 72%);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .masthead__eyebrow {
