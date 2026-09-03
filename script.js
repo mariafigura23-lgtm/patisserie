@@ -21,7 +21,8 @@ try {
 } catch (e) { /* threshold stays visible */ }
 
 /* --------------------------------------------------------------------------
-   DATA — the four worlds
+   DATA — the dessert worlds (add more by appending to WORLDS + RU_WORLDS;
+   the dial pager and DIAL_ORDER pick them up automatically)
    -------------------------------------------------------------------------- */
 
 const WORLDS = [
