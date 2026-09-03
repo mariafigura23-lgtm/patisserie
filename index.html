@@ -25,6 +25,21 @@
     <button class="language-switcher__button" type="button" data-language="ru">RU</button>
   </div>
 
+  <!-- Cabinet of Tastes — a small drawer that quietly remembers where you have been -->
+  <button class="cabinet-key" id="cabinetKey" type="button" aria-label="Cabinet of Tastes" hidden>
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="6" y="4.5" width="20" height="23" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <line x1="16" y1="5" x2="16" y2="27" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="8.5" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="18" y1="12" x2="23.5" y2="12" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="8.5" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="18" y1="20" x2="23.5" y2="20" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="14.4" cy="16" r="0.9" fill="currentColor"/>
+      <circle cx="17.6" cy="16" r="0.9" fill="currentColor"/>
+    </svg>
+    <span class="cabinet-key__spark" aria-hidden="true"></span>
+  </button>
+
   <div class="stage-wrap">
 
     <section class="stage" id="stage">
@@ -291,6 +306,25 @@
       </section>
     </div>
   </div>
+</div>
+
+<!-- Cabinet of Tastes — the collection overlay -->
+<div class="cabinet-overlay" id="cabinet" hidden>
+  <div class="cabinet" role="dialog" aria-modal="true" aria-labelledby="cabinetTitle" id="cabinetDialog">
+    <button class="cabinet__close" id="cabinetClose" type="button" aria-label="Close">×</button>
+    <header class="cabinet__head">
+      <h2 class="cabinet__title" id="cabinetTitle"></h2>
+      <p class="cabinet__subtitle" id="cabinetSubtitle"></p>
+    </header>
+    <div class="cabinet__shelf" id="cabinetShelf" aria-live="polite"></div>
+    <p class="cabinet__hint" id="cabinetHintText" hidden></p>
+  </div>
+</div>
+
+<!-- A quiet note when a trace is added to the cabinet -->
+<div class="cabinet-toast" id="cabinetToast" role="status" aria-live="polite" hidden>
+  <span class="cabinet-toast__icon" id="cabinetToastIcon" aria-hidden="true"></span>
+  <span class="cabinet-toast__text" id="cabinetToastText"></span>
 </div>
 
 <!-- Printable recipe card (visible only in print) -->

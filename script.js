@@ -221,7 +221,11 @@ const WORLDS = [
       ]
     },
     symbol: "shell",
-    handleAngle: 0,
+    collectible: {
+      id: "madeleine-shell", icon: "🐚",
+      en: { name: "A scallop shell", note: "The madeleine's own shape, pressed into memory." },
+      ru: { name: "Раковина гребешка", note: "Форма самой мадленки, впечатанная в память." }
+    },
     cssClass: "scene--madeleine"
   },
   {
@@ -403,6 +407,11 @@ const WORLDS = [
       ]
     },
     symbol: "spiral",
+    collectible: {
+      id: "cannoli-postcard", icon: "🍋",
+      en: { name: "A Sicilian postcard", note: "Sun, majolica and the sea beyond the pasticceria." },
+      ru: { name: "Сицилийская открытка", note: "Солнце, майолика и море за дверью кондитерской." }
+    },
     cssClass: "scene--cannoli"
   },
   {
@@ -588,6 +597,11 @@ const WORLDS = [
       ]
     },
     symbol: "cake",
+    collectible: {
+      id: "napoleon-recipe", icon: "📜",
+      en: { name: "A recipe in a familiar hand", note: "Torn from a notebook that crossed a kitchen table." },
+      ru: { name: "Рецепт знакомым почерком", note: "Вырван из тетради, что переходила через кухонный стол." }
+    },
     cssClass: "scene--napoleon"
   },
   {
@@ -764,6 +778,11 @@ const WORLDS = [
       ]
     },
     symbol: "coffee",
+    collectible: {
+      id: "tiramisu-bean", icon: "☕",
+      en: { name: "A single coffee bean", note: "A bitterness that lifts — tirame sù." },
+      ru: { name: "Одно кофейное зерно", note: "Горечь, что поднимает, — tirame sù." }
+    },
     cssClass: "scene--tiramisu"
   },
   {
@@ -944,6 +963,11 @@ const WORLDS = [
       ]
     },
     symbol: "flower",
+    collectible: {
+      id: "petitfour-invitation", icon: "🎟️",
+      en: { name: "A court invitation", note: "Admittance to a world that no longer exists." },
+      ru: { name: "Приглашение ко двору", note: "Пропуск в мир, которого больше нет." }
+    },
     cssClass: "scene--petitfour"
   }
 ];
@@ -985,6 +1009,13 @@ const UI = {
     "bookRecipeHeading": "Assemble the recipe",
     "bookTurnTitle": "Turn the page",
     "bookTurnNote": "The recipe →",
+    "cabinetOpen": "Cabinet of Tastes",
+    "cabinetTitle": "Cabinet of Tastes",
+    "cabinetSubtitle": "Traces left by the worlds you have tasted.",
+    "cabinetEmpty": "The cabinet is still empty. Taste a dessert, and it will remember.",
+    "cabinetHint": "Something is still missing…",
+    "cabinetAdded": "Added to your Cabinet of Tastes",
+    "cabinetFrom": "from {world}",
     "readMore": "Read more",
     "readLess": "Show less",
     "bookBack": "← The cultural journey",
@@ -1053,6 +1084,13 @@ const UI = {
     "exploreNote": "История · послевкусие · рецепт",
     "bookCtaStory": "Открыть книгу вкуса",
     "bookCtaNote": "Культурное путешествие · рецепт",
+    "cabinetOpen": "Кабинет вкусов",
+    "cabinetTitle": "Кабинет вкусов",
+    "cabinetSubtitle": "Следы, оставленные мирами, которые вы попробовали.",
+    "cabinetEmpty": "Кабинет пока пуст. Попробуйте десерт — и он его запомнит.",
+    "cabinetHint": "Чего-то ещё не хватает…",
+    "cabinetAdded": "Добавлено в ваш кабинет вкусов",
+    "cabinetFrom": "из мира «{world}»",
     "bookRecipeHeading": "Соберите рецепт",
     "bookTurnTitle": "Перевернуть страницу",
     "bookTurnNote": "Рецепт →",
@@ -2033,6 +2071,7 @@ function selectWorld(id, instant = false) {
   const prev = currentId ? worldById(currentId) : null;
   currentId = id;
   transitioning = true;
+  markWorldVisited(id);
 
   closeFragment(false, true);
   clearTimeout(hintTimer);
@@ -2265,6 +2304,7 @@ function finishBite(world, scene) {
   const state = worldState[world.id];
   state.bitten = true;
   scene.classList.add("is-bitten-world");
+  collectArtifact(world);
   renderStrip(world);
   startQuestGuide(world, scene);
 
@@ -2307,6 +2347,122 @@ function takeBite() {
     biting = false;
     finishBite(world, scene);
   }, 700);
+}
+
+/* --------------------------------------------------------------------------
+   CABINET OF TASTES — a quiet, growing collection of traces. No counts, no
+   progress bars; objects simply accumulate. Persisted in localStorage so it
+   could later move to an account without changing callers.
+   -------------------------------------------------------------------------- */
+
+const CABINET_KEY = "patisserie.cabinet.v1";
+const cabinetKeyBtn = document.getElementById("cabinetKey");
+const cabinetOverlay = document.getElementById("cabinet");
+const cabinetClose = document.getElementById("cabinetClose");
+const cabinetShelf = document.getElementById("cabinetShelf");
+const cabinetHintText = document.getElementById("cabinetHintText");
+const cabinetToast = document.getElementById("cabinetToast");
+const cabinetToastIcon = document.getElementById("cabinetToastIcon");
+const cabinetToastText = document.getElementById("cabinetToastText");
+let cabinetLastFocused = null;
+let cabinetToastTimer = null;
+
+function loadCabinet() {
+  try {
+    const p = JSON.parse(localStorage.getItem(CABINET_KEY) || "{}");
+    return {
+      visitedWorlds: Array.isArray(p.visitedWorlds) ? p.visitedWorlds : [],
+      collectedArtifacts: Array.isArray(p.collectedArtifacts) ? p.collectedArtifacts : []
+    };
+  } catch (e) {
+    return { visitedWorlds: [], collectedArtifacts: [] };
+  }
+}
+
+let cabinetState = loadCabinet();
+
+function saveCabinet() {
+  try { localStorage.setItem(CABINET_KEY, JSON.stringify(cabinetState)); } catch (e) { /* private mode */ }
+}
+
+function markWorldVisited(id) {
+  if (!id || cabinetState.visitedWorlds.includes(id)) return;
+  cabinetState.visitedWorlds.push(id);
+  saveCabinet();
+}
+
+function hasArtifact(id) { return cabinetState.collectedArtifacts.includes(id); }
+
+function collectibleText(world, field) {
+  const c = world.collectible;
+  return (c[currentLang] && c[currentLang][field]) || c.en[field];
+}
+
+/* awarded after a meaningful interaction (the bite), never on mere load */
+function collectArtifact(world) {
+  if (!world || !world.collectible || hasArtifact(world.collectible.id)) return;
+  cabinetState.collectedArtifacts.push(world.collectible.id);
+  saveCabinet();
+  showCabinetToast(world);
+  if (cabinetKeyBtn) cabinetKeyBtn.classList.add("is-new");
+  if (cabinetOverlay && !cabinetOverlay.hidden) renderCabinet();
+}
+
+function showCabinetToast(world) {
+  if (!cabinetToast) return;
+  cabinetToastIcon.textContent = world.collectible.icon || "✦";
+  cabinetToastText.textContent = ui("cabinetAdded");
+  cabinetToast.hidden = false;
+  void cabinetToast.offsetWidth;
+  cabinetToast.classList.add("is-visible");
+  clearTimeout(cabinetToastTimer);
+  cabinetToastTimer = window.setTimeout(() => {
+    cabinetToast.classList.remove("is-visible");
+    window.setTimeout(() => { cabinetToast.hidden = true; }, 400);
+  }, 3200);
+}
+
+function renderCabinet() {
+  const items = WORLDS.filter(w => w.collectible && hasArtifact(w.collectible.id));
+  if (!items.length) {
+    cabinetShelf.innerHTML = `<p class="cabinet__empty">${ui("cabinetEmpty")}</p>`;
+    cabinetHintText.hidden = true;
+    return;
+  }
+  cabinetShelf.innerHTML = items.map(w => `
+      <figure class="specimen">
+        <span class="specimen__icon" aria-hidden="true">${w.collectible.icon || "✦"}</span>
+        <figcaption class="specimen__caption">
+          <span class="specimen__name">${collectibleText(w, "name")}</span>
+          <span class="specimen__from">${interpolate(ui("cabinetFrom"), { world: worldText(w, "name") })}</span>
+          <span class="specimen__note">${collectibleText(w, "note")}</span>
+        </figcaption>
+      </figure>`).join("");
+  /* a vague suggestion that more may exist — never a count */
+  cabinetHintText.textContent = ui("cabinetHint");
+  cabinetHintText.hidden = false;
+}
+
+function openCabinet() {
+  cabinetLastFocused = document.activeElement;
+  renderCabinet();
+  cabinetOverlay.hidden = false;
+  document.body.classList.add("leaf-open");
+  if (cabinetKeyBtn) cabinetKeyBtn.classList.remove("is-new");
+  requestAnimationFrame(() => cabinetClose.focus());
+}
+
+function closeCabinet() {
+  cabinetOverlay.hidden = true;
+  document.body.classList.remove("leaf-open");
+  if (cabinetLastFocused) cabinetLastFocused.focus();
+}
+
+if (cabinetKeyBtn) cabinetKeyBtn.addEventListener("click", openCabinet);
+if (cabinetClose) cabinetClose.addEventListener("click", closeCabinet);
+if (cabinetOverlay) {
+  cabinetOverlay.addEventListener("click", e => { if (e.target === cabinetOverlay) closeCabinet(); });
+  cabinetOverlay.addEventListener("keydown", e => { if (e.key === "Escape") closeCabinet(); });
 }
 
 /* --------------------------------------------------------------------------
@@ -2986,6 +3142,11 @@ function updateStaticLanguage() {
   document.getElementById("printMethodHeading").textContent = ui("method");
   document.getElementById("printTakeHomeHeading").textContent = ui("takeItHome");
   dial.setAttribute("aria-label", ui("dialLabel"));
+  if (cabinetKeyBtn) cabinetKeyBtn.setAttribute("aria-label", ui("cabinetOpen"));
+  document.getElementById("cabinetTitle").textContent = ui("cabinetTitle");
+  document.getElementById("cabinetSubtitle").textContent = ui("cabinetSubtitle");
+  cabinetClose.setAttribute("aria-label", ui("close"));
+  if (cabinetOverlay && !cabinetOverlay.hidden) renderCabinet();
 
   languageButtons.forEach(button => {
     const active = button.dataset.language === currentLang;
@@ -3066,6 +3227,8 @@ function enterPatisserie(language) {
   /* language is chosen once, on the threshold; after entering, the switcher is
      gone for good (it only overlapped captions and the book's close button). */
   languageSwitcher.hidden = true;
+  if (cabinetKeyBtn) cabinetKeyBtn.hidden = false;
+  markWorldVisited(currentId);
   threshold.classList.add("is-opening");
   window.setTimeout(() => {
     threshold.classList.add("is-leaving");
