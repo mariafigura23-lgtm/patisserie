@@ -384,84 +384,78 @@ const WORLDS = [
     cssClass: "scene--napoleon"
   },
   {
-    id: "petitfour",
-    name: "Court Petit Four",
+    id: "tiramisu",
+    name: "Tiramisu",
     objectNumber: "Object IV of IV",
-    context: "Versailles / court culture / late eighteenth century",
-    shortLine: "A perfect surface promises a perfect world.",
-    epigraph: "“Everything is designed to appear effortless.”",
-    epigraphSource: "Original epigraph.",
-    vignette: "At court, sweetness becomes design, performance, and illusion. Sugar is shaped into flowers, surfaces, and miniature architectures. Beauty is arranged so perfectly that it begins to look natural—just before history reminds the room that nothing delicate is guaranteed.",
-    history: "The petit four is named for the cooling oven — à petit four — where confectioners finished delicate work after the great bakes were done. At Versailles, sugar was a theatre: pièces montées, spun-sugar architecture, glazed miniatures arranged down mirrored tables in the choreography of service à la française. Sweetness performed power, and performed it as effortlessness. Within a decade the tables were gone; the tiny glazed cake remains, carrying the whole doomed elegance of the ancien régime in one bite.",
-    aftertaste: "Some worlds become most beautiful just before they disappear.",
-    takeItHome: "Set a table beautifully for no practical reason, even for one person. Allow beauty to exist without needing to justify it.",
-    reflection: "What kind of beautiful world have you wanted to be admitted into?",
-    recipeTitle: "Court-Inspired Petit Fours",
-    recipeNote: "A modern fictional recipe inspired by the elegance of late eighteenth-century French confectionery.",
+    context: "Italy / the Veneto / the café and the family table",
+    shortLine: "Coffee, cream, and the small courage to lift the day.",
+    epigraph: "“Tirami sù — lift me up.”",
+    epigraphSource: "From the Treviso dialect, the phrase that gave the cake its name.",
+    vignette: "Bitter espresso soaks into soft sponge; cocoa dusts a pale, tender cream. Nothing here is grand. And yet the whole thing is designed to do one quiet, generous thing — to pick you up, to carry you gently from tiredness back into the pleasure of the afternoon.",
+    history: "Tiramisù is young for a classic. Most accounts trace it to Treviso, in the Veneto, in the late 1960s and early 1970s — often to the kitchen of Le Beccherie, where mascarpone, espresso-soaked savoiardi, egg, sugar and cocoa were layered into something new. Its name comes from the local dialect — tirame sù, “pick me up” — and points to the coffee at its heart, a small revival meant to be shared. From a single northern town it travelled onto every Italian table and then across the world, becoming shorthand for a whole idea of Italian sweetness: unhurried, homemade, and warmly alive.",
+    aftertaste: "The gentlest luxuries are the ones meant to be shared.",
+    takeItHome: "Make something for someone who is tired — not to impress them, but simply to lift them. Let the small ritual of coffee and cream be the whole gift.",
+    reflection: "Who in your life could use a little lifting — and how might a taste say it for you?",
+    recipeTitle: "Classic Tiramisù",
+    recipeNote: "The traditional Italian layered coffee dessert.",
     ingredients: [
-      "1 small plain sponge cake or pound cake", "4 tbsp apricot or raspberry jam",
-      "150 g powdered sugar", "2–3 tbsp lemon juice or water",
-      "a small amount of pink food coloring, optional", "edible flowers or sugar decorations"
+      "4 egg yolks", "100 g sugar", "500 g mascarpone",
+      "300 ml strong espresso, cooled", "200 g savoiardi (ladyfinger biscuits)",
+      "2 tbsp cocoa powder", "a splash of Marsala or dark rum, optional"
     ],
     steps: [
-      "Cut the cake into small neat shapes.",
-      "Spread a thin layer of jam over the tops.",
-      "Mix powdered sugar and liquid into a thick glaze.",
-      "Tint lightly if desired.",
-      "Glaze the cakes.",
-      "Allow the glaze to set.",
-      "Decorate with edible flowers or sugar details.",
-      "Serve at a table you have arranged for no reason at all."
+      "Whisk the yolks and sugar until pale and thick.",
+      "Fold in the mascarpone until smooth.",
+      "Stir the cooled espresso (and Marsala, if using) in a shallow dish.",
+      "Dip each ladyfinger briefly — soaked, not soggy.",
+      "Line a dish with a layer of biscuits.",
+      "Spread over half the mascarpone cream.",
+      "Repeat with a second layer of biscuits and cream.",
+      "Chill at least 4 hours, then dust generously with cocoa before serving."
     ],
     assets: {
+      /* Placeholder scene ground until a tiramisù background is provided. */
       background: "assets/petit-four-background.jpg",
       fallbackBackground: "assets/petit-four-background.jpg",
-      dessertWhole: "assets/petit-four-whole.png",
-      dessertBitten: "assets/petit-four-bitten.png",
-      recipeImage: "assets/petit-four-recipe-card.jpg",
-      magic: "assets/petit-four-magic.png",
-      character: "assets/petit-four-rabbits.png",
+      dessertWhole: "assets/tiramisu-whole.png",
+      dessertBitten: "assets/tiramisu-bitten.png",
+      recipeImage: "assets/tiramisu-whole.png",
     },
     dessert: {
-      style: "plate",
-      aspect: 1.67,
+      style: "cutout",
+      aspect: 1.14,
       layout: {
-        desktop: { left: "50%", top: "56.5%", width: "39%" },
-        mobile:  { left: "50%", top: "41.5%", width: "79%" }
+        desktop: { left: "50%", top: "57%", width: "45%" },
+        mobile:  { left: "50%", top: "42%", width: "90%" }
       }
     },
-    layers: {
-      magic:      { left: "56.5%", top: "14%", width: "16%", portal: true },
-      character:  { left: "2.5%", top: "28%", width: "26%", vignette: true },
-      foreground: { bleed: true, blend: "screen" }
-    },
-    backgroundPosition: { desktop: "60% 50%", mobile: "60% 48%" },
-    biteCrumbColor: "#f2dfc9",
+    layers: {},
+    backgroundPosition: { desktop: "50% 50%", mobile: "50% 50%" },
+    biteCrumbColor: "#caa877",
     hotspots: [
       {
-        key: "sensation", x: 58, y: 57, mx: 58, my: 54,
+        key: "sensation", x: 60, y: 58, mx: 58, my: 55,
         title: "Sensation", subtitle: "What the body feels.",
-        text: "Thin glaze, delicate sweetness, fragility, and decorative precision. The dessert is almost too perfect to disturb."
+        text: "Bitter coffee, cool cream, the soft give of soaked sponge, and cocoa that catches at the back of the throat. Comfort and a small jolt of energy arrive in the same spoonful."
       },
       {
-        key: "scene", x: 37, y: 36, mx: 34, my: 34,
+        key: "scene", x: 34, y: 34, mx: 33, my: 30,
         title: "Scene", subtitle: "What world appears.",
-        text: "A courtly interior of candles, mirrors, ceremony, and miniature beauty. The dessert belongs to a world in which pleasure is arranged as spectacle."
+        text: "A late-morning café or a family table after lunch. Someone brings out a dish made the day before, and the afternoon slows down around it."
       },
       {
-        key: "desire", x: 67, y: 28, mx: 68, my: 26,
+        key: "desire", x: 70, y: 26, mx: 69, my: 24,
         title: "Desire", subtitle: "What kind of life is being longed for.",
-        text: "The desire is to enter a world where beauty, elegance, abundance, and belonging appear natural — a life seemingly protected from disorder and necessity."
+        text: "The longing is for ease shared with others — warmth, company, and a small pleasure that asks nothing in return except that you sit down and stay a while."
       },
       {
-        key: "rule", x: 84, y: 42, mx: 82, my: 40,
+        key: "rule", x: 22, y: 62, mx: 20, my: 66,
         title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
-        text: "At court, pleasure also communicates rank. Beauty appears effortless while concealing specialised labour, material wealth, codes of conduct, hierarchy, and the fragility of the order that produced it."
+        text: "Here pleasure is allowed to be everyday. Sweetness need not be earned or reserved for ceremony; it can simply be offered — a homemade kindness at the ordinary hour."
       }
     ],
-    symbol: "flower",
-    handleAngle: 180,
-    cssClass: "scene--petitfour"
+    symbol: "coffee",
+    cssClass: "scene--tiramisu"
   }
 ];
 
@@ -539,7 +533,8 @@ const UI = {
       "shell": "shell",
       "spiral": "spiral",
       "cake": "layered cake",
-      "flower": "flower"
+      "flower": "flower",
+      "coffee": "coffee bean"
     }
   },
   "ru": {
@@ -611,7 +606,8 @@ const UI = {
       "shell": "раковина",
       "spiral": "спираль",
       "cake": "слоёный торт",
-      "flower": "цветок"
+      "flower": "цветок",
+      "coffee": "кофейное зерно"
     }
   }
 };
@@ -658,7 +654,7 @@ const RU_WORLDS = {
         "text": "Тёплый чай, мягкое пирожное, сливочное масло и текстура, которая растворяется почти раньше, чем её удаётся назвать. Тело узнаёт что-то прежде, чем разум понимает, почему это важно."
       },
       "scene": {
-        "title": "Сцена",
+        "title": "Атмосфера",
         "subtitle": "Какой мир возникает.",
         "text": "Возвращается комната: свет на ткани, тишина, знакомый стол, атмосфера времени, которое казалось утраченным. Вкус восстанавливает не отдельный факт. Он возвращает целый мир."
       },
@@ -668,7 +664,7 @@ const RU_WORLDS = {
         "text": "Это желание не просто вспомнить. Это стремление вернуть непрерывность — почувствовать, что прежнее и нынешнее «я» всё ещё принадлежат одной жизни."
       },
       "rule": {
-        "title": "Правило",
+        "title": "Негласное правило",
         "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
         "text": "Взрослое время должно двигаться только вперёд. Прошлое считается завершённым, а личное чувство обязано подчиняться хронологии, дисциплине и объяснению. Вкус на мгновение нарушает этот порядок."
       }
@@ -712,7 +708,7 @@ const RU_WORLDS = {
         "text": "Хрупкая оболочка раскалывается и открывает прохладную рикотту, цитрус, сахар и фисташку. Удовольствие краткое и концентрированное — оно требует внимания к настоящему моменту."
       },
       "scene": {
-        "title": "Сцена",
+        "title": "Атмосфера",
         "subtitle": "Какой мир возникает.",
         "text": "Небольшая сицилийская кондитерская, эспрессо, солнечный свет и пауза посреди обычного дня. Ничего грандиозного не происходит. Жизнь просто становится хорошей на несколько минут."
       },
@@ -722,7 +718,7 @@ const RU_WORLDS = {
         "text": "Это желание не безграничного изобилия, а разрешения наслаждаться жизнью до того, как закончены все дела, — почувствовать, что уже этого мгновения достаточно."
       },
       "rule": {
-        "title": "Правило",
+        "title": "Негласное правило",
         "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
         "text": "Удовольствие часто откладывают до окончания работы, достижения успеха или наступления особого случая. Канноло предлагает другой ритм: маленькая радость может принадлежать обычному времени."
       }
@@ -771,7 +767,7 @@ const RU_WORLDS = {
         "text": "Крем размягчает слои, крошки осыпаются, а плотная сладость связана с ожиданием. Во вкусе уже заключено время: прежде чем стать готовым, торт должен настояться."
       },
       "scene": {
-        "title": "Сцена",
+        "title": "Атмосфера",
         "subtitle": "Какой мир возникает.",
         "text": "Вечерняя кухня накануне дня рождения или праздника. Кто-то раскатывает коржи, варит крем и оставляет собранный торт до завтра."
       },
@@ -781,64 +777,65 @@ const RU_WORLDS = {
         "text": "Это желание заботы, ставшей видимой через усилие: дома, непрерывности, семейной близости, изобилия и обещания, что завтра будет особенным."
       },
       "rule": {
-        "title": "Правило",
+        "title": "Негласное правило",
         "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
         "text": "Удовольствие нужно приготовить, заслужить и отложить. В культуре, сформированной дефицитом, роскошь нельзя просто купить — её терпеливо собирают домашним трудом."
       }
     }
   },
-  "petitfour": {
-    "name": "Придворный птифур",
+  "tiramisu": {
+    "name": "Тирамису",
     "objectNumber": "Объект IV из IV",
-    "context": "Версаль / придворная культура / конец XVIII века",
-    "shortLine": "Безупречная поверхность обещает безупречный мир.",
-    "epigraph": "«Всё устроено так, чтобы казаться не требующим усилий.»",
-    "epigraphSource": "Авторский эпиграф.",
-    "vignette": "При дворе сладость становится дизайном, спектаклем и иллюзией. Сахар превращают в цветы, поверхности и миниатюрные архитектуры. Красоту располагают настолько безупречно, что она начинает казаться естественной — ровно до того момента, когда история напоминает: ничто хрупкое не гарантировано.",
-    "history": "Название petit four происходит от остывающей печи — à petit four, — в которой кондитеры завершали деликатную работу после основной выпечки. В Версале сахар был театром: pièces montées, архитектура из тянутого сахара, глазированные миниатюры на зеркальных столах в хореографии service à la française. Сладость демонстрировала власть — и делала это как будто без усилий. Через десять лет столы исчезли; маленькое глазированное пирожное осталось, сохранив в одном укусе всю обречённую элегантность Старого порядка.",
-    "aftertaste": "Некоторые миры становятся прекраснее всего незадолго до исчезновения.",
-    "takeItHome": "Красиво накройте стол без практической причины — даже для одного человека. Позвольте красоте существовать без оправданий.",
-    "reflection": "В какой прекрасный мир вам хотелось быть допущенной?",
-    "recipeTitle": "Птифуры в придворном стиле",
-    "recipeNote": "Современный вымышленный рецепт, вдохновлённый изяществом французской кондитерской культуры конца XVIII века.",
+    "context": "Италия / Венето / кофейня и семейный стол",
+    "shortLine": "Кофе, крем и тихая смелость приподнять уходящий день.",
+    "epigraph": "«Tirami sù — подними меня».",
+    "epigraphSource": "Из тревизского диалекта — фраза, давшая десерту имя.",
+    "vignette": "Горький эспрессо пропитывает мягкий бисквит; какао ложится на бледный нежный крем. Здесь нет ничего парадного. И всё же весь этот десерт создан ради одного тихого и щедрого жеста — приподнять вас, мягко перенести от усталости обратно к радости неспешного дня.",
+    "history": "Для классики тирамису удивительно молодо. Чаще всего его происхождение относят к Тревизо в области Венето, к концу 1960-х — началу 1970-х годов, и нередко — к кухне ресторана Le Beccherie, где маскарпоне, савоярди в эспрессо, яйца, сахар и какао впервые сложились в новый десерт. Название пришло из местного диалекта — tirame sù, «подними меня», — и указывает на кофе в его сердце: маленькое возвращение сил, которым принято делиться. Из одного северного городка тирамису разошлось по всем итальянским столам, а затем и по миру, став олицетворением целой идеи итальянской сладости — неспешной, домашней и по-настоящему живой.",
+    "aftertaste": "Самая нежная роскошь — та, которой хочется поделиться.",
+    "takeItHome": "Приготовьте что-нибудь для того, кто устал, — не чтобы впечатлить, а чтобы приподнять. Пусть маленький ритуал кофе и крема станет самим подарком.",
+    "reflection": "Кому в вашей жизни сейчас нужна поддержка — и мог бы вкус сказать об этом за вас?",
+    "recipeTitle": "Классическое тирамису",
+    "recipeNote": "Традиционный итальянский слоёный кофейный десерт.",
     "ingredients": [
-      "1 небольшой простой бисквит или кекс",
-      "4 ст. л. абрикосового или малинового джема",
-      "150 г сахарной пудры",
-      "2–3 ст. л. лимонного сока или воды",
-      "немного розового пищевого красителя по желанию",
-      "съедобные цветы или сахарные украшения"
+      "4 яичных желтка",
+      "100 г сахара",
+      "500 г маскарпоне",
+      "300 мл крепкого эспрессо, охлаждённого",
+      "200 г савоярди (печенья «дамские пальчики»)",
+      "2 ст. л. какао-порошка",
+      "немного марсалы или тёмного рома по желанию"
     ],
     "steps": [
-      "Нарежьте бисквит небольшими аккуратными формами.",
-      "Смажьте верх тонким слоем джема.",
-      "Смешайте сахарную пудру с жидкостью до густой глазури.",
-      "При желании слегка подкрасьте её.",
-      "Покройте пирожные глазурью.",
-      "Дайте глазури застыть.",
-      "Украсьте съедобными цветами или сахарными деталями.",
-      "Подайте за столом, который вы накрыли без всякого повода."
+      "Взбейте желтки с сахаром до светлой густой массы.",
+      "Вмешайте маскарпоне до гладкости.",
+      "В неглубокой посуде соедините остывший эспрессо (и марсалу, если используете).",
+      "Быстро окунайте каждое печенье — оно должно пропитаться, но не размокнуть.",
+      "Выложите дно формы слоем савоярди.",
+      "Распределите сверху половину крема из маскарпоне.",
+      "Повторите второй слой печенья и крема.",
+      "Охладите не меньше 4 часов, а перед подачей щедро посыпьте какао."
     ],
     "hotspots": {
       "sensation": {
         "title": "Ощущение",
         "subtitle": "Что чувствует тело.",
-        "text": "Тонкая глазурь, деликатная сладость, хрупкость и декоративная точность. Пирожное кажется почти слишком совершенным, чтобы нарушить его поверхность."
+        "text": "Горечь кофе, прохлада крема, мягкая податливость пропитанного бисквита и какао, что чуть цепляет горло. Утешение и лёгкий прилив сил приходят в одной и той же ложке."
       },
       "scene": {
-        "title": "Сцена",
+        "title": "Атмосфера",
         "subtitle": "Какой мир возникает.",
-        "text": "Придворный интерьер со свечами, зеркалами, церемонией и миниатюрной красотой. Десерт принадлежит миру, где удовольствие организовано как зрелище."
+        "text": "Позднее утро в кофейне или семейный стол после обеда. Кто-то выносит десерт, приготовленный ещё накануне, — и день вокруг него замедляется."
       },
       "desire": {
         "title": "Желание",
         "subtitle": "О какой жизни мы тоскуем.",
-        "text": "Это желание войти в мир, где красота, элегантность, изобилие и принадлежность кажутся естественными, — в жизнь, будто бы защищённую от беспорядка и необходимости."
+        "text": "Это тоска по лёгкости, разделённой с другими, — по теплу, компании и маленькой радости, которая не требует ничего, кроме одного: сядь и побудь ещё немного."
       },
       "rule": {
-        "title": "Правило",
+        "title": "Негласное правило",
         "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
-        "text": "При дворе удовольствие также сообщает о ранге. Красота выглядит непринуждённой, скрывая специализированный труд, материальное богатство, кодексы поведения, иерархию и хрупкость породившего её порядка."
+        "text": "Здесь удовольствию позволено быть будничным. Сладость не нужно заслуживать или беречь для особого случая — её можно просто предложить: домашняя забота в самый обыкновенный час."
       }
     }
   }
@@ -952,12 +949,12 @@ const PARTICLES = {
     { cls: "particle--rise", x: 86, y: 53, r: 0.55, color: "#efce8a", dur: 15, delay: 11, peak: 0.45, dx: -3, dy: -12 },
     { cls: "particle--twinkle", x: 118, y: 20, r: 0.7, color: "#efce8a", dur: 12, delay: 6, peak: 0.45 }
   ],
-  petitfour: [
-    { cls: "particle--toward", x: 98, y: 56, r: 0.7, color: "#ecd292", dur: 15, delay: 0, peak: 0.6, dx: -7, dy: -13 },
-    { cls: "particle--toward", x: 106, y: 48, r: 0.6, color: "#ecd292", dur: 18, delay: 4, peak: 0.5, dx: -9, dy: -11 },
-    { cls: "particle--toward", x: 90, y: 50, r: 0.65, color: "#ecd292", dur: 20, delay: 8, peak: 0.5, dx: -5, dy: -12 },
-    { cls: "particle--toward", x: 62, y: 52, r: 0.6, color: "#ecd292", dur: 17, delay: 2, peak: 0.5, dx: 5, dy: -12 },
-    { cls: "particle--twinkle", x: 78, y: 16, r: 0.75, color: "#dfe8ff", dur: 9, delay: 3, peak: 0.6 }
+  tiramisu: [
+    { cls: "particle--rise", x: 98, y: 56, r: 0.7, color: "#d8b06a", dur: 15, delay: 0, peak: 0.6, dx: -4, dy: -13 },
+    { cls: "particle--rise", x: 106, y: 48, r: 0.6, color: "#c69a5e", dur: 18, delay: 4, peak: 0.5, dx: -3, dy: -11 },
+    { cls: "particle--rise", x: 90, y: 50, r: 0.65, color: "#d8b06a", dur: 20, delay: 8, peak: 0.5, dx: 3, dy: -12 },
+    { cls: "particle--rise", x: 62, y: 52, r: 0.6, color: "#c69a5e", dur: 17, delay: 2, peak: 0.5, dx: 4, dy: -12 },
+    { cls: "particle--twinkle", x: 78, y: 16, r: 0.75, color: "#e8c87f", dur: 9, delay: 3, peak: 0.55 }
   ]
 };
 
@@ -1038,11 +1035,15 @@ function buildScene(world) {
   bgLayer.appendChild(bgImg);
   scene.appendChild(bgLayer);
 
-  /* 2 · character or memory fragment */
-  scene.appendChild(buildPositionedLayer("scene__character-layer", world.layers.character, world, "character"));
+  /* 2 · character or memory fragment (optional) */
+  if (world.layers && world.layers.character) {
+    scene.appendChild(buildPositionedLayer("scene__character-layer", world.layers.character, world, "character"));
+  }
 
-  /* 3 · main magical overlay */
-  scene.appendChild(buildPositionedLayer("scene__magic-layer", world.layers.magic, world, "magic"));
+  /* 3 · main magical overlay (optional) */
+  if (world.layers && world.layers.magic) {
+    scene.appendChild(buildPositionedLayer("scene__magic-layer", world.layers.magic, world, "magic"));
+  }
 
   /* 4 · the dessert — whole and bitten stacked on one plate */
   const dessert = document.createElement("button");

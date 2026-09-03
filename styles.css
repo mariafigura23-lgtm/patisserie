@@ -156,6 +156,13 @@ button { font: inherit; color: inherit; }
     linear-gradient(166deg, #171a30 0%, #101226 58%, #0a0c1a 100%);
 }
 
+.scene--tiramisu {
+  background:
+    radial-gradient(70% 58% at 50% 20%, rgba(198, 150, 92, 0.16), transparent 62%),
+    radial-gradient(60% 50% at 80% 82%, rgba(120, 84, 52, 0.14), transparent 60%),
+    linear-gradient(168deg, #241a11 0%, #180f08 58%, #0f0a06 100%);
+}
+
 /* faint archival grain over the painted grounds */
 .scene::before {
   content: "";
