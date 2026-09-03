@@ -328,6 +328,26 @@ button { font: inherit; color: inherit; }
   to   { transform: translate3d(1.5px, -3px, 0); }
 }
 
+/* "layers" interaction — the dessert is revealed bottom-to-top, one layer at a
+   time, then rests fully assembled */
+.scene__dessert.is-building .scene__dessert-image--whole {
+  clip-path: inset(var(--clip-top, 0%) 0 0 0);
+  transition: clip-path 0.6s cubic-bezier(0.36, 0.9, 0.32, 1);
+}
+.scene__dessert.is-building .scene__dessert-image--bitten { opacity: 0; }
+.scene__dessert.is-settling .scene__dessert-image--whole { animation: dessertSettle 0.44s ease-out; }
+
+@keyframes dessertSettle {
+  0%   { transform: scale(1.035); }
+  55%  { transform: scale(0.994); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene__dessert.is-building .scene__dessert-image--whole { transition: none; }
+  .scene__dessert.is-settling .scene__dessert-image--whole { animation: none; }
+}
+
 /* whole and bitten share one canvas; only opacity moves.
    Geometry (zoom / shift) is applied inline per image by script.js */
 .scene__dessert-image {
@@ -5382,10 +5402,9 @@ body.is-world-gateway-active #dial,
    CABINET OF TASTES — a discoverable drawer + its collection overlay
    ========================================================================== */
 
-.cabinet-key {
+.corner-key {
   position: fixed;
   top: clamp(12px, 2.4vh, 26px);
-  right: clamp(12px, 2.4vw, 30px);
   z-index: 60;
   width: clamp(42px, 4vw, 52px);
   height: clamp(42px, 4vw, 52px);
@@ -5403,14 +5422,18 @@ body.is-world-gateway-active #dial,
   transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
 
-.cabinet-key svg { width: 66%; height: 66%; }
-.cabinet-key:hover {
+/* a small top-right pair: Book, then the Cabinet drawer on the far right */
+.cabinet-key    { right: clamp(12px, 2.4vw, 30px); }
+.world-book-key { right: calc(clamp(12px, 2.4vw, 30px) + clamp(42px, 4vw, 52px) + 10px); }
+
+.corner-key svg { width: 66%; height: 66%; }
+.corner-key:hover {
   color: #fff6dd;
   transform: translateY(-2px);
   background: rgba(20, 30, 50, 0.72);
   box-shadow: 0 0 0 1px rgba(224, 193, 132, 0.6), 0 12px 26px rgba(0, 0, 0, 0.5);
 }
-.cabinet-key:focus-visible {
+.corner-key:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--brass-bright), 0 12px 26px rgba(0, 0, 0, 0.5);
 }
@@ -5605,6 +5628,6 @@ body.is-world-gateway-active #dial,
 }
 
 /* the class display rules above beat the default [hidden]; restore it */
-.cabinet-key[hidden],
+.corner-key[hidden],
 .cabinet-overlay[hidden],
 .cabinet-toast[hidden] { display: none !important; }

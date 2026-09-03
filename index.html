@@ -25,8 +25,16 @@
     <button class="language-switcher__button" type="button" data-language="ru">RU</button>
   </div>
 
+  <!-- Always-available entrances: the Book of Taste is never locked behind an interaction -->
+  <button class="corner-key world-book-key" id="bookKey" type="button" aria-label="Open the Book of Taste" hidden>
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 7 C13 5.4 9.5 5 6.5 5.6 L6.5 24.5 C9.5 23.9 13 24.3 16 25.9 C19 24.3 22.5 23.9 25.5 24.5 L25.5 5.6 C22.5 5 19 5.4 16 7 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="16" y1="7" x2="16" y2="25.9" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+  </button>
+
   <!-- Cabinet of Tastes — a small drawer that quietly remembers where you have been -->
-  <button class="cabinet-key" id="cabinetKey" type="button" aria-label="Cabinet of Tastes" hidden>
+  <button class="corner-key cabinet-key" id="cabinetKey" type="button" aria-label="Cabinet of Tastes" hidden>
     <svg viewBox="0 0 32 32" aria-hidden="true">
       <rect x="6" y="4.5" width="20" height="23" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
       <line x1="16" y1="5" x2="16" y2="27" stroke="currentColor" stroke-width="1.2"/>

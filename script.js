@@ -602,6 +602,20 @@ const WORLDS = [
       en: { name: "A recipe in a familiar hand", note: "Torn from a notebook that crossed a kitchen table." },
       ru: { name: "Рецепт знакомым почерком", note: "Вырван из тетради, что переходила через кухонный стол." }
     },
+    /* signature gesture: care & anticipation — build the cake layer by layer,
+       then leave it to rest. Replaces the plain bite for this world. */
+    interaction: {
+      type: "layers",
+      config: {
+        steps: 4,
+        /* the cake fills this vertical band of its image; reveal within it and
+           always keep a visible base (min) so step one is never empty */
+        reveal: { top: 21, bottom: 86, min: 0.36 },
+        prompt: { en: "Build it, layer by layer", ru: "Соберите его, слой за слоем" },
+        step:   { en: "Add a layer", ru: "Ещё слой" },
+        done:   { en: "Now leave it to rest until morning.", ru: "Теперь оставьте до утра." }
+      }
+    },
     cssClass: "scene--napoleon"
   },
   {
@@ -1479,7 +1493,7 @@ const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 /* per-world session state — preserved when returning to a world */
 const worldState = {};
 WORLDS.forEach(w => {
-  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, completionPending: false, loaded: false };
+  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, completionPending: false, loaded: false, interaction: null };
 });
 
 /* --------------------------------------------------------------------------
@@ -1653,7 +1667,7 @@ function buildScene(world) {
   bitten.dataset.src = world.assets.dessertBitten;
   inner.append(whole, bitten);
   dessert.appendChild(inner);
-  dessert.addEventListener("click", takeBite);
+  dessert.addEventListener("click", activateDessert);
   scene.appendChild(dessert);
 
   /* 5 · foreground intentionally disabled.
@@ -2052,6 +2066,13 @@ function applyWorldState(world) {
   scene.classList.toggle("is-bitten-world", state.bitten);
   scene.classList.toggle("is-complete", state.complete);
   if (dessert) dessert.classList.toggle("is-bitten", state.bitten && !scene.classList.contains("scene--no-bitten"));
+  /* set up (or clear) this world's signature interaction visual */
+  const inter = worldInteraction(world);
+  if (inter && !state.bitten) {
+    inter.reset(scene, world);
+  } else if (dessert) {
+    dessert.classList.remove("is-building");
+  }
   scene.querySelectorAll(".hotspot").forEach(h => {
     h.classList.toggle("is-explored", state.explored.has(h.dataset.key));
   });
@@ -2060,6 +2081,7 @@ function applyWorldState(world) {
 function showBitePrompt(world) {
   clearTimeout(hintTimer);
   const shouldShow = entered && world && !worldState[world.id].bitten;
+  if (shouldShow) updateDessertPrompt(world);
   biteHint.classList.toggle("is-visible", Boolean(shouldShow));
 }
 
@@ -2300,6 +2322,122 @@ function crumbBurst(scene, world, origin) {
   }
 }
 
+/* --------------------------------------------------------------------------
+   WORLD INTERACTIONS — a shared grammar with one characteristic gesture per
+   world. Extensible: a world declares `interaction: { type, config }`, and the
+   registry below drives it. Worlds without one keep the classic bite. The
+   gesture is never required — the Book stays reachable at all times.
+   -------------------------------------------------------------------------- */
+
+function interactionLabel(cfg, key) {
+  const v = cfg && cfg[key];
+  if (!v) return "";
+  return typeof v === "string" ? v : (v[currentLang] || v.en);
+}
+
+const INTERACTIONS = {
+  /* "layers" — reveal the dessert bottom-to-top, one layer per activation, then
+     it must rest. (Napoleon: care, preparation, anticipation.) */
+  layers: {
+    _inset(cfg, step) {
+      const r = cfg.reveal || { top: 0, bottom: 100, min: 0.2 };
+      const denom = Math.max(1, cfg.steps - 1);
+      const f = r.min + ((step - 1) / denom) * (1 - r.min); // step 1..steps → min..1
+      return (r.bottom - f * (r.bottom - r.top)).toFixed(2) + "%";
+    },
+    _apply(dessert, cfg, step) {
+      dessert.classList.add("is-building");
+      dessert.style.setProperty("--clip-top", this._inset(cfg, step));
+    },
+    reset(scene, world) {
+      const dessert = scene.querySelector(".scene__dessert");
+      if (!dessert) return;
+      worldState[world.id].interaction = { step: 1 };
+      this._apply(dessert, world.interaction.config, 1);
+    },
+    activate(scene, world) {
+      const st = worldState[world.id];
+      const cfg = world.interaction.config;
+      if (!st.interaction) this.reset(scene, world);
+      const dessert = scene.querySelector(".scene__dessert");
+      if (st.interaction.step < cfg.steps) {
+        st.interaction.step += 1;
+        this._apply(dessert, cfg, st.interaction.step);
+        settlePulse(scene, dessert);
+      }
+      return st.interaction.step >= cfg.steps;
+    },
+    finish(scene, world) {
+      const dessert = scene.querySelector(".scene__dessert");
+      if (dessert) {
+        dessert.classList.remove("is-building");
+        dessert.style.removeProperty("--clip-top");
+      }
+    }
+  }
+};
+
+function worldInteraction(world) {
+  return world && world.interaction && INTERACTIONS[world.interaction.type]
+    ? INTERACTIONS[world.interaction.type] : null;
+}
+
+function settlePulse(scene, dessert) {
+  const pulse = scene && scene.querySelector(".scene__pulse");
+  if (pulse) { pulse.classList.remove("is-pulsing"); void pulse.offsetWidth; pulse.classList.add("is-pulsing"); }
+  if (dessert && !prefersReducedMotion.matches) {
+    dessert.classList.remove("is-settling"); void dessert.offsetWidth; dessert.classList.add("is-settling");
+    setTimeout(() => dessert.classList.remove("is-settling"), 440);
+  }
+}
+
+let dessertPromptTimer = null;
+
+/* the small floating prompt over the dessert: an interaction's own wording, or
+   the classic "take a bite" */
+function updateDessertPrompt(world) {
+  if (!biteHint || !world) return;
+  if (worldState[world.id].bitten) return;
+  const inter = worldInteraction(world);
+  biteHint.textContent = inter
+    ? interactionLabel(world.interaction.config, "prompt")
+    : (currentLang === "ru" ? "Откусите кусочек" : "Take a bite");
+}
+
+function flashDessertPrompt(text, ms) {
+  if (!biteHint || !text) return;
+  biteHint.textContent = text;
+  biteHint.classList.add("is-visible");
+  clearTimeout(dessertPromptTimer);
+  dessertPromptTimer = window.setTimeout(() => {
+    const world = worldById(currentId);
+    if (world && !worldState[world.id].bitten) updateDessertPrompt(world);
+    else biteHint.classList.remove("is-visible");
+  }, ms);
+}
+
+/* the dessert's primary gesture: run the world's interaction if it has one,
+   otherwise the classic bite. */
+function activateDessert() {
+  const world = worldById(currentId);
+  const scene = activeScene();
+  if (!world || !scene || biting || transitioning) return;
+  if (worldState[world.id].bitten) return;
+
+  const inter = worldInteraction(world);
+  if (!inter) { takeBite(); return; }
+
+  clearTimeout(dessertPromptTimer);
+  const complete = inter.activate(scene, world);
+  if (complete) {
+    if (inter.finish) inter.finish(scene, world);
+    flashDessertPrompt(interactionLabel(world.interaction.config, "done"), 2600);
+    finishBite(world, scene);
+  } else {
+    flashDessertPrompt(interactionLabel(world.interaction.config, "step"), 1500);
+  }
+}
+
 function finishBite(world, scene) {
   const state = worldState[world.id];
   state.bitten = true;
@@ -2457,6 +2595,13 @@ function closeCabinet() {
   document.body.classList.remove("leaf-open");
   if (cabinetLastFocused) cabinetLastFocused.focus();
 }
+
+/* the Book of Taste is always reachable — never locked behind an interaction */
+const bookKeyBtn = document.getElementById("bookKey");
+if (bookKeyBtn) bookKeyBtn.addEventListener("click", () => {
+  const w = worldById(currentId);
+  if (w && w.book) openBook();
+});
 
 if (cabinetKeyBtn) cabinetKeyBtn.addEventListener("click", openCabinet);
 if (cabinetClose) cabinetClose.addEventListener("click", closeCabinet);
@@ -3121,7 +3266,7 @@ function updateStaticLanguage() {
   fragmentClose.setAttribute("aria-label", ui("closeFragment"));
   fragmentReturnLabel.textContent = ui("backToDessert");
   beginAgainBtn.textContent = ui("beginAgain");
-  biteHint.textContent = currentLang === "ru" ? "Откусите кусочек" : "Take a bite";
+  updateDessertPrompt(worldById(currentId));
 
   document.getElementById("leafReturn").innerHTML = ui("returnText");
   document.getElementById("leafVignetteHeading").textContent = ui("culturalVignette");
@@ -3143,6 +3288,7 @@ function updateStaticLanguage() {
   document.getElementById("printTakeHomeHeading").textContent = ui("takeItHome");
   dial.setAttribute("aria-label", ui("dialLabel"));
   if (cabinetKeyBtn) cabinetKeyBtn.setAttribute("aria-label", ui("cabinetOpen"));
+  if (bookKeyBtn) bookKeyBtn.setAttribute("aria-label", ui("bookCtaStory"));
   document.getElementById("cabinetTitle").textContent = ui("cabinetTitle");
   document.getElementById("cabinetSubtitle").textContent = ui("cabinetSubtitle");
   cabinetClose.setAttribute("aria-label", ui("close"));
@@ -3228,6 +3374,7 @@ function enterPatisserie(language) {
      gone for good (it only overlapped captions and the book's close button). */
   languageSwitcher.hidden = true;
   if (cabinetKeyBtn) cabinetKeyBtn.hidden = false;
+  if (bookKeyBtn) bookKeyBtn.hidden = false;
   markWorldVisited(currentId);
   threshold.classList.add("is-opening");
   window.setTimeout(() => {
