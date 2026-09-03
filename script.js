@@ -479,7 +479,7 @@ const UI = {
     "thresholdTitle": "The Patisserie<br>of the Unconscious",
     "thresholdLead": "Every dessert holds a story — and a desire.",
     "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
-    "thresholdBody2": "Turn the dial to move between four dessert worlds.",
+    "thresholdBody2": "Turn the dial to move between the dessert worlds.",
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -527,7 +527,9 @@ const UI = {
     "hungry": "What were you really hungry for?",
     "projectBy": "a project by @fashamigura",
     "printProject": "The Patisserie of the Unconscious",
-    "dialLabel": "Dessert selector. Use left and right arrow keys, or choose a dessert directly.",
+    "dialLabel": "Dessert world selector. Use the arrows, the arrow keys, or tap the dial to turn between worlds.",
+    "dialAdvanceAria": "Turn to the next dessert world (currently {n} of {total})",
+    "dialCue": "Turn to explore",
     "takeBiteAria": "Take a bite of the {name}",
     "sceneAlt": "Surreal archival collage for the {name} world: {line}",
     "dialWorldAria": "{name} — the {symbol}",
@@ -549,7 +551,7 @@ const UI = {
     "thresholdTitle": "Кондитерская<br>бессознательного",
     "thresholdLead": "В каждом десерте скрыты история — и желание.",
     "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
-    "thresholdBody2": "Поворачивайте переключатель, чтобы переходить между четырьмя мирами десертов.",
+    "thresholdBody2": "Поворачивайте диск, чтобы переходить между мирами десертов.",
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -597,7 +599,9 @@ const UI = {
     "hungry": "Чего вам на самом деле хотелось?",
     "projectBy": "проект @fashamigura",
     "printProject": "Кондитерская бессознательного",
-    "dialLabel": "Переключатель десертов. Используйте стрелки влево и вправо или выберите десерт напрямую.",
+    "dialLabel": "Выбор мира десерта. Листайте стрелками, клавишами или нажмите на диск, чтобы перейти к следующему миру.",
+    "dialAdvanceAria": "Перейти к следующему миру десерта (сейчас {n} из {total})",
+    "dialCue": "Листайте миры",
     "takeBiteAria": "Откусить кусочек десерта «{name}»",
     "sceneAlt": "Сюрреалистический архивный коллаж мира «{name}»: {line}",
     "dialWorldAria": "{name} — символ «{symbol}»",
@@ -887,8 +891,9 @@ function spotText(world, spot, field) {
 }
 
 
-/* clockwise order around the dial, for arrow keys and swiping */
-const DIAL_ORDER = ["madeleine", "napoleon", "petitfour", "cannoli"];
+/* order the dial pages through the worlds — derived from WORLDS so new
+   dessert worlds appear automatically, with no fixed count. */
+const DIAL_ORDER = WORLDS.map(w => w.id);
 
 
 
@@ -1238,34 +1243,42 @@ if (dialArt.complete) {
   else dialArtFailed();
 }
 
-const SECTOR_POS = { 0: "top", 90: "right", 180: "bottom", 270: "left" };
+/* The dial is a pager now: tapping the face turns to the next world, and the
+   chevrons step either way. This scales to any number of dessert worlds. */
+const dialAdvance = document.getElementById("dialAdvance");
+const dialPrev = document.getElementById("dialPrev");
+const dialNext = document.getElementById("dialNext");
+const dialPos = document.getElementById("dialPos");
+const dialCue = document.getElementById("dialCue");
 
+function turnDial(direction) {
+  const changingWorld = DIAL_ORDER.length > 1;
+  step(direction);
+  if (mobileLayout.matches && changingWorld) {
+    window.setTimeout(() => {
+      stage.scrollIntoView({
+        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+        block: "start"
+      });
+    }, 90);
+  }
+}
 
-WORLDS.forEach(world => {
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = `dial__sector dial__sector--${SECTOR_POS[world.handleAngle]}`;
-  btn.setAttribute("role", "radio");
-  btn.setAttribute("aria-checked", "false");
-  btn.setAttribute("aria-label", interpolate(ui("dialWorldAria"), { name: worldText(world, "name"), symbol: ui("symbols")[world.symbol] }));
-  btn.dataset.id = world.id;
-  btn.addEventListener("click", () => {
-    const changingWorld = world.id !== currentId;
-    selectWorld(world.id);
+dialAdvance.addEventListener("click", () => turnDial(1));
+dialNext.addEventListener("click", e => { e.stopPropagation(); turnDial(1); });
+dialPrev.addEventListener("click", e => { e.stopPropagation(); turnDial(-1); });
 
-    if (mobileLayout.matches && changingWorld) {
-      window.setTimeout(() => {
-        stage.scrollIntoView({
-          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
-          block: "start"
-        });
-      }, 90);
-    }
-  });
-  dial.appendChild(btn);
-});
-
-const sectorButtons = Array.from(dial.querySelectorAll(".dial__sector"));
+/* keep the little "n / N" position readout in sync */
+function updateDialPos() {
+  const idx = DIAL_ORDER.indexOf(currentId);
+  if (idx >= 0 && dialPos) dialPos.textContent = `${idx + 1} / ${DIAL_ORDER.length}`;
+  if (dialAdvance) {
+    dialAdvance.setAttribute(
+      "aria-label",
+      interpolate(ui("dialAdvanceAria"), { n: idx + 1, total: DIAL_ORDER.length })
+    );
+  }
+}
 
 /* --------------------------------------------------------------------------
    STRIP STATE — name, status, progress, reset
@@ -1461,7 +1474,10 @@ function worldById(id) {
 }
 
 function rotateHandle(world) {
-  const target = world.handleAngle;
+  /* index-based: the handle steps one notch per world, so the dial reads as a
+     rotor you turn — for any number of worlds, not a fixed four. */
+  const idx = Math.max(0, DIAL_ORDER.indexOf(world.id));
+  const target = (idx * 360) / Math.max(1, DIAL_ORDER.length);
   const currentMod = ((currentAngle % 360) + 360) % 360;
   let delta = target - currentMod;
   if (delta > 180) delta -= 360;
@@ -1523,7 +1539,7 @@ function selectWorld(id, instant = false) {
   loadSceneAssets(world);
   applyWorldState(world);
 
-  sectorButtons.forEach(b => b.setAttribute("aria-checked", String(b.dataset.id === id)));
+  updateDialPos();
   rotateHandle(world);
 
   const reduced = prefersReducedMotion.matches;
@@ -2320,6 +2336,8 @@ function openBook() {
   recipeImage.src = world.assets.dessertWhole;
   renderBook(world);
   book.hidden = false;
+  /* language is offered again inside the book, where it does not overlap the scene */
+  languageSwitcher.hidden = false;
   document.body.classList.add("leaf-open");
   bookSpread.scrollTop = 0;
   requestAnimationFrame(() => bookClose.focus());
@@ -2327,6 +2345,7 @@ function openBook() {
 
 function closeBook() {
   book.hidden = true;
+  if (entered) languageSwitcher.hidden = true;
   document.body.classList.remove("leaf-open");
   if (bookLastFocused) bookLastFocused.focus();
 }
@@ -2462,6 +2481,7 @@ function updateStaticLanguage() {
   document.getElementById("printMethodHeading").textContent = ui("method");
   document.getElementById("printTakeHomeHeading").textContent = ui("takeItHome");
   dial.setAttribute("aria-label", ui("dialLabel"));
+  if (dialCue) dialCue.textContent = ui("dialCue");
 
   languageButtons.forEach(button => {
     const active = button.dataset.language === currentLang;
@@ -2491,11 +2511,8 @@ function updateSceneLanguage() {
       if (label) label.textContent = spotText(world, spot, "title");
     });
 
-    const sector = dial.querySelector(`.dial__sector[data-id="${world.id}"]`);
-    sector?.setAttribute("aria-label", interpolate(ui("dialWorldAria"), {
-      name: worldText(world, "name"), symbol: ui("symbols")[world.symbol]
-    }));
   });
+  updateDialPos();
 }
 
 function refreshOpenPanels() {
@@ -2542,7 +2559,9 @@ const enterPatisserieButton = document.getElementById("enterPatisserie");
 function enterPatisserie(language) {
   applyLanguage(language);
   entered = true;
-  languageSwitcher.hidden = false;
+  /* the switcher lives on the threshold and inside the Book of Taste; inside
+     the main scene it only overlapped captions, so hide it here. */
+  languageSwitcher.hidden = true;
   threshold.classList.add("is-opening");
   window.setTimeout(() => {
     threshold.classList.add("is-leaving");
@@ -2560,8 +2579,7 @@ function enterPatisserie(language) {
     showBitePrompt(worldById(currentId));
   }
 
-  const checked = sectorButtons.find(b => b.getAttribute("aria-checked") === "true");
-  if (checked) checked.focus({ preventScroll: true });
+  if (dialAdvance) dialAdvance.focus({ preventScroll: true });
 
   /* quietly prefetch the other worlds while the first is contemplated */
   setTimeout(() => {

@@ -110,7 +110,7 @@
          so the experience becomes a readable vertical scroll instead of stacked overlays. -->
     <div class="mobile-flow" id="mobileFlow"></div>
 
-    <div class="dial" id="dial" role="radiogroup" aria-label="Dessert selector. Use left and right arrow keys, or choose a dessert directly.">
+    <div class="dial" id="dial" role="group" aria-label="Dessert world selector. Use the arrows, the arrow keys, or tap the dial to turn between worlds.">
       <svg class="dial__fallbackFace" viewBox="0 0 200 200" aria-hidden="true">
         <defs>
           <radialGradient id="faceNight" cx="50%" cy="42%" r="70%">
@@ -178,7 +178,21 @@
         </g>
         <circle class="dial__clickGlow" id="dialClickGlow" r="34" fill="url(#hubGlow)" opacity="0"/>
       </svg>
-      <!-- Sector buttons injected by script.js -->
+
+      <!-- The dial is now a pager: tap the face to turn to the next world,
+           use the chevrons to step either way. Scales to any number of worlds. -->
+      <button class="dial__advance" id="dialAdvance" type="button"
+              aria-label="Turn to the next dessert world"></button>
+      <button class="dial__nav dial__nav--prev" id="dialPrev" type="button"
+              aria-label="Previous dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="dial__nav dial__nav--next" id="dialNext" type="button"
+              aria-label="Next dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="dial__pos" id="dialPos" aria-hidden="true"></span>
+      <span class="dial__cue" id="dialCue" aria-hidden="true"></span>
     </div>
 
   </div>
