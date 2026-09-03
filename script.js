@@ -255,6 +255,7 @@ const WORLDS = [
     assets: {
       background: "assets/cannoli-background.jpg",
       fallbackBackground: "assets/cannoli-background.jpg",
+      backgroundMobile: "assets/cannoli-background-mobile.jpg",
       dessertWhole: "assets/cannoli-whole.png",
       dessertBitten: "assets/cannoli-bitten.png",
       recipeImage: "assets/cannoli-recipe-card.jpg",
