@@ -10,7 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
 <link rel="preload" as="image" href="assets/madeleine-background.jpg" fetchpriority="high">
 <link rel="preload" as="image" href="assets/madeleine-whole.png" fetchpriority="high">
-<link rel="preload" as="image" href="assets/dessert-dial.png" fetchpriority="high">
 <link rel="preload" as="image" href="assets/intro-background-desktop.webp" media="(min-width: 1101px)">
 <link rel="preload" as="image" href="assets/intro-background-tablet.webp" media="(min-width: 701px) and (max-width: 1100px)">
 <link rel="preload" as="image" href="assets/intro-background-mobile.webp" media="(max-width: 700px)">
@@ -110,98 +109,24 @@
          so the experience becomes a readable vertical scroll instead of stacked overlays. -->
     <div class="mobile-flow" id="mobileFlow"></div>
 
-    <div class="dial" id="dial" role="group" aria-label="Dessert world selector. Use the arrows, the arrow keys, or tap the dial to turn between worlds.">
-      <svg class="dial__fallbackFace" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <radialGradient id="faceNight" cx="50%" cy="42%" r="70%">
-            <stop offset="0%" stop-color="#1d2a4a"/>
-            <stop offset="70%" stop-color="#101a33"/>
-            <stop offset="100%" stop-color="#0a1122"/>
-          </radialGradient>
-          <linearGradient id="rimBrass" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#e7cf95"/>
-            <stop offset="45%" stop-color="#a5813f"/>
-            <stop offset="75%" stop-color="#e0c184"/>
-            <stop offset="100%" stop-color="#6f5628"/>
-          </linearGradient>
-        </defs>
-        <circle cx="100" cy="100" r="98" fill="url(#rimBrass)"/>
-        <circle cx="100" cy="100" r="90" fill="url(#faceNight)" stroke="#4d3a1c" stroke-width="1.4"/>
-        <circle cx="100" cy="100" r="82" fill="none" stroke="#caa960" stroke-width="0.8" opacity="0.6"/>
-        <circle cx="100" cy="100" r="58" fill="none" stroke="#caa960" stroke-width="0.6" opacity="0.4"/>
-        <g fill="#e7cf95" opacity="0.9">
-          <circle cx="100" cy="28" r="3"/>
-          <circle cx="172" cy="100" r="3"/>
-          <circle cx="100" cy="172" r="3"/>
-          <circle cx="28" cy="100" r="3"/>
-        </g>
-        <g fill="none" stroke="#caa960" stroke-width="1" opacity="0.55">
-          <path d="M92,22 Q100,14 108,22 Q100,30 92,22 Z"/>
-          <path d="M178,92 q8,8 0,16 q-8,-8 0,-16 Z"/>
-          <path d="M92,178 q8,-8 16,0 q-8,8 -16,0 Z"/>
-          <path d="M22,92 q-8,8 0,16 q8,-8 0,-16 Z"/>
-        </g>
-      </svg>
-      <img class="dial__art" id="dialArt" src="assets/dessert-dial.png" alt="" draggable="false">
-      <svg class="dial__hub" viewBox="-100 -100 200 200" aria-hidden="true">
-        <defs>
-          <radialGradient id="hubBrass" cx="42%" cy="36%" r="75%">
-            <stop offset="0%" stop-color="#e7cf95"/>
-            <stop offset="45%" stop-color="#b3904f"/>
-            <stop offset="80%" stop-color="#7d6132"/>
-            <stop offset="100%" stop-color="#5c4523"/>
-          </radialGradient>
-          <linearGradient id="handleBrass" x1="0" y1="1" x2="0" y2="0">
-            <stop offset="0%" stop-color="#8a6b35"/>
-            <stop offset="35%" stop-color="#caa960"/>
-            <stop offset="60%" stop-color="#efd9a1"/>
-            <stop offset="100%" stop-color="#a5813f"/>
-          </linearGradient>
-          <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#fbeecb" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#fbeecb" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-
-        <g class="dial__handleGroup" id="handleGroup">
-          <g class="dial__handle">
-            <path fill="url(#handleBrass)" stroke="#4d3a1c" stroke-width="1"
-              d="M0,-86 C4,-83 5,-79 4.5,-74 L3.5,-64 C6.5,-61 7,-56 5,-51 L3,-45 C2.5,-42 2.5,-39 3,-35 L4,-18 C4,-12 3,-7 2.4,-2 L-2.4,-2 C-3,-7 -4,-12 -4,-18 L-3,-35 C-2.5,-39 -2.5,-42 -3,-45 L-5,-51 C-7,-56 -6.5,-61 -3.5,-64 L-4.5,-74 C-5,-79 -4,-83 0,-86 Z"/>
-            <ellipse cx="-1.6" cy="-66" rx="1.3" ry="9" fill="#f6e6bb" opacity="0.75"/>
-            <path fill="none" stroke="#f3e2b4" stroke-width="0.8" opacity="0.8" d="M-4.6,-51 L4.6,-51 M-3.6,-64 L3.6,-64"/>
-            <circle class="dial__tipGlint" cx="0" cy="-83" r="2.2" fill="#fff6dd" opacity="0"/>
-          </g>
-          <circle r="15" fill="url(#hubBrass)" stroke="#4d3a1c" stroke-width="1.2"/>
-          <circle r="15" fill="none" stroke="#f3e2b4" stroke-width="0.7" opacity="0.5"/>
-          <circle r="5.2" fill="#6d5429" stroke="#3f2f14" stroke-width="1"/>
-          <rect x="-4.6" y="-1" width="9.2" height="2" rx="1" fill="#31250f" transform="rotate(38)"/>
-        </g>
-        <circle class="dial__clickGlow" id="dialClickGlow" r="34" fill="url(#hubGlow)" opacity="0"/>
-      </svg>
-
-      <!-- The dial is now a pager: tap the face to turn to the next world,
-           use the chevrons to step either way. Scales to any number of worlds. -->
-      <button class="dial__advance" id="dialAdvance" type="button"
-              aria-label="Turn to the next dessert world"></button>
-      <button class="dial__nav dial__nav--prev" id="dialPrev" type="button"
-              aria-label="Previous dessert world">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- World pager: plain arrows step through the dessert worlds. Scales to
+         any number of worlds; keeps id="dial" for the interaction wiring. -->
+    <nav class="world-nav" id="dial" aria-label="Dessert world selector. Use the arrows or the left and right arrow keys to move between worlds.">
+      <button class="world-nav__arrow" id="dialPrev" type="button" aria-label="Previous dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <button class="dial__nav dial__nav--next" id="dialNext" type="button"
-              aria-label="Next dessert world">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="world-nav__pos" id="dialPos" aria-hidden="true"></span>
+      <button class="world-nav__arrow" id="dialNext" type="button" aria-label="Next dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <span class="dial__pos" id="dialPos" aria-hidden="true"></span>
-      <span class="dial__cue" id="dialCue" aria-hidden="true"></span>
-    </div>
+    </nav>
 
   </div>
 </main>
 
-<!-- Full-screen magical dial used only during entry and world changes -->
+<!-- A soft light bloom that sweeps the stage when the world changes -->
 <div class="world-gateway" id="worldGateway" aria-hidden="true">
   <div class="world-gateway__halo"></div>
-  <img class="world-gateway__dial" src="assets/dessert-dial.png" alt="" draggable="false">
 </div>
 
 <!-- Threshold — the entrance to the archive -->

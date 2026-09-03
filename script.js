@@ -524,9 +524,7 @@ const UI = {
     "hungry": "What were you really hungry for?",
     "projectBy": "a project by @fashamigura",
     "printProject": "The Patisserie of the Unconscious",
-    "dialLabel": "Dessert world selector. Use the arrows, the arrow keys, or tap the dial to turn between worlds.",
-    "dialAdvanceAria": "Turn to the next dessert world (currently {n} of {total})",
-    "dialCue": "Turn to explore",
+    "dialLabel": "Dessert world selector. Use the arrows or the left and right arrow keys to move between worlds.",
     "takeBiteAria": "Take a bite of the {name}",
     "sceneAlt": "Surreal archival collage for the {name} world: {line}",
     "dialWorldAria": "{name} — the {symbol}",
@@ -597,9 +595,7 @@ const UI = {
     "hungry": "Чего вам на самом деле хотелось?",
     "projectBy": "проект @fashamigura",
     "printProject": "Кондитерская бессознательного",
-    "dialLabel": "Выбор мира десерта. Листайте стрелками, клавишами или нажмите на диск, чтобы перейти к следующему миру.",
-    "dialAdvanceAria": "Перейти к следующему миру десерта (сейчас {n} из {total})",
-    "dialCue": "Листайте миры",
+    "dialLabel": "Выбор мира десерта. Листайте стрелками или клавишами влево и вправо.",
     "takeBiteAria": "Откусить кусочек десерта «{name}»",
     "sceneAlt": "Сюрреалистический архивный коллаж мира «{name}»: {line}",
     "dialWorldAria": "{name} — символ «{symbol}»",
@@ -1214,60 +1210,27 @@ mobileLayout.addEventListener("change", applyResponsiveLayout);
    -------------------------------------------------------------------------- */
 
 const dial = document.getElementById("dial");
-const dialArt = document.getElementById("dialArt");
-const handleGroup = document.getElementById("handleGroup");
 const worldGateway = document.getElementById("worldGateway");
 let gatewayTimer = null;
 
+/* a soft light bloom sweeps the stage as the scenes cross-dissolve */
 function playWorldGateway() {
   if (!worldGateway || prefersReducedMotion.matches) return;
   clearTimeout(gatewayTimer);
-
   worldGateway.classList.remove("is-active");
   document.body.classList.add("is-world-gateway-active");
-  dial.classList.add("is-gateway-hidden");
-  dial.setAttribute("aria-hidden", "true");
-  dial.style.setProperty("display", "none", "important");
-
   void worldGateway.offsetWidth;
   worldGateway.classList.add("is-active");
-
   gatewayTimer = window.setTimeout(() => {
     worldGateway.classList.remove("is-active");
-    dial.style.removeProperty("display");
-    dial.classList.remove("is-gateway-hidden");
-    dial.removeAttribute("aria-hidden");
     document.body.classList.remove("is-world-gateway-active");
   }, 1120);
 }
 
-/* Always prefer the custom dial artwork. The SVG face is used only if the PNG truly fails. */
-function dialArtLoaded() {
-  dial.classList.add("dial--loaded");
-  dial.classList.remove("dial--noart");
-}
-
-function dialArtFailed() {
-  dial.classList.remove("dial--loaded");
-  dial.classList.add("dial--noart");
-  console.warn("Could not load dessert dial:", dialArt.currentSrc || dialArt.src);
-}
-
-dialArt.addEventListener("load", dialArtLoaded);
-dialArt.addEventListener("error", dialArtFailed);
-
-if (dialArt.complete) {
-  if (dialArt.naturalWidth > 0) dialArtLoaded();
-  else dialArtFailed();
-}
-
-/* The dial is a pager now: tapping the face turns to the next world, and the
-   chevrons step either way. This scales to any number of dessert worlds. */
-const dialAdvance = document.getElementById("dialAdvance");
+/* The world pager: plain arrows step through the worlds. Scales to any count. */
 const dialPrev = document.getElementById("dialPrev");
 const dialNext = document.getElementById("dialNext");
 const dialPos = document.getElementById("dialPos");
-const dialCue = document.getElementById("dialCue");
 
 function turnDial(direction) {
   const changingWorld = DIAL_ORDER.length > 1;
@@ -1282,20 +1245,13 @@ function turnDial(direction) {
   }
 }
 
-dialAdvance.addEventListener("click", () => turnDial(1));
-dialNext.addEventListener("click", e => { e.stopPropagation(); turnDial(1); });
-dialPrev.addEventListener("click", e => { e.stopPropagation(); turnDial(-1); });
+dialNext.addEventListener("click", () => turnDial(1));
+dialPrev.addEventListener("click", () => turnDial(-1));
 
 /* keep the little "n / N" position readout in sync */
 function updateDialPos() {
   const idx = DIAL_ORDER.indexOf(currentId);
   if (idx >= 0 && dialPos) dialPos.textContent = `${idx + 1} / ${DIAL_ORDER.length}`;
-  if (dialAdvance) {
-    dialAdvance.setAttribute(
-      "aria-label",
-      interpolate(ui("dialAdvanceAria"), { n: idx + 1, total: DIAL_ORDER.length })
-    );
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1325,9 +1281,9 @@ const responsiveFragment = document.getElementById("fragment");
 
 function arrangeResponsiveInterface() {
   if (mobileLayout.matches) {
-    /* Keep the selector visually attached to the collage instead of sending it
-       to the bottom of the reading flow. The cards begin directly beneath it. */
-    stageWrap.appendChild(dial);
+    /* Anchor the pager to the collage image itself (not the wrap, which also
+       holds the caption flow) so it never lands on the caption text. */
+    stage.appendChild(dial);
     mobileFlow.append(strip, questGuide, responsiveFragment, stageCta);
   } else {
     stage.append(questGuide, responsiveFragment, strip, stageCta);
@@ -1480,7 +1436,6 @@ beginAgainBtn.addEventListener("click", () => {
    -------------------------------------------------------------------------- */
 
 let currentId = null;
-let currentAngle = 0;      /* accumulated, so the handle takes the short way round */
 let transitioning = false;
 let queuedId = null;
 let entered = false;
@@ -1489,26 +1444,6 @@ let hintTimer = null;
 
 function worldById(id) {
   return WORLDS.find(w => w.id === id);
-}
-
-function rotateHandle(world) {
-  /* index-based: the handle steps one notch per world, so the dial reads as a
-     rotor you turn — for any number of worlds, not a fixed four. */
-  const idx = Math.max(0, DIAL_ORDER.indexOf(world.id));
-  const target = (idx * 360) / Math.max(1, DIAL_ORDER.length);
-  const currentMod = ((currentAngle % 360) + 360) % 360;
-  let delta = target - currentMod;
-  if (delta > 180) delta -= 360;
-  if (delta < -180) delta += 360;
-  currentAngle += delta;
-  handleGroup.style.setProperty("--angle", `${currentAngle}deg`);
-
-  dial.classList.remove("is-clicked");
-  const clickDelay = prefersReducedMotion.matches ? 80 : 640;
-  setTimeout(() => {
-    dial.classList.add("is-clicked");
-    setTimeout(() => dial.classList.remove("is-clicked"), 700);
-  }, clickDelay);
 }
 
 /* ambient life wakes only after the viewer stays */
@@ -1558,7 +1493,6 @@ function selectWorld(id, instant = false) {
   applyWorldState(world);
 
   updateDialPos();
-  rotateHandle(world);
 
   const reduced = prefersReducedMotion.matches;
   const nextScene = sceneById(id);
@@ -2496,7 +2430,6 @@ function updateStaticLanguage() {
   document.getElementById("printMethodHeading").textContent = ui("method");
   document.getElementById("printTakeHomeHeading").textContent = ui("takeItHome");
   dial.setAttribute("aria-label", ui("dialLabel"));
-  if (dialCue) dialCue.textContent = ui("dialCue");
 
   languageButtons.forEach(button => {
     const active = button.dataset.language === currentLang;
@@ -2594,7 +2527,7 @@ function enterPatisserie(language) {
     showBitePrompt(worldById(currentId));
   }
 
-  if (dialAdvance) dialAdvance.focus({ preventScroll: true });
+  if (dialNext) dialNext.focus({ preventScroll: true });
 
   /* quietly prefetch the other worlds while the first is contemplated */
   setTimeout(() => {
