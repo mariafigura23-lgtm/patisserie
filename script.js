@@ -29,7 +29,7 @@ const WORLDS = [
   {
     id: "madeleine",
     name: "Madeleine",
-    objectNumber: "Object I of IV",
+    objectNumber: "Object I",
     context: "Combray / France / the return of lost time",
     shortLine: "A taste waits quietly for the past to return.",
     epigraph: "“A taste arrives first. The lost room follows.”",
@@ -227,7 +227,7 @@ const WORLDS = [
   {
     id: "cannoli",
     name: "Cannoli",
-    objectNumber: "Object II of IV",
+    objectNumber: "Object II",
     context: "Sicily / dolce vita / dolce far niente",
     shortLine: "A small pleasure does not need a larger occasion.",
     epigraph: "“Even restraint can invent sweetness.”",
@@ -408,7 +408,7 @@ const WORLDS = [
   {
     id: "napoleon",
     name: "Napoleon",
-    objectNumber: "Object III of IV",
+    objectNumber: "Object III",
     context: "A late Soviet family kitchen / domestic celebration",
     shortLine: "Tomorrow becomes a celebration because someone begins tonight.",
     epigraph: "“Happiness, too, can be assembled layer by layer.”",
@@ -593,7 +593,7 @@ const WORLDS = [
   {
     id: "tiramisu",
     name: "Tiramisu",
-    objectNumber: "Object IV of IV",
+    objectNumber: "Object IV",
     context: "Italy / the Veneto / the café and the family table",
     shortLine: "Coffee, cream, and the small courage to lift the day.",
     epigraph: "“Tirami sù — lift me up.”",
@@ -765,6 +765,186 @@ const WORLDS = [
     },
     symbol: "coffee",
     cssClass: "scene--tiramisu"
+  },
+  {
+    id: "petitfour",
+    name: "Court Petit Four",
+    objectNumber: "Object V",
+    context: "Versailles / court culture / late eighteenth century",
+    shortLine: "A perfect surface promises a perfect world.",
+    epigraph: "“Everything is designed to appear effortless.”",
+    epigraphSource: "Original epigraph.",
+    vignette: "At court, sweetness becomes design, performance, and illusion. Sugar is shaped into flowers, surfaces, and miniature architectures. Beauty is arranged so perfectly that it begins to look natural—just before history reminds the room that nothing delicate is guaranteed.",
+    history: "The petit four is named for the cooling oven — à petit four — where confectioners finished delicate work after the great bakes were done. At Versailles, sugar was a theatre: pièces montées, spun-sugar architecture, glazed miniatures arranged down mirrored tables in the choreography of service à la française. Sweetness performed power, and performed it as effortlessness. Within a decade the tables were gone; the tiny glazed cake remains, carrying the whole doomed elegance of the ancien régime in one bite.",
+    aftertaste: "Some worlds become most beautiful just before they disappear.",
+    takeItHome: "Set a table beautifully for no practical reason, even for one person. Allow beauty to exist without needing to justify it.",
+    reflection: "What kind of beautiful world have you wanted to be admitted into?",
+    recipeTitle: "Court-Inspired Petit Fours",
+    recipeNote: "A modern fictional recipe inspired by the elegance of late eighteenth-century French confectionery.",
+    ingredients: [
+      "1 small plain sponge cake or pound cake", "4 tbsp apricot or raspberry jam",
+      "150 g powdered sugar", "2–3 tbsp lemon juice or water",
+      "a small amount of pink food coloring, optional", "edible flowers or sugar decorations"
+    ],
+    steps: [
+      "Cut the cake into small neat shapes.",
+      "Spread a thin layer of jam over the tops.",
+      "Mix powdered sugar and liquid into a thick glaze.",
+      "Tint lightly if desired.",
+      "Glaze the cakes.",
+      "Allow the glaze to set.",
+      "Decorate with edible flowers or sugar details.",
+      "Serve at a table you have arranged for no reason at all."
+    ],
+    assets: {
+      background: "assets/petit-four-background.jpg",
+      fallbackBackground: "assets/petit-four-background.jpg",
+      dessertWhole: "assets/petit-four-whole.png",
+      dessertBitten: "assets/petit-four-bitten.png",
+      recipeImage: "assets/petit-four-recipe-card.jpg",
+      magic: "assets/petit-four-magic.png",
+      character: "assets/petit-four-rabbits.png",
+    },
+    dessert: {
+      style: "plate",
+      aspect: 1.67,
+      layout: {
+        desktop: { left: "50%", top: "56.5%", width: "39%" },
+        mobile:  { left: "50%", top: "41.5%", width: "79%" }
+      }
+    },
+    layers: {
+      magic:      { left: "56.5%", top: "14%", width: "16%", portal: true },
+      character:  { left: "2.5%", top: "28%", width: "26%", vignette: true }
+    },
+    backgroundPosition: { desktop: "60% 50%", mobile: "60% 48%" },
+    biteCrumbColor: "#f2dfc9",
+    hotspots: [
+      {
+        key: "sensation", x: 58, y: 57, mx: 58, my: 54,
+        title: "Sensation", subtitle: "What the body feels.",
+        text: "Thin glaze, delicate sweetness, fragility, and decorative precision. The dessert is almost too perfect to disturb."
+      },
+      {
+        key: "scene", x: 37, y: 36, mx: 34, my: 34,
+        title: "Scene", subtitle: "What world appears.",
+        text: "A courtly interior of candles, mirrors, ceremony, and miniature beauty. The dessert belongs to a world in which pleasure is arranged as spectacle."
+      },
+      {
+        key: "desire", x: 67, y: 28, mx: 68, my: 26,
+        title: "Desire", subtitle: "What kind of life is being longed for.",
+        text: "The desire is to enter a world where beauty, elegance, abundance, and belonging appear natural — a life seemingly protected from disorder and necessity."
+      },
+      {
+        key: "rule", x: 84, y: 42, mx: 82, my: 40,
+        title: "Rule", subtitle: "What culture permits, postpones, or asks us to earn.",
+        text: "At court, pleasure also communicates rank. Beauty appears effortless while concealing specialised labour, material wealth, codes of conduct, hierarchy, and the fragility of the order that produced it."
+      }
+    ],
+    book: {
+      en: {
+        journeyTitle: "A Cultural Journey of Ceremony",
+        journeyIntro: "Follow four stops to see how sugar became a stage — and the tiny glazed cake a small performance of power.",
+        journeyFinal: "A miniature cake had become a way of performing a perfect world.",
+        stops: [
+          {
+            date: "16th — 17th century",
+            name: "Sugar as Spectacle",
+            place: "The European courts",
+            paras: [
+              "When sugar was rare and costly, it became a way to display power. Banquets ended with sugar sculptures — subtleties — modelled into castles, ships and coats of arms.",
+              "To eat sweetness was to consume wealth in plain sight. Refinement itself became the message."
+            ]
+          },
+          {
+            date: "Late 18th century",
+            name: "The Theatre of Versailles",
+            place: "Versailles",
+            paras: [
+              "At court, dessert was choreography. Pièces montées and glazed miniatures were arranged down mirrored tables in the ceremony of service à la française.",
+              "Sweetness performed effortlessness — while concealing the specialised labour, hierarchy and code that produced it."
+            ]
+          },
+          {
+            date: "The cooling oven",
+            name: "À Petit Four",
+            place: "The confectioner's kitchen",
+            paras: [
+              "The name comes from the 'small oven' — the cooling hearth where confectioners finished their most delicate work after the great bakes.",
+              "Each petit four was a tiny composition: sponge, glaze, a single sugar flower — pastry turned into a small aesthetic object."
+            ]
+          },
+          {
+            date: "1789 and after",
+            name: "When the Tables Vanished",
+            place: "France",
+            paras: [
+              "Within a decade the mirrored tables were gone, and the world that arranged them with such certainty had ended.",
+              "The tiny glazed cake survived — carrying, in one bite, the whole doomed elegance of the ancien régime."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "The taste is complete",
+          text: "A petit four is almost pure surface — and that was always the point: beauty made to be admired before it is eaten."
+        }
+      },
+      ru: {
+        journeyTitle: "Культурное путешествие церемонии",
+        journeyIntro: "Четыре остановки — и вы увидите, как сахар стал сценой, а крошечное глазированное пирожное — маленьким спектаклем власти.",
+        journeyFinal: "Миниатюрное пирожное стало способом разыграть совершенный мир.",
+        stops: [
+          {
+            date: "XVI — XVII века",
+            name: "Сахар как зрелище",
+            place: "Европейские дворы",
+            paras: [
+              "Когда сахар был редок и дорог, он стал способом являть власть. Пиры завершались сахарными скульптурами — «сюжетами»: замки, корабли, гербы.",
+              "Есть сладкое значило открыто потреблять богатство. Само изящество становилось посланием."
+            ]
+          },
+          {
+            date: "Конец XVIII века",
+            name: "Театр Версаля",
+            place: "Версаль",
+            paras: [
+              "При дворе десерт был хореографией. Pièces montées и глазированные миниатюры выставляли на зеркальных столах в церемонии service à la française.",
+              "Сладость изображала непринуждённость — скрывая труд, иерархию и кодекс, что её породили."
+            ]
+          },
+          {
+            date: "Остывающая печь",
+            name: "À petit four",
+            place: "Кухня кондитера",
+            paras: [
+              "Название пришло от «маленькой печи» — остывающего очага, где кондитеры завершали самую тонкую работу после основной выпечки.",
+              "Каждый птифур был крошечной композицией: бисквит, глазурь, один сахарный цветок — тесто, обращённое в маленький эстетический предмет."
+            ]
+          },
+          {
+            date: "1789 год и после",
+            name: "Когда столы исчезли",
+            place: "Франция",
+            paras: [
+              "Через десять лет зеркальные столы исчезли, а мир, что накрывал их с такой уверенностью, закончился.",
+              "Крошечное глазированное пирожное уцелело — храня в одном укусе всю обречённую элегантность Старого порядка."
+            ]
+          }
+        ],
+        recipeComplete: {
+          title: "Вкус собран",
+          text: "Птифур — это почти чистая поверхность, и в этом всегда была суть: красота, созданная, чтобы ею любовались прежде, чем съедят."
+        }
+      },
+      chapters: [
+        { steps: [0],          en: "Cut the shapes",         ru: "Нарежьте формы" },
+        { steps: [1],          en: "A layer of jam",         ru: "Слой джема" },
+        { steps: [2, 3, 4, 5], en: "Glaze",                  ru: "Глазурь" },
+        { steps: [6, 7],       en: "Decorate and present",   ru: "Украсьте и подайте" }
+      ]
+    },
+    symbol: "flower",
+    cssClass: "scene--petitfour"
   }
 ];
 
@@ -919,7 +1099,7 @@ const UI = {
 const RU_WORLDS = {
   "madeleine": {
     "name": "Мадлен",
-    "objectNumber": "Объект I из IV",
+    "objectNumber": "Объект I",
     "context": "Комбре / Франция / возвращение утраченного времени",
     "shortLine": "Вкус тихо ждёт, когда прошлое вернётся.",
     "epigraph": "«Сначала приходит вкус. Следом — утраченная комната.»",
@@ -977,7 +1157,7 @@ const RU_WORLDS = {
   },
   "cannoli": {
     "name": "Канноли",
-    "objectNumber": "Объект II из IV",
+    "objectNumber": "Объект II",
     "context": "Сицилия / dolce vita / dolce far niente",
     "shortLine": "Маленькому удовольствию не нужен большой повод.",
     "epigraph": "«Даже воздержание умеет изобретать сладость.»",
@@ -1031,7 +1211,7 @@ const RU_WORLDS = {
   },
   "napoleon": {
     "name": "Наполеон",
-    "objectNumber": "Объект III из IV",
+    "objectNumber": "Объект III",
     "context": "Позднесоветская семейная кухня / домашний праздник",
     "shortLine": "Завтра становится праздником, потому что кто-то начинает готовить сегодня.",
     "epigraph": "«Счастье тоже можно собрать слой за слоем.»",
@@ -1090,7 +1270,7 @@ const RU_WORLDS = {
   },
   "tiramisu": {
     "name": "Тирамису",
-    "objectNumber": "Объект IV из IV",
+    "objectNumber": "Объект IV",
     "context": "Италия / Венето / кофейня и семейный стол",
     "shortLine": "Кофе, крем и тихая смелость приподнять уходящий день.",
     "epigraph": "«Tirami sù — подними меня».",
@@ -1141,6 +1321,61 @@ const RU_WORLDS = {
         "title": "Негласное правило",
         "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
         "text": "Здесь удовольствию позволено быть будничным. Сладость не нужно заслуживать или беречь для особого случая — её можно просто предложить: домашняя забота в самый обыкновенный час."
+      }
+    }
+  },
+  "petitfour": {
+    "name": "Придворный птифур",
+    "objectNumber": "Объект V",
+    "context": "Версаль / придворная культура / конец XVIII века",
+    "shortLine": "Безупречная поверхность обещает безупречный мир.",
+    "epigraph": "«Всё устроено так, чтобы казаться не требующим усилий.»",
+    "epigraphSource": "Авторский эпиграф.",
+    "vignette": "При дворе сладость становится дизайном, спектаклем и иллюзией. Сахар превращают в цветы, поверхности и миниатюрные архитектуры. Красоту располагают настолько безупречно, что она начинает казаться естественной — ровно до того момента, когда история напоминает: ничто хрупкое не гарантировано.",
+    "history": "Название petit four происходит от остывающей печи — à petit four, — в которой кондитеры завершали деликатную работу после основной выпечки. В Версале сахар был театром: pièces montées, архитектура из тянутого сахара, глазированные миниатюры на зеркальных столах в хореографии service à la française. Сладость демонстрировала власть — и делала это как будто без усилий. Через десять лет столы исчезли; маленькое глазированное пирожное осталось, сохранив в одном укусе всю обречённую элегантность Старого порядка.",
+    "aftertaste": "Некоторые миры становятся прекраснее всего незадолго до исчезновения.",
+    "takeItHome": "Красиво накройте стол без практической причины — даже для одного человека. Позвольте красоте существовать без оправданий.",
+    "reflection": "В какой прекрасный мир вам хотелось быть допущенной?",
+    "recipeTitle": "Птифуры в придворном стиле",
+    "recipeNote": "Современный вымышленный рецепт, вдохновлённый изяществом французской кондитерской культуры конца XVIII века.",
+    "ingredients": [
+      "1 небольшой простой бисквит или кекс",
+      "4 ст. л. абрикосового или малинового джема",
+      "150 г сахарной пудры",
+      "2–3 ст. л. лимонного сока или воды",
+      "немного розового пищевого красителя по желанию",
+      "съедобные цветы или сахарные украшения"
+    ],
+    "steps": [
+      "Нарежьте бисквит небольшими аккуратными формами.",
+      "Смажьте верх тонким слоем джема.",
+      "Смешайте сахарную пудру с жидкостью до густой глазури.",
+      "При желании слегка подкрасьте её.",
+      "Покройте пирожные глазурью.",
+      "Дайте глазури застыть.",
+      "Украсьте съедобными цветами или сахарными деталями.",
+      "Подайте за столом, который вы накрыли без всякого повода."
+    ],
+    "hotspots": {
+      "sensation": {
+        "title": "Ощущение",
+        "subtitle": "Что чувствует тело.",
+        "text": "Тонкая глазурь, деликатная сладость, хрупкость и декоративная точность. Пирожное кажется почти слишком совершенным, чтобы нарушить его поверхность."
+      },
+      "scene": {
+        "title": "Атмосфера",
+        "subtitle": "Какой мир возникает.",
+        "text": "Придворный интерьер со свечами, зеркалами, церемонией и миниатюрной красотой. Десерт принадлежит миру, где удовольствие организовано как зрелище."
+      },
+      "desire": {
+        "title": "Желание",
+        "subtitle": "О какой жизни мы тоскуем.",
+        "text": "Это желание войти в мир, где красота, элегантность, изобилие и принадлежность кажутся естественными, — в жизнь, будто бы защищённую от беспорядка и необходимости."
+      },
+      "rule": {
+        "title": "Негласное правило",
+        "subtitle": "Что культура разрешает, откладывает или требует заслужить.",
+        "text": "При дворе удовольствие также сообщает о ранге. Красота выглядит непринуждённой, скрывая специализированный труд, материальное богатство, кодексы поведения, иерархию и хрупкость породившего её порядка."
       }
     }
   }
@@ -1260,6 +1495,13 @@ const PARTICLES = {
     { cls: "particle--rise", x: 90, y: 50, r: 0.65, color: "#d8b06a", dur: 20, delay: 8, peak: 0.5, dx: 3, dy: -12 },
     { cls: "particle--rise", x: 62, y: 52, r: 0.6, color: "#c69a5e", dur: 17, delay: 2, peak: 0.5, dx: 4, dy: -12 },
     { cls: "particle--twinkle", x: 78, y: 16, r: 0.75, color: "#e8c87f", dur: 9, delay: 3, peak: 0.55 }
+  ],
+  petitfour: [
+    { cls: "particle--twinkle", x: 96, y: 20, r: 0.7, color: "#ecd292", dur: 10, delay: 0, peak: 0.6 },
+    { cls: "particle--twinkle", x: 70, y: 16, r: 0.6, color: "#dfe8ff", dur: 12, delay: 3, peak: 0.5 },
+    { cls: "particle--twinkle", x: 118, y: 40, r: 0.55, color: "#ecd292", dur: 9, delay: 5, peak: 0.55 },
+    { cls: "particle--rise", x: 90, y: 52, r: 0.6, color: "#ecd292", dur: 18, delay: 2, peak: 0.5, dx: -4, dy: -12 },
+    { cls: "particle--rise", x: 62, y: 50, r: 0.55, color: "#efd9a1", dur: 20, delay: 6, peak: 0.45, dx: 4, dy: -12 }
   ]
 };
 
