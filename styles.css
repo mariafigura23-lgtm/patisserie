@@ -629,6 +629,58 @@ button { font: inherit; color: inherit; }
   transition: opacity 1.2s ease;
 }
 
+/* Madeleine — the fragments surface one by one, like involuntary memories
+   drifting up rather than switching on. (microType: "memories") */
+.scene.micro-memories.is-bitten-world .hotspot {
+  visibility: visible;
+  opacity: 0;
+  animation: memorySurface 1.7s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.6s);
+}
+
+@keyframes memorySurface {
+  0%   { opacity: 0; transform: translate(-50%, calc(-50% + 26px)) scale(0.55); filter: blur(3px); }
+  55%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene.micro-memories.is-bitten-world .hotspot { animation: none; opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Cannoli — pleasure now: the fragments arrive quickly and brightly, in a
+   short bright flourish. (microType: "present") */
+.scene.micro-present.is-bitten-world .hotspot {
+  visibility: visible;
+  opacity: 0;
+  animation: fragmentPop 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+  animation-delay: calc(0.2s + var(--i, 0) * 0.24s);
+}
+@keyframes fragmentPop {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  70%  { opacity: 1; transform: translate(-50%, -50%) scale(1.14); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Petit Four — ceremony: the fragments settle gently into a composed order,
+   drifting down into place. (microType: "arrange") */
+.scene.micro-arrange.is-bitten-world .hotspot {
+  visibility: visible;
+  opacity: 0;
+  animation: fragmentSettle 1.5s cubic-bezier(0.25, 0.8, 0.3, 1) both;
+  animation-delay: calc(0.4s + var(--i, 0) * 0.5s);
+}
+@keyframes fragmentSettle {
+  0%   { opacity: 0; transform: translate(-50%, calc(-50% - 20px)) scale(1.14); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene.micro-present.is-bitten-world .hotspot,
+  .scene.micro-arrange.is-bitten-world .hotspot { animation: none; opacity: 1; transform: translate(-50%, -50%); }
+}
+
 /* a small hand-drawn gold ring, breathing slowly */
 .hotspot__ring {
   position: absolute;

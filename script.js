@@ -226,6 +226,8 @@ const WORLDS = [
       en: { name: "A scallop shell", note: "The madeleine's own shape, pressed into memory." },
       ru: { name: "Раковина гребешка", note: "Форма самой мадленки, впечатанная в память." }
     },
+    /* shared bite, then the fragments surface like involuntary memories */
+    interaction: { microType: "memories" },
     cssClass: "scene--madeleine"
   },
   {
@@ -412,6 +414,8 @@ const WORLDS = [
       en: { name: "A Sicilian postcard", note: "Sun, majolica and the sea beyond the pasticceria." },
       ru: { name: "Сицилийская открытка", note: "Солнце, майолика и море за дверью кондитерской." }
     },
+    /* shared bite, then the fragments arrive quickly and brightly — pleasure now */
+    interaction: { microType: "present" },
     cssClass: "scene--cannoli"
   },
   {
@@ -982,6 +986,8 @@ const WORLDS = [
       en: { name: "A court invitation", note: "Admittance to a world that no longer exists." },
       ru: { name: "Приглашение ко двору", note: "Пропуск в мир, которого больше нет." }
     },
+    /* shared bite, then the fragments settle into a composed, ceremonial order */
+    interaction: { microType: "arrange" },
     cssClass: "scene--petitfour"
   }
 ];
@@ -1622,6 +1628,9 @@ function buildScene(world) {
   const scene = document.createElement("div");
   scene.className = `scene ${world.cssClass}`;
   scene.dataset.id = world.id;
+  /* per-world reveal style for the fragments (memories / layers / …) */
+  const micro = world.interaction && (world.interaction.microType || world.interaction.type);
+  if (micro) scene.classList.add(`micro-${micro}`);
 
   /* 1 · wide background collage */
   const bgLayer = document.createElement("div");
@@ -1683,10 +1692,11 @@ function buildScene(world) {
   scene.appendChild(pulse);
 
   /* 8 · cultural hotspots — the culture itself becomes the interface */
-  world.hotspots.forEach(spot => {
+  world.hotspots.forEach((spot, i) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = `hotspot hotspot--${spot.key}`;
+    btn.style.setProperty("--i", String(i));
     btn.dataset.key = spot.key;
     btn.setAttribute("aria-label", `${spotText(world, spot, "title")} — ${spotText(world, spot, "subtitle")}`);
     btn.setAttribute("aria-expanded", "false");
