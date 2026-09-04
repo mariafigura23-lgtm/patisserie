@@ -1,435 +1,382 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Индульгенция на отдых · Триатлон удовольствий</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>The Patisserie of the Unconscious</title>
+<meta name="description" content="Every dessert holds a story — and a desire. Choose a dessert, take a bite, discover the world it holds. A Cultural Slow Web experience.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-  :root{--ink:#2A201A;--ink-soft:#6A5946;--oxblood:#5E0F1B;--oxblood-2:#7A1722;
-    --gold:#9C7B2E;--gold-bright:#BD9846;--gold-pale:#E7D4A4;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Cormorant Garamond',Georgia,serif;color:var(--ink);line-height:1.5;
-    background:radial-gradient(120% 80% at 50% -20%, rgba(189,152,70,.16), transparent 60%),
-      radial-gradient(circle at 85% 90%, rgba(94,15,27,.18), transparent 55%),linear-gradient(#1A120C,#0F0A07);
-    min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 56px;}
-  .stage{width:100%;max-width:640px;}
-  .langbar{display:flex;justify-content:center;gap:8px;margin-bottom:20px;}
-  .langbtn{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;color:var(--gold-pale);background:transparent;border:1px solid rgba(189,152,70,.45);padding:7px 17px;border-radius:1px;cursor:pointer;transition:.16s;}
-  .langbtn:hover{border-color:var(--gold-bright);color:#fff;}
-  .langbtn.active{background:var(--gold-bright);color:#16100A;border-color:var(--gold-bright);}
-
-  .parchment{position:relative;overflow:hidden;
-    background:radial-gradient(ellipse at 30% 12%, rgba(255,252,245,.72), transparent 62%),
-      radial-gradient(ellipse at 82% 92%, rgba(150,110,60,.16), transparent 55%),linear-gradient(165deg,#F7F0E2,#EBDEC4);
-    border:1px solid #d3bd92;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 44px 90px -34px rgba(0,0,0,.82);padding:54px 46px 46px;}
-  .edge-1,.edge-2{position:absolute;pointer-events:none;}
-  .edge-1{top:14px;right:14px;bottom:14px;left:14px;border:1px solid var(--gold);opacity:.65;}
-  .edge-2{top:18px;right:18px;bottom:18px;left:18px;border:.5px solid var(--oxblood);opacity:.45;}
-  .corner{position:absolute;width:26px;height:26px;color:var(--gold);z-index:3;}
-  .corner.tl{top:9px;left:9px;}.corner.tr{top:9px;right:9px;transform:scaleX(-1);}
-  .corner.bl{bottom:9px;left:9px;transform:scaleY(-1);}.corner.br{bottom:9px;right:9px;transform:scale(-1,-1);}
-  .watermark{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:64%;max-width:340px;color:var(--oxblood);opacity:.05;z-index:0;pointer-events:none;}
-  .content{position:relative;z-index:2;}
-
-  .eyebrow{text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--oxblood);margin-bottom:14px;}
-  .title{font-family:'Playfair Display',Georgia,serif;font-weight:800;text-align:center;font-size:clamp(34px,9vw,58px);letter-spacing:-.01em;line-height:1.02;color:var(--ink);margin:2px 0 6px;}
-  .title.two small{display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:.62em;color:var(--ink);letter-spacing:-.01em;}
-  .sublatin{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--ink-soft);}
-  .lede{text-align:center;font-size:19px;color:var(--ink-soft);max-width:460px;margin:18px auto 22px;font-weight:500;}
-  .diamond{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold-bright);margin:16px 0;}
-  .diamond::before,.diamond::after{content:"";height:1px;width:74px;background:linear-gradient(90deg,transparent,var(--gold-bright));}
-  .diamond::after{background:linear-gradient(90deg,var(--gold-bright),transparent);}
-  .diamond i{width:8px;height:8px;background:var(--gold-bright);transform:rotate(45deg);}
-
-  #quizView{display:block;}
-  .quiz-list{display:flex;flex-direction:column;gap:9px;margin:20px 0 8px;}
-  .sin{display:flex;align-items:center;gap:13px;text-align:left;cursor:pointer;width:100%;padding:13px 16px;border:1px solid #d0ba8e;border-radius:2px;background:rgba(255,253,247,.4);font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--ink);transition:.15s;}
-  .sin:hover{border-color:var(--oxblood);background:rgba(255,253,247,.85);}
-  .sin .box{flex:0 0 auto;width:22px;height:22px;border:1px solid var(--oxblood);border-radius:1px;display:flex;align-items:center;justify-content:center;color:var(--gold-pale);font-size:12px;}
-  .sin .box::after{content:"✦";opacity:0;transition:.12s;}
-  .sin.sel{background:rgba(94,15,27,.09);border-color:var(--oxblood);}
-  .sin.sel .box{background:var(--oxblood);}
-  .sin.sel .box::after{opacity:1;}
-  .counter{text-align:center;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--ink-soft);min-height:15px;margin:8px 0 4px;}
-  .field{margin-top:18px;}
-  .field label{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--oxblood);margin-bottom:7px;}
-  .field input{width:100%;padding:14px 16px;font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--ink);background:rgba(255,253,247,.6);border:1px solid #d0ba8e;border-radius:1px;outline:none;transition:.18s;}
-  .field input:focus{border-color:var(--oxblood);box-shadow:0 0 0 3px rgba(94,15,27,.1);background:#fffdf7;}
-  .btn{display:block;width:100%;margin-top:20px;cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:#F6ECD6;padding:17px;border:none;border-radius:1px;background:linear-gradient(180deg,var(--oxblood-2),var(--oxblood));box-shadow:0 10px 24px -9px rgba(94,15,27,.9),0 0 0 1px var(--gold) inset;transition:transform .12s,box-shadow .12s;}
-  .btn:hover{transform:translateY(-2px);box-shadow:0 14px 28px -9px rgba(94,15,27,.95),0 0 0 1px var(--gold-bright) inset;}
-  .btn:active{transform:translateY(0);}
-  .fine{text-align:center;font-size:16px;color:var(--ink-soft);margin-top:16px;font-style:italic;opacity:.85;}
-  .err{color:var(--oxblood);font-size:16px;margin-top:8px;min-height:18px;font-style:italic;text-align:center;}
-
-  #certView{display:none;}#certView.show{display:block;}
-  .cert-doc{text-align:center;}
-  .cert-body{font-size:19px;color:var(--ink);font-weight:500;max-width:440px;margin-left:auto;margin-right:auto;}
-  .name-wrap{margin:14px 0 4px;}
-  .cert-name{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(30px,8vw,46px);color:var(--oxblood);line-height:1.06;}
-  .rankbadge{display:inline-block;font-family:'Cinzel',serif;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--oxblood);border:1px solid var(--gold-bright);border-radius:2px;padding:8px 18px;margin:12px 0 14px;background:rgba(189,152,70,.10);}
-  .ch{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--oxblood);margin:16px 0 6px;text-align:center;}
-  .clist{text-align:left;max-width:440px;margin:6px auto 4px;}
-  .clist li{list-style:none;padding:5px 0 5px 28px;position:relative;font-size:18px;font-weight:500;}
-  .clist li::before{content:"✦";position:absolute;left:5px;color:var(--gold-bright);font-size:12px;top:8px;}
-  .frieze{display:flex;align-items:center;justify-content:center;gap:18px;color:var(--gold);margin:18px 0 4px;}
-  .frieze svg{width:30px;height:30px;}
-  .frieze .dot{width:3px;height:3px;border-radius:50%;background:var(--gold-bright);}
-
-  .tri-h{font-family:'Playfair Display',serif;font-weight:700;font-style:italic;font-size:24px;color:var(--oxblood);text-align:center;margin-top:6px;}
-  .tri-sub{font-style:italic;color:var(--ink-soft);font-size:16px;max-width:440px;margin:6px auto 10px;text-align:center;}
-  .tri{max-width:430px;margin:8px auto 4px;text-align:left;}
-  .tri-row{display:flex;gap:14px;align-items:baseline;padding:9px 2px;border-bottom:1px solid rgba(189,152,70,.28);}
-  .tri-row:last-child{border-bottom:none;}
-  .tri-cat{flex:0 0 116px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--oxblood);padding-top:2px;}
-  .tri-act{font-size:18.5px;font-weight:500;color:var(--ink);}
-  .tri-note{font-style:italic;color:var(--ink-soft);font-size:14px;text-align:center;margin-top:10px;opacity:.85;}
-  .closing{text-align:center;font-style:italic;font-size:20px;color:var(--oxblood);max-width:420px;margin:16px auto 4px;}
-
-  .seal-wrap{display:flex;justify-content:center;margin:20px 0 6px;}
-  .wax{width:114px;height:114px;animation:stamp .75s cubic-bezier(.2,1.5,.4,1) both;}
-  @keyframes stamp{0%{transform:scale(2.2) rotate(-14deg);opacity:0;}60%{opacity:1;}100%{transform:scale(1) rotate(-4deg);opacity:1;}}
-  .issued{text-align:center;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:6px;line-height:1.7;}
-  .motto{text-align:center;font-style:italic;font-size:17px;color:var(--gold);margin-top:6px;}
-  .brandline{text-align:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--oxblood);margin-top:12px;opacity:.9;}
-
-  .actions{display:flex;gap:12px;margin-top:24px;}
-  .cta,.cta2{flex:1;cursor:pointer;font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:.18em;text-transform:uppercase;padding:16px;border-radius:1px;transition:transform .12s;}
-  .cta{border:none;color:#1A120C;background:linear-gradient(180deg,#D4AE5A,#BD9846);box-shadow:0 12px 26px -10px rgba(189,152,70,.7);}
-  .cta:hover{transform:translateY(-2px);}
-  .cta2{background:transparent;color:var(--gold-pale);border:1px solid rgba(189,152,70,.5);}
-  .cta2:hover{transform:translateY(-2px);border-color:var(--gold-bright);}
-  .textlink{display:block;margin:16px auto 0;background:none;border:none;color:var(--gold-pale);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;cursor:pointer;opacity:.85;}
-  .textlink:hover{opacity:1;text-decoration:underline;}
-  .subscribe{margin-top:30px;text-align:center;padding-top:24px;border-top:1px solid rgba(189,152,70,.25);}
-  .sub-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--gold-pale);margin-bottom:14px;}
-  .sub-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
-  .sub-links a{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-pale);border:1px solid rgba(189,152,70,.5);padding:11px 18px;border-radius:1px;text-decoration:none;transition:.15s;}
-  .sub-links a:hover{background:var(--gold-bright);color:#1A120C;border-color:var(--gold-bright);}
-  .counter-line{margin-top:18px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(231,212,164,.65);min-height:14px;}
-
-  .overlay{position:fixed;inset:0;background:rgba(16,11,7,.94);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;}
-  .overlay.show{display:flex;}
-  .overlay img{max-width:100%;max-height:64vh;border-radius:4px;box-shadow:0 20px 50px rgba(0,0,0,.6);}
-  .overlay p{color:#f0e6d2;font-size:16px;text-align:center;max-width:360px;}
-  .overlay .ov-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
-  .overlay a,.overlay button{font-family:'Cinzel',serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:12px 18px;border-radius:1px;text-decoration:none;cursor:pointer;border:none;}
-  .overlay .tg{background:#2AABEE;color:#fff;}
-  .overlay .dl{background:var(--gold-bright);color:#231a10;}
-  .overlay .cl{background:transparent;color:#f0e6d2;border:1px solid #8a7a60;}
-
-  @media (max-width:520px){.parchment{padding:48px 24px 38px;}.wax{width:102px;height:102px;}.frieze{gap:13px;}.actions{flex-direction:column;}.tri-cat{flex-basis:100px;}}
-  @media (prefers-reduced-motion:reduce){.wax{animation:none;transform:rotate(-4deg);}.btn,.cta,.cta2{transition:none;}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/madeleine-background.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/madeleine-whole.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/intro-background-desktop.webp" media="(min-width: 1101px)">
+<link rel="preload" as="image" href="assets/intro-background-tablet.webp" media="(min-width: 701px) and (max-width: 1100px)">
+<link rel="preload" as="image" href="assets/intro-background-mobile.webp" media="(max-width: 700px)">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="stage">
-  <div class="langbar"><button class="langbtn active" data-lang="ru">RU</button><button class="langbtn" data-lang="en">EN</button></div>
 
-  <!-- QUIZ + NAME -->
-  <div class="parchment" id="quizView">
-    <div class="edge-1"></div><div class="edge-2"></div>
-    <svg class="corner tl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-    <svg class="corner tr" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-    <svg class="corner bl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-    <svg class="corner br" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-    <div class="content">
-      <p class="eyebrow" data-i18n="q_eyebrow"></p>
-      <h1 class="title two"><span data-i18n="q_title"></span><small data-i18n="q_title_small"></small></h1>
-      <p class="sublatin">confiteor otium</p>
-      <p class="lede" data-i18n="q_lede"></p>
-      <div class="quiz-list" id="quizList"></div>
-      <p class="counter" id="counter"></p>
-      <div class="field"><label data-i18n="q_name_label"></label><input id="name" type="text" autocomplete="name" data-i18n-ph="q_name_ph"></div>
-      <p class="err" id="quizErr"></p>
-      <button class="btn" id="issueBtn" data-i18n="q_issue"></button>
-      <p class="fine" data-i18n="q_fine"></p>
-    </div>
+<main class="app" id="app">
+
+  <div class="language-switcher" id="languageSwitcher" role="group" aria-label="Language / Язык" hidden>
+    <button class="language-switcher__button" type="button" data-language="en">EN</button>
+    <span aria-hidden="true">/</span>
+    <button class="language-switcher__button" type="button" data-language="ru">RU</button>
   </div>
 
-  <!-- CERTIFICATE -->
-  <div id="certView">
-    <div class="parchment" id="certCard">
-      <div class="edge-1"></div><div class="edge-2"></div>
-      <svg class="corner tl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-      <svg class="corner tr" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-      <svg class="corner bl" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-      <svg class="corner br" viewBox="0 0 26 26" fill="none"><path d="M3 25V9C3 5 5 3 9 3H25" stroke="currentColor" stroke-width="1.4"/><path d="M8 25V13c0-3 2-5 5-5h12" stroke="currentColor" stroke-width=".7"/></svg>
-      <svg class="watermark" viewBox="0 0 200 200">
-        <g fill="none" stroke="currentColor" stroke-width="2"><circle cx="100" cy="100" r="94"/><circle cx="100" cy="100" r="82"/></g>
-        <g fill="currentColor"><ellipse cx="84" cy="118" rx="30" ry="40"/><ellipse cx="108" cy="122" rx="20" ry="34"/><ellipse cx="113" cy="92" rx="13" ry="22"/><circle cx="123" cy="66" r="20"/><ellipse cx="145" cy="72" rx="15" ry="8"/><path d="M117 50 L108 30 L125 47 Z"/><rect x="100" y="120" width="8" height="44" rx="4"/><rect x="116" y="122" width="8" height="42" rx="4"/><path d="M56 120 C42 113 40 96 53 86 C57 93 55 105 65 112 Z"/><ellipse cx="146" cy="76" rx="3.4" ry="2.6"/></g>
-      </svg>
-      <div class="content cert-doc" id="certDoc">
-        <p class="eyebrow" data-i18n="c_eyebrow"></p>
-        <h1 class="title" data-i18n="c_title"></h1>
-        <p class="sublatin" data-i18n="c_sublatin"></p>
-        <div class="diamond"><i></i></div>
-        <p class="cert-body" data-i18n="c_intro1"></p>
-        <div class="name-wrap"><div class="cert-name" id="certName">Имя</div></div>
-        <div class="rankbadge" id="certRank"></div>
-        <p class="cert-body" data-i18n="c_intro2"></p>
-        <ul class="clist" id="sinList"></ul>
-        <div class="ch" data-i18n="c_ch_remedies"></div>
-        <ul class="clist" id="remedyList"></ul>
-        <div class="frieze">
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><ellipse cx="16" cy="12" rx="7" ry="9"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="20" y1="5" x2="20" y2="19"/><line x1="9" y1="9" x2="23" y2="9"/><line x1="9" y1="15" x2="23" y2="15"/><line x1="16" y1="21" x2="16" y2="29"/></svg>
-          <span class="dot"></span>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><line x1="16" y1="4" x2="16" y2="22"/><path d="M16 5 L16 21 L5 21 Z"/><path d="M18 7 L18 21 L27 21 Z"/><path d="M5 22 H27 L23 28 H9 Z"/></svg>
-          <span class="dot"></span>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="9" y1="4" x2="9" y2="28"/><path d="M9 4 L23 8 L9 12 Z" fill="currentColor" stroke="none"/><line x1="3" y1="28" x2="21" y2="28"/><circle cx="15" cy="25" r="2" fill="currentColor" stroke="none"/></svg>
-          <span class="dot"></span>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M6 8 C12 5 16 5 16 8 C16 5 20 5 26 8 L26 24 C20 21 16 21 16 24 C16 21 12 21 6 24 Z"/><line x1="16" y1="8" x2="16" y2="24"/></svg>
-        </div>
-        <p class="tri-h" data-i18n="tri_heading"></p>
-        <p class="tri-sub" data-i18n="tri_sub"></p>
-        <div class="tri" id="triBlock"></div>
-        <p class="tri-note" data-i18n="tri_note"></p>
-        <p class="closing" data-i18n="c_closing"></p>
-        <div class="seal-wrap">
-          <svg class="wax" viewBox="0 0 120 120" aria-label="seal">
-            <defs><radialGradient id="waxg" cx="38%" cy="32%" r="80%"><stop offset="0%" stop-color="#9d2230"/><stop offset="52%" stop-color="#741521"/><stop offset="100%" stop-color="#460a13"/></radialGradient></defs>
-            <circle cx="60" cy="60" r="52" fill="url(#waxg)"/>
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#e0ab48" stroke-width="1.1" opacity=".85"/>
-            <circle cx="60" cy="60" r="36" fill="none" stroke="#e0ab48" stroke-width=".7" opacity=".55"/>
-            <path id="arc" d="M60 18 a42 42 0 1 1 -0.1 0" fill="none"/>
-            <text fill="#ecbf5e" font-family="Cinzel, serif" font-size="6.6" letter-spacing="2.4"><textPath id="sealRing" href="#arc" startOffset="2%"></textPath></text>
-            <text id="sealMono" x="60" y="66" text-anchor="middle" fill="#ecbf5e" font-family="Playfair Display, serif" font-weight="700" font-size="26"></text>
-          </svg>
-        </div>
-        <p class="issued"><span data-i18n="c_issued_by"></span> · №<span id="serial">000</span> · <span id="issueDate"></span></p>
-        <p class="motto" data-i18n="c_motto"></p>
-        <p class="brandline" id="brandLine"></p>
+  <!-- Always-available entrances: the Book of Taste is never locked behind an interaction -->
+  <button class="corner-key world-book-key" id="bookKey" type="button" aria-label="Open the Book of Taste" hidden>
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 7 C13 5.4 9.5 5 6.5 5.6 L6.5 24.5 C9.5 23.9 13 24.3 16 25.9 C19 24.3 22.5 23.9 25.5 24.5 L25.5 5.6 C22.5 5 19 5.4 16 7 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="16" y1="7" x2="16" y2="25.9" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+  </button>
+
+  <!-- Cabinet of Tastes — a small drawer that quietly remembers where you have been -->
+  <button class="corner-key cabinet-key" id="cabinetKey" type="button" aria-label="Cabinet of Tastes" hidden>
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <rect x="6" y="4.5" width="20" height="23" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <line x1="16" y1="5" x2="16" y2="27" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="8.5" y1="12" x2="14" y2="12" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="18" y1="12" x2="23.5" y2="12" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="8.5" y1="20" x2="14" y2="20" stroke="currentColor" stroke-width="1.2"/>
+      <line x1="18" y1="20" x2="23.5" y2="20" stroke="currentColor" stroke-width="1.2"/>
+      <circle cx="14.4" cy="16" r="0.9" fill="currentColor"/>
+      <circle cx="17.6" cy="16" r="0.9" fill="currentColor"/>
+    </svg>
+    <span class="cabinet-key__spark" aria-hidden="true"></span>
+  </button>
+
+  <div class="stage-wrap">
+
+    <section class="stage" id="stage">
+      <!-- Scenes are generated by script.js from the WORLDS data -->
+      <div class="rip" id="rip" aria-hidden="true">
+        <span class="rip__veil rip__veil--left"></span>
+        <span class="rip__veil rip__veil--right"></span>
+        <span class="rip__portal">
+          <span class="rip__ring rip__ring--outer"></span>
+          <span class="rip__ring rip__ring--inner"></span>
+          <span class="rip__core"></span>
+          <span class="rip__spark rip__spark--1"></span>
+          <span class="rip__spark rip__spark--2"></span>
+          <span class="rip__spark rip__spark--3"></span>
+          <span class="rip__spark rip__spark--4"></span>
+          <span class="rip__spark rip__spark--5"></span>
+          <span class="rip__spark rip__spark--6"></span>
+        </span>
       </div>
+
+      <header class="masthead">
+        <p class="masthead__eyebrow" id="mastheadEyebrow">A Cultural Slow Web experience</p>
+        <h1 class="masthead__title" id="mastheadTitle">The Patisserie of the Unconscious</h1>
+      </header>
+
+      <!-- Clear guidance after the bite. It never intercepts clicks. -->
+      <div class="quest-guide" id="questGuide" hidden aria-live="polite">
+        <p class="quest-guide__eyebrow" id="questEyebrow">The world is open</p>
+        <p class="quest-guide__text" id="questText">Four fragments have awakened. Find the four glowing marks in the scene.</p>
+        <p class="quest-guide__progress" id="questProgress">0 of 4 found</p>
+      </div>
+
+      <!-- fragment panel (hotspot content), injected into the stage -->
+      <div class="fragment" id="fragment" role="dialog" aria-modal="false" aria-labelledby="fragmentTitle" hidden>
+        <button class="fragment__close" id="fragmentClose" type="button" aria-label="Close fragment">×</button>
+        <p class="fragment__kicker" id="fragmentKicker"></p>
+        <h3 class="fragment__title" id="fragmentTitle"></h3>
+        <p class="fragment__subtitle" id="fragmentSubtitle"></p>
+        <p class="fragment__text" id="fragmentText"></p>
+        <div class="fragment__next" id="fragmentNext" hidden>
+          <p class="fragment__next-status" id="fragmentNextStatus">All four fragments are connected.</p>
+          <button class="fragment__next-button" id="fragmentNextButton" type="button">
+            <span id="fragmentNextTitle">Explore the cultural story</span>
+            <small id="fragmentNextNote">History · aftertaste · recipe</small>
+          </button>
+        </div>
+        <button class="fragment__return" id="fragmentReturn" type="button">
+          <span class="fragment__return-arrow" aria-hidden="true">↑</span>
+          <span id="fragmentReturnLabel">Back to the dessert</span>
+        </button>
+      </div>
+
+      <!-- slim label strip along the bottom of the stage -->
+      <div class="strip" id="strip">
+        <div class="strip__text">
+          <p class="strip__context" id="stripContext"></p>
+          <h2 class="strip__name" id="stripName"></h2>
+          <p class="strip__line" id="stripLine"></p>
+          <p class="strip__reflection" id="stripReflection" hidden></p>
+        </div>
+        <div class="strip__state">
+          <button class="strip__action" id="stripAction" type="button">Take a bite</button>
+          <p class="strip__status" id="stripStatus" role="status" hidden></p>
+          <div class="strip__dots" id="stripDots" hidden aria-hidden="true">
+            <span class="strip__dot"></span><span class="strip__dot"></span><span class="strip__dot"></span><span class="strip__dot"></span>
+          </div>
+          <p class="visually-hidden" id="stripDotsLabel" role="status"></p>
+          <button class="strip__reset" id="beginAgain" type="button" hidden>Begin again</button>
+        </div>
+      </div>
+
+      <p class="bite-hint" id="biteHint" aria-hidden="true">take a bite</p>
+
+      <!-- Appears only after all four fragments have been explored. -->
+      <button class="stage-cta" id="stageCta" type="button" hidden>
+        <span class="stage-cta__title" id="stageCtaTitle">Explore the cultural story</span>
+        <span class="stage-cta__note" id="stageCtaNote">History · aftertaste · recipe</span>
+      </button>
+    </section>
+
+    <!-- On mobile, JS moves the guide, fragment card, caption, CTA and dial here
+         so the experience becomes a readable vertical scroll instead of stacked overlays. -->
+    <div class="mobile-flow" id="mobileFlow"></div>
+
+    <!-- World pager: plain arrows step through the dessert worlds. Scales to
+         any number of worlds; keeps id="dial" for the interaction wiring. -->
+    <nav class="world-nav" id="dial" aria-label="Dessert world selector. Use the arrows or the left and right arrow keys to move between worlds.">
+      <button class="world-nav__arrow" id="dialPrev" type="button" aria-label="Previous dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 L8 12 L15 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="world-nav__arrow" id="dialNext" type="button" aria-label="Next dessert world">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </nav>
+
+  </div>
+</main>
+
+<!-- A soft light bloom + a thin golden line that sweeps the stage on world change -->
+<div class="world-gateway" id="worldGateway" aria-hidden="true">
+  <div class="world-gateway__halo"></div>
+  <span class="world-gateway__line"></span>
+  <span class="world-gateway__spark"></span>
+</div>
+
+<!-- Threshold — the entrance to the archive -->
+<div class="threshold" id="threshold">
+  <div class="threshold__card" role="dialog" aria-modal="true" aria-labelledby="thresholdTitle">
+    <p class="threshold__eyebrow" id="thresholdEyebrow">A Cultural Slow Web experience</p>
+    <h1 class="threshold__title" id="thresholdTitle"><span class="threshold__line threshold__line--title">The Patisserie</span><span class="threshold__line threshold__line--title">of the Unconscious</span></h1>
+    <div class="threshold__rule" aria-hidden="true"></div>
+    <p class="threshold__lead" id="thresholdLead">Every dessert holds a story&nbsp;— and a desire.</p>
+    <p class="threshold__body" id="thresholdBodyOne">Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.</p>
+    <p class="threshold__body" id="thresholdBodyTwo"><span class="threshold__line">Choose a dessert.</span><span class="threshold__line">Take a bite.</span><span class="threshold__line">Discover the world it holds.</span></p>
+    <p class="threshold__language-prompt" id="languagePrompt">Choose the language of your visit · Выберите язык посещения</p>
+    <div class="language-switcher language-switcher--threshold" id="thresholdLanguageSwitcher" role="group" aria-label="Language / Язык">
+      <button class="language-switcher__button" type="button" data-language="en">EN</button>
+      <span aria-hidden="true">/</span>
+      <button class="language-switcher__button" type="button" data-language="ru">RU</button>
     </div>
-    <div class="actions">
-      <button class="cta" id="shareBtn" data-i18n="c_share"></button>
-      <button class="cta2" id="downloadBtn" data-i18n="c_save"></button>
+    <button class="threshold__enter" id="enterPatisserie" type="button">Enter the patisserie</button>
+    <a class="threshold__credit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram · @fashamigura</a>
+  </div>
+</div>
+
+<!-- "Take its taste home" overlay — the Return -->
+<div class="veil" id="veil" hidden>
+  <div class="leaf" role="dialog" aria-modal="true" aria-labelledby="leafTitle" id="leaf">
+    <button class="leaf__close" id="leafClose" type="button" aria-label="Close">×</button>
+    <p class="leaf__catalogue" id="leafCatalogue"></p>
+    <h2 class="leaf__title" id="leafTitle"></h2>
+    <figure class="leaf__figure" id="leafFigure">
+      <img class="leaf__image" id="leafImage" src="" alt="">
+    </figure>
+    <figure class="leaf__epigraph">
+      <blockquote id="leafEpigraph"></blockquote>
+      <figcaption id="leafEpigraphSource"></figcaption>
+    </figure>
+
+    <p class="leaf__return" id="leafReturn">A taste returns through repetition.<br>Prepare it, serve it, change it, and allow it to enter another life.</p>
+
+    <section class="leaf__section">
+      <h3 class="leaf__heading" id="leafVignetteHeading">Cultural vignette</h3>
+      <p id="leafVignette"></p>
+    </section>
+
+    <section class="leaf__section">
+      <h3 class="leaf__heading" id="leafHistoryHeading">A short cultural history</h3>
+      <p id="leafHistory"></p>
+    </section>
+
+    <section class="leaf__section">
+      <h3 class="leaf__heading" id="leafAftertasteHeading">Aftertaste</h3>
+      <p class="leaf__aftertaste" id="leafAftertaste"></p>
+    </section>
+
+    <section class="leaf__section">
+      <h3 class="leaf__heading" id="leafTakeHomeHeading">Take it home</h3>
+      <p id="leafTakeHome"></p>
+    </section>
+
+    <section class="leaf__section leaf__section--recipe">
+      <h3 class="leaf__heading" id="leafRecipeTitle"></h3>
+      <p class="leaf__recipeNote" id="leafRecipeNote"></p>
+      <div class="leaf__columns">
+        <div>
+          <h4 class="leaf__subheading" id="leafIngredientsHeading">Ingredients</h4>
+          <ul id="leafIngredients"></ul>
+        </div>
+        <div>
+          <h4 class="leaf__subheading" id="leafMethodHeading">Method</h4>
+          <ol id="leafSteps"></ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="leaf__actions">
+      <button class="leaf__save" id="leafSave" type="button">Take the recipe home</button>
+      <button class="leaf__dismiss" id="leafDismiss" type="button">Close</button>
     </div>
-    <button class="textlink" id="againBtn" data-i18n="c_again"></button>
-    <div class="subscribe">
-      <p class="sub-h" data-i18n="sub_heading"></p>
-      <div class="sub-links" id="subLinks"></div>
-      <p class="counter-line" id="counterLine"></p>
+    <p class="leaf__saveHint" id="leafSaveHint">Save as a printable cultural recipe card.</p>
+
+    <p class="leaf__hungry" id="leafHungry">What were you really hungry for?</p>
+    <a class="leaf__credit" id="leafCredit" href="https://www.instagram.com/fashamigura?igsh=MW9wcjFmZ2w3dWlwZA%3D%3D&utm_source=qr" target="_blank" rel="noopener">a project by @fashamigura</a>
+  </div>
+</div>
+
+<!-- "Book of Taste" — a two-page interactive overlay, opened by every world.
+     Text is filled by script.js from the current world's .book (bilingual). -->
+<div class="book-overlay" id="book" hidden>
+  <div class="book" role="dialog" aria-modal="true" aria-labelledby="bookHeading" id="bookDialog">
+    <button class="book__close" id="bookClose" type="button" aria-label="Close">×</button>
+    <div class="book__spread" id="bookSpread">
+      <span class="book__spine" aria-hidden="true"></span>
+
+      <!-- PAGE I — CULTURAL JOURNEY -->
+      <section class="book-page book-page--journey" id="bookPageJourney">
+        <div class="book-page__inner">
+          <header class="journey-head">
+            <p class="journey-head__eyebrow" id="bookKicker"></p>
+            <h2 class="journey-head__title" id="bookHeading"></h2>
+            <p class="journey-head__intro" id="journeyIntro"></p>
+          </header>
+          <div class="journey-body">
+            <div class="journey-map">
+              <span class="journey-track" aria-hidden="true"><span class="journey-track__fill" id="journeyTrackFill"></span></span>
+              <div class="journey-stops" id="journeyStops" role="list"></div>
+            </div>
+            <div class="journey-detail" id="journeyDetail" aria-live="polite">
+              <figure class="journey-detail__art" id="journeyArtFigure" hidden>
+                <img id="journeyArt" alt="" draggable="false">
+              </figure>
+              <p class="journey-detail__date" id="journeyDate"></p>
+              <h3 class="journey-detail__title" id="journeyStopTitle"></h3>
+              <div class="journey-detail__text" id="journeyText"></div>
+            </div>
+          </div>
+          <p class="journey-final" id="journeyFinal" hidden></p>
+
+          <!-- personal practice + closing question live at the end of Page I,
+               so visitors reach them without having to open the recipe -->
+          <div class="journey-practice" id="journeyPractice" hidden>
+            <div class="journey-practice__block">
+              <h3 class="journey-practice__heading" id="practiceHeading"></h3>
+              <p class="journey-practice__text" id="practiceText"></p>
+            </div>
+            <p class="journey-practice__question" id="practiceQuestion"></p>
+          </div>
+
+          <button class="book-next" id="bookNext" type="button" disabled>
+            <span class="book-next__title" id="bookNextTitle"></span>
+            <small class="book-next__note" id="bookNextNote"></small>
+          </button>
+        </div>
+      </section>
+
+      <!-- PAGE II — ASSEMBLE THE RECIPE -->
+      <section class="book-page book-page--recipe" id="bookPageRecipe" hidden>
+        <div class="book-page__inner">
+          <button class="book-back" id="bookBack" type="button"></button>
+
+          <div class="recipe-lead">
+            <figure class="recipe-visual">
+              <img class="recipe-visual__image" id="recipeImage" src="" alt="" loading="lazy" decoding="async">
+            </figure>
+            <div class="recipe-lead__intro">
+              <h3 class="recipe-lead__title" id="recipeHeading"></h3>
+              <p class="recipe-lead__note" id="recipeNote"></p>
+            </div>
+          </div>
+
+          <div class="recipe-columns">
+            <div class="recipe-ingredients">
+              <h4 class="recipe-subheading" id="bookIngredientsHeading">Ingredients</h4>
+              <ul id="bookIngredients"></ul>
+            </div>
+            <div class="recipe-method">
+              <h4 class="recipe-subheading" id="bookMethodHeading">Method</h4>
+              <div class="recipe-chapters" id="recipeChapters"></div>
+            </div>
+          </div>
+
+          <p class="recipe-closing" id="recipeCompleteText"></p>
+
+          <div class="recipe-actions">
+            <button class="book-print" id="bookPrint" type="button">Download this Book</button>
+            <button class="book-save" id="bookSave" type="button">Save to Cabinet of Tastes</button>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </div>
 
-<div class="overlay" id="overlay">
-  <p id="ovText"></p>
-  <img id="ovImg" alt="indulgence">
-  <div class="ov-actions">
-    <a class="tg" id="ovTg" target="_blank" rel="noopener"></a>
-    <a class="dl" id="ovDownload" download="indulgence.png"></a>
-    <button class="cl" id="ovClose"></button>
+<!-- Cabinet of Tastes — the collection overlay -->
+<div class="cabinet-overlay" id="cabinet" hidden>
+  <div class="cabinet" role="dialog" aria-modal="true" aria-labelledby="cabinetTitle" id="cabinetDialog">
+    <button class="cabinet__close" id="cabinetClose" type="button" aria-label="Close">×</button>
+    <header class="cabinet__head">
+      <h2 class="cabinet__title" id="cabinetTitle"></h2>
+      <p class="cabinet__subtitle" id="cabinetSubtitle"></p>
+    </header>
+    <div class="cabinet__shelf" id="cabinetShelf" aria-live="polite"></div>
+    <p class="cabinet__hint" id="cabinetHintText" hidden></p>
+    <div class="cabinet__actions">
+      <p class="cabinet__discovered" id="cabinetDiscovered"></p>
+      <button class="cabinet__download" id="cabinetDownloadAll" type="button"></button>
+    </div>
   </div>
 </div>
 
-<script>
-  /* ====== НАСТРОЙКИ ====== */
-  const SITE_URL    = "https://t.me/triathlon_of_pleasures";
-  const BRAND_HANDLE = "t.me/triathlon_of_pleasures";
-  const SOCIAL = [ { label:"Telegram", url:"https://t.me/triathlon_of_pleasures" } ];
-  const COUNTER_ENABLED = true, COUNTER_NS = "triatlon-udovolstvij", COUNTER_KEY = "gramoty-v1";
-  /* ======================= */
+<!-- A quiet note when a trace is added to the cabinet -->
+<div class="cabinet-toast" id="cabinetToast" role="status" aria-live="polite" hidden>
+  <span class="cabinet-toast__icon" id="cabinetToastIcon" aria-hidden="true"></span>
+  <span class="cabinet-toast__text" id="cabinetToastText"></span>
+</div>
 
-  const $ = s => document.querySelector(s);
-  const rnd = n => Math.floor(Math.random()*n);
+<!-- Printable recipe card (visible only in print) -->
+<div class="print-card" id="printCard" aria-hidden="true">
+  <p class="print-card__project" id="printProject">The Patisserie of the Unconscious</p>
+  <p class="print-card__object" id="printObject"></p>
+  <figure class="print-card__figure" id="printFigure">
+    <img class="print-card__image" id="printImage" src="" alt="">
+  </figure>
+  <h1 class="print-card__name" id="printName"></h1>
+  <p class="print-card__context" id="printContext"></p>
+  <p class="print-card__aftertaste" id="printAftertaste"></p>
+  <p class="print-card__vignette" id="printVignette"></p>
+  <h2 class="print-card__recipeTitle" id="printRecipeTitle"></h2>
+  <p class="print-card__note" id="printRecipeNote"></p>
+  <div class="print-card__columns">
+    <div>
+      <h3 id="printIngredientsHeading">Ingredients</h3>
+      <ul id="printIngredients"></ul>
+    </div>
+    <div>
+      <h3 id="printMethodHeading">Method</h3>
+      <ol id="printSteps"></ol>
+    </div>
+  </div>
+  <div class="print-card__takeHome">
+    <h3 id="printTakeHomeHeading">Take it home</h3>
+    <p id="printTakeHome"></p>
+  </div>
+</div>
 
-  const I18N = {
-    ru:{
-      q_eyebrow:"Триатлон удовольствий · Канцелярия отдыха",
-      q_title:"Исповедь", q_title_small:"трудоголика",
-      q_lede:"Покайтесь честно: отметьте грехи, что водятся за вами. По ним Канцелярия присвоит звание и пропишет персональный триатлон удовольствий.",
-      q_name_label:"Ваше имя", q_name_ph:"Как вписать вас в грамоту?",
-      q_issue:"Выписать индульгенцию", q_fine:"Имя никуда не отправляется — только в вашу грамоту.",
-      counter:"Грехов отмечено: ", err_quiz:"Не лукавьте — хоть один грешок за вами да водится.", err_name:"Впишите имя — без него грамота недействительна.",
-      c_eyebrow:"Indulgentia · Plenaria", c_title:"Индульгенция на отдых", c_sublatin:"in remissionem laboris",
-      c_intro1:"Сим во всеуслышание удостоверяется, что податель сего —",
-      rank_label:"Звание грешника: ",
-      c_intro2:"настоящим освобождается от всякой вины за нижеперечисленные грехи:",
-      c_ch_remedies:"✦ В искупление дозволяется ✦",
-      tri_heading:"Формула вашего триатлона",
-      tri_sub:"Хороший день редко состоит из одного удовольствия. На сегодня предписаны три — разного характера:",
-      tri_note:"Порядок значения не имеет. При должном усердии триатлон превращается в пентатлон.",
-      tri_body_label:"Телесное", tri_mind_label:"Культурное", tri_rest_label:"Созерцательное",
-      c_closing:"Никакое «надо бы» более не имеет над вами силы.",
-      c_issued_by:"Выдано канцелярией Триатлон удовольствий", c_motto:"ora et non labora",
-      c_share:"Поделиться", c_save:"Сохранить", c_again:"Пройти заново",
-      sub_heading:"Понравилось? Подписывайтесь на Триатлон удовольствий",
-      counter_label:"Уже выписано грамот: ",
-      share_text:"Я получил(а) индульгенцию на отдых и звание «{rank}» от Триатлона удовольствий ✦",
-      date_locale:"ru-RU", date_suffix:" от Р.Х.",
-      seal_ring:"✦ DOLCE FAR NIENTE · SINE CULPA ✦", seal_mono:"ТУ",
-      ov_text:"Нажмите и удерживайте картинку, чтобы сохранить её в галерею.", ov_tg:"Поделиться в Telegram", ov_dl:"Скачать файлом", ov_close:"Закрыть",
-      sins:[
-        "Переработка и геройство «ещё чуть-чуть»","Проверка рабочей почты в выходной","Проверка почты в отпуске (даже на пляже)",
-        "Токсичный трудоголизм","Мысли о работе перед сном и в душе","Чувство вины за безделье среди бела дня",
-        "Вечное «доделаю на выходных»","Ответы в рабочих чатах глубокой ночью","Обед за ноутбуком вместо перерыва",
-        "Тайная гордость за фразу «я очень занят»","Неумение сказать «нет» новой задаче"
-      ],
-      ranks:["Послушник отдыха","Брат во грехе переработки","Магистр трудоголизма","Архиепископ дедлайнов","Великий Грешник Канцелярии"],
-      remedies:[
-        ["уйти с работы вовремя — и не ощущать себя дезертиром","закрыть ноутбук в 18:00 и не открывать до утра"],
-        ["объявить выходной священным и не открывать почту","удалить рабочую почту с телефона на два дня"],
-        ["в отпуске класть телефон экраном вниз","отвечать на письма одной фразой: «я в отпуске»"],
-        ["хвалить себя за безделье, как за подвиг","громко гордиться тем, что вы отдыхаете"],
-        ["в душе думать только о приятном","отложить все рабочие мысли до завтра"],
-        ["лениться среди бела дня с высоко поднятой головой","валяться без единого оправдания"],
-        ["оставить недоделанное недоделанным","перенести вечное «надо бы» на «никогда»"],
-        ["после 21:00 отвечать только подушке","выключить рабочие уведомления на всю ночь"],
-        ["обедать медленно и без единого экрана","устроить настоящий обеденный перерыв"],
-        ["говорить «я отдыхаю» с тем же достоинством","хвастаться количеством свободного времени"],
-        ["сказать «нет» хотя бы одной просьбе сегодня","отклонить одну задачу — без чувства вины"]
-      ],
-      triBody:["партия в теннис 🎾","долгая прогулка быстрым шагом","купание в холодной воде","велосипед без маршрута","горные лыжи","танцы на кухне под любимый альбом","утренняя зарядка у открытого окна"],
-      triMind:["поход на выставку","хорошее кино без отвлечений","глава новой книги","новый альбом, прослушанный целиком","лекция о чём-то прекрасном и бесполезном","вечер в театре"],
-      triRest:["баня и тишина","чашка кофе у окна","созерцание воды","честный дневной сон","медленный завтрак без часов","закат, на который вы наконец посмотрите"]
-    },
-    en:{
-      q_eyebrow:"Triathlon of Pleasures · Chancery of Rest",
-      q_title:"Confession", q_title_small:"of a workaholic",
-      q_lede:"Confess honestly: tick the sins you are guilty of. From them the Chancery grants your rank and prescribes a personal triathlon of pleasures.",
-      q_name_label:"Your name", q_name_ph:"How shall we inscribe you?",
-      q_issue:"Issue my indulgence", q_fine:"Your name is never sent anywhere — only onto your charter.",
-      counter:"Sins confessed: ", err_quiz:"Come now — surely at least one little sin is yours.", err_name:"Enter a name — without it the charter is void.",
-      c_eyebrow:"Indulgentia · Plenaria", c_title:"Indulgence for Rest", c_sublatin:"in remissionem laboris",
-      c_intro1:"Be it known to all that the bearer of this charter —",
-      rank_label:"Sinner's rank: ",
-      c_intro2:"is herewith absolved of all guilt for the sins below:",
-      c_ch_remedies:"✦ Granted as penance ✦",
-      tri_heading:"Your triathlon formula",
-      tri_sub:"A good day is rarely made of a single pleasure. Three are prescribed for today — each of a different nature:",
-      tri_note:"Order does not matter. With due diligence the triathlon becomes a pentathlon.",
-      tri_body_label:"Of the body", tri_mind_label:"Of the mind", tri_rest_label:"Of repose",
-      c_closing:"No 'I really should' holds any power over you henceforth.",
-      c_issued_by:"Issued by the Chancery of the Triathlon of Pleasures", c_motto:"ora et non labora",
-      c_share:"Share", c_save:"Save", c_again:"Start over",
-      sub_heading:"Enjoyed it? Follow the Triathlon of Pleasures",
-      counter_label:"Charters issued so far: ",
-      share_text:"I've been granted an indulgence for rest and the rank of '{rank}' by the Triathlon of Pleasures ✦",
-      date_locale:"en-GB", date_suffix:" A.D.",
-      seal_ring:"✦ DOLCE FAR NIENTE · SINE CULPA ✦", seal_mono:"TP",
-      ov_text:"Press and hold the image to save it to your gallery.", ov_tg:"Share to Telegram", ov_dl:"Download file", ov_close:"Close",
-      sins:[
-        "Overwork and the heroics of 'just five more minutes'","Checking work email on a day off","Checking email on holiday (even on the beach)",
-        "Toxic workaholism","Thinking about work before sleep and in the shower","Guilt over idling in broad daylight",
-        "The eternal 'I'll finish it over the weekend'","Replying in work chats deep in the night","Lunch at the laptop instead of a break",
-        "Secret pride in saying 'I'm so busy'","Inability to say 'no' to a new task"
-      ],
-      ranks:["Novice of Repose","Brother of Overwork","Master of Workaholism","Archbishop of Deadlines","Grand Sinner of the Chancery"],
-      remedies:[
-        ["to leave work on time — without feeling like a deserter","to close the laptop at 6 p.m. and not reopen it till morning"],
-        ["to declare the weekend sacred and not open email","to remove work email from your phone for two days"],
-        ["to place your phone face-down on holiday","to reply to every email with one line: 'I'm on holiday'"],
-        ["to praise yourself for idleness as for a feat","to be loudly proud that you are resting"],
-        ["to think only of pleasant things in the shower","to postpone all work thoughts until tomorrow"],
-        ["to idle in broad daylight with your head held high","to lounge about with not a single excuse"],
-        ["to leave the unfinished unfinished","to move the eternal 'I really should' to 'never'"],
-        ["after 9 p.m., to answer only to your pillow","to switch off work notifications for the whole night"],
-        ["to lunch slowly and entirely screen-free","to take a proper lunch break"],
-        ["to say 'I'm resting' with equal dignity","to boast about your free time instead"],
-        ["to say 'no' to at least one request today","to decline one task — guilt-free"]
-      ],
-      triBody:["a game of tennis 🎾","a long brisk walk","a swim in cold water","a bicycle ride with no route","downhill skiing","dancing in the kitchen to a favourite album","morning exercises by an open window"],
-      triMind:["a visit to an exhibition","a good film with no distractions","a chapter of a new book","a new album listened to in full","a lecture on something beautiful and useless","an evening at the theatre"],
-      triRest:["a sauna and silence","a cup of coffee by the window","contemplating water","an honest afternoon nap","a slow breakfast with no clock","the sunset you'll finally watch"]
-    }
-  };
+<!-- Populated only when the visitor exports every discovered book. -->
+<div class="print-collection" id="printCollection" aria-hidden="true"></div>
 
-  let cur="ru"; const selected=new Set(); let state=null; let lastDataURL=null, lastFile=null, lastName="indulgence";
-  function rankOf(lang,n){ const r=I18N[lang].ranks; if(n<=2)return r[0]; if(n<=4)return r[1]; if(n<=6)return r[2]; if(n<=8)return r[3]; return r[4]; }
-
-  function buildQuiz(){
-    const list=$('#quizList'); list.innerHTML='';
-    I18N[cur].sins.forEach((s,i)=>{
-      const b=document.createElement('button'); b.type='button'; b.className='sin'+(selected.has(i)?' sel':''); b.dataset.i=i;
-      b.innerHTML='<span class="box"></span><span>'+s+'</span>';
-      b.addEventListener('click',()=>{ if(selected.has(i)){selected.delete(i);b.classList.remove('sel');}else{selected.add(i);b.classList.add('sel');} $('#counter').textContent=I18N[cur].counter+selected.size; $('#quizErr').textContent=''; });
-      list.appendChild(b);
-    });
-  }
-  function buildSocial(){ const w=$('#subLinks'); w.innerHTML=''; SOCIAL.forEach(s=>{ const a=document.createElement('a'); a.href=s.url; a.target='_blank'; a.rel='noopener'; a.textContent=s.label; w.appendChild(a); }); }
-  function fmtDate(d){ const t=I18N[cur]; return d.toLocaleDateString(t.date_locale,{day:'numeric',month:'long',year:'numeric'})+t.date_suffix; }
-
-  function renderCert(){ if(!state)return; const t=I18N[cur];
-    $('#certName').textContent=state.name;
-    $('#certRank').textContent='✦ '+rankOf(cur,state.indices.length)+' ✦';
-    $('#serial').textContent=state.serial; $('#issueDate').textContent=fmtDate(state.dateObj);
-    $('#sinList').innerHTML=state.indices.map(i=>'<li>'+t.sins[i]+'</li>').join('');
-    $('#remedyList').innerHTML=state.indices.map(i=>'<li>'+t.remedies[i][state.remedy[i]]+'</li>').join('');
-    const rows=[[t.tri_body_label,t.triBody[state.tri.b]],[t.tri_mind_label,t.triMind[state.tri.m]],[t.tri_rest_label,t.triRest[state.tri.r]]];
-    $('#triBlock').innerHTML=rows.map(r=>'<div class="tri-row"><span class="tri-cat">'+r[0]+'</span><span class="tri-act">'+r[1]+'</span></div>').join('');
-    $('#brandLine').textContent=BRAND_HANDLE;
-  }
-  function applyLang(lang){ cur=lang; const t=I18N[lang]; document.documentElement.lang=lang;
-    document.querySelectorAll('[data-i18n]').forEach(el=>{ const k=el.dataset.i18n; if(t[k]!==undefined) el.textContent=t[k]; });
-    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t[el.dataset.i18nPh]; });
-    $('#sealRing').textContent=t.seal_ring; $('#sealMono').textContent=t.seal_mono;
-    buildQuiz(); $('#counter').textContent=t.counter+selected.size;
-    document.querySelectorAll('.langbtn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
-    if($('#certView').classList.contains('show')) renderCert();
-  }
-
-  async function makeImage(){ await (document.fonts?document.fonts.ready:Promise.resolve()); await new Promise(r=>setTimeout(r,150)); const c=await html2canvas($('#certCard'),{scale:2,backgroundColor:null,useCORS:true,logging:false}); return c.toDataURL('image/png'); }
-
-  async function bumpCounter(){ if(!COUNTER_ENABLED) return;
-    try{ const r=await fetch('https://abacus.jasoncameron.dev/hit/'+COUNTER_NS+'/'+COUNTER_KEY); const d=await r.json(); const n=d.value??d.count;
-      if(typeof n==='number') $('#counterLine').textContent=I18N[cur].counter_label+n.toLocaleString(cur==='ru'?'ru-RU':'en-GB'); }catch(e){}
-  }
-
-  async function issue(){
-    const t=I18N[cur]; const name=$('#name').value.trim();
-    if(selected.size===0){ $('#quizErr').textContent=t.err_quiz; return; }
-    if(!name){ $('#quizErr').textContent=t.err_name; return; }
-    $('#quizErr').textContent='';
-    const indices=[...selected]; const remedy={}; indices.forEach(i=>{ remedy[i]=rnd(I18N.ru.remedies[i].length); });
-    const tri={ b:rnd(I18N.ru.triBody.length), m:rnd(I18N.ru.triMind.length), r:rnd(I18N.ru.triRest.length) };
-    state={ name, indices, remedy, tri, serial:String(Math.floor(100+Math.random()*900)), dateObj:new Date() };
-    lastName=name.replace(/\s+/g,'_'); lastDataURL=null; lastFile=null; renderCert();
-    $('#quizView').style.display='none'; $('#certView').classList.add('show'); window.scrollTo({top:0,behavior:'smooth'});
-    bumpCounter();
-    try{ lastDataURL=await makeImage(); $('#ovImg').src=lastDataURL; $('#ovDownload').href=lastDataURL;
-      const blob=await (await fetch(lastDataURL)).blob(); lastFile=new File([blob],'indulgence-'+lastName+'.png',{type:'image/png'}); }catch(e){ console.warn(e); }
-  }
-
-  function restart(){ $('#certView').classList.remove('show'); selected.clear(); buildQuiz(); $('#counter').textContent=I18N[cur].counter+'0'; $('#name').value=''; $('#quizErr').textContent=''; state=null; lastDataURL=null; lastFile=null; $('#quizView').style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
-
-  function shareText(){ const t=I18N[cur]; return t.share_text.replace('{rank}', state?rankOf(cur,state.indices.length):''); }
-  function openOverlay(){ const t=I18N[cur]; $('#ovText').textContent=t.ov_text; $('#ovTg').textContent=t.ov_tg; $('#ovDownload').textContent=t.ov_dl; $('#ovClose').textContent=t.ov_close;
-    if(lastDataURL){ $('#ovImg').src=lastDataURL; $('#ovDownload').href=lastDataURL; }
-    $('#ovTg').href='https://t.me/share/url?url='+encodeURIComponent(SITE_URL)+'&text='+encodeURIComponent(shareText());
-    $('#overlay').classList.add('show');
-  }
-
-  async function shareCert(){
-    try{
-      if(lastFile && navigator.canShare && navigator.canShare({files:[lastFile]})){ await navigator.share({ files:[lastFile], text:shareText()+' '+SITE_URL }); return; }
-      if(navigator.share){ await navigator.share({ text:shareText(), url:SITE_URL }); return; }
-    }catch(e){ if(e && e.name==='AbortError') return; }
-    openOverlay();
-  }
-  async function saveCert(){
-    const btn=$('#downloadBtn'); btn.disabled=true; const old=btn.textContent; btn.textContent='…';
-    try{ if(!lastDataURL){ lastDataURL=await makeImage(); } const fname='indulgence-'+lastName+'.png';
-      $('#ovDownload').setAttribute('download',fname);
-      const a=document.createElement('a'); a.href=lastDataURL; a.download=fname; document.body.appendChild(a); a.click(); a.remove();
-      openOverlay();
-    }catch(e){ console.error(e); alert('Could not render image / Не удалось подготовить картинку.'); }
-    finally{ btn.disabled=false; btn.textContent=old; }
-  }
-
-  document.querySelectorAll('.langbtn').forEach(b=>b.addEventListener('click',()=>applyLang(b.dataset.lang)));
-  $('#issueBtn').addEventListener('click',issue);
-  $('#name').addEventListener('keydown',e=>{ if(e.key==='Enter') issue(); });
-  $('#shareBtn').addEventListener('click',shareCert);
-  $('#downloadBtn').addEventListener('click',saveCert);
-  $('#againBtn').addEventListener('click',restart);
-  $('#ovClose').addEventListener('click',()=>$('#overlay').classList.remove('show'));
-  $('#overlay').addEventListener('click',e=>{ if(e.target.id==='overlay') $('#overlay').classList.remove('show'); });
-  buildSocial(); applyLang('ru');
-</script>
+<script src="script.js"></script>
 </body>
 </html>
