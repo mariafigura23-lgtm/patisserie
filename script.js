@@ -3202,7 +3202,7 @@ function renderJourneyStops(world) {
   }).join("");
 
   const denom = Math.max(1, stops.length - 1);
-  const fill = maxOpened < 0 ? 0 : Math.min(maxOpened + 1, stops.length - 1) / denom;
+  const fill = maxOpened < 0 ? 0 : maxOpened / denom;
   journeyTrackFill.style.setProperty("--journey-fill", fill.toFixed(3));
 }
 
@@ -3277,6 +3277,7 @@ function completeJourney(world) {
   journeyFinal.textContent = bookLang(world).journeyFinal;
   journeyFinal.hidden = false;
   renderPractice(world, true);
+  bookNext.hidden = false;
   bookNext.disabled = false;
 }
 
@@ -3367,6 +3368,7 @@ function renderBook(world) {
   const journeyDone = bookState.openedStops.size === journeySteps(world).length;
   journeyFinal.hidden = !journeyDone;
   renderPractice(world, bookState.openedStops.size >= 2);
+  bookNext.hidden = !journeyDone;
   bookNext.disabled = !journeyDone;
   bookPageJourney.classList.toggle("is-journey-complete", journeyDone);
 
