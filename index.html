@@ -313,7 +313,8 @@
           <p class="recipe-closing" id="recipeCompleteText"></p>
 
           <div class="recipe-actions">
-            <button class="book-print" id="bookPrint" type="button">Take the recipe home</button>
+            <button class="book-print" id="bookPrint" type="button">Download this Book</button>
+            <button class="book-save" id="bookSave" type="button">Save to Cabinet of Tastes</button>
           </div>
         </div>
       </section>
@@ -331,6 +332,10 @@
     </header>
     <div class="cabinet__shelf" id="cabinetShelf" aria-live="polite"></div>
     <p class="cabinet__hint" id="cabinetHintText" hidden></p>
+    <div class="cabinet__actions">
+      <p class="cabinet__discovered" id="cabinetDiscovered"></p>
+      <button class="cabinet__download" id="cabinetDownloadAll" type="button"></button>
+    </div>
   </div>
 </div>
 
@@ -368,6 +373,9 @@
     <p id="printTakeHome"></p>
   </div>
 </div>
+
+<!-- Populated only when the visitor exports every discovered book. -->
+<div class="print-collection" id="printCollection" aria-hidden="true"></div>
 
 <script src="script.js"></script>
 </body>

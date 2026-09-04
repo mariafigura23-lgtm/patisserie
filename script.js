@@ -67,7 +67,7 @@ const WORLDS = [
       character: "assets/madeleine-rabbit.png",
     },
     dessert: {
-      style: "plate",
+      style: "cutout",
       aspect: 1,
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "34%" },
@@ -105,7 +105,7 @@ const WORLDS = [
     book: {
       en: {
         journeyTitle: "A Cultural Journey of Memory",
-        journeyIntro: "Follow four stops to discover how a local cake became one of the most famous symbols of memory.",
+        journeyIntro: "Follow three steps to discover how a local cake became one of the most famous symbols of memory.",
         journeyFinal: "A local cake had become a way of thinking about time.",
         stops: [
           {
@@ -157,7 +157,7 @@ const WORLDS = [
       },
       ru: {
         journeyTitle: "Культурное путешествие памяти",
-        journeyIntro: "Пройдите четыре остановки и узнайте, как местное пирожное стало одним из главных символов памяти.",
+        journeyIntro: "Пройдите три шага и узнайте, как местное пирожное стало одним из главных символов памяти.",
         journeyFinal: "Местное пирожное стало способом размышлять о времени.",
         stops: [
           {
@@ -308,7 +308,7 @@ const WORLDS = [
     book: {
       en: {
         journeyTitle: "A Cultural Journey of Sweetness",
-        journeyIntro: "Follow four stops to see how one fried tube of pastry gathered a whole island's history.",
+        journeyIntro: "Follow three steps to see how one fried tube of pastry gathered a whole island's history.",
         journeyFinal: "A carnival treat had become the taste of Sicily itself.",
         stops: [
           {
@@ -355,7 +355,7 @@ const WORLDS = [
       },
       ru: {
         journeyTitle: "Культурное путешествие сладости",
-        journeyIntro: "Четыре остановки — и вы увидите, как в одной трубочке жареного теста собралась история целого острова.",
+        journeyIntro: "Три шага — и вы увидите, как в одной трубочке жареного теста собралась история целого острова.",
         journeyFinal: "Карнавальное лакомство стало вкусом самой Сицилии.",
         stops: [
           {
@@ -501,7 +501,7 @@ const WORLDS = [
     book: {
       en: {
         journeyTitle: "A Cultural Journey of Celebration",
-        journeyIntro: "Follow four stops to see how a French pastry became a Soviet holiday you had to build by hand.",
+        journeyIntro: "Follow three steps to see how a French pastry became a Soviet holiday you had to build by hand.",
         journeyFinal: "A cake had become a way of keeping a family together.",
         stops: [
           {
@@ -548,7 +548,7 @@ const WORLDS = [
       },
       ru: {
         journeyTitle: "Культурное путешествие праздника",
-        journeyIntro: "Четыре остановки — и вы увидите, как французское пирожное стало советским праздником, который нужно построить своими руками.",
+        journeyIntro: "Три шага — и вы увидите, как французское пирожное стало советским праздником, который нужно построить своими руками.",
         journeyFinal: "Торт стал способом удержать семью вместе.",
         stops: [
           {
@@ -613,9 +613,12 @@ const WORLDS = [
       type: "layers",
       config: {
         steps: 4,
-        /* the cake fills this vertical band of its image; reveal within it and
-           always keep a visible base (min) so step one is never empty */
-        reveal: { top: 21, bottom: 86, min: 0.36 },
+        stageAssets: [
+          "assets/napoleon-layer-1.png",
+          "assets/napoleon-layer-2.png",
+          "assets/napoleon-layer-3.png",
+          "assets/napoleon-whole.png"
+        ],
         prompt: { en: "Build it, layer by layer", ru: "Соберите его, слой за слоем" },
         step:   { en: "Add a layer", ru: "Ещё слой" },
         done:   { en: "Now leave it to rest until morning.", ru: "Теперь оставьте до утра." }
@@ -697,7 +700,7 @@ const WORLDS = [
     book: {
       en: {
         journeyTitle: "A Cultural Journey of Comfort",
-        journeyIntro: "Follow four stops to see how a simple 'pick-me-up' became the world's Italian dessert.",
+        journeyIntro: "Follow three steps to see how a simple 'pick-me-up' became the world's Italian dessert.",
         journeyFinal: "A local pick-me-up had become a way of caring for one another.",
         stops: [
           {
@@ -744,7 +747,7 @@ const WORLDS = [
       },
       ru: {
         journeyTitle: "Культурное путешествие утешения",
-        journeyIntro: "Четыре остановки — и вы увидите, как простое «подними меня» стало главным итальянским десертом в мире.",
+        journeyIntro: "Три шага — и вы увидите, как простое «подними меня» стало главным итальянским десертом в мире.",
         journeyFinal: "Местное «подними меня» стало способом заботиться друг о друге.",
         stops: [
           {
@@ -794,6 +797,11 @@ const WORLDS = [
         { steps: [2, 3],    en: "The coffee soak", ru: "Кофейная пропитка" },
         { steps: [4, 5, 6], en: "Layer it",        ru: "Соберите слои" },
         { steps: [7],       en: "Chill and dust",  ru: "Охладите и посыпьте" }
+      ],
+      artwork: [
+        "assets/tiramisu-journey-1.webp",
+        "assets/tiramisu-journey-2.webp",
+        "assets/tiramisu-journey-3.webp"
       ]
     },
     symbol: "coffee",
@@ -802,6 +810,8 @@ const WORLDS = [
       en: { name: "A single coffee bean", note: "A bitterness that lifts — tirame sù." },
       ru: { name: "Одно кофейное зерно", note: "Горечь, что поднимает, — tirame sù." }
     },
+    /* after the bite, each fragment rises gently: tirami sù, "lift me up" */
+    interaction: { microType: "lift" },
     cssClass: "scene--tiramisu"
   },
   {
@@ -879,7 +889,7 @@ const WORLDS = [
     book: {
       en: {
         journeyTitle: "A Cultural Journey of Ceremony",
-        journeyIntro: "Follow four stops to see how sugar became a stage — and the tiny glazed cake a small performance of power.",
+        journeyIntro: "Follow three steps to see how sugar became a stage — and the tiny glazed cake a small performance of power.",
         journeyFinal: "A miniature cake had become a way of performing a perfect world.",
         stops: [
           {
@@ -926,7 +936,7 @@ const WORLDS = [
       },
       ru: {
         journeyTitle: "Культурное путешествие церемонии",
-        journeyIntro: "Четыре остановки — и вы увидите, как сахар стал сценой, а крошечное глазированное пирожное — маленьким спектаклем власти.",
+        journeyIntro: "Три шага — и вы увидите, как сахар стал сценой, а крошечное глазированное пирожное — маленьким спектаклем власти.",
         journeyFinal: "Миниатюрное пирожное стало способом разыграть совершенный мир.",
         stops: [
           {
@@ -1025,15 +1035,18 @@ const UI = {
     "bookCtaStory": "Open the Book of Taste",
     "bookCtaNote": "Cultural journey · recipe",
     "bookRecipeHeading": "Assemble the recipe",
-    "bookTurnTitle": "Turn the page",
-    "bookTurnNote": "The recipe →",
+    "bookTurnTitle": "Open the Taste Book",
+    "bookTurnNote": "The complete book →",
     "cabinetOpen": "Cabinet of Tastes",
     "cabinetTitle": "Cabinet of Tastes",
     "cabinetSubtitle": "Traces left by the worlds you have tasted.",
-    "cabinetEmpty": "The cabinet is still empty. Taste a dessert, and it will remember.",
+    "cabinetEmpty": "The cabinet is still empty. Open a Book of Taste and save it here.",
     "cabinetHint": "Something is still missing…",
     "cabinetAdded": "Added to your Cabinet of Tastes",
     "cabinetFrom": "from {world}",
+    "cabinetDiscovered": "{n} discovered books",
+    "cabinetDownloadAll": "Download discovered collection",
+    "cabinetNoDownloads": "Open a dessert world to begin a collection.",
     "readMore": "Read more",
     "readLess": "Show less",
     "bookBack": "← The cultural journey",
@@ -1054,7 +1067,9 @@ const UI = {
     "takeItHome": "Take it home",
     "ingredients": "Ingredients",
     "method": "Method",
-    "saveRecipe": "Take the recipe home",
+    "saveRecipe": "Download this Book",
+    "saveBook": "Save to Cabinet of Tastes",
+    "bookSaved": "Saved to Cabinet",
     "saveHint": "Save as a printable cultural recipe card.",
     "hungry": "What were you really hungry for?",
     "projectBy": "a project by @fashamigura",
@@ -1105,13 +1120,16 @@ const UI = {
     "cabinetOpen": "Кабинет вкусов",
     "cabinetTitle": "Кабинет вкусов",
     "cabinetSubtitle": "Следы, оставленные мирами, которые вы попробовали.",
-    "cabinetEmpty": "Кабинет пока пуст. Попробуйте десерт — и он его запомнит.",
+    "cabinetEmpty": "Кабинет пока пуст. Откройте Книгу вкуса и сохраните её здесь.",
     "cabinetHint": "Чего-то ещё не хватает…",
     "cabinetAdded": "Добавлено в ваш кабинет вкусов",
     "cabinetFrom": "из мира «{world}»",
+    "cabinetDiscovered": "Открыто книг: {n}",
+    "cabinetDownloadAll": "Скачать найденную коллекцию",
+    "cabinetNoDownloads": "Откройте мир десерта, чтобы начать коллекцию.",
     "bookRecipeHeading": "Соберите рецепт",
-    "bookTurnTitle": "Перевернуть страницу",
-    "bookTurnNote": "Рецепт →",
+    "bookTurnTitle": "Открыть Книгу вкуса",
+    "bookTurnNote": "Полная книга →",
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "bookBack": "← Культурное путешествие",
@@ -1132,7 +1150,9 @@ const UI = {
     "takeItHome": "Забрать с собой",
     "ingredients": "Ингредиенты",
     "method": "Приготовление",
-    "saveRecipe": "Забрать рецепт",
+    "saveRecipe": "Скачать эту книгу",
+    "saveBook": "Сохранить в Кабинет вкусов",
+    "bookSaved": "Сохранено в Кабинет",
     "saveHint": "Сохраните как печатную культурную карточку-рецепт.",
     "hungry": "Чего вам на самом деле хотелось?",
     "projectBy": "проект @fashamigura",
@@ -1673,6 +1693,20 @@ function buildScene(world) {
   bitten.draggable = false;
   bitten.dataset.src = world.assets.dessertBitten;
   inner.append(whole, bitten);
+
+  /* Some worlds assemble through real image states rather than a geometric
+     mask. Every stage shares the final asset's canvas, so the change feels
+     tactile while the plate stays anchored. */
+  const stageAssets = world.interaction?.config?.stageAssets || [];
+  stageAssets.forEach((src, i) => {
+    const stageImage = document.createElement("img");
+    stageImage.className = "scene__dessert-image scene__dessert-image--build-stage";
+    stageImage.alt = "";
+    stageImage.draggable = false;
+    stageImage.dataset.src = src;
+    stageImage.dataset.stage = String(i + 1);
+    inner.appendChild(stageImage);
+  });
   dessert.appendChild(inner);
   dessert.addEventListener("click", activateDessert);
   scene.appendChild(dessert);
@@ -1776,6 +1810,11 @@ function loadSceneAssets(world) {
         bitten.remove();
       });
     }
+
+    scene.querySelectorAll(".scene__dessert-image--build-stage").forEach(stageImage => {
+      stageImage.decoding = "async";
+      loadWithFallback(stageImage, [stageImage.dataset.src], () => stageImage.remove());
+    });
   };
 
   window.setTimeout(loadSecondary, 90);
@@ -2349,15 +2388,11 @@ const INTERACTIONS = {
   /* "layers" — reveal the dessert bottom-to-top, one layer per activation, then
      it must rest. (Napoleon: care, preparation, anticipation.) */
   layers: {
-    _inset(cfg, step) {
-      const r = cfg.reveal || { top: 0, bottom: 100, min: 0.2 };
-      const denom = Math.max(1, cfg.steps - 1);
-      const f = r.min + ((step - 1) / denom) * (1 - r.min); // step 1..steps → min..1
-      return (r.bottom - f * (r.bottom - r.top)).toFixed(2) + "%";
-    },
     _apply(dessert, cfg, step) {
       dessert.classList.add("is-building");
-      dessert.style.setProperty("--clip-top", this._inset(cfg, step));
+      dessert.querySelectorAll(".scene__dessert-image--build-stage").forEach(image => {
+        image.classList.toggle("is-active-stage", Number(image.dataset.stage) === step);
+      });
     },
     reset(scene, world) {
       const dessert = scene.querySelector(".scene__dessert");
@@ -2381,7 +2416,9 @@ const INTERACTIONS = {
       const dessert = scene.querySelector(".scene__dessert");
       if (dessert) {
         dessert.classList.remove("is-building");
-        dessert.style.removeProperty("--clip-top");
+        dessert.querySelectorAll(".scene__dessert-image--build-stage").forEach(image => {
+          image.classList.remove("is-active-stage");
+        });
       }
     }
   }
@@ -2452,7 +2489,6 @@ function finishBite(world, scene) {
   const state = worldState[world.id];
   state.bitten = true;
   scene.classList.add("is-bitten-world");
-  collectArtifact(world);
   renderStrip(world);
   startQuestGuide(world, scene);
 
@@ -2512,6 +2548,8 @@ const cabinetHintText = document.getElementById("cabinetHintText");
 const cabinetToast = document.getElementById("cabinetToast");
 const cabinetToastIcon = document.getElementById("cabinetToastIcon");
 const cabinetToastText = document.getElementById("cabinetToastText");
+const cabinetDiscovered = document.getElementById("cabinetDiscovered");
+const cabinetDownloadAll = document.getElementById("cabinetDownloadAll");
 let cabinetLastFocused = null;
 let cabinetToastTimer = null;
 
@@ -2520,14 +2558,23 @@ function loadCabinet() {
     const p = JSON.parse(localStorage.getItem(CABINET_KEY) || "{}");
     return {
       visitedWorlds: Array.isArray(p.visitedWorlds) ? p.visitedWorlds : [],
-      collectedArtifacts: Array.isArray(p.collectedArtifacts) ? p.collectedArtifacts : []
+      collectedArtifacts: Array.isArray(p.collectedArtifacts) ? p.collectedArtifacts : [],
+      savedBooks: Array.isArray(p.savedBooks) ? p.savedBooks : []
     };
   } catch (e) {
-    return { visitedWorlds: [], collectedArtifacts: [] };
+    return { visitedWorlds: [], collectedArtifacts: [], savedBooks: [] };
   }
 }
 
 let cabinetState = loadCabinet();
+
+/* Backward-compatible migration: traces collected by the earlier bite-based
+   mechanic count as saved books, so returning visitors lose nothing. */
+if (!cabinetState.savedBooks.length && cabinetState.collectedArtifacts.length) {
+  cabinetState.savedBooks = WORLDS
+    .filter(world => world.collectible && cabinetState.collectedArtifacts.includes(world.collectible.id))
+    .map(world => world.id);
+}
 
 function saveCabinet() {
   try { localStorage.setItem(CABINET_KEY, JSON.stringify(cabinetState)); } catch (e) { /* private mode */ }
@@ -2540,16 +2587,21 @@ function markWorldVisited(id) {
 }
 
 function hasArtifact(id) { return cabinetState.collectedArtifacts.includes(id); }
+function hasSavedBook(id) { return cabinetState.savedBooks.includes(id); }
 
 function collectibleText(world, field) {
   const c = world.collectible;
   return (c[currentLang] && c[currentLang][field]) || c.en[field];
 }
 
-/* awarded after a meaningful interaction (the bite), never on mere load */
-function collectArtifact(world) {
-  if (!world || !world.collectible || hasArtifact(world.collectible.id)) return;
-  cabinetState.collectedArtifacts.push(world.collectible.id);
+/* Saving is explicit and lives at the end of the book. Discovery itself is
+   recorded as soon as a world opens, independently of this cabinet choice. */
+function saveBookToCabinet(world) {
+  if (!world || hasSavedBook(world.id)) return;
+  cabinetState.savedBooks.push(world.id);
+  if (world.collectible && !hasArtifact(world.collectible.id)) {
+    cabinetState.collectedArtifacts.push(world.collectible.id);
+  }
   saveCabinet();
   showCabinetToast(world);
   if (cabinetKeyBtn) cabinetKeyBtn.classList.add("is-new");
@@ -2582,7 +2634,16 @@ function cabinetEmptySlots() {
 }
 
 function renderCabinet() {
-  const items = WORLDS.filter(w => w.collectible && hasArtifact(w.collectible.id));
+  const items = WORLDS.filter(w => hasSavedBook(w.id));
+  const discovered = WORLDS.filter(w => cabinetState.visitedWorlds.includes(w.id));
+  if (cabinetDiscovered) {
+    cabinetDiscovered.textContent = interpolate(ui("cabinetDiscovered"), { n: discovered.length });
+  }
+  if (cabinetDownloadAll) {
+    cabinetDownloadAll.textContent = ui("cabinetDownloadAll");
+    cabinetDownloadAll.disabled = discovered.length === 0;
+    cabinetDownloadAll.title = discovered.length ? "" : ui("cabinetNoDownloads");
+  }
   if (!items.length) {
     cabinetShelf.innerHTML = `<p class="cabinet__empty">${ui("cabinetEmpty")}</p>` + cabinetEmptySlots();
     cabinetHintText.hidden = true;
@@ -2625,6 +2686,7 @@ if (bookKeyBtn) bookKeyBtn.addEventListener("click", () => {
 
 if (cabinetKeyBtn) cabinetKeyBtn.addEventListener("click", openCabinet);
 if (cabinetClose) cabinetClose.addEventListener("click", closeCabinet);
+if (cabinetDownloadAll) cabinetDownloadAll.addEventListener("click", printDiscoveredCollection);
 if (cabinetOverlay) {
   cabinetOverlay.addEventListener("click", e => { if (e.target === cabinetOverlay) closeCabinet(); });
   cabinetOverlay.addEventListener("keydown", e => { if (e.key === "Escape") closeCabinet(); });
@@ -2823,6 +2885,7 @@ const leaf = document.getElementById("leaf");
 const leafClose = document.getElementById("leafClose");
 const leafDismiss = document.getElementById("leafDismiss");
 const leafSave = document.getElementById("leafSave");
+const printCollection = document.getElementById("printCollection");
 let lastFocused = null;
 
 function setFigureImage(figure, img, world, altText) {
@@ -2865,6 +2928,95 @@ function fillPrintCard(world) {
     interpolate(ui("printImageAlt"), { name: worldText(world, "name") })
   );
 }
+
+function escapeMarkup(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+/* A complete, quiet print edition of a Book of Taste. This is intentionally
+   browser-native: visitors can save it as PDF without a heavy export library. */
+function printableBook(world, index) {
+  const steps = journeySteps(world);
+  const illustratedJourney = steps.map((step, stepIndex) => {
+    const art = journeyArtwork(world, step, stepIndex);
+    const image = art
+      ? `<img class="print-book__journey-image" src="${escapeMarkup(art)}" alt="${escapeMarkup(step.name)}">`
+      : "";
+    return `<section class="print-book__step">
+        <p class="print-book__date">${escapeMarkup(step.date)} · ${escapeMarkup(step.place)}</p>
+        <h3>${escapeMarkup(step.name)}</h3>
+        ${step.paras.map(p => `<p>${escapeMarkup(p)}</p>`).join("")}
+        ${image}
+      </section>`;
+  }).join("");
+
+  return `<article class="print-book${index > 0 ? " print-book--new" : ""}">
+      <header class="print-book__header">
+        <p class="print-book__project">${escapeMarkup(ui("printProject"))}</p>
+        <p class="print-book__object">${escapeMarkup(worldText(world, "objectNumber"))}</p>
+        <img class="print-book__hero" src="${escapeMarkup(world.assets.dessertWhole)}" alt="${escapeMarkup(worldText(world, "name"))}">
+        <h1>${escapeMarkup(worldText(world, "name"))}</h1>
+        <p class="print-book__context">${escapeMarkup(worldText(world, "context"))}</p>
+        <p class="print-book__aftertaste">${escapeMarkup(worldText(world, "aftertaste"))}</p>
+      </header>
+      <h2>${escapeMarkup(bookLang(world).journeyTitle)}</h2>
+      ${illustratedJourney}
+      <section class="print-book__practice">
+        <h2>${escapeMarkup(ui("takeItHome"))}</h2>
+        <p>${escapeMarkup(worldText(world, "takeItHome"))}</p>
+        <p class="print-book__reflection">${escapeMarkup(worldText(world, "reflection"))}</p>
+      </section>
+      <section class="print-book__recipe">
+        <h2>${escapeMarkup(worldText(world, "recipeTitle"))}</h2>
+        <p class="print-book__note">${escapeMarkup(worldText(world, "recipeNote"))}</p>
+        <div class="print-book__columns">
+          <div><h3>${escapeMarkup(ui("ingredients"))}</h3><ul>${worldList(world, "ingredients").map(item => `<li>${escapeMarkup(item)}</li>`).join("")}</ul></div>
+          <div><h3>${escapeMarkup(ui("method"))}</h3><ol>${worldList(world, "steps").map(step => `<li>${escapeMarkup(step)}</li>`).join("")}</ol></div>
+        </div>
+      </section>
+    </article>`;
+}
+
+function printBooks(worlds) {
+  if (!printCollection || !worlds.length) return;
+  printCollection.innerHTML = worlds.map(printableBook).join("");
+  printCollection.setAttribute("aria-hidden", "false");
+  document.body.dataset.printMode = "books";
+
+  const pendingImages = [...printCollection.querySelectorAll("img")]
+    .filter(img => !img.complete)
+    .map(img => new Promise(resolve => {
+      img.addEventListener("load", resolve, { once: true });
+      img.addEventListener("error", resolve, { once: true });
+    }));
+
+  Promise.race([
+    Promise.all(pendingImages),
+    new Promise(resolve => window.setTimeout(resolve, 1200))
+  ]).then(() => window.print());
+}
+
+function printCurrentBook(world) {
+  if (world) printBooks([world]);
+}
+
+function printDiscoveredCollection() {
+  const discovered = WORLDS.filter(world => cabinetState.visitedWorlds.includes(world.id));
+  if (discovered.length) printBooks(discovered);
+}
+
+window.addEventListener("afterprint", () => {
+  delete document.body.dataset.printMode;
+  if (printCollection) {
+    printCollection.innerHTML = "";
+    printCollection.setAttribute("aria-hidden", "true");
+  }
+});
 
 function populateLeaf(world) {
   document.getElementById("leafCatalogue").textContent =
@@ -2913,7 +3065,10 @@ function closeLeaf() {
 
 leafClose.addEventListener("click", closeLeaf);
 leafDismiss.addEventListener("click", closeLeaf);
-leafSave.addEventListener("click", () => window.print());
+leafSave.addEventListener("click", () => {
+  delete document.body.dataset.printMode;
+  window.print();
+});
 veil.addEventListener("click", e => { if (e.target === veil) closeLeaf(); });
 
 /* keep focus inside the leaf while it is open */
@@ -2959,6 +3114,7 @@ const recipeNote = document.getElementById("recipeNote");
 const recipeCompleteText = document.getElementById("recipeCompleteText");
 const bookBack = document.getElementById("bookBack");
 const bookPrint = document.getElementById("bookPrint");
+const bookSave = document.getElementById("bookSave");
 
 let bookLastFocused = null;
 let bookState = null;
@@ -2970,6 +3126,48 @@ function bookWorld() {
 }
 function bookLang(world) { return world.book[currentLang] || world.book.en; }
 function chapterTitle(chapter) { return currentLang === "ru" ? chapter.ru : chapter.en; }
+
+/* The source histories remain untouched. Four archival stops are presented as
+   three reader-facing steps by folding the two most recent stops together. */
+function journeySteps(world) {
+  const source = bookLang(world).stops || [];
+  const groups = source.length <= 3
+    ? source.map((_, i) => [i])
+    : [[0], [1], Array.from({ length: source.length - 2 }, (_, i) => i + 2)];
+
+  return groups.map(indices => {
+    const entries = indices.map(i => source[i]).filter(Boolean);
+    const first = entries[0];
+    const last = entries[entries.length - 1];
+    const places = [...new Set(entries.map(entry => entry.place).filter(Boolean))];
+    return {
+      date: first === last ? first.date : `${first.date} — ${last.date}`,
+      name: first === last ? first.name : `${first.name} → ${last.name}`,
+      place: places.join(" · "),
+      paras: entries.flatMap(entry => entry.paras || []),
+      sourceIndices: indices
+    };
+  });
+}
+
+function journeyArtwork(world, step, index) {
+  const artwork = world.book.artwork || [];
+  if (artwork.length === 3) return artwork[index];
+  for (let i = step.sourceIndices.length - 1; i >= 0; i -= 1) {
+    const art = artwork[step.sourceIndices[i]];
+    if (art) return art;
+  }
+  const fallbacks = [
+    world.assets.character || world.assets.memory || world.assets.background,
+    world.assets.magic || world.assets.background,
+    world.assets.recipeImage || world.assets.dessertWhole
+  ];
+  return fallbacks[index] || world.assets.background;
+}
+
+function journeyRevealType(world) {
+  return world.interaction?.microType || world.interaction?.type || "fade";
+}
 
 function newBookState(worldId) {
   return {
@@ -2983,7 +3181,7 @@ function newBookState(worldId) {
 /* ---- PAGE I: the cultural journey ---- */
 
 function renderJourneyStops(world) {
-  const stops = bookLang(world).stops;
+  const stops = journeySteps(world);
   const opened = bookState.openedStops;
   const maxOpened = opened.size ? Math.max(...opened) : -1;
 
@@ -3009,7 +3207,8 @@ function renderJourneyStops(world) {
 }
 
 function renderStopDetail(world, index) {
-  const stop = index >= 0 ? bookLang(world).stops[index] : null;
+  const steps = journeySteps(world);
+  const stop = index >= 0 ? steps[index] : null;
   if (!stop) {
     journeyDate.textContent = "";
     journeyStopTitle.textContent = "";
@@ -3021,11 +3220,12 @@ function renderStopDetail(world, index) {
   journeyStopTitle.textContent = stop.name;
 
   /* an illustration for this stop, when the world provides one (shared by index) */
-  const art = world.book.artwork && world.book.artwork[index];
+  const art = journeyArtwork(world, stop, index);
   if (journeyArtFigure && journeyArt) {
     if (art) {
       journeyArt.src = art;
       journeyArt.alt = stop.name;
+      journeyArt.dataset.reveal = journeyRevealType(world);
       journeyArtFigure.hidden = false;
       /* restart the fade-in each time the stop changes */
       journeyArt.style.animation = "none";
@@ -3054,13 +3254,14 @@ function renderStopDetail(world, index) {
 
 function openJourneyStop(index) {
   const world = bookWorld();
-  const stops = bookLang(world).stops;
+  const stops = journeySteps(world);
   const unlocked = index === 0 || bookState.openedStops.has(index - 1);
   if (!unlocked) return;
   bookState.openedStops.add(index);
   bookState.currentStop = index;
   renderJourneyStops(world);
   renderStopDetail(world, index);
+  renderPractice(world, bookState.openedStops.size >= 2);
   if (bookState.openedStops.size === stops.length) completeJourney(world);
 }
 
@@ -3151,6 +3352,8 @@ function renderBookStatic(world) {
   document.getElementById("bookIngredientsHeading").textContent = ui("ingredients");
   document.getElementById("bookMethodHeading").textContent = ui("method");
   bookPrint.textContent = ui("saveRecipe");
+  bookSave.textContent = hasSavedBook(world.id) ? ui("bookSaved") : ui("saveBook");
+  bookSave.disabled = hasSavedBook(world.id);
   bookClose.setAttribute("aria-label", ui("close"));
   journeyFinal.textContent = bookLang(world).journeyFinal;
 }
@@ -3161,9 +3364,9 @@ function renderBook(world) {
   renderStopDetail(world, bookState.currentStop);
   renderRecipePage(world);
 
-  const journeyDone = bookState.openedStops.size === bookLang(world).stops.length;
+  const journeyDone = bookState.openedStops.size === journeySteps(world).length;
   journeyFinal.hidden = !journeyDone;
-  renderPractice(world, journeyDone);
+  renderPractice(world, bookState.openedStops.size >= 2);
   bookNext.disabled = !journeyDone;
   bookPageJourney.classList.toggle("is-journey-complete", journeyDone);
 
@@ -3207,7 +3410,12 @@ bookClose.addEventListener("click", closeBook);
 book.addEventListener("click", e => { if (e.target === book) closeBook(); });
 bookNext.addEventListener("click", () => { if (!bookNext.disabled) turnBookPage("recipe"); });
 bookBack.addEventListener("click", () => turnBookPage("journey"));
-bookPrint.addEventListener("click", () => window.print());
+bookPrint.addEventListener("click", () => printCurrentBook(bookWorld()));
+bookSave.addEventListener("click", () => {
+  const world = bookWorld();
+  saveBookToCabinet(world);
+  renderBookStatic(world);
+});
 
 journeyStops.addEventListener("click", e => {
   const b = e.target.closest(".journey-stop");

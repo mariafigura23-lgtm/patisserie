@@ -328,13 +328,22 @@ button { font: inherit; color: inherit; }
   to   { transform: translate3d(1.5px, -3px, 0); }
 }
 
-/* "layers" interaction — the dessert is revealed bottom-to-top, one layer at a
-   time, then rests fully assembled */
-.scene__dessert.is-building .scene__dessert-image--whole {
-  clip-path: inset(var(--clip-top, 0%) 0 0 0);
-  transition: clip-path 0.6s cubic-bezier(0.36, 0.9, 0.32, 1);
+/* "layers" interaction — real photographed build stages replace the former
+   geometric crop, so every activation adds visible pastry and cream. */
+.scene__dessert-image--build-stage {
+  opacity: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.55));
+  transform: translateY(5px) scale(0.985);
+  transition: opacity 0.52s ease, transform 0.62s cubic-bezier(0.22, 0.9, 0.3, 1);
 }
+.scene__dessert.is-building .scene__dessert-image--whole,
 .scene__dessert.is-building .scene__dessert-image--bitten { opacity: 0; }
+.scene__dessert.is-building .scene__dessert-image--build-stage.is-active-stage {
+  opacity: 1;
+  transform: none;
+}
+.scene__dessert.is-settling .scene__dessert-image--build-stage.is-active-stage,
 .scene__dessert.is-settling .scene__dessert-image--whole { animation: dessertSettle 0.44s ease-out; }
 
 @keyframes dessertSettle {
@@ -344,7 +353,7 @@ button { font: inherit; color: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scene__dessert.is-building .scene__dessert-image--whole { transition: none; }
+  .scene__dessert-image--build-stage { transition: none; }
   .scene__dessert.is-settling .scene__dessert-image--whole { animation: none; }
 }
 
@@ -676,9 +685,41 @@ button { font: inherit; color: inherit; }
   100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
+/* Napoleon — the fragments arrive in visual tiers, echoing the cake's real
+   build stages without asking the visitor to learn a second control. */
+.scene.micro-layers.is-bitten-world .hotspot {
+  visibility: visible;
+  opacity: 0;
+  animation: fragmentLayerIn 1.05s cubic-bezier(0.22, 0.9, 0.3, 1) both;
+  animation-delay: calc(0.28s + var(--i, 0) * 0.34s);
+}
+@keyframes fragmentLayerIn {
+  0%   { opacity: 0; transform: translate(-50%, calc(-50% + 18px)) scaleX(0.72); }
+  65%  { opacity: 1; transform: translate(-50%, calc(-50% - 3px)) scaleX(1.04); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scaleX(1); }
+}
+
+/* Tiramisù — tirami sù: each object is gently lifted into attention. */
+.scene.micro-lift.is-bitten-world .hotspot {
+  visibility: visible;
+  opacity: 0;
+  animation: fragmentLift 1.35s cubic-bezier(0.2, 0.9, 0.28, 1) both;
+  animation-delay: calc(0.3s + var(--i, 0) * 0.42s);
+}
+@keyframes fragmentLift {
+  0%   { opacity: 0; transform: translate(-50%, calc(-50% + 32px)) scale(0.82); filter: blur(2px); }
+  60%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); }
+}
+.scene.micro-lift .hotspot.is-explored .hotspot__ring {
+  transform: translate(-50%, calc(-50% - 5px)) rotate(-4deg) scale(0.9);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scene.micro-present.is-bitten-world .hotspot,
-  .scene.micro-arrange.is-bitten-world .hotspot { animation: none; opacity: 1; transform: translate(-50%, -50%); }
+  .scene.micro-arrange.is-bitten-world .hotspot,
+  .scene.micro-layers.is-bitten-world .hotspot,
+  .scene.micro-lift.is-bitten-world .hotspot { animation: none; opacity: 1; transform: translate(-50%, -50%); }
 }
 
 /* a small hand-drawn gold ring, breathing slowly */
@@ -2725,6 +2766,32 @@ button { font: inherit; color: inherit; }
   0%   { opacity: 0; transform: translateY(8px) scale(0.985); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
+.journey-detail__art img[data-reveal="memories"] { animation-name: journeyMemoryIn; }
+.journey-detail__art img[data-reveal="present"]  { animation-name: journeyPresentIn; }
+.journey-detail__art img[data-reveal="layers"]   { animation-name: journeyLayersIn; }
+.journey-detail__art img[data-reveal="lift"]     { animation-name: journeyLiftIn; }
+.journey-detail__art img[data-reveal="arrange"]  { animation-name: journeyArrangeIn; }
+@keyframes journeyMemoryIn {
+  from { opacity: 0; filter: blur(5px) sepia(0.2); transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; filter: blur(0) sepia(0); transform: none; }
+}
+@keyframes journeyPresentIn {
+  0%   { opacity: 0; transform: scale(0.93); filter: saturate(0.75); }
+  70%  { opacity: 1; transform: scale(1.012); filter: saturate(1.08); }
+  100% { opacity: 1; transform: scale(1); filter: saturate(1); }
+}
+@keyframes journeyLayersIn {
+  from { opacity: 0; clip-path: inset(35% 0 0); transform: translateY(12px); }
+  to   { opacity: 1; clip-path: inset(0); transform: none; }
+}
+@keyframes journeyLiftIn {
+  from { opacity: 0; transform: translateY(22px) scale(0.98); filter: brightness(0.82); }
+  to   { opacity: 1; transform: none; filter: brightness(1); }
+}
+@keyframes journeyArrangeIn {
+  from { opacity: 0; transform: translateY(-12px) rotate(-0.7deg) scale(1.015); }
+  to   { opacity: 1; transform: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .journey-detail__art img { animation: none; }
 }
@@ -3163,6 +3230,28 @@ button { font: inherit; color: inherit; }
 .book-print:focus-visible { background: linear-gradient(180deg, #9c7b3e, #7d6132); }
 .book-print:focus-visible { outline: 2px solid var(--brass-pale); outline-offset: 2px; }
 
+.book-save {
+  font-family: var(--serif-caps);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brass-pale);
+  background: rgba(13, 18, 31, 0.58);
+  border: 1px solid rgba(224, 193, 132, 0.48);
+  border-radius: 2px;
+  padding: 0.9em 1.7em;
+  min-height: 44px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+.book-save:hover,
+.book-save:focus-visible {
+  border-color: var(--brass-pale);
+  background: rgba(38, 43, 55, 0.72);
+}
+.book-save:focus-visible { outline: 2px solid var(--brass-pale); outline-offset: 2px; }
+.book-save:disabled { opacity: 0.55; cursor: default; }
+
 /* ---- book: mobile ---- */
 
 @media (max-width: 900px) {
@@ -3225,7 +3314,8 @@ button { font: inherit; color: inherit; }
   .book-page.is-journey-complete::after { animation: none !important; opacity: 0.5; }
 }
 
-.print-card { display: none; }
+.print-card,
+.print-collection { display: none; }
 
 @media print {
   @page { margin: 1.1cm; }
@@ -3383,6 +3473,85 @@ button { font: inherit; color: inherit; }
     line-height: 1.5;
     color: #4a3c28;
   }
+
+  body[data-print-mode="books"] .print-card { display: none; }
+  body[data-print-mode="books"] .print-collection {
+    display: block;
+    font-family: "EB Garamond", Georgia, serif;
+    color: #2d2216;
+    max-width: 17cm;
+    margin: 0 auto;
+  }
+
+  .print-book--new { break-before: page; }
+  .print-book__header { text-align: center; }
+  .print-book__project {
+    font-family: "IM Fell English SC", serif;
+    font-size: 10.5pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #5e4a22;
+    margin-bottom: 0.12cm;
+  }
+  .print-book__object,
+  .print-book__context,
+  .print-book__date {
+    font-family: "IM Fell English SC", serif;
+    font-size: 8.5pt;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #6a5a40;
+  }
+  .print-book__hero {
+    display: block;
+    width: 100%;
+    max-height: 5.2cm;
+    object-fit: contain;
+    margin: 0.2cm auto;
+  }
+  .print-book h1 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 24pt;
+    line-height: 1;
+    margin: 0.12cm 0;
+  }
+  .print-book h2 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 16pt;
+    text-align: center;
+    color: #49391f;
+    border-top: 0.5pt solid #a08a5c;
+    padding-top: 0.3cm;
+    margin: 0.55cm 0 0.25cm;
+  }
+  .print-book h3 {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 12pt;
+    margin: 0.08cm 0 0.15cm;
+  }
+  .print-book p,
+  .print-book li { font-size: 9.5pt; line-height: 1.46; }
+  .print-book__aftertaste,
+  .print-book__reflection,
+  .print-book__note { font-style: italic; color: #584a35; }
+  .print-book__step,
+  .print-book__practice,
+  .print-book__recipe { break-inside: avoid; }
+  .print-book__step { margin-bottom: 0.45cm; }
+  .print-book__journey-image {
+    display: block;
+    width: 100%;
+    max-height: 5.4cm;
+    object-fit: contain;
+    margin: 0.2cm auto 0;
+  }
+  .print-book__columns {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 0.7cm;
+  }
+  .print-book__columns ul,
+  .print-book__columns ol { padding-left: 0.45cm; }
 }
 
 
@@ -5519,7 +5688,14 @@ body.is-world-gateway-active #dial,
   color: var(--brass-pale);
 }
 
-.recipe-actions { margin-top: 1.4rem; text-align: center; }
+.recipe-actions {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+  text-align: center;
+}
 
 @media (max-width: 900px) {
   .recipe-lead { grid-template-columns: 1fr; gap: 1rem; text-align: center; }
@@ -5729,6 +5905,38 @@ body.is-world-gateway-active #dial,
   color: rgba(224, 193, 132, 0.5);
 }
 
+.cabinet__actions {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(224, 193, 132, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.cabinet__discovered {
+  font-family: var(--serif-display);
+  font-style: italic;
+  color: rgba(230, 219, 194, 0.72);
+}
+.cabinet__download {
+  min-height: 42px;
+  padding: 0.72em 1.15em;
+  border: 1px solid rgba(224, 193, 132, 0.46);
+  border-radius: 3px;
+  background: rgba(224, 193, 132, 0.1);
+  color: var(--brass-pale);
+  font-family: var(--serif-caps);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.cabinet__download:hover,
+.cabinet__download:focus-visible { background: rgba(224, 193, 132, 0.18); }
+.cabinet__download:focus-visible { outline: 2px solid var(--brass-pale); outline-offset: 2px; }
+.cabinet__download:disabled { opacity: 0.42; cursor: default; }
+
 /* ---- the quiet toast ---- */
 .cabinet-toast {
   position: fixed;
@@ -5761,6 +5969,7 @@ body.is-world-gateway-active #dial,
 
 @media (max-width: 900px) {
   .cabinet__shelf { grid-template-columns: 1fr; }
+  .cabinet__actions { align-items: stretch; flex-direction: column; text-align: center; }
 }
 
 /* the class display rules above beat the default [hidden]; restore it */
