@@ -74,11 +74,7 @@ const WORLDS = [
         mobile:  { left: "50%", top: "41.5%", width: "74%" }
       }
     },
-    layers: {
-      magic:      { left: "56%", top: "4%", width: "16%" },
-      character:  { left: "70.5%", top: "40%", width: "10%" },
-      foreground: { left: "-2%", top: "68%", width: "104%" }
-    },
+    layers: {},
     backgroundPosition: { desktop: "50% 50%", mobile: "50% 46%" },
     biteCrumbColor: "#d9b46e",
     hotspots: [
@@ -276,11 +272,7 @@ const WORLDS = [
         mobile:  { left: "52%", top: "40.5%", width: "77%" }
       }
     },
-    layers: {
-      magic:      { left: "59%", top: "7%", width: "24%" },
-      character:  { left: "12%", top: "36%", width: "12.5%" },
-      foreground: { left: "-2%", top: "70%", width: "104%" }
-    },
+    layers: {},
     backgroundPosition: { desktop: "50% 50%", mobile: "50% 47%" },
     biteCrumbColor: "#e6c98f",
     biteCrumbAccent: "#7e8c46", /* one pistachio crumb falls after the bite */
@@ -468,11 +460,7 @@ const WORLDS = [
         mobile:  { left: "50%", top: "41.5%", width: "82%" }
       }
     },
-    layers: {
-      magic:      { left: "42%", top: "16%", width: "18%" },
-      character:  { left: "2.5%", top: "10%", width: "22%", blend: "multiply", memory: true },
-      foreground: { left: "-2%", top: "52%", width: "104%" }
-    },
+    layers: {},
     backgroundPosition: { desktop: "50% 48%", mobile: "50% 50%" },
     biteCrumbColor: "#e9ddba",
     hotspots: [
@@ -850,10 +838,7 @@ const WORLDS = [
         mobile:  { left: "50%", top: "41.5%", width: "79%" }
       }
     },
-    layers: {
-      magic:      { left: "56.5%", top: "14%", width: "16%", portal: true },
-      character:  { left: "2.5%", top: "28%", width: "26%", vignette: true }
-    },
+    layers: {},
     backgroundPosition: { desktop: "60% 50%", mobile: "60% 48%" },
     biteCrumbColor: "#f2dfc9",
     hotspots: [
@@ -1682,8 +1667,10 @@ function buildScene(world) {
   /* 5 · foreground intentionally disabled.
      The previous full-width foreground strips obscured the plate and hotspots. */
 
-  /* 6 · generated particles */
-  scene.appendChild(buildParticles(world));
+  /* 6 · generated particles — disabled: the framed backgrounds are complete on
+     their own, and the stray motes read as unpolished. buildParticles is kept
+     for possible future, world-specific ambience. */
+  /* scene.appendChild(buildParticles(world)); */
 
   /* 7 · the pulse of the bite */
   const pulse = document.createElement("div");
