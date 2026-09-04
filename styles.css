@@ -722,6 +722,18 @@ button { font: inherit; color: inherit; }
   50%      { transform: translate(-50%, -50%) rotate(-4deg) scale(1.28); opacity: 1; }
 }
 
+/* fragments answer the cursor / touch — clearly something you can open. The
+   ring (a child) is safe to transform; the hotspot element itself is held by
+   the reveal animation's fill, so we lift the ring instead. */
+.hotspot__ring { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.hotspot:hover .hotspot__ring,
+.hotspot:active .hotspot__ring {
+  transform: translate(-50%, -50%) rotate(-4deg) scale(1.32);
+  box-shadow: 0 0 0 5px rgba(7, 12, 23, 0.34), 0 0 30px rgba(255, 211, 105, 1), 0 0 8px rgba(255, 243, 204, 0.95) inset;
+}
+.hotspot:active .hotspot__ring { transform: translate(-50%, -50%) rotate(-4deg) scale(1.12); }
+.scene.is-bitten-world .hotspot:not(.is-explored):hover .hotspot__ring { animation: none; }
+
 /* explored fragments settle into a quiet mark */
 .hotspot.is-explored .hotspot__ring {
   border-color: rgba(232, 200, 127, 0.4);
@@ -4446,6 +4458,50 @@ html[lang="ru"] .hotspot__label {
 
 .world-gateway.is-active .world-gateway__halo {
   animation: gatewayHalo 1.05s cubic-bezier(.22,.72,.18,1) both;
+}
+
+/* a thin golden line that draws across the stage as the worlds change */
+.world-gateway__line {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: 50% 50%;
+  background: linear-gradient(90deg, transparent, rgba(239, 217, 161, 0.85) 22%, #fff6dd 50%, rgba(239, 217, 161, 0.85) 78%, transparent);
+  box-shadow: 0 0 14px rgba(239, 217, 161, 0.7);
+  opacity: 0;
+}
+.world-gateway.is-active .world-gateway__line {
+  animation: gatewayLine 0.92s cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+@keyframes gatewayLine {
+  0%   { opacity: 0; transform: translateY(-50%) scaleX(0); }
+  28%  { opacity: 1; }
+  56%  { opacity: 1; transform: translateY(-50%) scaleX(1); }
+  100% { opacity: 0; transform: translateY(-50%) scaleX(1); }
+}
+
+/* a small celestial spark at the centre of the change */
+.world-gateway__spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6dd, rgba(239, 217, 161, 0.6) 42%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+}
+.world-gateway.is-active .world-gateway__spark {
+  animation: gatewaySpark 0.92s ease-out both;
+}
+@keyframes gatewaySpark {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  30%  { opacity: 1; transform: translate(-50%, -50%) scale(1.7); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.4); }
 }
 
 .world-gateway__dial {
