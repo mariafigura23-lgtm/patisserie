@@ -2557,23 +2557,33 @@ function showCabinetToast(world) {
   }, 3200);
 }
 
+/* a small, fixed number of darkened recesses hint that more can be found,
+   without ever revealing how many worlds exist */
+const CABINET_EMPTY_SLOTS = 3;
+function cabinetEmptySlots() {
+  let html = "";
+  for (let i = 0; i < CABINET_EMPTY_SLOTS; i++) {
+    html += `<figure class="specimen specimen--empty" aria-hidden="true"><span class="specimen__icon specimen__icon--empty"></span></figure>`;
+  }
+  return html;
+}
+
 function renderCabinet() {
   const items = WORLDS.filter(w => w.collectible && hasArtifact(w.collectible.id));
   if (!items.length) {
-    cabinetShelf.innerHTML = `<p class="cabinet__empty">${ui("cabinetEmpty")}</p>`;
+    cabinetShelf.innerHTML = `<p class="cabinet__empty">${ui("cabinetEmpty")}</p>` + cabinetEmptySlots();
     cabinetHintText.hidden = true;
     return;
   }
-  cabinetShelf.innerHTML = items.map(w => `
+  const collected = items.map(w => `
       <figure class="specimen">
         <span class="specimen__icon" aria-hidden="true">${w.collectible.icon || "✦"}</span>
         <figcaption class="specimen__caption">
           <span class="specimen__name">${collectibleText(w, "name")}</span>
           <span class="specimen__from">${interpolate(ui("cabinetFrom"), { world: worldText(w, "name") })}</span>
-          <span class="specimen__note">${collectibleText(w, "note")}</span>
         </figcaption>
       </figure>`).join("");
-  /* a vague suggestion that more may exist — never a count */
+  cabinetShelf.innerHTML = collected + cabinetEmptySlots();
   cabinetHintText.textContent = ui("cabinetHint");
   cabinetHintText.hidden = false;
 }
