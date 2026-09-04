@@ -2708,6 +2708,27 @@ button { font: inherit; color: inherit; }
   border-left: 1px solid rgba(224, 193, 132, 0.2);
 }
 
+/* an illustration for the open stop — a torn-collage plate on the dark page */
+.journey-detail__art {
+  margin: 0 0 0.85rem;
+}
+.journey-detail__art[hidden] { display: none; }
+.journey-detail__art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.5));
+  animation: journeyArtIn 0.7s ease both;
+}
+@keyframes journeyArtIn {
+  0%   { opacity: 0; transform: translateY(8px) scale(0.985); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-detail__art img { animation: none; }
+}
+
 .journey-detail__date {
   font-family: var(--serif-caps);
   font-size: 0.68rem;

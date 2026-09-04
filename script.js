@@ -214,6 +214,13 @@ const WORLDS = [
         { steps: [2, 3], en: "Add the aroma",       ru: "Добавьте аромат" },
         { steps: [4, 5], en: "Butter and waiting",  ru: "Масло и ожидание" },
         { steps: [6, 7], en: "Fill and bake",       ru: "Наполните и испеките" }
+      ],
+      /* one illustration per journey stop (shared across languages, by index) */
+      artwork: [
+        "assets/madeleine-journey-1.webp",
+        "assets/madeleine-journey-2.webp",
+        "assets/madeleine-journey-3.webp",
+        "assets/madeleine-journey-4.webp"
       ]
     },
     symbol: "shell",
@@ -398,6 +405,12 @@ const WORLDS = [
         { steps: [1, 2], en: "Mix the filling",    ru: "Смешайте начинку" },
         { steps: [3],    en: "Let it rest",        ru: "Дайте настояться" },
         { steps: [4, 5], en: "Fill and finish",    ru: "Наполните и подайте" }
+      ],
+      artwork: [
+        "assets/cannoli-journey-1.webp",
+        "assets/cannoli-journey-2.webp",
+        "assets/cannoli-journey-3.webp",
+        "assets/cannoli-journey-4.webp"
       ]
     },
     symbol: "spiral",
@@ -2929,6 +2942,8 @@ const journeyTrackFill = document.getElementById("journeyTrackFill");
 const journeyDate = document.getElementById("journeyDate");
 const journeyStopTitle = document.getElementById("journeyStopTitle");
 const journeyText = document.getElementById("journeyText");
+const journeyArtFigure = document.getElementById("journeyArtFigure");
+const journeyArt = document.getElementById("journeyArt");
 const journeyFinal = document.getElementById("journeyFinal");
 const journeyPractice = document.getElementById("journeyPractice");
 const practiceHeading = document.getElementById("practiceHeading");
@@ -2999,10 +3014,28 @@ function renderStopDetail(world, index) {
     journeyDate.textContent = "";
     journeyStopTitle.textContent = "";
     journeyText.innerHTML = `<p class="journey-line journey-line--hint">${ui("journeyHint")}</p>`;
+    if (journeyArtFigure) journeyArtFigure.hidden = true;
     return;
   }
   journeyDate.textContent = stop.date;
   journeyStopTitle.textContent = stop.name;
+
+  /* an illustration for this stop, when the world provides one (shared by index) */
+  const art = world.book.artwork && world.book.artwork[index];
+  if (journeyArtFigure && journeyArt) {
+    if (art) {
+      journeyArt.src = art;
+      journeyArt.alt = stop.name;
+      journeyArtFigure.hidden = false;
+      /* restart the fade-in each time the stop changes */
+      journeyArt.style.animation = "none";
+      void journeyArt.offsetWidth;
+      journeyArt.style.animation = "";
+    } else {
+      journeyArtFigure.hidden = true;
+      journeyArt.removeAttribute("src");
+    }
+  }
 
   /* the first paragraph is always shown; the rest fold behind "read more"
      so the history stays short for anyone who wants it brief */
