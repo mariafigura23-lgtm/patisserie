@@ -1958,15 +1958,20 @@ const stageCta = document.getElementById("stageCta");
 const stageWrap = document.querySelector(".stage-wrap");
 const mobileFlow = document.getElementById("mobileFlow");
 const responsiveFragment = document.getElementById("fragment");
+const fragmentBackdrop = document.getElementById("fragmentBackdrop");
 
 function arrangeResponsiveInterface() {
   if (mobileLayout.matches) {
-    /* Anchor the pager to the collage image itself (not the wrap, which also
-       holds the caption flow) so it never lands on the caption text. */
-    stage.appendChild(dial);
-    mobileFlow.append(strip, questGuide, responsiveFragment, stageCta);
+    /* Keep fragment reading on top of the collage; only the supporting cards
+       continue in the calm vertical flow underneath. */
+    stage.append(dial, fragmentBackdrop, responsiveFragment);
+    mobileFlow.append(strip, questGuide, stageCta);
+    fragmentBackdrop.hidden = responsiveFragment.hidden;
+    stage.classList.toggle("is-fragment-open", !responsiveFragment.hidden);
   } else {
-    stage.append(questGuide, responsiveFragment, strip, stageCta);
+    fragmentBackdrop.hidden = true;
+    stage.classList.remove("is-fragment-open");
+    stage.append(questGuide, fragmentBackdrop, responsiveFragment, strip, stageCta);
     stageWrap.appendChild(dial);
   }
 }
@@ -2770,6 +2775,10 @@ function openFragment(world, spot, hotspotBtn) {
   fragmentSource = hotspotBtn;
 
   fragment.hidden = false;
+  if (mobileLayout.matches) {
+    fragmentBackdrop.hidden = false;
+    stage.classList.add("is-fragment-open");
+  }
   fragment.classList.add("is-entering");
   requestAnimationFrame(() => requestAnimationFrame(() => {
     fragment.classList.remove("is-entering");
@@ -2791,25 +2800,12 @@ function openFragment(world, spot, hotspotBtn) {
 
     window.setTimeout(() => completeWorld(world), 180);
 
-    if (mobileLayout.matches) {
-      window.setTimeout(() => {
-        fragment.scrollIntoView({
-          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
-          block: "start"
-        });
-      }, prefersReducedMotion.matches ? 220 : 1050);
-    }
+    if (mobileLayout.matches) fragmentClose.focus({ preventScroll: true });
     return;
   }
 
   if (mobileLayout.matches) {
-    fragmentReturn.focus({ preventScroll: true });
-    window.setTimeout(() => {
-      fragment.scrollIntoView({
-        behavior: prefersReducedMotion.matches ? "auto" : "smooth",
-        block: "start"
-      });
-    }, 80);
+    fragmentClose.focus({ preventScroll: true });
   } else {
     fragmentClose.focus({ preventScroll: true });
   }
@@ -2820,6 +2816,8 @@ function closeFragment(returnFocus, suppressCompletion = false) {
 
   const closingWorld = currentId ? worldById(currentId) : null;
   fragment.hidden = true;
+  fragmentBackdrop.hidden = true;
+  stage.classList.remove("is-fragment-open");
 
   if (fragmentSource) {
     fragmentSource.classList.remove("is-open");
@@ -2827,12 +2825,6 @@ function closeFragment(returnFocus, suppressCompletion = false) {
     if (returnFocus) fragmentSource.focus({ preventScroll: true });
   }
   fragmentSource = null;
-
-  if (mobileLayout.matches) {
-    window.setTimeout(() => {
-      stage.scrollIntoView({ behavior: prefersReducedMotion.matches ? "auto" : "smooth", block: "start" });
-    }, 40);
-  }
 
   if (!suppressCompletion && closingWorld) {
     const state = worldState[closingWorld.id];
@@ -2845,6 +2837,7 @@ function closeFragment(returnFocus, suppressCompletion = false) {
 
 fragmentClose.addEventListener("click", () => closeFragment(true));
 fragmentReturn.addEventListener("click", () => closeFragment(false));
+fragmentBackdrop.addEventListener("click", () => closeFragment(true));
 fragmentNextButton.addEventListener("click", openStory);
 
 /* --------------------------------------------------------------------------
