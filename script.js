@@ -593,6 +593,11 @@ const WORLDS = [
           text: "«Наполеон» — это всего лишь тесто и крем, но терпение и есть его суть: ожидание — часть рецепта."
         }
       },
+      artwork: [
+        "assets/napoleon-layer-2.webp",
+        "assets/napoleon-memory.webp",
+        "assets/napoleon-recipe-card.jpg"
+      ],
       chapters: [
         { steps: [0],          en: "Bake the layers",  ru: "Испеките коржи" },
         { steps: [1, 2, 3, 4], en: "Cook the cream",   ru: "Сварите крем" },
@@ -1963,9 +1968,10 @@ const fragmentBackdrop = document.getElementById("fragmentBackdrop");
 function arrangeResponsiveInterface() {
   if (mobileLayout.matches) {
     /* Keep fragment reading on top of the collage; only the supporting cards
-       continue in the calm vertical flow underneath. */
-    stage.append(dial, fragmentBackdrop, responsiveFragment);
-    mobileFlow.append(strip, questGuide, stageCta);
+       continue in the calm vertical flow underneath. The completed-world CTA
+       stays in the scene, directly beneath the dessert. */
+    stage.append(dial, stageCta, fragmentBackdrop, responsiveFragment);
+    mobileFlow.append(strip, questGuide);
     fragmentBackdrop.hidden = responsiveFragment.hidden;
     stage.classList.toggle("is-fragment-open", !responsiveFragment.hidden);
   } else {
