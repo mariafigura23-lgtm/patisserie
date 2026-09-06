@@ -13,7 +13,7 @@
 <link rel="preload" as="image" href="assets/intro-background-desktop.webp" media="(min-width: 1101px)">
 <link rel="preload" as="image" href="assets/intro-background-tablet.webp" media="(min-width: 701px) and (max-width: 1100px)">
 <link rel="preload" as="image" href="assets/intro-background-mobile.webp" media="(max-width: 700px)">
-<link rel="stylesheet" href="styles.css?v=20260906-ux3">
+<link rel="stylesheet" href="styles.css?v=20260906-mobile-overlay">
 </head>
 <body>
 
@@ -81,6 +81,7 @@
       </div>
 
       <!-- fragment panel (hotspot content), injected into the stage -->
+      <div class="fragment-backdrop" id="fragmentBackdrop" hidden aria-hidden="true"></div>
       <div class="fragment" id="fragment" role="dialog" aria-modal="false" aria-labelledby="fragmentTitle" hidden>
         <button class="fragment__close" id="fragmentClose" type="button" aria-label="Close fragment">×</button>
         <p class="fragment__kicker" id="fragmentKicker"></p>
@@ -378,6 +379,6 @@
 <!-- Populated only when the visitor exports every discovered book. -->
 <div class="print-collection" id="printCollection" aria-hidden="true"></div>
 
-<script src="script.js?v=20260906-ux3"></script>
+<script src="script.js?v=20260906-mobile-overlay"></script>
 </body>
 </html>
