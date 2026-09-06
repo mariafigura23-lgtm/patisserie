@@ -13,7 +13,7 @@
 <link rel="preload" as="image" href="assets/intro-background-desktop.webp" media="(min-width: 1101px)">
 <link rel="preload" as="image" href="assets/intro-background-tablet.webp" media="(min-width: 701px) and (max-width: 1100px)">
 <link rel="preload" as="image" href="assets/intro-background-mobile.webp" media="(max-width: 700px)">
-<link rel="stylesheet" href="styles.css?v=20260906-mobile-overlay">
+<link rel="stylesheet" href="styles.css?v=20260906-mobile-cta-napoleon">
 </head>
 <body>
 
@@ -129,8 +129,8 @@
       </button>
     </section>
 
-    <!-- On mobile, JS moves the guide, fragment card, caption, CTA and dial here
-         so the experience becomes a readable vertical scroll instead of stacked overlays. -->
+    <!-- On mobile, JS moves the supporting caption and guide here. The final
+         book action stays beneath the dessert inside the visual scene. -->
     <div class="mobile-flow" id="mobileFlow"></div>
 
     <!-- World pager: plain arrows step through the dessert worlds. Scales to
@@ -379,6 +379,6 @@
 <!-- Populated only when the visitor exports every discovered book. -->
 <div class="print-collection" id="printCollection" aria-hidden="true"></div>
 
-<script src="script.js?v=20260906-mobile-overlay"></script>
+<script src="script.js?v=20260906-mobile-cta-napoleon"></script>
 </body>
 </html>
