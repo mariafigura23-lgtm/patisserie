@@ -6454,3 +6454,34 @@ body.is-world-gateway-active #dial,
     width: 100%;
   }
 }
+
+
+/* ==========================================================================
+   MOBILE BOOK ROUTE — keep the next action with the dessert
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .stage > .stage-cta {
+    left: 50%;
+    top: 72%;
+    right: auto;
+    bottom: auto;
+    z-index: 38;
+    width: min(calc(100% - 2rem), 29rem);
+    min-width: 0;
+    padding: 0.92rem 1rem 0.82rem;
+    transform: translate(-50%, 10px) scale(0.98);
+  }
+
+  .stage > .stage-cta.is-visible {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .stage > .stage-cta__title {
+    font-size: clamp(0.72rem, 3.25vw, 0.84rem);
+  }
+
+  .stage > .stage-cta__note {
+    font-size: clamp(0.82rem, 3.6vw, 0.98rem);
+  }
+}
