@@ -60,11 +60,11 @@ const WORLDS = [
       background: "assets/madeleine-background.jpg",
       fallbackBackground: "assets/madeleine-background.jpg",
       backgroundMobile: "assets/madeleine-background-mobile.jpg",
-      dessertWhole: "assets/madeleine-whole.png",
-      dessertBitten: "assets/madeleine-bitten.png",
+      dessertWhole: "assets/madeleine-whole.webp",
+      dessertBitten: "assets/madeleine-bitten.webp",
       recipeImage: "assets/madeleine-recipe-card.jpg",
-      magic: "assets/madeleine-magic.png",
-      character: "assets/madeleine-rabbit.png",
+      magic: "assets/madeleine-magic.webp",
+      character: "assets/madeleine-rabbit.webp",
     },
     dessert: {
       style: "cutout",
@@ -265,11 +265,11 @@ const WORLDS = [
       background: "assets/cannoli-background.jpg",
       fallbackBackground: "assets/cannoli-background.jpg",
       backgroundMobile: "assets/cannoli-background-mobile.jpg",
-      dessertWhole: "assets/cannoli-whole.png",
-      dessertBitten: "assets/cannoli-bitten.png",
+      dessertWhole: "assets/cannoli-whole.webp",
+      dessertBitten: "assets/cannoli-bitten.webp",
       recipeImage: "assets/cannoli-recipe-card.jpg",
-      magic: "assets/cannoli-magic.png",
-      character: "assets/cannoli-rabbit.png",
+      magic: "assets/cannoli-magic.webp",
+      character: "assets/cannoli-rabbit.webp",
     },
     dessert: {
       style: "cutout",
@@ -458,11 +458,11 @@ const WORLDS = [
       background: "assets/napoleon-background.jpg",
       fallbackBackground: "assets/napoleon-background.jpg",
       backgroundMobile: "assets/napoleon-background-mobile.jpg",
-      dessertWhole: "assets/napoleon-whole.png",
-      dessertBitten: "assets/napoleon-bitten.png",
+      dessertWhole: "assets/napoleon-whole.webp",
+      dessertBitten: "assets/napoleon-bitten.webp",
       recipeImage: "assets/napoleon-recipe-card.jpg",
-      magic: "assets/napoleon-magic.png",
-      character: "assets/napoleon-memory.png",
+      magic: "assets/napoleon-magic.webp",
+      character: "assets/napoleon-memory.webp",
     },
     dessert: {
       style: "cutout",
@@ -614,9 +614,9 @@ const WORLDS = [
       config: {
         steps: 4,
         stageAssets: [
-          "assets/napoleon-layer-1.png",
-          "assets/napoleon-layer-2.png",
-          "assets/napoleon-layer-3.png",
+          "assets/napoleon-layer-1.webp",
+          "assets/napoleon-layer-2.webp",
+          "assets/napoleon-layer-3.webp",
           "assets/napoleon-whole.png"
         ],
         prompt: { en: "Build it, layer by layer", ru: "Соберите его, слой за слоем" },
@@ -660,9 +660,9 @@ const WORLDS = [
       background: "assets/tiramisu-background.jpg",
       fallbackBackground: "assets/tiramisu-background.jpg",
       backgroundMobile: "assets/tiramisu-background-mobile.jpg",
-      dessertWhole: "assets/tiramisu-whole.png",
-      dessertBitten: "assets/tiramisu-bitten.png",
-      recipeImage: "assets/tiramisu-whole.png",
+      dessertWhole: "assets/tiramisu-whole.webp",
+      dessertBitten: "assets/tiramisu-bitten.webp",
+      recipeImage: "assets/tiramisu-whole.webp",
     },
     dessert: {
       style: "cutout",
@@ -847,11 +847,11 @@ const WORLDS = [
     assets: {
       background: "assets/petit-four-background.jpg",
       fallbackBackground: "assets/petit-four-background.jpg",
-      dessertWhole: "assets/petit-four-whole.png",
-      dessertBitten: "assets/petit-four-bitten.png",
+      dessertWhole: "assets/petit-four-whole.webp",
+      dessertBitten: "assets/petit-four-bitten.webp",
       recipeImage: "assets/petit-four-recipe-card.jpg",
-      magic: "assets/petit-four-magic.png",
-      character: "assets/petit-four-rabbits.png",
+      magic: "assets/petit-four-magic.webp",
+      character: "assets/petit-four-rabbits.webp",
     },
     dessert: {
       style: "plate",
@@ -1014,7 +1014,7 @@ const UI = {
     "thresholdTitle": "The Patisserie<br>of the Unconscious",
     "thresholdLead": "Every dessert holds a story — and a desire.",
     "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
-    "thresholdBody2": "Turn the dial to move between the dessert worlds.",
+    "thresholdBody2": "Choose a world with the arrows.<br>Then click the dessert to take a bite.",
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -1097,7 +1097,7 @@ const UI = {
     "thresholdTitle": "Кондитерская<br>бессознательного",
     "thresholdLead": "В каждом десерте скрыты история — и желание.",
     "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
-    "thresholdBody2": "Поворачивайте диск, чтобы переходить между мирами десертов.",
+    "thresholdBody2": "Выберите мир стрелками.<br>Затем нажмите на десерт, чтобы откусить кусочек.",
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
@@ -1517,7 +1517,16 @@ const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 /* per-world session state — preserved when returning to a world */
 const worldState = {};
 WORLDS.forEach(w => {
-  worldState[w.id] = { bitten: false, explored: new Set(), complete: false, completionPending: false, loaded: false, interaction: null };
+  worldState[w.id] = {
+    bitten: false,
+    explored: new Set(),
+    complete: false,
+    completionPending: false,
+    loaded: false,
+    secondaryLoaded: false,
+    revealLoaded: false,
+    interaction: null
+  };
 });
 
 /* --------------------------------------------------------------------------
@@ -1767,42 +1776,34 @@ function bgSourcesFor(bgImg) {
   return [primary, bgImg.dataset.src, bgImg.dataset.fallback].filter(Boolean);
 }
 
-function loadSceneAssets(world) {
+function loadSceneAssets(world, { secondary = true } = {}) {
   const state = worldState[world.id];
-  if (state.loaded) return;
-  state.loaded = true;
-
   const scene = sceneById(world.id);
   const bgImg = scene.querySelector(".scene__background-layer img");
   const whole = scene.querySelector(".scene__dessert-image--whole");
   const bitten = scene.querySelector(".scene__dessert-image--bitten");
 
-  /* Load only what must be visible first. This avoids a blank dessert while
-     decorative collage layers compete for bandwidth. */
-  if (bgImg) {
-    bgImg.decoding = "async";
-    if (world.id === "madeleine") bgImg.fetchPriority = "high";
-    loadWithFallback(bgImg, bgSourcesFor(bgImg), () => {
-      bgImg.closest(".scene__layer")?.remove();
-    });
+  /* Primary assets are small and may be prefetched for the neighbouring worlds.
+     Everything else waits until the world is actually entered or bitten. */
+  if (!state.loaded) {
+    state.loaded = true;
+    if (bgImg) {
+      bgImg.decoding = "async";
+      if (world.id === "madeleine") bgImg.fetchPriority = "high";
+      loadWithFallback(bgImg, bgSourcesFor(bgImg), () => {
+        bgImg.closest(".scene__layer")?.remove();
+      });
+    }
+
+    if (whole) {
+      whole.decoding = "async";
+      if (world.id === "madeleine") whole.fetchPriority = "high";
+      loadWithFallback(whole, [whole.dataset.src], () => scene.classList.add("scene--no-dessert"));
+    }
   }
 
-  if (whole) {
-    whole.decoding = "async";
-    if (world.id === "madeleine") whole.fetchPriority = "high";
-    loadWithFallback(whole, [whole.dataset.src], () => scene.classList.add("scene--no-dessert"));
-  }
-
-  const loadSecondary = () => {
-    ["scene__character-layer", "scene__magic-layer"].forEach(cls => {
-      const layer = scene.querySelector(`.${cls}`);
-      if (!layer) return;
-      const img = layer.querySelector("img");
-      if (!img) return;
-      img.decoding = "async";
-      loadWithFallback(img, [img.dataset.src], () => layer.remove());
-    });
-
+  if (secondary && !state.secondaryLoaded) {
+    state.secondaryLoaded = true;
     if (bitten) {
       bitten.decoding = "async";
       loadWithFallback(bitten, [bitten.dataset.src], () => {
@@ -1815,9 +1816,36 @@ function loadSceneAssets(world) {
       stageImage.decoding = "async";
       loadWithFallback(stageImage, [stageImage.dataset.src], () => stageImage.remove());
     });
-  };
+  }
+}
 
-  window.setTimeout(loadSecondary, 90);
+function loadRevealAssets(world) {
+  const state = worldState[world.id];
+  if (state.revealLoaded) return;
+  state.revealLoaded = true;
+  const scene = sceneById(world.id);
+  ["scene__character-layer", "scene__magic-layer"].forEach(cls => {
+    const layer = scene.querySelector(`.${cls}`);
+    if (!layer) return;
+    const img = layer.querySelector("img");
+    if (!img) return;
+    img.decoding = "async";
+    loadWithFallback(img, [img.dataset.src], () => layer.remove());
+  });
+}
+
+let neighbourPrefetchTimer = null;
+function scheduleNeighbourPrefetch(id) {
+  clearTimeout(neighbourPrefetchTimer);
+  neighbourPrefetchTimer = window.setTimeout(() => {
+    const index = DIAL_ORDER.indexOf(id);
+    if (index < 0) return;
+    const neighbours = [
+      DIAL_ORDER[(index - 1 + DIAL_ORDER.length) % DIAL_ORDER.length],
+      DIAL_ORDER[(index + 1) % DIAL_ORDER.length]
+    ];
+    neighbours.forEach(neighbourId => loadSceneAssets(worldById(neighbourId), { secondary: false }));
+  }, 900);
 }
 
 /* dessert position and background framing are data-driven per breakpoint */
@@ -1900,7 +1928,10 @@ dialPrev.addEventListener("click", () => turnDial(-1));
 /* keep the little "n / N" position readout in sync */
 function updateDialPos() {
   const idx = DIAL_ORDER.indexOf(currentId);
-  if (idx >= 0 && dialPos) dialPos.textContent = `${idx + 1} / ${DIAL_ORDER.length}`;
+  const world = worldById(currentId);
+  if (idx >= 0 && dialPos && world) {
+    dialPos.textContent = `${idx + 1} / ${DIAL_ORDER.length} · ${worldText(world, "name")}`;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -2024,8 +2055,8 @@ function renderStrip(world) {
   stripReflection.textContent = state.complete ? worldText(world, "reflection") : "";
 
   if (!state.bitten) {
-    stripState.hidden = true;
-    stripAction.hidden = true;
+    stripState.hidden = false;
+    stripAction.hidden = false;
     stripAction.textContent = ui("takeBite");
     stripAction.dataset.mode = "bite";
     stripStatus.hidden = true;
@@ -2148,7 +2179,8 @@ function selectWorld(id, instant = false) {
   clearTimeout(hintTimer);
   biteHint.classList.remove("is-visible");
 
-  loadSceneAssets(world);
+  loadSceneAssets(world, { secondary: entered });
+  if (entered) scheduleNeighbourPrefetch(id);
   applyWorldState(world);
 
   updateDialPos();
@@ -2488,6 +2520,7 @@ function activateDessert() {
 function finishBite(world, scene) {
   const state = worldState[world.id];
   state.bitten = true;
+  loadRevealAssets(world);
   scene.classList.add("is-bitten-world");
   renderStrip(world);
   startQuestGuide(world, scene);
@@ -3643,12 +3676,11 @@ function enterPatisserie(language) {
     showBitePrompt(worldById(currentId));
   }
 
+  loadSceneAssets(worldById(currentId), { secondary: true });
+  scheduleNeighbourPrefetch(currentId);
+
   if (dialNext) dialNext.focus({ preventScroll: true });
 
-  /* quietly prefetch the other worlds while the first is contemplated */
-  setTimeout(() => {
-    WORLDS.forEach(w => loadSceneAssets(w));
-  }, 2500);
 }
 
 enterPatisserieButton.addEventListener("click", () => enterPatisserie(currentLang));

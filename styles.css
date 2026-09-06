@@ -1703,14 +1703,25 @@ button { font: inherit; color: inherit; }
 }
 
 .world-nav__pos {
-  min-width: 3ch;
+  min-width: clamp(8.5rem, 13vw, 12rem);
   text-align: center;
   pointer-events: none;
   font-family: var(--serif-caps, "Cormorant Garamond", serif);
-  font-size: clamp(0.72rem, 1.5vw, 0.9rem);
-  letter-spacing: 0.16em;
+  font-size: clamp(0.68rem, 1vw, 0.82rem);
+  letter-spacing: 0.09em;
   color: var(--brass-pale, #e6d3a0);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 900px) {
+  .world-nav__pos {
+    min-width: 7.8rem;
+    max-width: 9.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.68rem;
+  }
 }
 
 /* --------------------------------------------------------------------------
