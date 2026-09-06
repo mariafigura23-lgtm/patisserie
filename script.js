@@ -617,7 +617,7 @@ const WORLDS = [
           "assets/napoleon-layer-1.webp",
           "assets/napoleon-layer-2.webp",
           "assets/napoleon-layer-3.webp",
-          "assets/napoleon-whole.png"
+          "assets/napoleon-whole.webp"
         ],
         prompt: { en: "Build it, layer by layer", ru: "Соберите его, слой за слоем" },
         step:   { en: "Add a layer", ru: "Ещё слой" },
@@ -2057,7 +2057,10 @@ function renderStrip(world) {
   if (!state.bitten) {
     stripState.hidden = false;
     stripAction.hidden = false;
-    stripAction.textContent = ui("takeBite");
+    const interaction = worldInteraction(world);
+    stripAction.textContent = interaction
+      ? interactionLabel(world.interaction.config, "prompt")
+      : ui("takeBite");
     stripAction.dataset.mode = "bite";
     stripStatus.hidden = true;
     stripDots.hidden = true;
@@ -2079,7 +2082,7 @@ function renderStrip(world) {
 
 stripAction.addEventListener("click", () => {
   if (stripAction.dataset.mode === "home") openStory();
-  else takeBite();
+  else activateDessert();
 });
 
 stageCta.addEventListener("click", openStory);
@@ -2563,7 +2566,7 @@ function takeBite() {
   setTimeout(() => {
     biting = false;
     finishBite(world, scene);
-  }, 700);
+  }, 520);
 }
 
 /* --------------------------------------------------------------------------
