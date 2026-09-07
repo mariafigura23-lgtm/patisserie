@@ -6469,12 +6469,12 @@ body.is-world-gateway-active #dial,
   z-index: 2;
   opacity: 1;
   -webkit-mask-image: radial-gradient(
-    circle var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
+    ellipse var(--bite-radius, 0.01%) var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
     transparent 0 94%,
     #000 100%
   );
   mask-image: radial-gradient(
-    circle var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
+    ellipse var(--bite-radius, 0.01%) var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
     transparent 0 94%,
     #000 100%
   );
