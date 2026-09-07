@@ -69,7 +69,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1,
-      bite: { x: "60%", y: "40%" },
+      bite: { x: "60%", y: "40%", radius: 8 },
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "34%" },
         mobile:  { left: "50%", top: "41.5%", width: "74%" }
@@ -275,7 +275,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.333,
-      bite: { x: "38%", y: "52%" },
+      bite: { x: "38%", y: "52%", radius: 14 },
       layout: {
         desktop: { left: "52%", top: "56.5%", width: "38%" },
         mobile:  { left: "52%", top: "40.5%", width: "77%" }
@@ -469,7 +469,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.75,
-      bite: { x: "48%", y: "58%" },
+      bite: { x: "48%", y: "58%", radius: 22 },
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "41%" },
@@ -675,7 +675,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.14,
-      bite: { x: "63%", y: "55%" },
+      bite: { x: "63%", y: "55%", radius: 22 },
       layout: {
         desktop: { left: "50%", top: "57%", width: "45%" },
         mobile:  { left: "50%", top: "42%", width: "90%" }
@@ -865,7 +865,7 @@ const WORLDS = [
     dessert: {
       style: "plate",
       aspect: 1.67,
-      bite: { x: "62%", y: "71%" },
+      bite: { x: "62%", y: "71%", radius: 14 },
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "39%" },
         mobile:  { left: "50%", top: "41.5%", width: "79%" }
@@ -2437,7 +2437,10 @@ function syncDessertBiteProgress(world, scene, animate = false) {
   const dessert = scene?.querySelector(".scene__dessert");
   if (!dessert) return;
   const step = Math.min(4, worldState[world.id]?.explored.size || 0);
+  const ratios = [0.001, 0.18, 0.38, 0.66, 1];
+  const finalRadius = world.dessert.bite?.radius || 20;
   dessert.dataset.biteStep = String(step);
+  dessert.style.setProperty("--bite-radius", `${(finalRadius * ratios[step]).toFixed(2)}%`);
 
   if (!animate) return;
   dessert.classList.remove("is-fragment-biting");
