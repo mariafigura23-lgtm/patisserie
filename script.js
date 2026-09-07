@@ -69,6 +69,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1,
+      bite: { x: "60%", y: "40%" },
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "34%" },
         mobile:  { left: "50%", top: "41.5%", width: "74%" }
@@ -274,6 +275,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.333,
+      bite: { x: "38%", y: "52%" },
       layout: {
         desktop: { left: "52%", top: "56.5%", width: "38%" },
         mobile:  { left: "52%", top: "40.5%", width: "77%" }
@@ -467,6 +469,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.75,
+      bite: { x: "48%", y: "58%" },
       front: true, /* the cake stands in front of the torn-paper table */
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "41%" },
@@ -672,6 +675,7 @@ const WORLDS = [
     dessert: {
       style: "cutout",
       aspect: 1.14,
+      bite: { x: "63%", y: "55%" },
       layout: {
         desktop: { left: "50%", top: "57%", width: "45%" },
         mobile:  { left: "50%", top: "42%", width: "90%" }
@@ -861,6 +865,7 @@ const WORLDS = [
     dessert: {
       style: "plate",
       aspect: 1.67,
+      bite: { x: "62%", y: "71%" },
       layout: {
         desktop: { left: "50%", top: "56.5%", width: "39%" },
         mobile:  { left: "50%", top: "41.5%", width: "79%" }
@@ -1040,8 +1045,8 @@ const UI = {
     "bookCtaStory": "Open the Book of Taste",
     "bookCtaNote": "Cultural journey · recipe",
     "bookRecipeHeading": "Assemble the recipe",
-    "bookTurnTitle": "Open the Taste Book",
-    "bookTurnNote": "The complete book →",
+    "bookTurnTitle": "Get the recipe",
+    "bookTurnNote": "Ingredients · method →",
     "cabinetOpen": "Cabinet of Tastes",
     "cabinetTitle": "Cabinet of Tastes",
     "cabinetSubtitle": "Traces left by the worlds you have tasted.",
@@ -1133,8 +1138,8 @@ const UI = {
     "cabinetDownloadAll": "Скачать найденную коллекцию",
     "cabinetNoDownloads": "Откройте мир десерта, чтобы начать коллекцию.",
     "bookRecipeHeading": "Соберите рецепт",
-    "bookTurnTitle": "Открыть Книгу вкуса",
-    "bookTurnNote": "Полная книга →",
+    "bookTurnTitle": "К рецепту",
+    "bookTurnNote": "Ингредиенты · приготовление →",
     "readMore": "Читать дальше",
     "readLess": "Свернуть",
     "bookBack": "← Культурное путешествие",
@@ -1689,9 +1694,12 @@ function buildScene(world) {
   /* 4 · the dessert — whole and bitten stacked on one plate */
   const dessert = document.createElement("button");
   dessert.type = "button";
-  dessert.className = `scene__dessert scene__dessert--${world.dessert.style}`;
+  dessert.className = `scene__dessert scene__dessert--${world.dessert.style} is-progressive-bite`;
   dessert.setAttribute("aria-label", interpolate(ui("takeBiteAria"), { name: worldText(world, "name") }));
   dessert.style.aspectRatio = String(world.dessert.aspect);
+  dessert.style.setProperty("--bite-x", world.dessert.bite?.x || "62%");
+  dessert.style.setProperty("--bite-y", world.dessert.bite?.y || "48%");
+  dessert.dataset.biteStep = "0";
   if (world.dessert.front) scene.classList.add("scene--dessert-front");
 
   const inner = document.createElement("span");
@@ -2109,6 +2117,7 @@ beginAgainBtn.addEventListener("click", () => {
   scene.classList.remove("is-bitten-world", "is-complete");
   const dessert = scene.querySelector(".scene__dessert");
   if (dessert) dessert.classList.remove("is-bitten");
+  syncDessertBiteProgress(world, scene);
   scene.querySelectorAll(".hotspot").forEach(h => {
     h.classList.remove("is-explored", "is-open");
     h.setAttribute("aria-expanded", "false");
@@ -2160,6 +2169,7 @@ function applyWorldState(world) {
   scene.classList.toggle("is-bitten-world", state.bitten);
   scene.classList.toggle("is-complete", state.complete);
   if (dessert) dessert.classList.toggle("is-bitten", state.bitten && !scene.classList.contains("scene--no-bitten"));
+  syncDessertBiteProgress(world, scene);
   /* set up (or clear) this world's signature interaction visual */
   const inter = worldInteraction(world);
   if (inter && !state.bitten) {
@@ -2386,8 +2396,11 @@ function crumbBurst(scene, world, origin) {
 
   const sceneRect = scene.getBoundingClientRect();
   const rect = origin.getBoundingClientRect();
-  const originX = rect.left - sceneRect.left + rect.width * 0.62;
-  const originY = rect.top - sceneRect.top + rect.height * 0.42;
+  const originStyle = getComputedStyle(origin);
+  const biteX = (parseFloat(originStyle.getPropertyValue("--bite-x")) || 62) / 100;
+  const biteY = (parseFloat(originStyle.getPropertyValue("--bite-y")) || 48) / 100;
+  const originX = rect.left - sceneRect.left + rect.width * biteX;
+  const originY = rect.top - sceneRect.top + rect.height * biteY;
 
   const count = 8;
   for (let i = 0; i < count; i++) {
@@ -2415,6 +2428,24 @@ function crumbBurst(scene, world, origin) {
     ], { duration: dur, easing: "cubic-bezier(0.2, 0.5, 0.6, 1)" });
     anim.onfinish = () => crumb.remove();
   }
+}
+
+/* Every newly discovered fragment takes one more visible bite. The aligned
+   whole/bitten image pair is revealed through a growing mask, so no extra
+   heavy image variants are needed. */
+function syncDessertBiteProgress(world, scene, animate = false) {
+  const dessert = scene?.querySelector(".scene__dessert");
+  if (!dessert) return;
+  const step = Math.min(4, worldState[world.id]?.explored.size || 0);
+  dessert.dataset.biteStep = String(step);
+
+  if (!animate) return;
+  dessert.classList.remove("is-fragment-biting");
+  void dessert.offsetWidth;
+  dessert.classList.add("is-fragment-biting");
+  crumbBurst(scene, world, dessert);
+  settlePulse(scene, dessert);
+  window.setTimeout(() => dessert.classList.remove("is-fragment-biting"), 520);
 }
 
 /* --------------------------------------------------------------------------
@@ -2793,6 +2824,7 @@ function openFragment(world, spot, hotspotBtn) {
   if (isNewFragment) {
     state.explored.add(spot.key);
     hotspotBtn.classList.add("is-explored");
+    syncDessertBiteProgress(world, scene, true);
     clearTimeout(questTimer);
     activeScene()?.classList.remove("is-guiding");
     questGuide.classList.remove("is-prominent");
