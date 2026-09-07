@@ -6481,10 +6481,6 @@ body.is-world-gateway-active #dial,
 }
 
 .scene__dessert.is-progressive-bite[data-bite-step="0"] { --bite-radius: 0.01%; }
-.scene__dessert.is-progressive-bite[data-bite-step="1"] { --bite-radius: 5%; }
-.scene__dessert.is-progressive-bite[data-bite-step="2"] { --bite-radius: 9.5%; }
-.scene__dessert.is-progressive-bite[data-bite-step="3"] { --bite-radius: 15%; }
-.scene__dessert.is-progressive-bite[data-bite-step="4"] { --bite-radius: 25%; }
 
 .scene__dessert.is-fragment-biting .scene__dessert-inner {
   animation: fragmentBite 0.5s cubic-bezier(0.22, 0.8, 0.28, 1) both;
