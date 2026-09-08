@@ -6461,40 +6461,43 @@ body.is-world-gateway-active #dial,
    ========================================================================== */
 
 .scene__dessert.is-progressive-bite .scene__dessert-image--bitten {
-  z-index: 1;
-  opacity: 1;
+  display: none;
 }
 
 .scene__dessert.is-progressive-bite .scene__dessert-image--whole {
   z-index: 2;
   opacity: 1;
-  -webkit-mask-image: radial-gradient(
-    ellipse var(--bite-radius, 0.01%) var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
-    transparent 0 94%,
-    #000 100%
-  );
-  mask-image: radial-gradient(
-    ellipse var(--bite-radius, 0.01%) var(--bite-radius, 0.01%) at var(--bite-x, 62%) var(--bite-y, 48%),
-    transparent 0 94%,
-    #000 100%
-  );
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 
-.scene__dessert.is-progressive-bite[data-bite-step="0"] { --bite-radius: 0.01%; }
-
-.scene__dessert.is-fragment-biting .scene__dessert-inner {
-  animation: fragmentBite 0.5s cubic-bezier(0.22, 0.8, 0.28, 1) both;
+.scene__dessert-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: none;
+  pointer-events: none;
 }
 
-@keyframes fragmentBite {
-  0%   { transform: scale(1); }
-  34%  { transform: scale(0.965) rotate(-0.35deg); }
-  72%  { transform: scale(1.012) rotate(0.15deg); }
-  100% { transform: scale(1); }
+.has-bite-art > .scene__dessert-art { display: block; }
+.scene__dessert.is-progressive-bite .has-bite-art > img { visibility: hidden; }
+.scene__dessert--cutout .scene__dessert-art {
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.55));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .scene__dessert.is-fragment-biting .scene__dessert-inner { animation: none; }
+/* The plate is an anchor, never a floating or shrinking part of the bite. */
+.scene .scene__dessert.is-progressive-bite .scene__dessert-inner {
+  animation: none !important;
+  transform: none;
+}
+.scene__dessert.is-progressive-bite.is-biting { --bite-scale: 1; }
+.scene.is-awaiting-fragment .hotspot { pointer-events: none; }
+.scene__dessert.is-progressive-bite[data-bite-step="4"] { cursor: default; }
+.scene__dessert.is-progressive-bite[data-bite-step="4"]::after { display: none; }
+@media (hover: hover) {
+  .scene__dessert.is-progressive-bite:hover { --bite-scale: 1; }
 }
 
 
