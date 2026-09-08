@@ -1650,6 +1650,8 @@ function buildScene(world) {
   const scene = document.createElement("div");
   scene.className = `scene ${world.cssClass}`;
   scene.dataset.id = world.id;
+  scene.inert = true;
+  scene.setAttribute("aria-hidden", "true");
   /* per-world reveal style for the fragments (memories / layers / …) */
   const micro = world.interaction && (world.interaction.microType || world.interaction.type);
   if (micro) scene.classList.add(`micro-${micro}`);
@@ -2183,6 +2185,11 @@ function selectWorld(id, instant = false) {
   const prev = currentId ? worldById(currentId) : null;
   currentId = id;
   transitioning = true;
+  scenes.forEach(scene => {
+    const active = scene.dataset.id === id;
+    scene.inert = !active;
+    scene.setAttribute("aria-hidden", String(!active));
+  });
   markWorldVisited(id);
 
   closeFragment(false, true);
@@ -2555,6 +2562,7 @@ function finishBite(world, scene) {
   state.bitten = true;
   loadRevealAssets(world);
   scene.classList.add("is-bitten-world");
+  if (world.id !== currentId) return;
   renderStrip(world);
   startQuestGuide(world, scene);
 
@@ -2776,7 +2784,7 @@ let fragmentSource = null; /* the hotspot that opened the panel */
 let fragmentRevealTimer = null;
 
 function openFragment(world, spot, hotspotBtn) {
-  if (transitioning || fragmentRevealTimer || !worldState[world.id].bitten) return;
+  if (world.id !== currentId || transitioning || fragmentRevealTimer || !worldState[world.id].bitten) return;
 
   const state = worldState[world.id];
   const isNewFragment = !state.explored.has(spot.key);
