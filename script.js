@@ -615,23 +615,8 @@ const WORLDS = [
       en: { name: "A recipe in a familiar hand", note: "Torn from a notebook that crossed a kitchen table." },
       ru: { name: "Рецепт знакомым почерком", note: "Вырван из тетради, что переходила через кухонный стол." }
     },
-    /* signature gesture: care & anticipation — build the cake layer by layer,
-       then leave it to rest. Replaces the plain bite for this world. */
-    interaction: {
-      type: "layers",
-      config: {
-        steps: 4,
-        stageAssets: [
-          "assets/napoleon-layer-1.webp",
-          "assets/napoleon-layer-2.webp",
-          "assets/napoleon-layer-3.webp",
-          "assets/napoleon-whole.webp"
-        ],
-        prompt: { en: "Build it, layer by layer", ru: "Соберите его, слой за слоем" },
-        step:   { en: "Add a layer", ru: "Ещё слой" },
-        done:   { en: "Now leave it to rest until morning.", ru: "Теперь оставьте до утра." }
-      }
-    },
+    /* The story still unfolds in layers; tasting uses the shared four bites. */
+    interaction: { microType: "layers" },
     cssClass: "scene--napoleon"
   },
   {
@@ -1024,20 +1009,20 @@ const UI = {
     "thresholdTitle": "The Patisserie<br>of the Unconscious",
     "thresholdLead": "Every dessert holds a story — and a desire.",
     "thresholdBody1": "Taste begins in the body.<br>It gathers a scene, a longing, a rule, and a history.",
-    "thresholdBody2": "Choose a world with the arrows.<br>Then click the dessert to take a bite.",
+    "thresholdBody2": "Choose a world with the arrows.<br>Touch the dessert to begin. Each new fragment is another bite.",
     "languagePrompt": "Choose the language of your visit",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
     "enterPatisserie": "Enter the patisserie",
     "backToDessert": "Back to the dessert",
     "questEyebrow": "The world is open",
-    "questText": "Four fragments have awakened. Find the four glowing marks in the scene.",
+    "questText": "Four fragments, four bites. Open a glowing mark to taste the first.",
     "found": "found",
     "foundStatus": "Found",
-    "hotspotInstruction": "Four fragments have awakened. Find the four glowing marks.",
-    "takeBite": "Take a bite",
+    "hotspotInstruction": "Each new fragment takes another bite. Revisit any fragment whenever you like.",
+    "takeBite": "Begin tasting",
     "beginAgain": "Begin again",
-    "allFound": "All four fragments found.",
+    "allFound": "Only crumbs remain. The story continues in the Book of Taste.",
     "explored": "of four fragments explored.",
     "allConnected": "All four fragments are connected.",
     "exploreStory": "Explore the cultural story",
@@ -1085,7 +1070,7 @@ const UI = {
     "projectBy": "a project by @fashamigura",
     "printProject": "The Patisserie of the Unconscious",
     "dialLabel": "Dessert world selector. Use the arrows or the left and right arrow keys to move between worlds.",
-    "takeBiteAria": "Take a bite of the {name}",
+    "takeBiteAria": "Begin tasting: {name}",
     "sceneAlt": "Surreal archival collage for the {name} world: {line}",
     "dialWorldAria": "{name} — the {symbol}",
     "recipeImageAlt": "Illustrated recipe card for the {name} world",
@@ -1107,20 +1092,20 @@ const UI = {
     "thresholdTitle": "Кондитерская<br>бессознательного",
     "thresholdLead": "В каждом десерте скрыты история — и желание.",
     "thresholdBody1": "Вкус начинается в теле.<br>Он собирает вокруг себя сцену, стремление, правило и историю.",
-    "thresholdBody2": "Выберите мир стрелками.<br>Затем нажмите на десерт, чтобы откусить кусочек.",
+    "thresholdBody2": "Выберите десерт стрелками и коснитесь его.<br>Открывайте историю по кусочку: каждый новый раздел — ещё один укус.",
     "languagePrompt": "Выберите язык посещения",
     "enterEnglish": "Enter in English",
     "enterRussian": "Войти на русском",
     "enterPatisserie": "Войти в кондитерскую",
     "backToDessert": "Вернуться к десерту",
-    "questEyebrow": "Мир открыт",
-    "questText": "Четыре фрагмента пробудились. Найдите четыре светящиеся метки в сцене.",
+    "questEyebrow": "Попробуйте первый кусочек",
+    "questText": "Четыре раздела — четыре укуса. Коснитесь светящейся метки, чтобы начать.",
     "found": "найдено",
     "foundStatus": "Найдено",
-    "hotspotInstruction": "Четыре фрагмента пробудились. Найдите четыре светящиеся метки.",
-    "takeBite": "Откусить кусочек",
+    "hotspotInstruction": "Каждый новый раздел — ещё один укус. К прочитанному можно возвращаться.",
+    "takeBite": "Попробовать",
     "beginAgain": "Начать заново",
-    "allFound": "Все четыре фрагмента найдены.",
+    "allFound": "Остались лишь крошки. История продолжается в книге вкуса.",
     "explored": "фрагментов исследовано.",
     "allConnected": "Все четыре фрагмента соединились.",
     "exploreStory": "Открыть культурную историю",
@@ -1168,7 +1153,7 @@ const UI = {
     "projectBy": "проект @fashamigura",
     "printProject": "Кондитерская бессознательного",
     "dialLabel": "Выбор мира десерта. Листайте стрелками или клавишами влево и вправо.",
-    "takeBiteAria": "Откусить кусочек десерта «{name}»",
+    "takeBiteAria": "Попробовать десерт «{name}»",
     "sceneAlt": "Сюрреалистический архивный коллаж мира «{name}»: {line}",
     "dialWorldAria": "{name} — символ «{symbol}»",
     "recipeImageAlt": "Иллюстрированная карточка-рецепт мира «{name}»",
@@ -1713,8 +1698,9 @@ function buildScene(world) {
   bitten.className = "scene__dessert-image scene__dessert-image--bitten";
   bitten.alt = "";
   bitten.draggable = false;
-  bitten.dataset.src = world.assets.dessertBitten;
+  bitten.dataset.src = `assets/${PatisserieBites.configs[world.id].asset}-empty-v1.webp`;
   inner.append(whole, bitten);
+  PatisserieBites.mount(inner, world, whole, bitten);
 
   /* Some worlds assemble through real image states rather than a geometric
      mask. Every stage shares the final asset's canvas, so the change feels
@@ -2430,24 +2416,23 @@ function crumbBurst(scene, world, origin) {
   }
 }
 
-/* Every newly discovered fragment takes one more visible bite. The aligned
-   whole/bitten image pair is revealed through a growing mask, so no extra
-   heavy image variants are needed. */
+/* Four newly read fragments eat the whole dessert. The original rim remains
+   fixed while a scalloped cut reveals the empty plate under each portion. */
 function syncDessertBiteProgress(world, scene, animate = false) {
   const dessert = scene?.querySelector(".scene__dessert");
   if (!dessert) return;
   const step = Math.min(4, worldState[world.id]?.explored.size || 0);
-  const ratios = [0.001, 0.18, 0.38, 0.66, 1];
-  const finalRadius = world.dessert.bite?.radius || 20;
-  dessert.dataset.biteStep = String(step);
-  dessert.style.setProperty("--bite-radius", `${(finalRadius * ratios[step]).toFixed(2)}%`);
+  PatisserieBites.update(dessert, world.id, step);
+  dessert.setAttribute("aria-label", step === 4
+    ? (currentLang === "ru" ? "Десерт съеден. На тарелке остались крошки." : "Dessert finished. Only crumbs remain on the plate.")
+    : interpolate(ui("takeBiteAria"), { name: worldText(world, "name") }));
 
   if (!animate) return;
   dessert.classList.remove("is-fragment-biting");
   void dessert.offsetWidth;
   dessert.classList.add("is-fragment-biting");
   crumbBurst(scene, world, dessert);
-  settlePulse(scene, dessert);
+  settlePulse(scene, null);
   window.setTimeout(() => dessert.classList.remove("is-fragment-biting"), 520);
 }
 
@@ -2528,7 +2513,7 @@ function updateDessertPrompt(world) {
   const inter = worldInteraction(world);
   biteHint.textContent = inter
     ? interactionLabel(world.interaction.config, "prompt")
-    : (currentLang === "ru" ? "Откусите кусочек" : "Take a bite");
+    : (currentLang === "ru" ? "Коснитесь десерта" : "Touch the dessert");
 }
 
 function flashDessertPrompt(text, ms) {
@@ -2548,7 +2533,7 @@ function flashDessertPrompt(text, ms) {
 function activateDessert() {
   const world = worldById(currentId);
   const scene = activeScene();
-  if (!world || !scene || biting || transitioning) return;
+  if (!entered || !world || !scene || biting || transitioning) return;
   if (worldState[world.id].bitten) return;
 
   const inter = worldInteraction(world);
@@ -2599,7 +2584,7 @@ function takeBite() {
 
   biting = true;
   dessert.classList.add("is-biting");
-  crumbBurst(scene, world, dessert);
+  // Opening a world is not an extra bite: only the four new fragments eat it.
 
   const pulse = scene.querySelector(".scene__pulse");
   pulse.classList.remove("is-pulsing");
@@ -2788,9 +2773,10 @@ const fragmentNextButton = document.getElementById("fragmentNextButton");
 const fragmentReturn = document.getElementById("fragmentReturn");
 const fragmentReturnLabel = document.getElementById("fragmentReturnLabel");
 let fragmentSource = null; /* the hotspot that opened the panel */
+let fragmentRevealTimer = null;
 
 function openFragment(world, spot, hotspotBtn) {
-  if (transitioning) return;
+  if (transitioning || fragmentRevealTimer || !worldState[world.id].bitten) return;
 
   const state = worldState[world.id];
   const isNewFragment = !state.explored.has(spot.key);
@@ -2814,15 +2800,19 @@ function openFragment(world, spot, hotspotBtn) {
   hotspotBtn.setAttribute("aria-expanded", "true");
   fragmentSource = hotspotBtn;
 
-  fragment.hidden = false;
-  if (mobileLayout.matches) {
-    fragmentBackdrop.hidden = false;
-    stage.classList.add("is-fragment-open");
-  }
-  fragment.classList.add("is-entering");
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    fragment.classList.remove("is-entering");
-  }));
+  const revealFragment = () => {
+    fragmentRevealTimer = null;
+    scene.classList.remove("is-awaiting-fragment");
+    if (currentId !== world.id || !state.bitten) return;
+    fragment.hidden = false;
+    if (mobileLayout.matches) {
+      fragmentBackdrop.hidden = false;
+      stage.classList.add("is-fragment-open");
+    }
+    fragment.classList.add("is-entering");
+    requestAnimationFrame(() => requestAnimationFrame(() => fragment.classList.remove("is-entering")));
+    fragmentClose.focus({ preventScroll: true });
+  };
 
   if (isNewFragment) {
     state.explored.add(spot.key);
@@ -2841,18 +2831,22 @@ function openFragment(world, spot, hotspotBtn) {
 
     window.setTimeout(() => completeWorld(world), 180);
 
-    if (mobileLayout.matches) fragmentClose.focus({ preventScroll: true });
-    return;
   }
 
-  if (mobileLayout.matches) {
-    fragmentClose.focus({ preventScroll: true });
+  if (isNewFragment && !prefersReducedMotion.matches) {
+    scene.classList.add("is-awaiting-fragment");
+    fragmentRevealTimer = window.setTimeout(revealFragment, 380);
   } else {
-    fragmentClose.focus({ preventScroll: true });
+    revealFragment();
   }
 }
 
 function closeFragment(returnFocus, suppressCompletion = false) {
+  if (fragmentRevealTimer) {
+    clearTimeout(fragmentRevealTimer);
+    fragmentRevealTimer = null;
+    scenes.forEach(s => s.classList.remove("is-awaiting-fragment"));
+  }
   if (fragment.hidden) return;
 
   const closingWorld = currentId ? worldById(currentId) : null;
@@ -2907,7 +2901,7 @@ function buildCompletionSpell(scene) {
 
 function completeWorld(world) {
   const state = worldState[world.id];
-  if (state.complete) return;
+  if (state.complete || state.explored.size !== 4) return;
 
   state.complete = true;
   state.completionPending = false;
