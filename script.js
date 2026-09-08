@@ -3623,10 +3623,7 @@ function updateSceneLanguage() {
       name: worldText(world, "name"), line: worldText(world, "shortLine")
     });
 
-    const dessert = scene.querySelector(".scene__dessert");
-    dessert?.setAttribute("aria-label", interpolate(ui("takeBiteAria"), {
-      name: worldText(world, "name")
-    }));
+    syncDessertBiteProgress(world, scene);
 
     world.hotspots.forEach(spot => {
       const button = scene.querySelector(`.hotspot--${spot.key}`);

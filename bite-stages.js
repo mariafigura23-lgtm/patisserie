@@ -5,7 +5,8 @@ const PatisserieBites = (() => {
   const configs = {
     madeleine: {
       asset: "madeleine", height: 750, cuts: [650, 540, 493, 445, 340],
-      region: "M390 430 Q400 350 462 285 Q533 239 590 278 Q630 331 616 407 Q590 472 518 492 Q437 505 390 455 Z",
+      region: "M366 431 Q378 343 450 265 Q533 221 605 254 Q651 323 639 418 Q610 503 523 520 Q423 530 368 466 Z",
+      brightness: 0.9, feather: 12,
       plate: "M0 0H1000V750H0Z"
     },
     cannoli: {
@@ -57,8 +58,13 @@ const PatisserieBites = (() => {
       "aria-hidden": "true", focusable: "false"
     });
     const defs = element("defs");
-    const region = element("clipPath", { id: `${prefix}-region`, clipPathUnits: "userSpaceOnUse" });
-    region.append(element("path", { d: config.region }));
+    const softness = element("filter", { id: `${prefix}-soft`, x: "-20%", y: "-20%", width: "140%", height: "140%" });
+    softness.append(element("feGaussianBlur", { stdDeviation: config.feather || 2 }));
+    const region = element("mask", { id: `${prefix}-region`, maskUnits: "userSpaceOnUse", x: 0, y: 0, width: 1000, height: config.height });
+    region.append(element("path", { d: config.region, fill: "white", filter: `url(#${prefix}-soft)` }));
+    // Opaque backing beneath the feather avoids a dark double-alpha seam.
+    const backing = element("mask", { id: `${prefix}-backing`, maskUnits: "userSpaceOnUse", x: 0, y: 0, width: 1000, height: config.height });
+    backing.append(element("path", { d: config.region, fill: "white", stroke: "white", "stroke-width": (config.feather || 2) * 6, "stroke-linejoin": "round" }));
     const plate = element("clipPath", { id: `${prefix}-plate`, clipPathUnits: "userSpaceOnUse" });
     plate.append(element("path", { d: config.plate }));
     const eaten = element("clipPath", { id: `${prefix}-eaten`, clipPathUnits: "userSpaceOnUse" });
@@ -66,14 +72,22 @@ const PatisserieBites = (() => {
     eaten.append(edge);
     const mask = element("mask", { id: `${prefix}-mask`, maskUnits: "userSpaceOnUse", x: 0, y: 0, width: 1000, height: config.height, "mask-type": "luminance" });
     mask.append(element("rect", { width: 1000, height: config.height, fill: "white" }));
-    const removal = element("g", { "clip-path": `url(#${prefix}-region)` });
+    const removal = element("g", { mask: `url(#${prefix}-region)` });
     const erase = element("path", { d: bitePath(config, 0), fill: "black", class: "bite-erase" });
     removal.append(erase);
     mask.append(removal);
-    defs.append(region, plate, eaten, mask);
-    const exposed = element("g", { "clip-path": `url(#${prefix}-region)` });
+    defs.append(softness, region, backing, plate, eaten, mask);
+    const exposed = element("g", { mask: `url(#${prefix}-backing)` });
     const bittenArea = element("g", { "clip-path": `url(#${prefix}-eaten)` });
     const empty = element("image", { width: 1000, height: config.height, "clip-path": `url(#${prefix}-plate)` });
+    if (config.brightness) {
+      const tone = element("filter", { id: `${prefix}-tone`, "color-interpolation-filters": "sRGB" });
+      const transfer = element("feComponentTransfer");
+      ["R", "G", "B"].forEach(channel => transfer.append(element(`feFunc${channel}`, { type: "linear", slope: config.brightness })));
+      tone.append(transfer);
+      defs.append(tone);
+      empty.setAttribute("filter", `url(#${prefix}-tone)`);
+    }
     bittenArea.append(empty);
     exposed.append(bittenArea);
     const whole = element("image", { width: 1000, height: config.height });
