@@ -35,6 +35,7 @@ async function test() {
   const renders = [];
   let row = 0;
   for (const [id, config] of Object.entries(bites.configs)) {
+    assert.equal(config.bites.length, 3, `${id} has three natural bite locations before the final mouthful`);
     const inner = new Element('span');
     const whole = new Element('img');
     const empty = new Element('img');
@@ -52,6 +53,7 @@ async function test() {
     whole.emit('load'); empty.emit('load');
     assert.equal(art.dataset.ready, 'true');
     assert.match(fullImage.attrs.mask, /mask/);
+    let priorLength = 0;
     for (let step = 0; step <= 4; step++) {
       bites.update(inner, id, step);
       assert.equal(inner.dataset.biteStep, String(step));
@@ -59,6 +61,11 @@ async function test() {
       assert.equal(edges.length, 2);
       assert.equal(edges[0].attrs.d, edges[1].attrs.d);
       if (step === 4) assert.equal(edges[0].attrs.d, `M0 0H1000V${config.height}H0Z`);
+      if (step > 0 && step < 4) {
+        assert.match(edges[0].attrs.d, /a\d+\.\d \d+\.\d 0 1 0/, 'intermediate bites use rounded tooth marks');
+        assert.ok(edges[0].attrs.d.length > priorLength, 'each new bite keeps the earlier mouthfuls');
+        priorLength = edges[0].attrs.d.length;
+      }
       const previous = edges[0].attrs.d;
       bites.update(inner, id, step);
       assert.equal(edges[0].attrs.d, previous, 'rereading keeps the same bite');

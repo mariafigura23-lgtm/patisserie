@@ -7,8 +7,10 @@ Reset restores the whole dessert. Switching worlds preserves session progress.
 Napoleon no longer requires assembling layers before tasting.
 
 The original artwork remains unchanged outside a per-dessert removal region.
-An SVG scalloped edge removes the remaining food over three intermediate states;
-the fourth state removes the entire region, including the food's cast shadow.
+Three cumulative SVG mouthfuls arrive from different outer edges. Each is built
+from uneven, overlapping rounded tooth marks rather than a straight advancing
+cut; the fourth state removes the entire region, including the food's cast
+shadow. Crumbs originate from the newest bite location.
 The empty plate is shown only inside that region and a porcelain silhouette.
 This prevents the generated background from showing and keeps the original rim.
 The plate does not float or shrink during tasting. A 380ms reveal interval lets
